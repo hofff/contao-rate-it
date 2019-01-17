@@ -28,7 +28,7 @@
  * @filesource
  */
 
-namespace cgoIT\rateit;
+namespace Hofff\Contao\RateIt;
 
 class RateItArticle extends RateItFrontend {
 

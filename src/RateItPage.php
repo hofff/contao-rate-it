@@ -27,7 +27,7 @@
  * @filesource
  */
 
-namespace cgoIT\rateit;
+namespace Hofff\Contao\RateIt;
 
 use cgoIT\rateit\RateItRating;
 

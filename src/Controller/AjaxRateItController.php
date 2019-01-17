@@ -6,7 +6,7 @@
  * Time: 23:55
  */
 
-namespace cgoIT\rateit\Controller;
+namespace Hofff\Contao\RateIt\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

@@ -1,6 +1,6 @@
 <?php
 
-namespace cgoIT\rateit;
+namespace Hofff\Contao\RateIt;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

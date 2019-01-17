@@ -28,12 +28,12 @@
  * @filesource
  */
 
-namespace cgoIT\rateit;
+namespace Hofff\Contao\RateIt;
 
 /**
- * Class RateItModule
+ * Class RateItCE
  */
-class RateItModule extends RateItHybrid
+class RateItCE extends RateItHybrid
 {
 
 	/**
@@ -44,7 +44,7 @@ class RateItModule extends RateItHybrid
 	}
 
 	protected function getType() {
-	   return 'module';
+	   return 'ce';
 	}
 }
 

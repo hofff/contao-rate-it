@@ -1,6 +1,6 @@
 <?php
 
-namespace cgoIT\rateit;
+namespace Hofff\Contao\RateIt;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;

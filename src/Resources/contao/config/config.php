@@ -1,7 +1,5 @@
 <?php
 
-use cgoIT\rateit\RateItBackend;
-
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2011 Leo Feyer
@@ -30,25 +28,27 @@ use cgoIT\rateit\RateItBackend;
  * @filesource
  */
 
+use Hofff\Contao\RateIt\RateItBackend;
+
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['generatePage'][]           = array('cgoIT\rateit\RateItPage', 'generatePage');
-$GLOBALS['TL_HOOKS']['parseArticles'][]          = array('cgoIT\rateit\RateItNews', 'parseArticle');
-$GLOBALS['TL_HOOKS']['getContentElement'][]      = array('cgoIT\rateit\RateItFaq', 'getContentElementRateIt');
-$GLOBALS['TL_HOOKS']['parseTemplate'][]          = array('cgoIT\rateit\RateItArticle', 'parseTemplateRateIt');
+$GLOBALS['TL_HOOKS']['generatePage'][]      = array('cgoIT\rateit\RateItPage', 'generatePage');
+$GLOBALS['TL_HOOKS']['parseArticles'][]     = array('cgoIT\rateit\RateItNews', 'parseArticle');
+$GLOBALS['TL_HOOKS']['getContentElement'][] = array('cgoIT\rateit\RateItFaq', 'getContentElementRateIt');
+$GLOBALS['TL_HOOKS']['parseTemplate'][]     = array('cgoIT\rateit\RateItArticle', 'parseTemplateRateIt');
 
 /**
  * Back end modules
  */
 array_insert($GLOBALS['BE_MOD']['content'], -1,
-	array('rateit' => array (
-		'callback'   => 'cgoIT\rateit\RateItBackendModule',
-    'icon'       => RateItBackend::image('icon'),
-		'stylesheet' => RateItBackend::css('backend'),
-		'javascript' => RateItBackend::js('RateItBackend')
-	)
-));
+    array('rateit' => array(
+        'callback'   => 'cgoIT\rateit\RateItBackendModule',
+        'icon'       => RateItBackend::image('icon'),
+        'stylesheet' => RateItBackend::css('backend'),
+        'javascript' => RateItBackend::js('RateItBackend'),
+    ),
+    ));
 
 /**
  * frontend moduls
