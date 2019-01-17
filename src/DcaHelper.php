@@ -16,10 +16,12 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\Backend;
+
 /**
  * Class DcaHelper
  */
-class DcaHelper extends \Backend
+class DcaHelper extends Backend
 {
 
     /**

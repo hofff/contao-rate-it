@@ -14,14 +14,14 @@
  * @filesource
  */
 
-Use Hofff\Contao\RateIt\DcaHelper;
+use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
 
 /**
  * Extend tl_page
  */
 
-$GLOBALS['TL_DCA']['tl_page']['config']['onsubmit_callback'][] = array('tl_page_rateit', 'insert');
-$GLOBALS['TL_DCA']['tl_page']['config']['ondelete_callback'][] = array('tl_page_rateit', 'delete');
+$GLOBALS['TL_DCA']['tl_page']['config']['onsubmit_callback'][] = [PageDcaListener::class, 'insert'];
+$GLOBALS['TL_DCA']['tl_page']['config']['ondelete_callback'][] = [PageDcaListener::class, 'delete'];
 
 /**
  * Palettes
@@ -65,26 +65,3 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['rateit_position'] = array
     'sql'       => "varchar(6) NOT NULL default ''",
     'eval'      => array('mandatory' => true, 'tl_class' => 'w50'),
 );
-
-class tl_page_rateit extends DcaHelper
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function insert(\DC_Table $dc)
-    {
-        return $this->insertOrUpdateRatingKey($dc, 'page', $dc->activeRecord->title);
-    }
-
-    public function delete(\DC_Table $dc)
-    {
-        return $this->deleteRatingKey($dc, 'page');
-    }
-}
-
-?>

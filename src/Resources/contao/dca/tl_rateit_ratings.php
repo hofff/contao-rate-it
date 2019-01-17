@@ -14,6 +14,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 /**
  * Table tl_rateit_items
  */

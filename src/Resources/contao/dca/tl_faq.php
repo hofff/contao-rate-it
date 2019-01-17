@@ -14,14 +14,16 @@
  * @filesource
  */
 
-Use Hofff\Contao\RateIt\DcaHelper;
+declare(strict_types=1);
+
+use Hofff\Contao\RateIt\EventListener\Dca\FaqDcaListener;
 
 /**
  * Extend tl_article
  */
 
-$GLOBALS['TL_DCA']['tl_faq']['config']['onsubmit_callback'][] = array('tl_faq_rating', 'insert');
-$GLOBALS['TL_DCA']['tl_faq']['config']['ondelete_callback'][] = array('tl_faq_rating', 'delete');
+$GLOBALS['TL_DCA']['tl_faq']['config']['onsubmit_callback'][] = [FaqDcaListener::class, 'insert'];
+$GLOBALS['TL_DCA']['tl_faq']['config']['ondelete_callback'][] = [FaqDcaListener::class, 'delete'];
 
 /**
  * Palettes
@@ -35,46 +37,21 @@ $GLOBALS['TL_DCA']['tl_faq']['palettes']['default']        = $GLOBALS['TL_DCA'][
 $GLOBALS['TL_DCA']['tl_faq']['subpalettes']['addRating'] = 'rateit_position';
 
 // Fields
-$GLOBALS['TL_DCA']['tl_faq']['fields']['addRating'] = array
-(
+$GLOBALS['TL_DCA']['tl_faq']['fields']['addRating'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_faq']['addRating'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
-    'eval'      => array('tl_class' => 'w50 m12', 'submitOnChange' => true),
-);
+    'eval'      => ['tl_class' => 'w50 m12', 'submitOnChange' => true],
+];
 
-$GLOBALS['TL_DCA']['tl_faq']['fields']['rateit_position'] = array
-(
+$GLOBALS['TL_DCA']['tl_faq']['fields']['rateit_position'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_faq']['rateit_position'],
     'default'   => 'before',
     'exclude'   => true,
     'inputType' => 'select',
-    'options'   => array('after', 'before'),
+    'options'   => ['after', 'before'],
     'reference' => &$GLOBALS['TL_LANG']['tl_faq'],
     'sql'       => "varchar(6) NOT NULL default ''",
-    'eval'      => array('mandatory' => true, 'tl_class' => 'w50'),
-);
-
-class tl_faq_rating extends DcaHelper
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function insert(\DC_Table $dc)
-    {
-        return $this->insertOrUpdateRatingKey($dc, 'faq', $dc->activeRecord->question);
-    }
-
-    public function delete(\DC_Table $dc)
-    {
-        return $this->deleteRatingKey($dc, 'faq');
-    }
-}
-
-?>
+    'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
+];
