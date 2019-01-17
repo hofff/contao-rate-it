@@ -1,60 +1,59 @@
 {
-	"name":"cgo-it/contao-rate-it-bundle",
-	"description":"RateIt extension for the Contao Open Source CMS as contao 4 bundle",
-	"keywords":["contao", "rating", "rateit", "bewertung", "bundle"],
-	"type":"contao-bundle",
-	"homepage":"https://cgo-it.de",
-	"license":"LGPL-3.0+",
-	"prefer-stable": true,
-	"config": {
-		"preferred-install": {
-			"cgo-it/*": "dist",
-			"*": "dist"
-		}
-	},
-	"authors":[
-		{
-			"name":"cgo IT",
-			"email":"info@cgo-it.de",
-			"homepage":"https://cgo-it.de",
-			"role":"Developer"
-		}
-	],
-	"support": {
-		"issues": "https://github.com/cgoIT/contao-rate-it-bundle/issues",
-		"forum": "https://community.contao.org/de/showthread.php?38471-Rate-It",
-		"source": "https://github.com/cgoIT/contao-rate-it-bundle.git"
-	},
-	"require":{
-		"php":">=7.0",
-		"contao/core-bundle": "^4.4",
-		"cgo-it/contao-xls_export-bundle": "^4.0"
-	},
-	"require-dev": {
-        "contao/manager-plugin": "^2.0"
-	},
-	"conflict": {
-		"contao/core": "*",
-		"contao/manager-plugin": "<2.0 || >=3.0"
-	},
-	"autoload": {
-		"psr-4": {
-			"cgoIT\\rateit\\": "src/"
-		},
-		"classmap": [
-			"src/Resources/contao/"
-		],
-		"exclude-from-classmap": [
-			"src/Resources/contao/config/",
-			"src/Resources/contao/dca/",
-			"src/Resources/contao/languages/",
-			"src/Resources/contao/templates/"
-		]
- 	},
-	"extra": {
-		"contao": {
-			"runonce": ["src/Resources/contao/runonce/create-initial-data.php"]
-		},
-		"contao-manager-plugin": "cgoIT\\rateit\\ContaoManagerPlugin"
-	}
+  "name": "hofff/contao-rate-it",
+  "type": "contao-bundle",
+  "description": "RateIt extension for the Contao Open Source CMS as contao 4 bundle",
+  "keywords": [
+    "contao",
+    "rating",
+    "rateit",
+    "bewertung",
+    "bundle"
+  ],
+  "homepage": "https://www.hofff.com",
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Nicky Hoff",
+      "email": "nick@hofff.com",
+      "homepage": "https://hofff.com/",
+      "role": "Maintainer"
+    },
+    {
+      "name": "David Molineus",
+      "email": "david@hofff.com",
+      "homepage": "https://hofff.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "contao/core-bundle": "^4.4",
+    "symfony/http-foundation": "^3.4 || 4.0"
+  },
+  "conflict": {
+    "contao/manager-plugin": "<2.0 || >=3.0"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "contao": {
+      "runonce": [
+        "src/Resources/contao/runonce/create-initial-data.php"
+      ]
+    },
+    "contao-manager-plugin": "Hofff\\Contao\\RateIt\\ContaoManagerPlugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hofff\\Contao\\RateIt\\": "src/"
+    }
+  },
+  "support": {
+    "issues": "https://github.com/hofff/contao-rate-it/issues",
+    "source": "https://github.com/hofff/contao-rate-it"
+  }
 }
