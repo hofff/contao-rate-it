@@ -1,29 +1,38 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: darko
- * Date: 23.10.17
- * Time: 23:55
+ * This file is part of hofff/contao-content.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author     Carsten Götzinger <info@cgo-it.de>
+ * @author     David Molineus <david@hofff.com>
+ * @copyright  2013-2018 cgo IT.
+ * @copyright  2012-2019 hofff.com
+ * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
+ * @filesource
  */
 
 namespace Hofff\Contao\RateIt\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Symfony\Component\HttpFoundation\Response;
-use cgoIT\rateit\RateIt;
+use Hofff\Contao\RateIt\RateIt;
 
-class AjaxRateItController extends Controller {
-    /**
-     * Handles rating requests.
-     *
-     * @return JsonResponse
-     *
-     * @Route("/rateit", name="ajax_rateit", defaults={"_scope" = "frontend", "_token_check" = false})
-     */
-    public function ajaxAction() {
+class AjaxRateItController
+{
+    /** @var ContaoFrameworkInterface */
+    private $framework;
 
-        $this->container->get('contao.framework')->initialize();
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
+    public function ajaxAction() : Response
+    {
+        $this->framework->initialize();
 
         $controller = new RateIt();
 
@@ -32,5 +41,4 @@ class AjaxRateItController extends Controller {
 
         return new Response(null);
     }
-
 }

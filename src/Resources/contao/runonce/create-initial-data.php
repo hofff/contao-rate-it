@@ -1,32 +1,17 @@
-<?php 
+<?php
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * This file is part of hofff/contao-content.
  *
- * Formerly known as TYPOlight Open Source CMS.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * This program is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, please visit the Free
- * Software Foundation website at <http://www.gnu.org/licenses/>.
- *
- * PHP version 5
- * @copyright  cgo IT, 2013
- * @author     Carsten Götzinger (info@cgo-it.de)
- * @package    rateit
- * @license    GNU/LGPL
+ * @author     Carsten Götzinger <info@cgo-it.de>
+ * @author     David Molineus <david@hofff.com>
+ * @copyright  2013-2018 cgo IT.
+ * @copyright  2012-2019 hofff.com
+ * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
- * 
  */
 
 // Be silenced
@@ -49,33 +34,27 @@ class runonceJob extends \Backend
      */
     public function run()
     {
-        if (!isset($GLOBALS['TL_CONFIG']['rating_type']))
-        {
+        if (! isset($GLOBALS['TL_CONFIG']['rating_type'])) {
             $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_type']", 'hearts');
         }
 
-        if (!isset($GLOBALS['TL_CONFIG']['rating_count']))
-        {
+        if (! isset($GLOBALS['TL_CONFIG']['rating_count'])) {
             $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_count']", 5);
         }
 
-        if (!isset($GLOBALS['TL_CONFIG']['rating_textposition']))
-        {
+        if (! isset($GLOBALS['TL_CONFIG']['rating_textposition'])) {
             $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_textposition']", 'after');
         }
 
-        if (!isset($GLOBALS['TL_CONFIG']['rating_listsize']))
-        {
+        if (! isset($GLOBALS['TL_CONFIG']['rating_listsize'])) {
             $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_listsize']", 10);
         }
 
-        if (!isset($GLOBALS['TL_CONFIG']['rating_template']))
-        {
-        	$this->Config->add("\$GLOBALS['TL_CONFIG']['rating_template']", 'rateit_default');
+        if (! isset($GLOBALS['TL_CONFIG']['rating_template'])) {
+            $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_template']", 'rateit_default');
         }
-    
-        if (!isset($GLOBALS['TL_CONFIG']['rating_description']))
-        {
+
+        if (! isset($GLOBALS['TL_CONFIG']['rating_description'])) {
             $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_description']", '%current%/%max% %type% (%count% [Stimme|Stimmen])');
         }
     }
