@@ -87,7 +87,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 
 <div class="tl_search tl_subpanel">
 <strong><?php echo $GLOBALS['TL_LANG']['MSC']['search']; ?>:</strong> 
-<input type="text" name="rateit_find" id="rateit_find" value="<?php echo specialchars($rateit->f_find); ?>" class="tl_text fulltextsearch<?php if ($rateit->f_find!='') echo ' active'; ?>"/>
+<input type="text" name="rateit_find" id="rateit_find" value="<?php echo \Contao\StringUtil::specialchars($rateit->f_find); ?>" class="tl_text fulltextsearch<?php if ($rateit->f_find!='') echo ' active'; ?>"/>
 </div>
 
 <div class="tl_sorting tl_subpanel">

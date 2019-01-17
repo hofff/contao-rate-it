@@ -16,6 +16,9 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\BackendTemplate;
+use Contao\FrontendTemplate;
+
 /**
  * Class RateItHybrid
  */
@@ -38,7 +41,7 @@ abstract class RateItHybrid extends RateItFrontend
     public function generate()
     {
         if (TL_MODE == 'BE') {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### Rate IT ###';
             $objTemplate->title    = $this->rateit_title;
@@ -73,7 +76,7 @@ abstract class RateItHybrid extends RateItFrontend
      */
     protected function compile()
     {
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
 
         $this->Template->setData($this->arrData);
 

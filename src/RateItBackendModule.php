@@ -16,7 +16,10 @@
 
 namespace Hofff\Contao\RateIt;
 
-class RateItBackendModule extends \BackendModule
+use Contao\BackendModule;
+use Contao\Input;
+
+class RateItBackendModule extends BackendModule
 {
     protected $strTemplate;
     protected $actions = array();
@@ -83,8 +86,8 @@ class RateItBackendModule extends \BackendModule
         $this->strTemplate = $this->actions[0][1];
         $this->compiler    = $this->actions[0][2];
 
-        $act = \Input::get('act');
-        if (! $act) $act = \Input::post('act');
+        $act = Input::get('act');
+        if (! $act) $act = Input::post('act');
         foreach ($this->actions as $action) {
             if ($act == $action[0]) {
                 $this->parameter   = $act;
@@ -141,11 +144,11 @@ class RateItBackendModule extends \BackendModule
         // returning from submit?
         if ($this->filterPost('rateit_action') == $rateit->f_action) {
             // get url parameters
-            $rateit->f_typ    = trim(\Input::post('rateit_typ'));
-            $rateit->f_active = trim(\Input::post('rateit_active'));
-            $rateit->f_order  = trim(\Input::post('rateit_order'));
-            $rateit->f_page   = trim(\Input::post('rateit_page'));
-            $rateit->f_find   = trim(\Input::post('rateit_find'));
+            $rateit->f_typ    = trim(Input::post('rateit_typ'));
+            $rateit->f_active = trim(Input::post('rateit_active'));
+            $rateit->f_order  = trim(Input::post('rateit_order'));
+            $rateit->f_page   = trim(Input::post('rateit_page'));
+            $rateit->f_find   = trim(Input::post('rateit_find'));
             $this->Session->set(
                 'rateit_settings',
                 array(
@@ -314,7 +317,7 @@ class RateItBackendModule extends \BackendModule
         // returning from submit?
         if ($this->filterPost('rateit_action') == $rateit->f_action) {
             // get url parameters
-            $rateit->f_page = trim(\Input::post('rateit_details_page'));
+            $rateit->f_page = trim(Input::post('rateit_details_page'));
             $this->Session->set(
                 'rateit_settings',
                 array(
@@ -328,7 +331,7 @@ class RateItBackendModule extends \BackendModule
             } // if
         } // if
 
-        $rkey = \Input::get('rkey');
+        $rkey = Input::get('rkey');
         if (strstr($rkey, '|')) {
             $arrRkey = explode('|', $rkey);
             foreach ($arrRkey as $key) {
@@ -347,7 +350,7 @@ class RateItBackendModule extends \BackendModule
             }
         }
 
-        $typ = \Input::get('typ');
+        $typ = Input::get('typ');
 
         // compose base options
         $options = array(
@@ -407,7 +410,7 @@ class RateItBackendModule extends \BackendModule
         $rateit = &$this->Template->rateit;
 
         // nothing checked?
-        $ids0 = \Input::post('selectedids');
+        $ids0 = Input::post('selectedids');
         if (! is_array($ids0)) {
             $this->redirect($rep->homeLink);
             return;
@@ -431,10 +434,10 @@ class RateItBackendModule extends \BackendModule
      */
     protected function exportRatingDetails()
     {
-        $rkey = \Input::get('rkey');
+        $rkey = Input::get('rkey');
         if (! is_numeric($rkey))
             $this->redirect($rateit->backLink);
-        $typ = \Input::get('typ');
+        $typ = Input::get('typ');
 
         $this->rateit->backLink = $this->createUrl(array('act' => 'view', 'rkey' => $rkey, 'typ' => $typ));
 
@@ -519,7 +522,7 @@ class RateItBackendModule extends \BackendModule
      */
     protected function createUrl($aParams = null)
     {
-        return $this->createPageUrl(\Input::get('do'), $aParams);
+        return $this->createPageUrl(Input::get('do'), $aParams);
     } // createUrl
 
     /**
@@ -550,7 +553,7 @@ class RateItBackendModule extends \BackendModule
      */
     protected function filterPost($aKey, $aMode = '')
     {
-        $v = trim(\Input::postRaw($aKey));
+        $v = trim(Input::postRaw($aKey));
         if ($v == '' || $aMode == '') return $v;
         switch ($aMode) {
             case 'nohtml':

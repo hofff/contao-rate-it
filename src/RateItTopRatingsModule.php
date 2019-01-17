@@ -16,6 +16,16 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\ArticleModel;
+use Contao\BackendTemplate;
+use Contao\Config;
+use Contao\Environment;
+use Contao\FrontendTemplate;
+use Contao\Input;
+use Contao\NewsModel;
+use Contao\PageModel;
+use Contao\StringUtil;
+
 /**
  * Class RateItTopRatingsModule
  */
@@ -40,7 +50,7 @@ class RateItTopRatingsModule extends RateItFrontend
     public function generate()
     {
         if (TL_MODE == 'BE') {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### Rate IT Best/Most Ratings ###';
             $objTemplate->title    = $this->name;
@@ -53,7 +63,7 @@ class RateItTopRatingsModule extends RateItFrontend
 
         $this->strTemplate = $this->rateit_template;
 
-        $this->arrTypes = deserialize($this->rateit_types);
+        $this->arrTypes = StringUtil::deserialize($this->rateit_types);
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/onReadyRateIt.js|static';
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/rateit.js|static';
@@ -74,7 +84,7 @@ class RateItTopRatingsModule extends RateItFrontend
      */
     protected function compile()
     {
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
 
         $this->Template->setData($this->arrData);
 
@@ -132,17 +142,17 @@ class RateItTopRatingsModule extends RateItFrontend
     private function getUrl($rating)
     {
         if ($rating['typ'] === 'page') {
-            return \PageModel::findById($rating['rkey'])->getAbsoluteUrl();
+            return PageModel::findById($rating['rkey'])->getAbsoluteUrl();
         }
         if ($rating['typ'] === 'article') {
-            $objArticle = \ArticleModel::findPublishedById($rating['rkey']);
+            $objArticle = ArticleModel::findPublishedById($rating['rkey']);
             if (! is_null($objArticle)) {
-                return \PageModel::findById($objArticle->pid)->getAbsoluteUrl() . '#' . $objArticle->alias;
+                return PageModel::findById($objArticle->pid)->getAbsoluteUrl() . '#' . $objArticle->alias;
             }
         }
         if ($rating['typ'] === 'news') {
-            $objNews    = \NewsModel::findById($rating['rkey']);
-            $objArticle = \NewsModel::findPublishedByPid($objNews->pid);
+            $objNews    = NewsModel::findById($rating['rkey']);
+            $objArticle = NewsModel::findPublishedByPid($objNews->pid);
 
             // Internal link
             if ($objArticle->source != 'external') {
@@ -151,7 +161,7 @@ class RateItTopRatingsModule extends RateItFrontend
 
             // Encode e-mail addresses
             if (substr($objArticle->url, 0, 7) == 'mailto:') {
-                $strArticleUrl = \StringUtil::encodeEmail($objArticle->url);
+                $strArticleUrl = StringUtil::encodeEmail($objArticle->url);
             } // Ampersand URIs
             else {
                 $strArticleUrl = ampersand($objArticle->url);
@@ -182,7 +192,7 @@ class RateItTopRatingsModule extends RateItFrontend
             // Link to an external page
             case 'external' :
                 if (substr($objItem->url, 0, 7) == 'mailto:') {
-                    self::$arrUrlCache[$strCacheKey] = \StringUtil::encodeEmail($objItem->url);
+                    self::$arrUrlCache[$strCacheKey] = StringUtil::encodeEmail($objItem->url);
                 } else {
                     self::$arrUrlCache[$strCacheKey] = ampersand($objItem->url);
                 }
@@ -198,28 +208,28 @@ class RateItTopRatingsModule extends RateItFrontend
 
             // Link to an article
             case 'article' :
-                if (($objArticle = \ArticleModel::findByPk($objItem->articleId, array(
+                if (($objArticle = ArticleModel::findByPk($objItem->articleId, array(
                         'eager' => true,
                     ))) !== null && ($objPid = $objArticle->getRelated('pid')) !== null) {
                     /** @var \PageModel $objPid */
-                    self::$arrUrlCache[$strCacheKey] = ampersand($objPid->getFrontendUrl('/articles/' . ((! \Config::get('disableAlias') && $objArticle->alias != '') ? $objArticle->alias : $objArticle->id)));
+                    self::$arrUrlCache[$strCacheKey] = ampersand($objPid->getFrontendUrl('/articles/' . ((! Config::get('disableAlias') && $objArticle->alias != '') ? $objArticle->alias : $objArticle->id)));
                 }
                 break;
         }
 
         // Link to the default page
         if (self::$arrUrlCache[$strCacheKey] === null) {
-            $objPage = \PageModel::findWithDetails($objItem->getRelated('pid')->jumpTo);
+            $objPage = PageModel::findWithDetails($objItem->getRelated('pid')->jumpTo);
 
             if ($objPage === null) {
-                self::$arrUrlCache[$strCacheKey] = ampersand(\Environment::get('request'), true);
+                self::$arrUrlCache[$strCacheKey] = ampersand(Environment::get('request'), true);
             } else {
-                self::$arrUrlCache[$strCacheKey] = ampersand($objPage->getFrontendUrl(((\Config::get('useAutoItem') && ! \Config::get('disableAlias')) ? '/' : '/items/') . ((! \Config::get('disableAlias') && $objItem->alias != '') ? $objItem->alias : $objItem->id)));
+                self::$arrUrlCache[$strCacheKey] = ampersand($objPage->getFrontendUrl(((Config::get('useAutoItem') && ! Config::get('disableAlias')) ? '/' : '/items/') . ((! Config::get('disableAlias') && $objItem->alias != '') ? $objItem->alias : $objItem->id)));
             }
 
             // Add the current archive parameter (news archive)
-            if ($blnAddArchive && \Input::get('month') != '') {
-                self::$arrUrlCache[$strCacheKey] .= (\Config::get('disableAlias') ? '&amp;' : '?') . 'month=' . \Input::get('month');
+            if ($blnAddArchive && Input::get('month') != '') {
+                self::$arrUrlCache[$strCacheKey] .= (Config::get('disableAlias') ? '&amp;' : '?') . 'month=' . Input::get('month');
             }
         }
 

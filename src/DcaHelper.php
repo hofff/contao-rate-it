@@ -17,6 +17,7 @@
 namespace Hofff\Contao\RateIt;
 
 use Contao\Backend;
+use Contao\DataContainer;
 
 /**
  * Class DcaHelper
@@ -37,7 +38,7 @@ class DcaHelper extends Backend
      * @param DataContainer
      * @return array
      */
-    public function getRateItTemplates(\DataContainer $dc)
+    public function getRateItTemplates(DataContainer $dc)
     {
         $intPid = $dc->activeRecord->pid;
 
@@ -54,7 +55,7 @@ class DcaHelper extends Backend
      * @param object
      * @return string
      */
-    public function insertOrUpdateRatingKey(\DC_Table $dc, $type, $ratingTitle)
+    public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle)
     {
         if ($dc->activeRecord->rateit_active || $dc->activeRecord->addRating) {
             $actRecord = $this->Database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
@@ -92,7 +93,7 @@ class DcaHelper extends Backend
      * @param object
      * @return string
      */
-    public function deleteRatingKey(\DC_Table $dc, $type)
+    public function deleteRatingKey(DataContainer $dc, $type)
     {
         $this->Database->prepare("DELETE FROM tl_rateit_items WHERE rkey=? and typ=?")
             ->execute($dc->activeRecord->id, $type);

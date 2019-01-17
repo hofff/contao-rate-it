@@ -16,10 +16,14 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\Hybrid;
+use Contao\Model;
+use Contao\Model\Collection;
+
 /**
  * Class RateItFrontend
  */
-class RateItFrontend extends \Hybrid
+class RateItFrontend extends Hybrid
 {
 
     /**
@@ -58,9 +62,9 @@ class RateItFrontend extends \Hybrid
     public function __construct($objElement = array())
     {
         if (! empty($objElement)) {
-            if ($objElement instanceof \Model) {
+            if ($objElement instanceof Model) {
                 $this->strTable = $objElement->getTable();
-            } elseif ($objElement instanceof \Model\Collection) {
+            } elseif ($objElement instanceof Collection) {
                 $this->strTable = $objElement->current()->getTable();
             }
 

@@ -16,9 +16,9 @@
 
 namespace Hofff\Contao\RateIt;
 
-use cgoIT\rateit\RateItRating;
+use Contao\Frontend;
 
-class RateItPage extends \Frontend
+class RateItPage extends Frontend
 {
 
     var $rateItRating;

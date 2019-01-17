@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
+use Contao\DataContainer;
 use Hofff\Contao\RateIt\DcaHelper;
 
 final class FaqDcaListener extends DcaHelper
@@ -16,12 +17,12 @@ final class FaqDcaListener extends DcaHelper
         parent::__construct();
     }
 
-    public function insert(\DC_Table $dc)
+    public function insert(DataContainer $dc)
     {
         return $this->insertOrUpdateRatingKey($dc, 'faq', $dc->activeRecord->question);
     }
 
-    public function delete(\DC_Table $dc)
+    public function delete(DataContainer $dc)
     {
         return $this->deleteRatingKey($dc, 'faq');
     }

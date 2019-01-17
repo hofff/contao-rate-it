@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\DataContainer;
+use Contao\File;
+use Contao\FilesModel;
+use Contao\StringUtil;
 use Hofff\Contao\RateIt\DcaHelper;
 
 final class ContentDcaListener extends DcaHelper
@@ -27,9 +30,9 @@ final class ContentDcaListener extends DcaHelper
             $this->Database->prepare("UPDATE tl_rateit_items SET active='' WHERE rkey LIKE ? AND typ=?")->execute($dc->activeRecord->id . '|%', $type);
 
             if (version_compare(VERSION, '3.2', '>=')) {
-                $objFiles = \FilesModel::findMultipleByUuids(deserialize($dc->activeRecord->multiSRC));
+                $objFiles = FilesModel::findMultipleByUuids(StringUtil::deserialize($dc->activeRecord->multiSRC));
             } else {
-                $objFiles = \FilesModel::findMultipleByIds(deserialize($dc->activeRecord->multiSRC));
+                $objFiles = FilesModel::findMultipleByIds(StringUtil::deserialize($dc->activeRecord->multiSRC));
             }
 
             if ($objFiles !== null) {
@@ -37,7 +40,7 @@ final class ContentDcaListener extends DcaHelper
                 while ($objFiles->next()) {
                     // Single files
                     if ($objFiles->type == 'file') {
-                        $objFile = new \File($objFiles->path, true);
+                        $objFile = new File($objFiles->path, true);
 
                         if (! $objFile->isGdImage) {
                             continue;
@@ -47,9 +50,9 @@ final class ContentDcaListener extends DcaHelper
                     } // Folders
                     else {
                         if (version_compare(VERSION, '3.2', '>=')) {
-                            $objSubfiles = \FilesModel::findByPid($objFiles->uuid);
+                            $objSubfiles = FilesModel::findByPid($objFiles->uuid);
                         } else {
-                            $objSubfiles = \FilesModel::findByPid($objFiles->id);
+                            $objSubfiles = FilesModel::findByPid($objFiles->id);
                         }
 
                         if ($objSubfiles === null) {
@@ -62,7 +65,7 @@ final class ContentDcaListener extends DcaHelper
                                 continue;
                             }
 
-                            $objFile = new \File($objSubfiles->path, true);
+                            $objFile = new File($objSubfiles->path, true);
 
                             if (! $objFile->isGdImage) {
                                 continue;
@@ -94,7 +97,7 @@ final class ContentDcaListener extends DcaHelper
     private function insertOrUpdateRatingItemGallery(DataContainer $dc, $type, $strName, $imgId, $active)
     {
         $rkey     = $dc->activeRecord->id . '|' . $imgId;
-        $headline = deserialize($dc->activeRecord->headline);
+        $headline = StringUtil::deserialize($dc->activeRecord->headline);
         $title    = $dc->activeRecord->id;
         if (is_array($headline) && array_key_exists('value', $headline) && strlen($headline['value']) > 0) {
             $title = $headline['value'];

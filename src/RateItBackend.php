@@ -16,6 +16,8 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\StringUtil;
+
 class RateItBackend
 {
     const path = 'bundles/cgoitrateit/';
@@ -65,7 +67,7 @@ class RateItBackend
         if ($alt == '') $alt = 'icon';
         $img  = self::image($file);
         $size = getimagesize(TL_ROOT . '/' . $img);
-        return '<img' . ((substr($img, -4) == '.png') ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
+        return '<img' . ((substr($img, -4) == '.png') ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
     } // createImage
 
     /**

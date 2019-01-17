@@ -16,11 +16,10 @@
 
 namespace Hofff\Contao\RateIt;
 
-use cgoIT\rateit\RateItRating;
+use Contao\StringUtil;
 
 class RateItFaq extends RateItFrontend
 {
-
     var $rateItRating;
 
     /**
@@ -40,7 +39,7 @@ class RateItFaq extends RateItFrontend
                 ->execute($objRow->module);
 
             if ($objModule->numRows == 1) {
-                $this->faq_categories = deserialize($objModule->faq_categories);
+                $this->faq_categories = StringUtil::deserialize($objModule->faq_categories);
 
                 if ($objModule->type == 'faqreader') {
                     $strBuffer = $this->generateForFaqReader($objModule, $strBuffer);
@@ -72,6 +71,7 @@ class RateItFaq extends RateItFrontend
             return $strBuffer;
         }
 
+        // TODO: Remove simple_html_dom requirement
         $htmlBuffer = new \simple_html_dom();
         $htmlBuffer->load($strBuffer);
 

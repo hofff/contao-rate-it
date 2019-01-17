@@ -14,27 +14,31 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+declare(strict_types=1);
+
+namespace Hofff\Contao\RateIt\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
+use Hofff\Contao\RateIt\CgoITRateItBundle;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Plugin for the Contao Manager.
  *
  * @author Carsten Götzinger
  */
-class ContaoManagerPlugin implements BundlePluginInterface, RoutingPluginInterface
+final class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser) : array
     {
         return [
             BundleConfig::create(CgoITRateItBundle::class)
@@ -46,10 +50,10 @@ class ContaoManagerPlugin implements BundlePluginInterface, RoutingPluginInterfa
     /**
      * {@inheritdoc}
      */
-    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
     {
         return $resolver
-            ->resolve(__DIR__ . '/Resources/config/routing.yml')
-            ->load(__DIR__ . '/Resources/config/routing.yml');
+            ->resolve(__DIR__ . '/Resources/config/routing.xml')
+            ->load(__DIR__ . '/Resources/config/routing.xml');
     }
 }

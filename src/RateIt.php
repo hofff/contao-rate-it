@@ -14,14 +14,16 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt;
 
-use cgoIT\rateit\RateItFrontend;
+use Contao\Environment;
+use Contao\Frontend;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class RateIt extends \Frontend
+class RateIt extends Frontend
 {
-
     var $allowDuplicates = false;
     var $rateItFrontend;
 
@@ -97,7 +99,7 @@ class RateIt extends \Frontend
             return new JsonResponse($GLOBALS['TL_LANG']['rateit']['error']['invalid_type']);
         }
 
-        $strHash = sha1(session_id() . (! $GLOBALS['TL_CONFIG']['disableIpCheck'] ? \Environment::get('ip') : '') . 'FE_USER_AUTH');
+        $strHash = sha1(session_id() . (! $GLOBALS['TL_CONFIG']['disableIpCheck'] ? Environment::get('ip') : '') . 'FE_USER_AUTH');
 
         // FrontendUser auslesen
         if (FE_USER_LOGGED_IN) {

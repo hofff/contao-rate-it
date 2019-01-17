@@ -17,12 +17,12 @@ final class ModuleDcaListener extends DcaHelper
         parent::__construct();
     }
 
-    public function insert(\DC_Table $dc)
+    public function insert(DataContainer $dc)
     {
         return $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title);
     }
 
-    public function delete(\DC_Table $dc)
+    public function delete(DataContainer $dc)
     {
         return $this->deleteRatingKey($dc, 'module');
     }

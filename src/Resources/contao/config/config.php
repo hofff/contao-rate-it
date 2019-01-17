@@ -19,30 +19,33 @@ use Hofff\Contao\RateIt\RateItBackend;
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['generatePage'][]      = array('cgoIT\rateit\RateItPage', 'generatePage');
-$GLOBALS['TL_HOOKS']['parseArticles'][]     = array('cgoIT\rateit\RateItNews', 'parseArticle');
-$GLOBALS['TL_HOOKS']['getContentElement'][] = array('cgoIT\rateit\RateItFaq', 'getContentElementRateIt');
-$GLOBALS['TL_HOOKS']['parseTemplate'][]     = array('cgoIT\rateit\RateItArticle', 'parseTemplateRateIt');
+$GLOBALS['TL_HOOKS']['generatePage'][]      = [\Hofff\Contao\RateIt\RateItPage::class, 'generatePage'];
+$GLOBALS['TL_HOOKS']['parseArticles'][]     = [\Hofff\Contao\RateIt\RateItNews::class, 'parseArticle'];
+$GLOBALS['TL_HOOKS']['getContentElement'][] = [\Hofff\Contao\RateIt\RateItFaq::class, 'getContentElementRateIt'];
+$GLOBALS['TL_HOOKS']['parseTemplate'][]     = [\Hofff\Contao\RateIt\RateItArticle::class, 'parseTemplateRateIt'];
 
 /**
  * Back end modules
  */
-array_insert($GLOBALS['BE_MOD']['content'], -1,
-    array('rateit' => array(
-        'callback'   => 'cgoIT\rateit\RateItBackendModule',
-        'icon'       => RateItBackend::image('icon'),
-        'stylesheet' => RateItBackend::css('backend'),
-        'javascript' => RateItBackend::js('RateItBackend'),
-    ),
-    ));
+array_insert(
+    $GLOBALS['BE_MOD']['content'],
+    -1,
+    [
+        'rateit' => [
+            'callback'   => \Hofff\Contao\RateIt\RateItBackendModule::class,
+            'icon'       => RateItBackend::image('icon'),
+            'stylesheet' => RateItBackend::css('backend'),
+            'javascript' => RateItBackend::js('RateItBackend'),
+        ],
+    ]);
 
 /**
  * frontend moduls
  */
-$GLOBALS['FE_MOD']['application']['rateit']             = 'cgoIT\rateit\RateItModule';
-$GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = 'cgoIT\rateit\RateItTopRatingsModule';
+$GLOBALS['FE_MOD']['application']['rateit']             = \Hofff\Contao\RateIt\RateItModule::class;
+$GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = \Hofff\Contao\RateIt\RateItTopRatingsModule::class;
 
 /**
  * content elements
  */
-$GLOBALS['TL_CTE']['includes']['rateit'] = 'cgoIT\rateit\RateItCE';
+$GLOBALS['TL_CTE']['includes']['rateit'] = \Hofff\Contao\RateIt\RateItCE::class;

@@ -16,6 +16,10 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\File;
+use Contao\FilesModel;
+use Contao\StringUtil;
+
 class RateItArticle extends RateItFrontend
 {
 
@@ -161,9 +165,9 @@ class RateItArticle extends RateItFrontend
             $arrRating = array();
 
             if (version_compare(VERSION, '3.2', '>=')) {
-                $objFiles = \FilesModel::findMultipleByUuids(deserialize($arrGallery['multiSRC']));
+                $objFiles = FilesModel::findMultipleByUuids(StringUtil::deserialize($arrGallery['multiSRC']));
             } else {
-                $objFiles = \FilesModel::findMultipleByIds(deserialize($arrGallery['multiSRC']));
+                $objFiles = FilesModel::findMultipleByIds(StringUtil::deserialize($arrGallery['multiSRC']));
             }
 
             if ($objFiles !== null) {
@@ -176,7 +180,7 @@ class RateItArticle extends RateItFrontend
 
                     // Single files
                     if ($objFiles->type == 'file') {
-                        $objFile = new \File($objFiles->path, true);
+                        $objFile = new File($objFiles->path, true);
 
                         if (! $objFile->isGdImage) {
                             continue;
@@ -186,9 +190,9 @@ class RateItArticle extends RateItFrontend
                     } // Folders
                     else {
                         if (version_compare(VERSION, '3.2', '>=')) {
-                            $objSubfiles = \FilesModel::findByPid($objFiles->uuid);
+                            $objSubfiles = FilesModel::findByPid($objFiles->uuid);
                         } else {
-                            $objSubfiles = \FilesModel::findByPid($objFiles->id);
+                            $objSubfiles = FilesModel::findByPid($objFiles->id);
                         }
 
                         if ($objSubfiles === null) {
@@ -201,7 +205,7 @@ class RateItArticle extends RateItFrontend
                                 continue;
                             }
 
-                            $objFile = new \File($objSubfiles->path, true);
+                            $objFile = new File($objSubfiles->path, true);
 
                             if (! $objFile->isGdImage) {
                                 continue;

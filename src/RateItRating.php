@@ -16,6 +16,8 @@
 
 namespace Hofff\Contao\RateIt;
 
+use Contao\FrontendTemplate;
+
 class RateItRating extends RateItFrontend
 {
 
@@ -51,7 +53,7 @@ class RateItRating extends RateItFrontend
     {
         $this->loadLanguageFile('default');
 
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->setData($this->arrData);
 
         $rating   = $this->loadRating($this->rkey, $this->ratingType);
