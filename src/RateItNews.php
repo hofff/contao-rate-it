@@ -43,7 +43,7 @@ class RateItNews extends RateItFrontend
             $objTemplate->itemreviewed  = $rating['title'];
             $objTemplate->actRating     = $this->percentToStars($rating['rating']);
             $objTemplate->maxRating     = $this->intStars;
-            $objTemplate->votes         = $rating[totalRatings];
+            $objTemplate->votes         = $rating['totalRatings'];
 
             if ($this->strTextPosition == "before") {
                 $objTemplate->showBefore = true;

@@ -18,6 +18,7 @@ namespace Hofff\Contao\RateIt;
 
 use Contao\BackendModule;
 use Contao\Input;
+use Patchwork\Utf8;
 
 class RateItBackendModule extends BackendModule
 {
@@ -61,8 +62,6 @@ class RateItBackendModule extends BackendModule
             array('', 'rateitbe_ratinglist', 'listRatings'),
             array('reset_ratings', '', 'resetRatings'),
             array('view', 'rateitbe_ratingview', 'viewRating'),
-            array('export', '', 'exportRatings'),
-            array('exportDetails', '', 'exportRatingDetails'),
         );
 
         $this->loadLanguageFile('rateit_backend');
@@ -228,83 +227,6 @@ class RateItBackendModule extends BackendModule
     } // listRatings
 
     /**
-     * Export all ratings as MS-Excel-File
-     */
-    protected function exportRatings()
-    {
-        $this->import('StringUtil');
-        $rateit = &$this->Template->rateit;
-
-        $options['order'] = 'rating desc';
-
-        // query ratings
-        $rateit->ratingitems = $this->getRatingItems($options, true);
-
-        $xls         = new \xlsexport();
-        $strXlsSheet = $GLOBALS['TL_LANG']['tl_rateit']['xls_sheetname_ratings'];
-        $xls->addworksheet($strXlsSheet);
-
-        $intRowCounter = -1;
-        $intColCounter = 0;
-
-        $intRowCounter++;
-
-        // Header setzen
-        foreach (array_values($this->arrExportHeader) as $header) {
-            $xls->setcell(array("sheetname" => $strXlsSheet, "row" => $intRowCounter, "col" => $intColCounter, "data" => $header, "fontweight" => XLSFONT_BOLD, "vallign" => XLSXF_VALLIGN_TOP, "fontfamily" => XLSFONT_FAMILY_NORMAL));
-            $xls->setcolwidth($strXlsSheet, $intColCounter, 0x1aff);
-            $intColCounter++;
-        }
-
-        $intRowCounter++;
-
-        // Werte setzen
-        foreach ($rateit->ratingitems as $item) {
-            $arrItem = (array)$item;
-
-            $intColCounter = 0;
-            foreach (array_keys($this->arrExportHeader) as $key) {
-                $strVal = $arrItem[$key];
-                $strVal = $this->StringUtil->decodeEntities($strVal);
-                $strVal = preg_replace(array('/<br.*\/*>/si'), array("\n"), $strVal);
-                $strVal = $this->convertEncoding($strVal, $GLOBALS['TL_CONFIG']['characterSet'], 'CP1252');
-
-                $cellType = CELL_STRING;
-                switch ($key) {
-                    case 'typ' :
-                        $strVal = $GLOBALS['TL_LANG']['tl_rateit_type_options'][$strVal];
-                        break;
-                    case 'createdat' :
-                        $strVal = $strVal ? date($GLOBALS['TL_CONFIG']['datimFormat'], $strVal) : '';
-                        break;
-                    case 'active' :
-                        $strVal = $strVal == '1' ? 'Ja' : 'Nein';
-                        break;
-                    case 'rating' :
-                        if (! isset($strVal) || empty($strVal)) {
-                            $strVal = '0';
-                        }
-                        $cellType = CELL_FLOAT;
-                        break;
-                    case 'stars' :
-                    case 'percent' :
-                    case 'totalRatings' :
-                    case 'rkey' :
-                        $cellType = CELL_FLOAT;
-                        break;
-                }
-                $xls->setcell(array("sheetname" => $strXlsSheet, "row" => $intRowCounter, "col" => $intColCounter, "data" => $strVal, "type" => $cellType, "vallign" => XLSXF_VALLIGN_TOP, "fontfamily" => XLSFONT_FAMILY_NORMAL));
-                $intColCounter++;
-            }
-
-            $intRowCounter++;
-        }
-
-        $xls->sendfile("export_rateit_" . date("Ymd_His") . ".xls");
-        exit;
-    } // exportRatings
-
-    /**
      * Detailed view of one rating.
      * @param string
      */
@@ -430,92 +352,6 @@ class RateItBackendModule extends BackendModule
     } // resetRatings
 
     /**
-     * Export the details of one rating as MS-Excel-File
-     */
-    protected function exportRatingDetails()
-    {
-        $rkey = Input::get('rkey');
-        if (! is_numeric($rkey))
-            $this->redirect($rateit->backLink);
-        $typ = Input::get('typ');
-
-        $this->rateit->backLink = $this->createUrl(array('act' => 'view', 'rkey' => $rkey, 'typ' => $typ));
-
-        // compose base options
-        $options = array(
-            'rkey' => $rkey,
-            'typ'  => $typ,
-        );
-
-        $this->import('StringUtil');
-        $rateit = &$this->Template->rateit;
-
-        // query ratings
-        $rateit->ratingitems = $this->getRatingItems($options);
-        if (count($rateit->ratingitems) < 1) $this->redirect($rateit->backLink);
-        $ext             = &$rateit->ratingitems[0];
-        $ext->ratings    = $this->getRatings($ext);
-        $ext->statistics = $this->getRatingStatistics($ext->item_id);
-
-        $xls         = new \xlsexport();
-        $strXlsSheet = $GLOBALS['TL_LANG']['tl_rateit']['xls_sheetname_rating'];
-        $xls->addworksheet($strXlsSheet);
-
-        $intRowCounter = -1;
-        $intColCounter = 0;
-
-        $intRowCounter++;
-
-        // Header setzen
-        foreach (array_values($this->arrExportHeaderDetails) as $header) {
-            $xls->setcell(array("sheetname" => $strXlsSheet, "row" => $intRowCounter, "col" => $intColCounter, "data" => $header, "fontweight" => XLSFONT_BOLD, "vallign" => XLSXF_VALLIGN_TOP, "fontfamily" => XLSFONT_FAMILY_NORMAL));
-            $xls->setcolwidth($strXlsSheet, $intColCounter, 0x1aff);
-            $intColCounter++;
-        }
-
-        $intRowCounter++;
-
-        // Werte setzen
-        foreach ($ext->ratings as $item) {
-            $arrItem = (array)$item;
-
-            $intColCounter = 0;
-            foreach (array_keys($this->arrExportHeaderDetails) as $key) {
-                $strVal = $arrItem[$key];
-                $strVal = $this->StringUtil->decodeEntities($strVal);
-                $strVal = preg_replace(array('/<br.*\/*>/si'), array("\n"), $strVal);
-                $strVal = $this->convertEncoding($strVal, $GLOBALS['TL_CONFIG']['characterSet'], 'CP1252');
-
-                $cellType = CELL_STRING;
-                switch ($key) {
-                    case 'createdat' :
-                        $strVal = $strVal ? date($GLOBALS['TL_CONFIG']['datimFormat'], $strVal) : '';
-                        break;
-                    case 'rating' :
-                        if (! isset($strVal) || empty($strVal)) {
-                            $strVal = '0';
-                        }
-                        $cellType = CELL_FLOAT;
-                        break;
-                    case 'stars' :
-                    case 'percent' :
-                    case 'totalRatings' :
-                    case 'rkey' :
-                        $cellType = CELL_FLOAT;
-                        break;
-                }
-                $xls->setcell(array("sheetname" => $strXlsSheet, "row" => $intRowCounter, "col" => $intColCounter, "data" => $strVal, "type" => $cellType, "vallign" => XLSXF_VALLIGN_TOP, "fontfamily" => XLSFONT_FAMILY_NORMAL));
-                $intColCounter++;
-            }
-
-            $intRowCounter++;
-        }
-
-        $xls->sendfile("export_rateit_" . date("Ymd_His") . ".xls");
-        exit;
-    } // exportRatingDetails
-
-    /**
      * Create url for hyperlink to the current page.
      * @param array $aParams Assiciative array with key/value pairs as parameters.
      * @return string The create link.
@@ -560,7 +396,7 @@ class RateItBackendModule extends BackendModule
                 $v = strip_tags($v);
                 break;
             case 'text':
-                $v = strip_tags($v, rateit_TEXTTAGS);
+                $v = strip_tags($v);
                 break;
         } // switch
         $v = preg_replace('/<(\w+) .*>/U', '<$1>', $v);
@@ -784,7 +620,7 @@ class RateItBackendModule extends BackendModule
      */
     public function convertEncoding($strString, $from, $to)
     {
-        if (USE_MBSTRING) {
+        if (function_exists('mb_strlen')) {
             @mb_substitute_character('none');
             return @mb_convert_encoding($strString, $to, $from);
         } elseif (function_exists('iconv')) {

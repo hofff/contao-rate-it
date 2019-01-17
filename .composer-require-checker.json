@@ -7,6 +7,9 @@
     "Contao\\ManagerPlugin\\Bundle\\Parser\\ParserInterface",
     "Contao\\ManagerPlugin\\Bundle\\Config\\BundleConfig",
     "Contao\\ManagerPlugin\\Routing\\RoutingPluginInterface",
-    "Contao\\NewsModel"
+    "Contao\\NewsModel",
+    "VERSION",
+    "ampersand",
+    "array_insert"
   ]
 }

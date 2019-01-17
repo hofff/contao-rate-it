@@ -92,7 +92,7 @@ abstract class RateItHybrid extends RateItFrontend
         $this->Template->itemreviewed  = $rating['title'];
         $this->Template->actRating     = $this->percentToStars($rating['rating']);
         $this->Template->maxRating     = $this->intStars;
-        $this->Template->votes         = $rating[totalRatings];
+        $this->Template->votes         = $rating['totalRatings'];
 
         if ($this->strTextPosition == "before") {
             $this->Template->showBefore = true;

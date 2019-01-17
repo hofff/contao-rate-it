@@ -14,6 +14,8 @@
  * @filesource
  */
 
+use Contao\Backend;
+
 // Be silenced
 @error_reporting(0);
 @ini_set("display_errors", 0);
@@ -21,7 +23,7 @@
 /**
  * Runonce Job
  */
-class runonceJob extends \Backend
+class runonceJob extends Backend
 {
 
     public function __construct()

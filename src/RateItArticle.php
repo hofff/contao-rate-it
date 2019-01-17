@@ -63,7 +63,7 @@ class RateItArticle extends RateItFrontend
             $objTemplate->itemreviewed  = $rating['title'];
             $objTemplate->actRating     = $this->percentToStars($rating['rating']);
             $objTemplate->maxRating     = $this->intStars;
-            $objTemplate->votes         = $rating[totalRatings];
+            $objTemplate->votes         = $rating['totalRatings'];
 
             if ($this->strTextPosition == "before") {
                 $objTemplate->showBefore = true;
@@ -121,7 +121,7 @@ class RateItArticle extends RateItFrontend
                     $article['itemreviewed']  = $rating['title'];
                     $article['actRating']     = $this->percentToStars($rating['rating']);
                     $article['maxRating']     = $this->intStars;
-                    $article['votes']         = $rating[totalRatings];
+                    $article['votes']         = $rating['totalRatings'];
 
                     if ($this->strTextPosition == "before") {
                         $article['showBefore'] = true;
@@ -249,7 +249,7 @@ class RateItArticle extends RateItFrontend
         $arrRating[$picPath]['itemreviewed']  = $rating['title'];
         $arrRating[$picPath]['actRating']     = $this->percentToStars($rating['rating']);
         $arrRating[$picPath]['maxRating']     = $this->intStars;
-        $arrRating[$picPath]['votes']         = $rating[totalRatings];
+        $arrRating[$picPath]['votes']         = $rating['totalRatings'];
 
         if ($this->strTextPosition == "before") {
             $arrRating[$picPath]['showBefore'] = true;
