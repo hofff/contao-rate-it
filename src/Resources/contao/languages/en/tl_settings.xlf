@@ -10,29 +10,21 @@
         <source>Rate It-Settings</source>
         <target>Rate It-Settings</target>
       </trans-unit>
-      <trans-unit id="tl_settings.rating_type.0">
-        <source>Type</source>
-        <target>Type</target>
-      </trans-unit>
-      <trans-unit id="tl_settings.rating_type.1">
-        <source>Type of representation. Possible options are the "hearts" or "stars".</source>
-        <target>Type of representation. Possible options are the "hearts" or "stars".</target>
-      </trans-unit>
       <trans-unit id="tl_settings.rating_count.0">
-        <source>Number of hearts/stars</source>
-        <target>Number of hearts/stars</target>
+        <source>Number of stars</source>
+        <target>Number of stars</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_count.1">
-        <source>Number of hearts/stars which are shown.</source>
-        <target>Number of hearts/stars which are shown.</target>
+        <source>Number of stars which are shown.</source>
+        <target>Number of stars which are shown.</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_textposition.0">
         <source>Text position</source>
         <target>Text position</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_textposition.1">
-        <source>Specifies whether the text should appear above or below the hearts or stars.</source>
-        <target>Specifies whether the text should appear above or below the hearts or stars.</target>
+        <source>Specifies whether the text should appear above or below the stars.</source>
+        <target>Specifies whether the text should appear above or below the stars.</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_listsize.0">
         <source>number of entries</source>
@@ -71,16 +63,8 @@
         <target>Label</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_description.1">
-        <source>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (hearts/stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
-        <target>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (hearts/stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</target>
-      </trans-unit>
-      <trans-unit id="tl_settings.hearts.0">
-        <source>hearts</source>
-        <target>hearts</target>
-      </trans-unit>
-      <trans-unit id="tl_settings.hearts.1">
-        <source>Illustration with hearts</source>
-        <target>Illustration with hearts</target>
+        <source>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
+        <target>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</target>
       </trans-unit>
       <trans-unit id="tl_settings.stars.0">
         <source>stars</source>
@@ -119,16 +103,16 @@
         <target>above</target>
       </trans-unit>
       <trans-unit id="tl_settings.before.1">
-        <source>Display the text above the hearts/stars</source>
-        <target>Display the text above the hearts/stars</target>
+        <source>Display the text above the stars</source>
+        <target>Display the text above the stars</target>
       </trans-unit>
       <trans-unit id="tl_settings.after.0">
         <source>below</source>
         <target>below</target>
       </trans-unit>
       <trans-unit id="tl_settings.after.1">
-        <source>Display the text below the heart / star</source>
-        <target>Display the text below the heart / star</target>
+        <source>Display the text below the star</source>
+        <target>Display the text below the star</target>
       </trans-unit>
     </body>
   </file>

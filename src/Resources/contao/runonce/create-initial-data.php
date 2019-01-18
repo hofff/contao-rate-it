@@ -36,10 +36,6 @@ class runonceJob extends Backend
      */
     public function run()
     {
-        if (! isset($GLOBALS['TL_CONFIG']['rating_type'])) {
-            $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_type']", 'hearts');
-        }
-
         if (! isset($GLOBALS['TL_CONFIG']['rating_count'])) {
             $this->Config->add("\$GLOBALS['TL_CONFIG']['rating_count']", 5);
         }

@@ -53,8 +53,8 @@ class RateItBackendModule extends BackendModule
     {
         parent::__construct($objElement);
 
-        $this->label  = $GLOBALS['TL_CONFIG']['rating_type'] == 'hearts' ? $GLOBALS['TL_LANG']['rateit']['heart'] : $GLOBALS['TL_LANG']['rateit']['star'];
-        $this->labels = $GLOBALS['TL_CONFIG']['rating_type'] == 'hearts' ? $GLOBALS['TL_LANG']['rateit']['hearts'] : $GLOBALS['TL_LANG']['rateit']['stars'];
+        $this->label  = $GLOBALS['TL_LANG']['rateit']['star'];
+        $this->labels = $GLOBALS['TL_LANG']['rateit']['stars'];
 
         $this->actions = array(
             //	  act[0]			strTemplate					compiler

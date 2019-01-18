@@ -10,29 +10,21 @@
         <source>Rate It-Settings</source>
         <target>Rate It-Einstellungen</target>
       </trans-unit>
-      <trans-unit id="tl_settings.rating_type.0">
-        <source>Type</source>
-        <target>Typ</target>
-      </trans-unit>
-      <trans-unit id="tl_settings.rating_type.1">
-        <source>Type of representation. Possible options are the "hearts" or "stars".</source>
-        <target>Art der Darstellung. Mögliche Optionen sind "Herzen" oder "Sterne".</target>
-      </trans-unit>
       <trans-unit id="tl_settings.rating_count.0">
-        <source>Number of hearts/stars</source>
-        <target>Anzahl der Herzen/Sterne</target>
+        <source>Number of stars</source>
+        <target>Anzahl der Sterne</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_count.1">
-        <source>Number of hearts/stars which are shown.</source>
-        <target>Anzahl der Herzen/Sterne die dargestellt werden.</target>
+        <source>Number of stars which are shown.</source>
+        <target>Anzahl der Sterne die dargestellt werden.</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_textposition.0">
         <source>Text position</source>
         <target>Textposition</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_textposition.1">
-        <source>Specifies whether the text should appear above or below the hearts or stars.</source>
-        <target>Gibt an, ob der Text ober- oder unterhalb der Herzen bzw. Sterne erscheinen soll.</target>
+        <source>Specifies whether the text should appear above or below the stars.</source>
+        <target>Gibt an, ob der Text ober- oder unterhalb der Sterne erscheinen soll.</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_listsize.0">
         <source>number of entries</source>
@@ -71,16 +63,8 @@
         <target>Beschriftung</target>
       </trans-unit>
       <trans-unit id="tl_settings.rating_description.1">
-        <source>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (hearts/stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
-        <target>Beschriftung für die einzelnen Ratings. Variablen werden dabei entsprechend ersetzt.&lt;br&gt;verfügbare Variablen:&lt;br&gt;%current% - aktuelle Bewertung&lt;br&gt;%max% - max. mögliche Bewertung&lt;br&gt;%type% - Art der Bewertung (Herzen/Sterne)&lt;br&gt;%count% - Anzahl abgegebener Stimmen&lt;br&gt;[Singular|Plural] - Text für abgegebene Stimmen&lt;br&gt;&lt;br&gt;Beispiele:&lt;br&gt;&lt;br&gt;%current%/%max% (%count% [Stimme|Stimmen]) liefert 3,7/5 Sterne (7 Stimmen)&lt;br&gt;%count% [Like|Likes] liefert 1 Like bzw. 4 Likes</target>
-      </trans-unit>
-      <trans-unit id="tl_settings.hearts.0">
-        <source>hearts</source>
-        <target>Herzen</target>
-      </trans-unit>
-      <trans-unit id="tl_settings.hearts.1">
-        <source>Illustration with hearts</source>
-        <target>Darstellung mit Herzen</target>
+        <source>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
+        <target>Beschriftung für die einzelnen Ratings. Variablen werden dabei entsprechend ersetzt.&lt;br&gt;verfügbare Variablen:&lt;br&gt;%current% - aktuelle Bewertung&lt;br&gt;%max% - max. mögliche Bewertung&lt;br&gt;%type% - Art der Bewertung (Sterne)&lt;br&gt;%count% - Anzahl abgegebener Stimmen&lt;br&gt;[Singular|Plural] - Text für abgegebene Stimmen&lt;br&gt;&lt;br&gt;Beispiele:&lt;br&gt;&lt;br&gt;%current%/%max% (%count% [Stimme|Stimmen]) liefert 3,7/5 Sterne (7 Stimmen)&lt;br&gt;%count% [Like|Likes] liefert 1 Like bzw. 4 Likes</target>
       </trans-unit>
       <trans-unit id="tl_settings.stars.0">
         <source>stars</source>
@@ -119,16 +103,16 @@
         <target>oberhalb</target>
       </trans-unit>
       <trans-unit id="tl_settings.before.1">
-        <source>Display the text above the hearts/stars</source>
-        <target>Anzeige des Texts oberhalb der Herzen/Sterne</target>
+        <source>Display the text above the stars</source>
+        <target>Anzeige des Texts oberhalb der Sterne</target>
       </trans-unit>
       <trans-unit id="tl_settings.after.0">
         <source>below</source>
         <target>unterhalb</target>
       </trans-unit>
       <trans-unit id="tl_settings.after.1">
-        <source>Display the text below the heart / star</source>
-        <target>Anzeige des Texts unterhalb der Herzen/Sterne</target>
+        <source>Display the text below the star</source>
+        <target>Anzeige des Texts unterhalb der Sterne</target>
       </trans-unit>
     </body>
   </file>

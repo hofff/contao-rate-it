@@ -21,20 +21,11 @@ use Hofff\Contao\RateIt\EventListener\Dca\SettingsBaseDcaListener;
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{rateit_legend:hide},rating_type,rating_count,rating_textposition,rating_listsize,rating_allow_duplicate_ratings,rating_allow_duplicate_ratings_for_members,rating_template,rating_description';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{rateit_legend:hide},rating_count,rating_textposition,rating_listsize,rating_allow_duplicate_ratings,rating_allow_duplicate_ratings_for_members,rating_template,rating_description';
 
 /**
  * fields
  */
-$GLOBALS['TL_DCA']['tl_settings']['fields']['rating_type'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_type'],
-    'default'   => 'hearts',
-    'exclude'   => true,
-    'inputType' => 'select',
-    'options'   => ['hearts', 'stars'],
-    'reference' => &$GLOBALS['TL_LANG']['tl_settings'],
-    'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
-];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_count'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_count'],

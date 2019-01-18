@@ -77,13 +77,7 @@ class RateItPageListener extends Frontend
 
         if (! $included) {
             $strHeadTags = '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/rateit.min.css') . '">';
-            switch ($GLOBALS['TL_CONFIG']['rating_type']) {
-                case 'hearts' :
-                    $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/heart.min.css') . '">';
-                    break;
-                default:
-                    $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/star.min.css') . '">';
-            }
+            $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/star.min.css') . '">';
         }
         return $strHeadTags;
     }

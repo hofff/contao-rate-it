@@ -34,14 +34,6 @@
         <source>votes</source>
         <target>votes</target>
       </trans-unit>
-      <trans-unit id="rateit.heart">
-        <source>heart</source>
-        <target>heart</target>
-      </trans-unit>
-      <trans-unit id="rateit.hearts">
-        <source>hearts</source>
-        <target>hearts</target>
-      </trans-unit>
       <trans-unit id="rateit.star">
         <source>star</source>
         <target>star</target>

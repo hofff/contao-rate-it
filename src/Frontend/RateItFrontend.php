@@ -33,12 +33,6 @@ class RateItFrontend extends Hybrid
     protected $strPk = 'id';
 
     /**
-     * Typ
-     * @var string
-     */
-    protected $strType = 'hearts';
-
-    /**
      * Template
      * @var string
      */
@@ -86,7 +80,6 @@ class RateItFrontend extends Hybrid
     {
         return parent::generate();
         $this->loadLanguageFile('default');
-        $this->strType = $GLOBALS['TL_CONFIG']['rating_type'];
         $stars         = intval($GLOBALS['TL_CONFIG']['rating_count']);
         if ($stars > 0) {
             $this->intStars = $stars;
@@ -116,7 +109,7 @@ class RateItFrontend extends Hybrid
             $description = $GLOBALS['TL_CONFIG']['rating_description'];
         }
         $actValue = $rating === false ? 0 : $rating['totalRatings'];
-        $type     = $GLOBALS['TL_CONFIG']['rating_type'] == 'hearts' ? $GLOBALS['TL_LANG']['rateit']['hearts'] : $GLOBALS['TL_LANG']['rateit']['stars'];
+        $type     = $GLOBALS['TL_LANG']['rateit']['stars'];
 // 		return str_replace('.', ',', $stars)."/$this->intStars ".$type." ($actValue $label)";
         $description = str_replace('%current%', str_replace('.', ',', $stars), $description);
         $description = str_replace('%max%', $this->intStars, $description);

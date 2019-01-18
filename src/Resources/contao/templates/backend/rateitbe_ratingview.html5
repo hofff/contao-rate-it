@@ -35,8 +35,8 @@ $text = &$GLOBALS['TL_LANG']['tl_rateit'];
 $type_options = &$GLOBALS['TL_LANG']['tl_rateit_type_options'];
 $active_options = &$GLOBALS['TL_LANG']['tl_rateit_active_options'];
 $rating = &$rateit->ratingitems[0];
-$label = $GLOBALS['TL_CONFIG']['rating_type'] == 'hearts' ? $GLOBALS['TL_LANG']['rateit']['heart'] : $GLOBALS['TL_LANG']['rateit']['star'];
-$labels = $GLOBALS['TL_CONFIG']['rating_type'] == 'hearts' ? $GLOBALS['TL_LANG']['rateit']['hearts'] : $GLOBALS['TL_LANG']['rateit']['stars'];
+$label = $GLOBALS['TL_LANG']['rateit']['star'];
+$labels = $GLOBALS['TL_LANG']['rateit']['stars'];
 
 ?>
 
