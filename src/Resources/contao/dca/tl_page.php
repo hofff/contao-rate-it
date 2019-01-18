@@ -14,14 +14,14 @@
  * @filesource
  */
 
-use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
+use Hofff\Contao\RateIt\EventListener\Dca\PageBaseDcaListener;
 
 /**
  * Extend tl_page
  */
 
-$GLOBALS['TL_DCA']['tl_page']['config']['onsubmit_callback'][] = [PageDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_page']['config']['ondelete_callback'][] = [PageDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_page']['config']['onsubmit_callback'][] = [PageBaseDcaListener::class, 'insert'];
+$GLOBALS['TL_DCA']['tl_page']['config']['ondelete_callback'][] = [PageBaseDcaListener::class, 'delete'];
 
 /**
  * Palettes

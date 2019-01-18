@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\DataContainer;
-use Hofff\Contao\RateIt\DcaHelper;
+use Hofff\Contao\RateIt\EventListener\Dca\BaseDcaListener;
 
-final class ModuleDcaListener extends DcaHelper
+final class ModuleBaseDcaListener extends BaseDcaListener
 {
     /**
      * Constructor

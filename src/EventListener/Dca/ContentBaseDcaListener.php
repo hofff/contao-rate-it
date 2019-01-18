@@ -8,9 +8,9 @@ use Contao\DataContainer;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\StringUtil;
-use Hofff\Contao\RateIt\DcaHelper;
+use Hofff\Contao\RateIt\EventListener\Dca\BaseDcaListener;
 
-final class ContentDcaListener extends DcaHelper
+final class ContentBaseDcaListener extends BaseDcaListener
 {
 
     /**

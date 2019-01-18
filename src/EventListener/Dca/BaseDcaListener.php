@@ -14,7 +14,7 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
 use Contao\DataContainer;
@@ -22,7 +22,7 @@ use Contao\DataContainer;
 /**
  * Class DcaHelper
  */
-class DcaHelper extends Backend
+abstract class BaseDcaListener extends Backend
 {
 
     /**

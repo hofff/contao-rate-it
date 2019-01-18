@@ -16,10 +16,10 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener;
+use Hofff\Contao\RateIt\EventListener\Dca\ContentBaseDcaListener;
 
-$GLOBALS['TL_DCA']['tl_content']['config']['onsubmit_callback'][] = [ContentDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_content']['config']['ondelete_callback'][] = [ContentDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_content']['config']['onsubmit_callback'][] = [ContentBaseDcaListener::class, 'insert'];
+$GLOBALS['TL_DCA']['tl_content']['config']['ondelete_callback'][] = [ContentBaseDcaListener::class, 'delete'];
 
 /**
  * palettes
