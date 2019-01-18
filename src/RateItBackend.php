@@ -50,9 +50,10 @@ class RateItBackend
     public static function image($file)
     {
         $url = self::path . 'images/';
-        if (is_file(TL_ROOT . '/' . $url . $file . '.png')) return $url . $file . '.png';
-        if (is_file(TL_ROOT . '/' . $url . $file . '.gif')) return $url . $file . '.gif';
-        return $url . 'default.png';
+        if (is_file(TL_ROOT . '/web/' . $url . $file . '.png')) return $url . $file . '.png';
+        if (is_file(TL_ROOT . '/web/' . $url . $file . '.gif')) return $url . $file . '.gif';
+
+        return $url . 'star.gif';
     } // image
 
     /**
@@ -66,7 +67,7 @@ class RateItBackend
     {
         if ($alt == '') $alt = 'icon';
         $img  = self::image($file);
-        $size = getimagesize(TL_ROOT . '/' . $img);
+        $size = getimagesize(TL_ROOT . '/web/' . $img);
         return '<img' . ((substr($img, -4) == '.png') ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
     } // createImage
 
