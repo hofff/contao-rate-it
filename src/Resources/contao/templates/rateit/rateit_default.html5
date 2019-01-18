@@ -4,8 +4,9 @@
         <?php if ($this->showBefore) : ?>
             <div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
         <?php endif; ?>
-        <div class="hofff-rate-it-wrapper"
+        <div class="hofff-rate-it-widget"
              data-rating="<?= $this->actRating ?>"
+             data-max="<?= $this->maxRating ?>"
              data-icon-rated="fas fa-star"
              data-icon-unrated="far fa-star"
              data-icon-half="fas fa-star-half-alt"
