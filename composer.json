@@ -51,7 +51,7 @@
         "src/Resources/contao/runonce/create-initial-data.php"
       ]
     },
-    "contao-manager-plugin": "Hofff\\Contao\\RateIt\\ContaoManagerPlugin"
+    "contao-manager-plugin": "Hofff\\Contao\\RateIt\\ContaoManager\\Plugin"
   },
   "autoload": {
     "psr-4": {
