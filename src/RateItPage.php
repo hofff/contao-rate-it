@@ -101,8 +101,8 @@ class RateItPage extends Frontend
         }
 
         if (! $included) {
-            $strHeadTags = '<script' . (($objPage->outputFormat == 'xhtml') ? ' type="text/javascript"' : '') . ' src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/onReadyRateIt.js') . '"></script>' . "\n";
-            $strHeadTags .= '<script' . (($objPage->outputFormat == 'xhtml') ? ' type="text/javascript"' : '') . ' src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/rateit.js') . '"></script>' . "\n";
+            $strHeadTags = '<script src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/onReadyRateIt.js') . '"></script>' . "\n";
+            $strHeadTags .= '<script src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/rateit.js') . '"></script>' . "\n";
         }
         return $strHeadTags;
     }
