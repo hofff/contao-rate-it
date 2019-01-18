@@ -17,8 +17,8 @@
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\StringUtil;
-use Hofff\Contao\RateIt\RateItFrontend;
-use Hofff\Contao\RateIt\RateItRating;
+use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use Hofff\Contao\RateIt\Frontend\RateItRating;
 
 class RateItFaqListener extends RateItFrontend
 {

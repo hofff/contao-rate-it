@@ -14,7 +14,7 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+namespace Hofff\Contao\RateIt\Backend;
 
 use Contao\BackendModule;
 use Contao\Input;
@@ -610,8 +610,8 @@ class RateItBackendModule extends BackendModule
      * Convert encoding
      * @return String
      * @param $strString String to convert
-     * @param $from      charset to convert from
-     * @param $to        charset to convert to
+     * @param string $from      charset to convert from
+     * @param string $to        charset to convert to
      */
     public function convertEncoding($strString, $from, $to)
     {

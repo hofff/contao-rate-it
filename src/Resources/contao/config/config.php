@@ -18,11 +18,11 @@ use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItFaqListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener;
-use Hofff\Contao\RateIt\RateItBackend;
-use Hofff\Contao\RateIt\RateItBackendModule;
-use Hofff\Contao\RateIt\RateItCE;
-use Hofff\Contao\RateIt\RateItModule;
-use Hofff\Contao\RateIt\RateItTopRatingsModule;
+use Hofff\Contao\RateIt\Backend\RateItBackend;
+use Hofff\Contao\RateIt\Backend\RateItBackendModule;
+use Hofff\Contao\RateIt\Frontend\RateItCE;
+use Hofff\Contao\RateIt\Frontend\RateItModule;
+use Hofff\Contao\RateIt\Frontend\RateItTopRatingsModule;
 
 /**
  * Hooks

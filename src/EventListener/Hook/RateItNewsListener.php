@@ -16,7 +16,7 @@
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use Hofff\Contao\RateIt\RateItFrontend;
+use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 
 class RateItNewsListener extends RateItFrontend
 {

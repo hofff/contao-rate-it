@@ -19,7 +19,7 @@ namespace Hofff\Contao\RateIt\EventListener\Hook;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\StringUtil;
-use Hofff\Contao\RateIt\RateItFrontend;
+use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 
 class RateItArticleListener extends RateItFrontend
 {

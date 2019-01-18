@@ -14,9 +14,10 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\FrontendTemplate;
+use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 
 class RateItRating extends RateItFrontend
 {

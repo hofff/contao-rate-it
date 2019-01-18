@@ -17,7 +17,7 @@
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\Frontend;
-use Hofff\Contao\RateIt\RateItRating;
+use Hofff\Contao\RateIt\Frontend\RateItRating;
 
 class RateItPageListener extends Frontend
 {

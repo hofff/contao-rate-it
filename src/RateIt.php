@@ -20,6 +20,7 @@ namespace Hofff\Contao\RateIt;
 
 use Contao\Environment;
 use Contao\Frontend;
+use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RateIt extends Frontend

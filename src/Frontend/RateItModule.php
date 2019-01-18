@@ -14,7 +14,7 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+namespace Hofff\Contao\RateIt\Frontend;
 
 /**
  * Class RateItModule
