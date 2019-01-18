@@ -53,7 +53,7 @@ final class Plugin implements BundlePluginInterface, RoutingPluginInterface
     public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
     {
         return $resolver
-            ->resolve(__DIR__ . '/Resources/config/routing.xml')
-            ->load(__DIR__ . '/Resources/config/routing.xml');
+            ->resolve(__DIR__ . '/../Resources/config/routing.xml')
+            ->load(__DIR__ . '/../Resources/config/routing.xml');
     }
 }
