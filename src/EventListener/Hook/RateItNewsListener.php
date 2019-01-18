@@ -14,9 +14,11 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-class RateItNews extends RateItFrontend
+use Hofff\Contao\RateIt\RateItFrontend;
+
+class RateItNewsListener extends RateItFrontend
 {
 
     /**

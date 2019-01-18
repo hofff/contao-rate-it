@@ -14,15 +14,23 @@
  * @filesource
  */
 
+use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
+use Hofff\Contao\RateIt\EventListener\Hook\RateItFaqListener;
+use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
+use Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener;
 use Hofff\Contao\RateIt\RateItBackend;
+use Hofff\Contao\RateIt\RateItBackendModule;
+use Hofff\Contao\RateIt\RateItCE;
+use Hofff\Contao\RateIt\RateItModule;
+use Hofff\Contao\RateIt\RateItTopRatingsModule;
 
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['generatePage'][]      = [\Hofff\Contao\RateIt\RateItPage::class, 'generatePage'];
-$GLOBALS['TL_HOOKS']['parseArticles'][]     = [\Hofff\Contao\RateIt\RateItNews::class, 'parseArticle'];
-$GLOBALS['TL_HOOKS']['getContentElement'][] = [\Hofff\Contao\RateIt\RateItFaq::class, 'getContentElementRateIt'];
-$GLOBALS['TL_HOOKS']['parseTemplate'][]     = [\Hofff\Contao\RateIt\RateItArticle::class, 'parseTemplateRateIt'];
+$GLOBALS['TL_HOOKS']['generatePage'][]      = [RateItPageListener::class, 'generatePage'];
+$GLOBALS['TL_HOOKS']['parseArticles'][]     = [RateItNewsListener::class, 'parseArticle'];
+$GLOBALS['TL_HOOKS']['getContentElement'][] = [RateItFaqListener::class, 'getContentElementRateIt'];
+$GLOBALS['TL_HOOKS']['parseTemplate'][]     = [RateItArticleListener::class, 'parseTemplateRateIt'];
 
 /**
  * Back end modules
@@ -32,7 +40,7 @@ array_insert(
     -1,
     [
         'rateit' => [
-            'callback'   => \Hofff\Contao\RateIt\RateItBackendModule::class,
+            'callback'   => RateItBackendModule::class,
             'icon'       => RateItBackend::image('icon'),
             'stylesheet' => RateItBackend::css('backend'),
             'javascript' => RateItBackend::js('RateItBackend'),
@@ -42,10 +50,10 @@ array_insert(
 /**
  * frontend moduls
  */
-$GLOBALS['FE_MOD']['application']['rateit']             = \Hofff\Contao\RateIt\RateItModule::class;
-$GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = \Hofff\Contao\RateIt\RateItTopRatingsModule::class;
+$GLOBALS['FE_MOD']['application']['rateit']             = RateItModule::class;
+$GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = RateItTopRatingsModule::class;
 
 /**
  * content elements
  */
-$GLOBALS['TL_CTE']['includes']['rateit'] = \Hofff\Contao\RateIt\RateItCE::class;
+$GLOBALS['TL_CTE']['includes']['rateit'] = RateItCE::class;

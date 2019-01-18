@@ -14,11 +14,13 @@
  * @filesource
  */
 
-namespace Hofff\Contao\RateIt;
+namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\StringUtil;
+use Hofff\Contao\RateIt\RateItFrontend;
+use Hofff\Contao\RateIt\RateItRating;
 
-class RateItFaq extends RateItFrontend
+class RateItFaqListener extends RateItFrontend
 {
     var $rateItRating;
 
