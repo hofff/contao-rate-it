@@ -1,10 +1,10 @@
 <!-- indexer::stop -->
 <div itemtype="http://schema.org/CreativeWork" itemscope class="rating-microdata">
-  <div id="<?= $this->id ?>" class="<?= $this->class ?> <?= $this->rateit_class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<?= $this->style ?>"<?php endif; ?>>
+  <div id="<?= $this->id ?>" class="<?= trim($this->class . ' ' . $this->rateit_class) ?> block"<?= $this->cssID ?>>
   	<?php if ($this->showBefore) : ?>
   	<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
   	<?php endif; ?>
-  	<div class="wrapper">
+  	<div class="rate-it-wrapper">
          <div class="rateItRating-selected" style="display: block;"></div>
          <div class="rateItRating-hover"></div>
   	</div>

@@ -1,17 +1,9 @@
-<?php $this->extend('news_latest_rateit'); ?>
+<?php if ($this->rateit_rating_before): ?>
+    <?php $this->insert($this->ratit_template, $this->arrData) ?>
+<?php endif; ?>
 
-<?php $this->block('rating'); ?>
-  <!-- indexer::stop -->
-  <div itemtype="http://schema.org/CreativeWork" itemscope class="rating-microdata">
-    <?php $this->parent(); ?>
-    <span class="rating-microdata" itemprop="name"><?php echo $this->itemreviewed; ?></span>
-    <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
-       <span itemprop="ratingValue"><?php echo $this->actRating; ?></span>
-       <span itemprop="worstRating">0</span>
-       <span itemprop="bestRating"><?php echo $this->maxRating; ?></span>
-       <span itemprop="ratingCount"><?php echo $this->votes; ?></span>
-    </span>
-  </div>
-  <!-- indexer::continue -->
+<?php $this->insert('news_latest', $this->arrData); ?>
 
-<?php $this->endblock(); ?>
+<?php if ($this->rateit_rating_after): ?>
+    <?php $this->insert($this->ratit_template, $this->arrData) ?>
+<?php endif; ?>

@@ -38,14 +38,15 @@ class RateItNewsListener extends RateItFrontend
             $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
             $percent  = round($rating['rating'], 0) . "%";
 
-            $objTemplate->descriptionId = 'rateItRating-' . $ratingId . '-description';
-            $objTemplate->description   = $this->getStarMessage($rating);
-            $objTemplate->ratingId      = 'rateItRating-' . $ratingId . '-news-' . $stars . '_' . $this->intStars;
-            $objTemplate->rateit_class  = 'rateItRating';
-            $objTemplate->itemreviewed  = $rating['title'];
-            $objTemplate->actRating     = $this->percentToStars($rating['rating']);
-            $objTemplate->maxRating     = $this->intStars;
-            $objTemplate->votes         = $rating['totalRatings'];
+            $objTemplate->ratit_template = $this->Config->get('rating_template') ?: 'rateit_default';
+            $objTemplate->descriptionId  = 'rateItRating-' . $ratingId . '-description';
+            $objTemplate->description    = $this->getStarMessage($rating);
+            $objTemplate->ratingId       = 'rateItRating-' . $ratingId . '-news-' . $stars . '_' . $this->intStars;
+            $objTemplate->rateit_class   = 'rateItRating';
+            $objTemplate->itemreviewed   = $rating['title'];
+            $objTemplate->actRating      = $this->percentToStars($rating['rating']);
+            $objTemplate->maxRating      = $this->intStars;
+            $objTemplate->votes          = $rating['totalRatings'];
 
             if ($this->strTextPosition == "before") {
                 $objTemplate->showBefore = true;
@@ -62,7 +63,7 @@ class RateItNewsListener extends RateItFrontend
             $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/onReadyRateIt.js|static';
             $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/rateit.js|static';
             $GLOBALS['TL_CSS'][]        = 'bundles/hofffcontaorateit/css/rateit.min.css||static';
-            $GLOBALS['TL_CSS'][] = 'bundles/hofffcontaorateit/css/star.min.css||static';
+            $GLOBALS['TL_CSS'][]        = 'bundles/hofffcontaorateit/css/star.min.css||static';
         }
     }
 }
