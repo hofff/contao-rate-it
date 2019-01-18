@@ -55,10 +55,7 @@ abstract class RateItHybrid extends RateItFrontend
         $this->strTemplate = $GLOBALS['TL_CONFIG']['rating_template'];
         $this->strTextPosition = $GLOBALS['TL_CONFIG']['rating_textposition'];
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/onReadyRateIt.js|static';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/rateit.js|static';
-        $GLOBALS['TL_CSS'][]        = 'bundles/hofffcontaorateit/css/rateit.min.css||static';
-        $GLOBALS['TL_CSS'][]        = 'bundles/hofffcontaorateit/css/star.min.css||static';
+        $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
 
         return parent::generate();
     }

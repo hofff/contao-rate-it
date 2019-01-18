@@ -1,19 +1,22 @@
 <!-- indexer::stop -->
 <div itemtype="http://schema.org/CreativeWork" itemscope class="rating-microdata">
-  <div id="<?= $this->id ?>" class="<?= trim($this->class . ' ' . $this->rateit_class) ?> block"<?= $this->cssID ?>>
-  	<?php if ($this->showBefore) : ?>
-  	<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
-  	<?php endif; ?>
-  	<div class="rate-it-wrapper">
-         <div class="rateItRating-selected" style="display: block;"></div>
-         <div class="rateItRating-hover"></div>
-  	</div>
-  	<?php if ($this->showAfter) : ?>
-  	<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
-  	<?php endif; ?>
-  </div>
-  <span class="rating-microdata" itemprop="name"><?php echo $this->itemreviewed; ?></span>
-  <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
+    <div id="<?= $this->id ?>" class="<?= trim($this->class . ' ' . $this->rateit_class) ?> block"<?= $this->cssID ?>>
+        <?php if ($this->showBefore) : ?>
+            <div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
+        <?php endif; ?>
+        <div class="hofff-rate-it-wrapper"
+             data-rating="<?= $this->actRating ?>"
+             data-icon-rated="fas fa-star"
+             data-icon-unrated="far fa-star"
+             data-icon-half="fas fa-star-half-alt"
+        >
+        </div>
+        <?php if ($this->showAfter) : ?>
+            <div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
+        <?php endif; ?>
+    </div>
+    <span class="rating-microdata" itemprop="name"><?php echo $this->itemreviewed; ?></span>
+    <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
     <span itemprop="ratingValue"><?php echo $this->actRating; ?></span>
     <span itemprop="worstRating">0</span>
     <span itemprop="bestRating"><?php echo $this->maxRating; ?></span>

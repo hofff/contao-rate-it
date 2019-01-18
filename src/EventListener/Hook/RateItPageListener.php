@@ -48,7 +48,6 @@ class RateItPageListener extends Frontend
 
                 $rating = $this->rateItRating->output();
                 $rating .= $this->includeJs();
-                $rating .= $this->includeCss();
 
                 $objTemplate = $objPageType->Template;
                 if ($objTemplate) {
@@ -60,26 +59,6 @@ class RateItPageListener extends Frontend
                 }
             }
         }
-    }
-
-    private function includeCss()
-    {
-        $included    = false;
-        $strHeadTags = '';
-        if (is_array($GLOBALS['TL_CSS'])) {
-            foreach ($GLOBALS['TL_CSS'] as $script) {
-                if ($this->startsWith($script, 'bundles/hofffcontaorateit/css/rateit') === true) {
-                    $included = true;
-                    break;
-                }
-            }
-        }
-
-        if (! $included) {
-            $strHeadTags = '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/rateit.min.css') . '">';
-            $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/star.min.css') . '">';
-        }
-        return $strHeadTags;
     }
 
     private function includeJs()
@@ -96,8 +75,7 @@ class RateItPageListener extends Frontend
         }
 
         if (! $included) {
-            $strHeadTags = '<script src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/onReadyRateIt.js') . '"></script>' . "\n";
-            $strHeadTags .= '<script src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/rateit.js') . '"></script>' . "\n";
+            $strHeadTags .= '<script src="' . self::addStaticUrlTo('bundles/hofffcontaorateit/js/script.js') . '"></script>' . "\n";
         }
         return $strHeadTags;
     }
