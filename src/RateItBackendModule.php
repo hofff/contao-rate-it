@@ -18,7 +18,6 @@ namespace Hofff\Contao\RateIt;
 
 use Contao\BackendModule;
 use Contao\Input;
-use Patchwork\Utf8;
 
 class RateItBackendModule extends BackendModule
 {
