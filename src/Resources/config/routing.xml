@@ -6,8 +6,8 @@
 
     <route id="hofff_contao_rate_it_ajax"
            controller="Hofff\Contao\RateIt\Controller\AjaxRateItController"
-           path="/rateit" >
+           path="/rateit" methods="POST">
         <default key="_scope">frontend</default>
-        <default key="_token_check">false</default>
+        <default key="_token_check"><bool>false</bool></default>
     </route>
 </routes>

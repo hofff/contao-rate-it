@@ -67,7 +67,7 @@ class AjaxRateItController
         $this->translator   = $translator;
     }
 
-    public function ajaxAction(Request $request) : Response
+    public function __invoke(Request $request) : Response
     {
         $this->framework->initialize();
         $this->Database = Database::getInstance();
