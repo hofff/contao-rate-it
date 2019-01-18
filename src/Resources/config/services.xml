@@ -7,6 +7,11 @@
         <defaults public="false" autoconfigure="false" autowire="false" />
 
         <!-- Controllers -->
-        <service id="Hofff\Contao\RateIt\Controller\AjaxRateItController" public="true" />
+        <service id="Hofff\Contao\RateIt\Controller\AjaxRateItController" public="true">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="contao.framework" />
+        </service>
     </services>
 </container>
