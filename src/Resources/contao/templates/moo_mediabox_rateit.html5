@@ -2,7 +2,7 @@
 
 // Add the mediabox style sheet and javascript
 $GLOBALS['TL_CSS'][] = 'assets/mootools/mediabox/'. MEDIABOX .'/css/mediaboxAdvBlack21.css||static';
-$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/mootools/mediabox/mediabox-rateit.js|static';
+$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/mootools/mediabox/mediabox-rateit.js|static';
 
 ?>
 

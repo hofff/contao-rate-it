@@ -67,7 +67,7 @@ class RateItPage extends Frontend
         $strHeadTags = '';
         if (is_array($GLOBALS['TL_CSS'])) {
             foreach ($GLOBALS['TL_CSS'] as $script) {
-                if ($this->startsWith($script, 'bundles/cgoitrateit/css/rateit') === true) {
+                if ($this->startsWith($script, 'bundles/hofffcontaorateit/css/rateit') === true) {
                     $included = true;
                     break;
                 }
@@ -75,13 +75,13 @@ class RateItPage extends Frontend
         }
 
         if (! $included) {
-            $strHeadTags = '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/cgoitrateit/css/rateit.min.css') . '">';
+            $strHeadTags = '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/rateit.min.css') . '">';
             switch ($GLOBALS['TL_CONFIG']['rating_type']) {
                 case 'hearts' :
-                    $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/cgoitrateit/css/heart.min.css') . '">';
+                    $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/heart.min.css') . '">';
                     break;
                 default:
-                    $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/cgoitrateit/css/star.min.css') . '">';
+                    $strHeadTags .= '<link rel="stylesheet" href="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/css/star.min.css') . '">';
             }
         }
         return $strHeadTags;
@@ -93,7 +93,7 @@ class RateItPage extends Frontend
         $strHeadTags = '';
         if (is_array($GLOBALS['TL_JAVASCRIPT'])) {
             foreach ($GLOBALS['TL_JAVASCRIPT'] as $script) {
-                if ($this->startsWith($script, 'bundles/cgoitrateit/js/rateit') === true) {
+                if ($this->startsWith($script, 'bundles/hofffcontaorateit/js/rateit') === true) {
                     $included = true;
                     break;
                 }
@@ -101,8 +101,8 @@ class RateItPage extends Frontend
         }
 
         if (! $included) {
-            $strHeadTags = '<script' . (($objPage->outputFormat == 'xhtml') ? ' type="text/javascript"' : '') . ' src="' . $this->addStaticUrlTo('bundles/cgoitrateit/js/onReadyRateIt.js') . '"></script>' . "\n";
-            $strHeadTags .= '<script' . (($objPage->outputFormat == 'xhtml') ? ' type="text/javascript"' : '') . ' src="' . $this->addStaticUrlTo('bundles/cgoitrateit/js/rateit.js') . '"></script>' . "\n";
+            $strHeadTags = '<script' . (($objPage->outputFormat == 'xhtml') ? ' type="text/javascript"' : '') . ' src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/onReadyRateIt.js') . '"></script>' . "\n";
+            $strHeadTags .= '<script' . (($objPage->outputFormat == 'xhtml') ? ' type="text/javascript"' : '') . ' src="' . $this->addStaticUrlTo('bundles/hofffcontaorateit/js/rateit.js') . '"></script>' . "\n";
         }
         return $strHeadTags;
     }

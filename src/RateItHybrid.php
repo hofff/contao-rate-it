@@ -57,15 +57,15 @@ abstract class RateItHybrid extends RateItFrontend
         $this->strType         = $GLOBALS['TL_CONFIG']['rating_type'];
         $this->strTextPosition = $GLOBALS['TL_CONFIG']['rating_textposition'];
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/onReadyRateIt.js|static';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/rateit.js|static';
-        $GLOBALS['TL_CSS'][]        = 'bundles/cgoitrateit/css/rateit.min.css||static';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/onReadyRateIt.js|static';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/rateit.js|static';
+        $GLOBALS['TL_CSS'][]        = 'bundles/hofffcontaorateit/css/rateit.min.css||static';
         switch ($this->strType) {
             case 'hearts' :
-                $GLOBALS['TL_CSS'][] = 'bundles/cgoitrateit/css/heart.min.css||static';
+                $GLOBALS['TL_CSS'][] = 'bundles/hofffcontaorateit/css/heart.min.css||static';
                 break;
             default:
-                $GLOBALS['TL_CSS'][] = 'bundles/cgoitrateit/css/star.min.css||static';
+                $GLOBALS['TL_CSS'][] = 'bundles/hofffcontaorateit/css/star.min.css||static';
         }
 
         return parent::generate();

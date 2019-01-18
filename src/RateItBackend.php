@@ -20,7 +20,7 @@ use Contao\StringUtil;
 
 class RateItBackend
 {
-    const path = 'bundles/cgoitrateit/';
+    const path = 'bundles/hofffcontaorateit/';
 
     /**
      * Get a css file.

@@ -65,15 +65,15 @@ class RateItTopRatingsModule extends RateItFrontend
 
         $this->arrTypes = StringUtil::deserialize($this->rateit_types);
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/onReadyRateIt.js|static';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/rateit.js|static';
-        $GLOBALS['TL_CSS'][]        = 'bundles/cgoitrateit/css/rateit.min.css||static';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/onReadyRateIt.js|static';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/rateit.js|static';
+        $GLOBALS['TL_CSS'][]        = 'bundles/hofffcontaorateit/css/rateit.min.css||static';
         switch ($GLOBALS['TL_CONFIG']['rating_type']) {
             case 'hearts' :
-                $GLOBALS['TL_CSS'][] = 'bundles/cgoitrateit/css/heart.min.css||static';
+                $GLOBALS['TL_CSS'][] = 'bundles/hofffcontaorateit/css/heart.min.css||static';
                 break;
             default:
-                $GLOBALS['TL_CSS'][] = 'bundles/cgoitrateit/css/star.min.css||static';
+                $GLOBALS['TL_CSS'][] = 'bundles/hofffcontaorateit/css/star.min.css||static';
         }
 
         return parent::generate();

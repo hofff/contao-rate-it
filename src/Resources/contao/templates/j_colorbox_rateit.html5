@@ -2,7 +2,7 @@
 
 // Add the colorbox style sheet and javascript
 $GLOBALS['TL_CSS'][] = 'assets/jquery/colorbox/'. COLORBOX .'/css/colorbox.min.css||static';
-$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/cgoitrateit/js/jquery/colorbox/colorbox-rateit.min.js|static';
+$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcontaorateit/js/jquery/colorbox/colorbox-rateit.min.js|static';
 
 ?>
 
