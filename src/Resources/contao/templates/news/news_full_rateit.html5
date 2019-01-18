@@ -1,40 +1,17 @@
+<?php $this->extend('news_full_rateit'); ?>
 
-<?php if ($this->rateit_rating_before): ?>
-	<!-- indexer::stop -->
-	<?php $this->block('rating'); ?>
-	<div id="<?= $this->ratingId ?>" class="<?= $this->class ?> <?= $this->rateit_class ?>">
-			<?php if ($this->showBefore) : ?>
-			<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
-			<?php endif; ?>
-			<div class="wrapper">
-					<div class="rateItRating-selected" style="display: block;"></div>
-					<div class="rateItRating-hover"></div>
-			</div>
-			<?php if ($this->showAfter) : ?>
-			<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
-			<?php endif; ?>
-	</div>
-	<?php $this->endblock(); ?>
-	<!-- indexer::continue -->
-<?php endif; ?>
+<?php $this->block('rating'); ?>
+  <!-- indexer::stop -->
+  <div itemtype="http://schema.org/CreativeWork" itemscope class="rating-microdata">
+    <?php $this->parent(); ?>
+    <span class="rating-microdata" itemprop="name"><?php echo $this->itemreviewed; ?></span>
+    <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
+       <span itemprop="ratingValue"><?php echo $this->actRating; ?></span>
+       <span itemprop="worstRating">0</span>
+       <span itemprop="bestRating"><?php echo $this->maxRating; ?></span>
+       <span itemprop="ratingCount"><?php echo $this->votes; ?></span>
+    </span>
+  </div>
+  <!-- indexer::continue -->
 
-<?php $this->insert('news_full', $this->arrData); ?>
-
-<?php if ($this->rateit_rating_after): ?>
-	<!-- indexer::stop -->
-	<?php $this->block('rating'); ?>
-	<div id="<?= $this->ratingId ?>" class="<?= $this->class ?> <?= $this->rateit_class ?>">
-			<?php if ($this->showBefore) : ?>
-			<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
-			<?php endif; ?>
-			<div class="wrapper">
-					<div class="rateItRating-selected" style="display: block;"></div>
-					<div class="rateItRating-hover"></div>
-			</div>
-			<?php if ($this->showAfter) : ?>
-			<div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
-			<?php endif; ?>
-	</div>
-	<?php $this->endblock(); ?>
-	<!-- indexer::continue -->
-<?php endif; ?>
+<?php $this->endblock(); ?>

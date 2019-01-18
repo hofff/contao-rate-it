@@ -1,47 +1,16 @@
-<?php $this->extend('block_unsearchable'); ?>
+<?php $this->extend('mod_articlelist_rateit'); ?>
 
-<?php $this->block('content'); ?>
-
-  <ul>
-    <?php foreach ($this->articles as $article): ?>
-      <?php if ($article['rateit_rating_before']): ?>
-      <!-- indexer::stop -->
-      <?php $this->block('rating'); ?>
-      <div id="<?= $article['rateItID'] ?>" class="<?= $article['rateit_class'] ?>">
-          <?php if ($article['showBefore']) : ?>
-          <div id="<?= $article['descriptionId'] ?>" class="ratingText"><?= $article['description'] ?></div>
-          <?php endif; ?>
-          <div class="wrapper">
-              <div class="rateItRating-selected" style="display: block;"></div>
-              <div class="rateItRating-hover"></div>
-          </div>
-          <?php if ($article['showAfter']) : ?>
-          <div id="<?= $article['descriptionId'] ?>" class="ratingText"><?= $article['description'] ?></div>
-          <?php endif; ?>
-      </div>
-      <?php $this->endblock(); ?>
-      <!-- indexer::continue -->
-      <?php endif; ?>
-      <?php $this->parent(); ?>
-      <?php if ($article['rateit_rating_after']): ?>
-      <!-- indexer::stop -->
-      <?php $this->block('rating'); ?>
-      <div id="<?= $article['rateItID'] ?>" class="<?= $article['rateit_class'] ?>">
-          <?php if ($article['showBefore']) : ?>
-          <div id="<?= $article['descriptionId'] ?>" class="ratingText"><?= $article['description'] ?></div>
-          <?php endif; ?>
-          <div class="wrapper">
-              <div class="rateItRating-selected" style="display: block;"></div>
-              <div class="rateItRating-hover"></div>
-          </div>
-          <?php if ($article['showAfter']) : ?>
-          <div id="<?= $article['descriptionId'] ?>" class="ratingText"><?= $article['description'] ?></div>
-          <?php endif; ?>
-      </div>
-      <?php $this->endblock(); ?>
-      <!-- indexer::continue -->
-      <?php endif; ?>
-    <?php endforeach; ?>
-  </ul>
-
+<?php $this->block('rating'); ?>
+<!-- indexer::stop -->
+<div itemtype="http://schema.org/CreativeWork" itemscope class="rating-microdata">
+  <?php $this->parent(); ?>
+  <span class="rating-microdata" itemprop="name"><?= $article['itemreviewed'] ?></span>
+  <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
+     <span itemprop="ratingValue"><?= $article['actRating'] ?></span>
+     <span itemprop="worstRating">0</span>
+     <span itemprop="bestRating"><?= $article['maxRating'] ?></span>
+     <span itemprop="ratingCount"><?= $article['votes'] ?></span>
+  </span>
+</div>
+<!-- indexer::continue -->
 <?php $this->endblock(); ?>
