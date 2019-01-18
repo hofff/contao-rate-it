@@ -16,7 +16,12 @@
 
 namespace Hofff\Contao\RateIt\Controller;
 
+use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\Database;
+use Contao\Input;
+use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Hofff\Contao\RateIt\RateIt;
 
@@ -24,6 +29,21 @@ class AjaxRateItController
 {
     /** @var ContaoFrameworkInterface */
     private $framework;
+
+    /** @var RateItFrontend */
+    private $rateItFrontend;
+
+    /** @var bool */
+    private $allowDuplicates;
+
+    /** @var bool */
+    private $allowDuplicatesForMembers;
+
+    /** @var Database */
+    private $Database;
+
+    /** @var Input */
+    private $Input;
 
     public function __construct(ContaoFrameworkInterface $framework)
     {
@@ -33,12 +53,136 @@ class AjaxRateItController
     public function ajaxAction() : Response
     {
         $this->framework->initialize();
+        $this->Database = Database::getInstance();
+        $this->Input    = Input::getInstance();
 
-        $controller = new RateIt();
+        // See #4099
+        if (! defined('BE_USER_LOGGED_IN')) {
+            define('BE_USER_LOGGED_IN', false);
+        }
+        if (! defined('FE_USER_LOGGED_IN')) {
+            define('FE_USER_LOGGED_IN', false);
+        }
 
-        $response = $controller->doVote();
-        $response->send();
+        $this->rateItFrontend = new RateItFrontend();
 
-        return new Response(null);
+        Controller::loadLanguageFile('default');
+
+        $this->allowDuplicates           = (bool) $GLOBALS['TL_CONFIG']['rating_allow_duplicate_ratings'];
+        $this->allowDuplicatesForMembers = (bool) $GLOBALS['TL_CONFIG']['rating_allow_duplicate_ratings_for_members'];
+
+        return $this->doVote();
+    }
+
+    /**
+     * doVote
+     *
+     * This is the function in charge of handling a vote and saving it to the
+     * database.
+     *
+     * NOTE: This method is meant to be called as part of an AJAX request.  As
+     * such, it unitlizes the die() function to display its errors.  THIS
+     * WOULD BE A VERY BAD FUNCTION TO CALL FROM WITHIN ANOTHER PAGE.
+     *
+     * @param integer id      - The id of key to register a rating for.
+     * @param integer percent - The rating in percentages.
+     */
+    public function doVote()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $rkey    = $this->Input->post('id');
+        $percent = $this->Input->post('vote');
+        $type    = $this->Input->post('type');
+
+        //Make sure that the ratable ID is a number and not something crazy.
+        if (strstr($rkey, '|')) {
+            $arrRkey = explode('|', $rkey);
+            foreach ($arrRkey as $key) {
+                if (! is_numeric($key)) {
+                    return new JsonResponse($GLOBALS['TL_LANG']['rateit']['error']['invalid_rating']);
+                }
+                $id = $rkey;
+            }
+        } else {
+            if (is_numeric($rkey)) {
+                $id = $rkey;
+            } else {
+                return new JsonResponse($GLOBALS['TL_LANG']['rateit']['error']['invalid_rating']);
+            }
+        }
+
+        //Make sure the percent is a number and under 100.
+        if (is_numeric($percent) && $percent < 101) {
+            $rating = $percent;
+        } else {
+            return new JsonResponse($GLOBALS['TL_LANG']['rateit']['error']['invalid_rating']);
+        }
+
+        //Make sure that the ratable type is 'page' or 'ce' or 'module'
+        if (! ($type === 'page' || $type === 'article' || $type === 'ce' || $type === 'module' || $type === 'news' || $type === 'faq' || $type === 'galpic' || $type === 'news4ward')) {
+            return new JsonResponse($GLOBALS['TL_LANG']['rateit']['error']['invalid_type']);
+        }
+
+        $strHash = sha1(session_id() . (! $GLOBALS['TL_CONFIG']['disableIpCheck'] ? Environment::get('ip') : '') . 'FE_USER_AUTH');
+
+        // FrontendUser auslesen
+        if (FE_USER_LOGGED_IN) {
+            $objUser = $this->Database->prepare("SELECT pid FROM tl_session WHERE hash=?")
+                ->limit(1)
+                ->execute($strHash);
+
+            if ($objUser->numRows) {
+                $userId = $objUser->pid;
+            }
+        }
+
+
+        $ratableKeyId = $this->Database->prepare('SELECT id FROM tl_rateit_items WHERE rkey=? and typ=?')
+            ->execute($id, $type)
+            ->fetchAssoc();
+
+        $canVote = false;
+        if (isset($userId)) {
+            $countUser = $this->Database->prepare('SELECT * FROM tl_rateit_ratings WHERE pid=? and memberid=?')
+                ->execute($ratableKeyId['id'], $userId)
+                ->count();
+        }
+        $countIp = $this->Database->prepare('SELECT * FROM tl_rateit_ratings WHERE pid=? and ip_address=?')
+            ->execute($ratableKeyId['id'], $ip)
+            ->count();
+
+        // Die with an error if the insert fails (duplicate IP or duplicate member id for a vote).
+        if ((! $this->allowDuplicatesForMembers && (isset($countUser) ? $countUser == 0 : false)) || ($this->allowDuplicatesForMembers && isset($userId))) {
+            // Insert the data.
+            $arrSet = array('pid'        => $ratableKeyId['id'],
+                            'tstamp'     => time(),
+                            'ip_address' => $ip,
+                            'memberid'   => isset($userId) ? $userId : null,
+                            'rating'     => $rating,
+                            'createdat'  => time(),
+            );
+            $this->Database->prepare('INSERT INTO tl_rateit_ratings %s')
+                ->set($arrSet)
+                ->execute();
+        } elseif (! isset($countUser) && ((! $this->allowDuplicates && $countIp == 0) || $this->allowDuplicates)) {
+            // Insert the data.
+            $arrSet = array('pid'        => $ratableKeyId['id'],
+                            'tstamp'     => time(),
+                            'ip_address' => $ip,
+                            'memberid'   => isset($userId) ? $userId : null,
+                            'rating'     => $rating,
+                            'createdat'  => time(),
+            );
+            $this->Database->prepare('INSERT INTO tl_rateit_ratings %s')
+                ->set($arrSet)
+                ->execute();
+        } else {
+            return new JsonResponse($GLOBALS['TL_LANG']['rateit']['error']['duplicate_vote']);
+        }
+
+        $rating = $this->rateItFrontend->loadRating($id, $type);
+
+        return new JsonResponse($this->rateItFrontend->getStarMessage($rating));
     }
 }
