@@ -104,7 +104,6 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 </div>
 
 <div id="tl_buttons">
-	<a onclick="Backend.getScrollOffset()" accesskey="n" class="header_export_excel" title="Export nach Excel" href="<?php echo $rateit->exportLink; ?>">Excel-Export</a> 
 </div>
 
 </div>

@@ -120,7 +120,6 @@ $labels = $GLOBALS['TL_CONFIG']['rating_type'] == 'hearts' ? $GLOBALS['TL_LANG']
 </div>
 
 <div id="tl_buttons">
-<a onclick="Backend.getScrollOffset()" accesskey="n" class="header_export_excel" title="Export nach Excel" href="<?php echo $rateit->exportLink; ?>">Excel-Export</a> <a href="<?php echo $rateit->backLink; ?>" class="header_back" title="<?php echo $text['goback']; ?>" accesskey="b" onclick="Backend.getScrollOffset()"><?php echo $text['goback']; ?></a>
 </div>
 </div>
 </form>

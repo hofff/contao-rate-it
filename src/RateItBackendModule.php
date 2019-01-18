@@ -196,8 +196,6 @@ class RateItBackendModule extends BackendModule
                 $options['order'] = 'rating desc';
         } // switch
 
-        $rateit->exportLink = $this->createUrl(array('act' => 'export'));
-
         // query extensions
         $rateit->ratingitems = $this->getRatingItems($options);
         if ($rateit->f_page >= 0 && $perpage > 0 && count($rateit->ratingitems) == 0) {
@@ -318,8 +316,6 @@ class RateItBackendModule extends BackendModule
                 $totrecs         -= $cnt;
             } // while
         } // if
-
-        $rateit->exportLink = $this->createUrl(array('act' => 'exportDetails', 'rkey' => $rkey, 'typ' => $typ));
 
         $ext->statistics       = $this->getRatingStatistics($ext->item_id);
         $ext->ratingsChartData = $this->getRatingsChartData($ext->statistics);
