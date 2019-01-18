@@ -9,7 +9,7 @@
  * @author     Carsten Götzinger <info@cgo-it.de>
  * @author     David Molineus <david@hofff.com>
  * @copyright  2013-2018 cgo IT.
- * @copyright  2012-2019 hofff.com
+ * @copyright  2019 hofff.com.
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
