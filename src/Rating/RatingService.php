@@ -15,6 +15,7 @@ final class RatingService
     private const SQL_QUERY = <<<'SQL'
 
 SELECT 
+    i.id AS id,   
     i.rkey AS rkey,
     i.title AS title,
     IFNULL(AVG(r.rating),0) AS rating,
@@ -26,7 +27,7 @@ LEFT OUTER JOIN
     ON i.id = r.pid 
 WHERE 
     i.rkey=:rkey and typ=:type and active='1'
-GROUP BY i.rkey, i.title;
+GROUP BY i.rkey, i.id, i.title;
 SQL;
 
     /** @var Connection */
@@ -35,16 +36,23 @@ SQL;
     /** @var ContaoFrameworkInterface */
     private $framework;
 
-    public function __construct(Connection $connection, ContaoFrameworkInterface $framework)
-    {
-        $this->connection = $connection;
-        $this->framework = $framework;
+    /** @var IsUserAllowedToRate */
+    private $isUserAllowedToRate;
+
+    public function __construct(
+        Connection $connection,
+        ContaoFrameworkInterface $framework,
+        IsUserAllowedToRate $isUserAllowedToRate
+    )  {
+        $this->connection          = $connection;
+        $this->framework           = $framework;
+        $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
-    public function getRating(string $type, int $ratingId, string $position = null) : ?array
+    public function getRating(string $type, int $ratingTypeId, string $clientIp, ?int $userId) : ?array
     {
-        $rating = $this->loadRating($ratingId, $type);
-        if (!$rating) {
+        $rating = $this->loadRating($ratingTypeId, $type);
+        if (! $rating) {
             return null;
         }
 
@@ -55,18 +63,17 @@ SQL;
             $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
         }
 
-        \dump($rating['rating']);
-
         return [
-            'descriptionId' => sprintf('rateItRating-%s-description', $ratingId),
+            'descriptionId' => sprintf('rateItRating-%s-description', $ratingTypeId),
             'description'   => $this->getStarMessage($rating),
-            'id'            => sprintf('rateItRating-%s-%s-%s_%s', $ratingId, $type, $stars, $maxStars),
+            'id'            => sprintf('rateItRating-%s-%s-%s_%s', $ratingTypeId, $type, $stars, $maxStars),
             'class'         => 'rateItRating',
             'itemreviewed'  => $rating['title'],
             'actRating'     => $this->percentToStars($rating['rating']),
             'maxRating'     => $maxStars,
+            'enabled'       => ($this->isUserAllowedToRate)((int) $rating['id'], $clientIp, $userId),
             'votes'         => $rating['totalRatings'],
-            'ratingId'      => $ratingId,
+            'ratingId'      => $ratingTypeId,
             'ratingType'    => $type,
             'showBefore'    => $this->getConfig('rating_textposition') === 'before',
             'showAfter'     => $this->getConfig('rating_textposition') === 'after',
@@ -89,7 +96,7 @@ SQL;
 
     private function maxStars() : int
     {
-        return (int) $this->getConfig('rating_count') ?: 5;
+        return (int)$this->getConfig('rating_count') ?: 5;
     }
 
     private function getConfig(string $key)

@@ -12,10 +12,18 @@
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="translator" />
             <argument type="service" id="contao.framework" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\IsUserAllowedToRate" />
         </service>
 
         <!-- RatingService -->
         <service id="Hofff\Contao\RateIt\Rating\RatingService" public="true">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="contao.framework" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\IsUserAllowedToRate" />
+        </service>
+
+        <!-- Queries -->
+        <service id="Hofff\Contao\RateIt\Rating\IsUserAllowedToRate">
             <argument type="service" id="database_connection" />
             <argument type="service" id="contao.framework" />
         </service>

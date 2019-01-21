@@ -21,6 +21,7 @@ use Contao\Database;
 use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use PDO;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,17 +54,22 @@ class AjaxRateItController
     /** @var TranslatorInterface */
     private $translator;
 
+    /** @var IsUserAllowedToRate */
+    private $isUserAllowedToRate;
+
     public function __construct(
         Connection $connection,
         TokenStorageInterface $tokenStorage,
         TranslatorInterface $translator,
-        ContaoFrameworkInterface $framework
+        ContaoFrameworkInterface $framework,
+        IsUserAllowedToRate $isUserAllowedToRate
     )
     {
-        $this->framework    = $framework;
-        $this->connection   = $connection;
-        $this->tokenStorage = $tokenStorage;
-        $this->translator   = $translator;
+        $this->framework           = $framework;
+        $this->connection          = $connection;
+        $this->tokenStorage        = $tokenStorage;
+        $this->translator          = $translator;
+        $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
     public function __invoke(Request $request) : Response
@@ -157,44 +163,26 @@ class AjaxRateItController
             );
         }
 
-        $userId = $this->determineUserId();
+        $userId       = $this->determineUserId();
         $ratableKeyId = $this->getRateableKeyId($id, $type);
-        $countUserRatings = $this->countUserRating($userId, $ratableKeyId);
 
-        $countIp = $this->Database->prepare('SELECT * FROM tl_rateit_ratings WHERE pid=? and ip_address=?')
-            ->execute($ratableKeyId, $clientIp)
-            ->count();
-
-        // Die with an error if the insert fails (duplicate IP or duplicate member id for a vote).
-        if ((! $this->allowDuplicatesForMembers && $countUserRatings === 0) || ($this->allowDuplicatesForMembers && isset($userId))) {
-            // Insert the data.
-            $arrSet = array('pid'        => $ratableKeyId,
-                            'tstamp'     => time(),
-                            'ip_address' => $clientIp,
-                            'memberid'   => isset($userId) ? $userId : null,
-                            'rating'     => $rating,
-                            'createdat'  => time(),
-            );
-            $this->connection->insert('tl_rateit_ratings', $arrSet);
-        } elseif (! isset($userId) && ((! $this->allowDuplicates && $countIp == 0) || $this->allowDuplicates)) {
-            // Insert the data.
-            $arrSet = array('pid'        => $ratableKeyId,
-                            'tstamp'     => time(),
-                            'ip_address' => $clientIp,
-                            'memberid'   => isset($userId) ? $userId : null,
-                            'rating'     => $rating,
-                            'createdat'  => time(),
-            );
-
-            $this->connection->insert('tl_rateit_ratings', $arrSet);
-        } else {
+        if (!$this->isUserAllowedToRate->__invoke($ratableKeyId, $clientIp, $userId)) {
             return new Response(
                 $this->translator->trans('rateit.error.duplicate_vote', [], 'contao_default'),
                 400
             );
         }
 
-        $rating = $this->rateItFrontend->loadRating($id, $type);
+        $this->connection->insert(
+            'tl_rateit_ratings',
+            ['pid'        => $ratableKeyId,
+             'tstamp'     => time(),
+             'ip_address' => $clientIp,
+             'memberid'   => $userId ?? null,
+             'rating'     => $rating,
+             'createdat'  => time(),
+            ]
+        );
 
         return new Response($this->rateItFrontend->getStarMessage($rating));
     }
@@ -214,14 +202,14 @@ class AjaxRateItController
         return null;
     }
 
-    protected function getRateableKeyId($id, string $type) : string
+    protected function getRateableKeyId($id, string $type) : int
     {
         $statement = $this->connection->prepare('SELECT id FROM tl_rateit_items WHERE rkey=:id and typ=:type');
         $statement->bindValue('id', $id);
         $statement->bindValue('type', $type);
         $statement->execute();
 
-        return $statement->fetch(PDO::FETCH_COLUMN);
+        return (int) $statement->fetch(PDO::FETCH_COLUMN);
     }
 
     private function countUserRating(?int $userId, string $ratableKeyId) : int

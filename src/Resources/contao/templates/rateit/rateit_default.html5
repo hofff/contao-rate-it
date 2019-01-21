@@ -4,10 +4,10 @@
         <?php if ($this->showBefore) : ?>
             <div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
         <?php endif; ?>
-        <div class="hofff-rate-it-widget"
+        <div class="hofff-rate-it-widget hofff-rate-it-disabled<?php if ($this->votes == 0): ?> hofff-rate-it-unrated<?php endif ?>"
              data-rating="<?= $this->actRating ?>"
              data-max="<?= $this->maxRating ?>"
-             data-closed="<?= $this->closed?>"
+             data-enabled="<?= $this->enabled ? 'true' : 'false' ?>"
              data-id="<?= $this->ratingId ?>"
              data-type="<?= $this->ratingType ?>"
         >
@@ -28,4 +28,3 @@
   </span>
 </div>
 <!-- indexer::continue -->
-<?= $this->showTemplateVars() ?>

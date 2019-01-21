@@ -11,26 +11,26 @@ HofffRateIt.widget = function (element) {
         }
     };
 
-    this.value = -1;
+    this.value   = -1;
     this.element = element;
-    this.rating = parseFloat(element.getAttribute('data-rating'));
-    this.max = parseInt(element.getAttribute('data-max'));
-    this.type = element.getAttribute('data-type');
-    this.id = element.getAttribute('data-id');
-    this.stars = [];
-    this.icons = {
+    this.rating  = parseFloat(element.getAttribute('data-rating'));
+    this.max     = parseInt(element.getAttribute('data-max'));
+    this.type    = element.getAttribute('data-type');
+    this.id      = element.getAttribute('data-id');
+    this.enabled = element.getAttribute('data-enabled') === 'true';
+    this.stars   = [];
+    this.icons   = {
         unrated: element.querySelector(this.options.icons.unrated),
         rated: element.querySelector(this.options.icons.rated),
         half: element.querySelector(this.options.icons.half)
     };
 
-    console.log(this);
-
     this.draw(this.rating);
 
-    this.element.addEventListener('mouseout', function () {
-        this.draw(this.rating);
-    }.bind(this));
+    if (this.enabled) {
+        this.element.addEventListener('mouseout', this.drawCurrentRating.bind(this));
+        this.removeClass('hofff-rate-it-disabled');
+    }
 };
 
 HofffRateIt.widget.prototype.draw = function (value) {
@@ -52,12 +52,18 @@ HofffRateIt.widget.prototype.draw = function (value) {
             star = this.icons.unrated.cloneNode(true);
         }
 
-        star.addEventListener('mouseover', this.createHoverHandler(i),);
-        star.addEventListener('mouseover', this.createHoverHandler(i),);
-        star.addEventListener('click', this.createClickHandler(i));
+        if (this.enabled) {
+            star.addEventListener('mouseover', this.createHoverHandler(i),);
+            star.addEventListener('mouseover', this.createHoverHandler(i),);
+            star.addEventListener('click', this.createClickHandler(i));
+        }
 
         this.element.appendChild(star);
     }
+};
+
+HofffRateIt.widget.prototype.drawCurrentRating = function () {
+    this.draw(this.rating);
 };
 
 HofffRateIt.widget.prototype.rate = function (value) {
@@ -91,6 +97,22 @@ HofffRateIt.widget.prototype.createClickHandler = function (value) {
 
         this.rate(value);
     }.bind(this);
+};
+
+HofffRateIt.widget.prototype.classes = function () {
+    return this.element.className.split(' ');
+};
+
+HofffRateIt.widget.prototype.removeClass = function (value) {
+    var classes = this.classes();
+    var position = classes.indexOf(value);
+    if (position < 0) {
+        return;
+    }
+
+    classes.splice(position, 1);
+
+    this.element.className = classes.join(' ');
 };
 
 HofffRateIt.onReady = function ready(fn) {
