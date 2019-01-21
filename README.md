@@ -14,3 +14,4 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
  * Drop colorbox/mediabox rating
  * Drop non microdata templates
  * Drop support of heart ratings. Define your icons in a template
+ * Gallery picture rating

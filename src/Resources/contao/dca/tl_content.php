@@ -25,7 +25,6 @@ $GLOBALS['TL_DCA']['tl_content']['config']['ondelete_callback'][] = [ContentBase
  * palettes
  */
 $GLOBALS['TL_DCA']['tl_content']['palettes']['rateit']  = '{type_legend},type,rateit_title;{rateit_legend},rateit_active;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['gallery'] = $GLOBALS['TL_DCA']['tl_content']['palettes']['gallery'] . ';{rateit_legend},rateit_active';
 
 /**
  * fields
