@@ -3,17 +3,29 @@ var HofffRateIt = {};
 HofffRateIt.API_ENTRYPOINT = '/rateit';
 
 HofffRateIt.widget = function (element) {
-    this.element = element;
-    this.rating  = parseFloat(element.getAttribute('data-rating'));
-    this.max     = parseInt(element.getAttribute('data-max'));
-    this.stars   = [];
-    this.icons   = {
-        unrated: element.getAttribute('data-icon-unrated'),
-        rated: element.getAttribute('data-icon-rated'),
-        half: element.getAttribute('data-icon-half')
+    this.options = {
+        icons: {
+            rated: '.hofff-rate-it-icon-rated',
+            unrated: '.hofff-rate-it-icon-unrated',
+            half: '.hofff-rate-it-icon-half'
+        }
     };
 
-    this.createStars();
+    this.value = -1;
+    this.element = element;
+    this.rating = parseFloat(element.getAttribute('data-rating'));
+    this.max = parseInt(element.getAttribute('data-max'));
+    this.type = element.getAttribute('data-type');
+    this.id = element.getAttribute('data-id');
+    this.stars = [];
+    this.icons = {
+        unrated: element.querySelector(this.options.icons.unrated),
+        rated: element.querySelector(this.options.icons.rated),
+        half: element.querySelector(this.options.icons.half)
+    };
+
+    console.log(this);
+
     this.draw(this.rating);
 
     this.element.addEventListener('mouseout', function () {
@@ -21,38 +33,35 @@ HofffRateIt.widget = function (element) {
     }.bind(this));
 };
 
-HofffRateIt.widget.prototype.createStars = function () {
+HofffRateIt.widget.prototype.draw = function (value) {
     var star;
 
+    if (this.value === value) {
+        return;
+    }
+
     this.element.innerHTML = '';
+    this.value = value;
 
     for (var i = 1; i <= this.max; i++) {
-        star = document.createElement('i');
+        if (value > (i - 0.25)) {
+            star = this.icons.rated.cloneNode(true);
+        } else if (value > (i - 0.75)) {
+            star = this.icons.half.cloneNode(true);
+        } else {
+            star = this.icons.unrated.cloneNode(true);
+        }
+
+        star.addEventListener('mouseover', this.createHoverHandler(i),);
         star.addEventListener('mouseover', this.createHoverHandler(i),);
         star.addEventListener('click', this.createClickHandler(i));
 
-        this.stars.push(star);
         this.element.appendChild(star);
     }
 };
 
-HofffRateIt.widget.prototype.draw = function (value) {
-    var star;
-
-    for (var i = 1; i <= this.max; i++) {
-        star = this.stars[i-1];
-
-        if (value > (i-0.25)) {
-            star.setAttribute('class', this.icons.rated);
-        } else if (value > (i-0.75)) {
-            star.setAttribute('class', this.icons.half);
-        } else {
-            star.setAttribute('class', this.icons.unrated);
-        }
-    }
-};
-
 HofffRateIt.widget.prototype.rate = function (value) {
+    console.log(value);
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
@@ -66,7 +75,7 @@ HofffRateIt.widget.prototype.rate = function (value) {
 
     request.open('POST', '/app_dev.php/rateit', true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send('id=' + this.id + '&type= ' + this.type + '&vote=' + value);
+    request.send('id=' + this.id + '&type=' + this.type + '&vote=' + (100 / this.max * value));
 };
 
 HofffRateIt.widget.prototype.createHoverHandler = function (value) {
@@ -90,7 +99,7 @@ HofffRateIt.onReady = function ready(fn) {
     } else if (document.addEventListener) {
         document.addEventListener('DOMContentLoaded', fn);
     } else {
-        document.attachEvent('onreadystatechange', function() {
+        document.attachEvent('onreadystatechange', function () {
             if (document.readyState != 'loading')
                 fn();
         });

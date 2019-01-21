@@ -1,9 +1,9 @@
-<?php if ($this->rateit_rating_before): ?>
-    <?php $this->insert($this->ratit_template, $this->arrData) ?>
+<?php if ($this->rating && $this->rateit_position === 'before'): ?>
+    <?php $this->insert($this->ratit_template, $this->rating) ?>
 <?php endif; ?>
 
 <?php $this->insert('news_latest', $this->arrData); ?>
 
-<?php if ($this->rateit_rating_after): ?>
-    <?php $this->insert($this->ratit_template, $this->arrData) ?>
+<?php if ($this->rating && $this->rateit_position === 'after'): ?>
+    <?php $this->insert($this->ratit_template, $this->rating) ?>
 <?php endif; ?>

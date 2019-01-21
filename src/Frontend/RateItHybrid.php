@@ -18,6 +18,7 @@ namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\BackendTemplate;
 use Contao\FrontendTemplate;
+use Hofff\Contao\RateIt\Rating\RatingService;
 
 /**
  * Class RateItHybrid
@@ -63,32 +64,24 @@ abstract class RateItHybrid extends RateItFrontend
     /**
      * Generate the module/content element
      */
-    protected function compile()
+    protected function compile() : void
     {
         $this->Template = new FrontendTemplate($this->strTemplate);
-
         $this->Template->setData($this->arrData);
 
-        $rating   = $this->loadRating($this->getParent()->id, $this->getType());
-        $ratingId = $this->getParent()->id;
-        $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
-        $percent  = round($rating['rating'], 0) . "%";
+        $rating = self::getContainer()->get(RatingService::class)->loadRating($this->getParent()->id, $this->getType());
+        foreach ((array) $rating as $key => $value) {
+            $this->Template->$key = $value;
+        }
 
-        $this->Template->descriptionId = 'rateItRating-' . $ratingId . '-description';
-        $this->Template->description   = $this->getStarMessage($rating);
-        $this->Template->id            = 'rateItRating-' . $ratingId . '-' . $this->getType() . '-' . $stars . '_' . $this->intStars;
-        $this->Template->rateit_class  = 'rateItRating';
-        $this->Template->itemreviewed  = $rating['title'];
-        $this->Template->actRating     = $this->percentToStars($rating['rating']);
-        $this->Template->maxRating     = $this->intStars;
-        $this->Template->votes         = $rating['totalRatings'];
-
-        if ($this->strTextPosition == "before") {
+        if ($this->strTextPosition === "before") {
             $this->Template->showBefore = true;
-        } else if ($this->strTextPosition == "after") {
+        } else if ($this->strTextPosition === "after") {
             $this->Template->showAfter = true;
         }
 
-        return parent::compile();
+        parent::compile();
     }
+
+    abstract protected function getType() : string;
 }

@@ -30,7 +30,7 @@ class RateItModule extends RateItHybrid
         parent::__construct($objElement);
     }
 
-    protected function getType()
+    protected function getType() : string
     {
         return 'module';
     }

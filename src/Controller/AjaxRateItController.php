@@ -22,7 +22,6 @@ use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 use PDO;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -114,7 +113,7 @@ class AjaxRateItController
             $arrRkey = explode('|', $rkey);
             foreach ($arrRkey as $key) {
                 if (! is_numeric($key)) {
-                    return new JsonResponse(
+                    return new Response(
                         $this->translator->trans('rateit.error.invalid_rating', [], 'contao_default'),
                         400
                     );
@@ -125,7 +124,7 @@ class AjaxRateItController
             if (is_numeric($rkey)) {
                 $id = $rkey;
             } else {
-                return new JsonResponse(
+                return new Response(
                     $this->translator->trans('rateit.error.invalid_rating', [], 'contao_default'),
                     400
                 );
@@ -136,15 +135,23 @@ class AjaxRateItController
         if (is_numeric($percent) && $percent < 101) {
             $rating = $percent;
         } else {
-            return new JsonResponse(
+            return new Response(
                 $this->translator->trans('rateit.error.invalid_rating', [], 'contao_default'),
                 400
             );
         }
 
         //Make sure that the ratable type is 'page' or 'ce' or 'module'
-        if (! ($type === 'page' || $type === 'article' || $type === 'ce' || $type === 'module' || $type === 'news' || $type === 'faq' || $type === 'galpic' || $type === 'news4ward')) {
-            return new JsonResponse(
+        if (! ($type === 'page'
+            || $type === 'article'
+            || $type === 'ce'
+            || $type === 'module'
+            || $type === 'news'
+            || $type === 'faq'
+            || $type === 'galpic'
+            || $type === 'news4ward')
+        ) {
+            return new Response(
                 $this->translator->trans('rateit.error.invalid_type', ['type' => $type], 'contao_default'),
                 400
             );
@@ -181,7 +188,7 @@ class AjaxRateItController
 
             $this->connection->insert('tl_rateit_ratings', $arrSet);
         } else {
-            return new JsonResponse(
+            return new Response(
                 $this->translator->trans('rateit.error.duplicate_vote', [], 'contao_default'),
                 400
             );
@@ -189,7 +196,7 @@ class AjaxRateItController
 
         $rating = $this->rateItFrontend->loadRating($id, $type);
 
-        return new JsonResponse($this->rateItFrontend->getStarMessage($rating));
+        return new Response($this->rateItFrontend->getStarMessage($rating));
     }
 
     private function determineUserId() : ?int

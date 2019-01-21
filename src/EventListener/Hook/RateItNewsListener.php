@@ -16,51 +16,30 @@
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\ModuleNews;
+use Contao\Template;
 use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use Hofff\Contao\RateIt\Rating\RatingService;
 
 class RateItNewsListener extends RateItFrontend
 {
+    /** @var RatingService */
+    private $ratingService;
 
-    /**
-     * Initialize the controller
-     */
-    public function __construct()
+    public function __construct(RatingService $ratingService)
     {
         parent::__construct();
+
+        $this->ratingService = $ratingService;
     }
 
-    public function parseArticle($objTemplate, $objArticle, $caller)
+    public function parseArticle(Template $template, array $newsArticle, $caller) : void
     {
-        if (strpos(get_class($caller), "ModuleNews") !== false &&
-            $objArticle['addRating']) {
-            $ratingId = $objTemplate->id;
-            $rating   = $this->loadRating($ratingId, 'news');
-            $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
-            $percent  = round($rating['rating'], 0) . "%";
-
-            $objTemplate->ratit_template = $this->Config->get('rating_template') ?: 'rateit_default';
-            $objTemplate->descriptionId  = 'rateItRating-' . $ratingId . '-description';
-            $objTemplate->description    = $this->getStarMessage($rating);
-            $objTemplate->ratingId       = 'rateItRating-' . $ratingId . '-news-' . $stars . '_' . $this->intStars;
-            $objTemplate->rateit_class   = 'rateItRating';
-            $objTemplate->itemreviewed   = $rating['title'];
-            $objTemplate->actRating      = $this->percentToStars($rating['rating']);
-            $objTemplate->maxRating      = $this->intStars;
-            $objTemplate->votes          = $rating['totalRatings'];
-
-            if ($this->strTextPosition == "before") {
-                $objTemplate->showBefore = true;
-            } else if ($this->strTextPosition == "after") {
-                $objTemplate->showAfter = true;
-            }
-
-            if ($objArticle['rateit_position'] == 'before') {
-                $objTemplate->rateit_rating_before = true;
-            } else if ($objArticle['rateit_position'] == 'after') {
-                $objTemplate->rateit_rating_after = true;
-            }
-
-            $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
+        if (!$caller instanceof ModuleNews || !$newsArticle['addRating']) {
+            return;
         }
+
+        $template->ratit_template = $this->Config::get('rating_template') ?: 'rateit_default';
+        $template->rating         = $this->ratingService->getRating('news', (int) $template->id);
     }
 }

@@ -7,10 +7,13 @@
         <div class="hofff-rate-it-widget"
              data-rating="<?= $this->actRating ?>"
              data-max="<?= $this->maxRating ?>"
-             data-icon-rated="fas fa-star"
-             data-icon-unrated="far fa-star"
-             data-icon-half="fas fa-star-half-alt"
+             data-closed="<?= $this->closed?>"
+             data-id="<?= $this->ratingId ?>"
+             data-type="<?= $this->ratingType ?>"
         >
+            <i class="hofff-rate-it-icon-rated fas fa-star"></i>
+            <i class="hofff-rate-it-icon-unrated far fa-star"></i>
+            <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
         </div>
         <?php if ($this->showAfter) : ?>
             <div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
@@ -25,3 +28,4 @@
   </span>
 </div>
 <!-- indexer::continue -->
+<?= $this->showTemplateVars() ?>
