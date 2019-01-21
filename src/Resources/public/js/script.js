@@ -67,15 +67,16 @@ HofffRateIt.widget.prototype.drawCurrentRating = function () {
 };
 
 HofffRateIt.widget.prototype.rate = function (value) {
-    console.log(value);
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-        if (request.status === XMLHttpRequest.DONE) {
-            console.log(request);
-        } else {
-            console.log(request);
-            //alert('Es ist ein Fehler aufgetreten');
+        if (request.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+
+        if (request.status !== 200) {
+            var data = JSON.parse(request.response);
+            alert('Es ist ein Fehler aufgetreten: ' + data.title);
         }
     };
 
