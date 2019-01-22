@@ -13,22 +13,24 @@ HofffRateIt.widget = function (element) {
 
     this.value   = -1;
     this.element = element;
-    this.rating  = parseFloat(element.getAttribute('data-rating'));
-    this.max     = parseInt(element.getAttribute('data-max'));
-    this.type    = element.getAttribute('data-type');
-    this.id      = element.getAttribute('data-id');
-    this.enabled = element.getAttribute('data-enabled') === 'true';
+    this.widget  = element.querySelector('.hofff-rate-it-widget');
+    this.message = element.querySelector('.hofff-rate-it-message');
+    this.rating  = parseFloat(this.widget.getAttribute('data-rating'));
+    this.max     = parseInt(this.widget.getAttribute('data-max'));
+    this.type    = this.widget.getAttribute('data-type');
+    this.id      = this.widget.getAttribute('data-id');
+    this.enabled = this.widget.getAttribute('data-enabled') === 'true';
     this.stars   = [];
     this.icons   = {
-        unrated: element.querySelector(this.options.icons.unrated),
-        rated: element.querySelector(this.options.icons.rated),
-        half: element.querySelector(this.options.icons.half)
+        unrated: this.widget.querySelector(this.options.icons.unrated),
+        rated: this.widget.querySelector(this.options.icons.rated),
+        half: this.widget.querySelector(this.options.icons.half)
     };
 
     this.draw(this.rating);
 
     if (this.enabled) {
-        this.element.addEventListener('mouseout', this.drawCurrentRating.bind(this));
+        this.widget.addEventListener('mouseout', this.drawCurrentRating.bind(this));
         this.removeClass('hofff-rate-it-disabled');
     }
 };
@@ -40,7 +42,7 @@ HofffRateIt.widget.prototype.draw = function (value) {
         return;
     }
 
-    this.element.innerHTML = '';
+    this.widget.innerHTML = '';
     this.value = value;
 
     for (var i = 1; i <= this.max; i++) {
@@ -58,7 +60,7 @@ HofffRateIt.widget.prototype.draw = function (value) {
             star.addEventListener('click', this.createClickHandler(i));
         }
 
-        this.element.appendChild(star);
+        this.widget.appendChild(star);
     }
 };
 
@@ -76,9 +78,10 @@ HofffRateIt.widget.prototype.rate = function (value) {
 
         if (request.status !== 200) {
             var data = JSON.parse(request.response);
-            alert('Es ist ein Fehler aufgetreten: ' + data.title);
+            HofffRateIt.Util.addClass(this.message, 'error');
+            this.message.innerHTML = data.title;
         }
-    };
+    }.bind(this);
 
     request.open('POST', '/app_dev.php/rateit', true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -100,20 +103,8 @@ HofffRateIt.widget.prototype.createClickHandler = function (value) {
     }.bind(this);
 };
 
-HofffRateIt.widget.prototype.classes = function () {
-    return this.element.className.split(' ');
-};
-
 HofffRateIt.widget.prototype.removeClass = function (value) {
-    var classes = this.classes();
-    var position = classes.indexOf(value);
-    if (position < 0) {
-        return;
-    }
-
-    classes.splice(position, 1);
-
-    this.element.className = classes.join(' ');
+    HofffRateIt.Util.removeClass(this.widget, value);
 };
 
 HofffRateIt.onReady = function ready(fn) {
@@ -129,10 +120,38 @@ HofffRateIt.onReady = function ready(fn) {
     }
 };
 
+HofffRateIt.Util = {
+    classes: function (element) {
+        return element.className.split(' ');
+    },
+
+    addClass: function (element, cssClass) {
+        var classes = HofffRateIt.Util.classes(element);
+        var position = classes.indexOf(cssClass);
+
+        if (position < 0) {
+            classes.push(cssClass);
+        }
+    },
+
+    removeClass: function (element, cssClass) {
+        var classes = HofffRateIt.Util.classes(element);
+        var position = classes.indexOf(cssClass);
+
+        if (position < 0) {
+            return;
+        }
+
+        classes.splice(position, 1);
+
+        element.className = classes.join(' ');
+    }
+};
+
 (function () {
     HofffRateIt.onReady(
         function () {
-            var widgets = document.getElementsByClassName('hofff-rate-it-widget');
+            var widgets = document.getElementsByClassName('hofff-rate-it');
 
             for (var i = 0; i < widgets.length; i++) {
                 new HofffRateIt.widget(widgets.item(i));
