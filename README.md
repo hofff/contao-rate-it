@@ -7,6 +7,7 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
 
  * Change namespaces of every class
  * Use microdata templates as default.
+ * Do not use client ip to detect votes of the same user. Use session id instead.
  
 **Dropped**
 
