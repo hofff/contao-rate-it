@@ -49,7 +49,7 @@ SQL;
         $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
-    public function getRating(string $type, int $ratingTypeId, string $clientIp, ?int $userId) : ?array
+    public function getRating(string $type, int $ratingTypeId, string $sessionId, ?int $userId) : ?array
     {
         $rating = $this->loadRating($ratingTypeId, $type);
         if (! $rating) {
@@ -71,7 +71,7 @@ SQL;
             'itemreviewed'  => $rating['title'],
             'actRating'     => $this->percentToStars($rating['rating']),
             'maxRating'     => $maxStars,
-            'enabled'       => ($this->isUserAllowedToRate)((int) $rating['id'], $clientIp, $userId),
+            'enabled'       => ($this->isUserAllowedToRate)((int) $rating['id'], $sessionId, $userId),
             'votes'         => $rating['totalRatings'],
             'ratingId'      => $ratingTypeId,
             'ratingType'    => $type,

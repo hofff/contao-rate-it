@@ -44,8 +44,8 @@ $GLOBALS['TL_DCA']['tl_rateit_ratings'] = array(
             'sql'        => "int(10) unsigned NOT NULL default '0'",
             'relation'   => array('type' => 'belongsTo', 'load' => 'lazy'),
         ),
-        'ip_address' => array(
-            'sql' => "varchar(50) NULL",
+        'session_id' => array(
+            'sql' => "varchar(255) NULL",
         ),
         'memberid'   => array(
             'sql' => "int(10) unsigned NULL",

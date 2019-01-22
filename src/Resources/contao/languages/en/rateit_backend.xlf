@@ -154,10 +154,6 @@
         <source>List of all ratings</source>
         <target>List of all ratings</target>
       </trans-unit>
-      <trans-unit id="tl_rateit.ip.0">
-        <source>IP address</source>
-        <target>IP address</target>
-      </trans-unit>
       <trans-unit id="tl_rateit.member.0">
         <source>Frontend member</source>
         <target>Frontend member</target>
@@ -277,10 +273,6 @@
       <trans-unit id="tl_rateit.xls_headers.totalRatings">
         <source>Total votes</source>
         <target>Total votes</target>
-      </trans-unit>
-      <trans-unit id="tl_rateit.xls_headers_detail.ip">
-        <source>IP address</source>
-        <target>IP address</target>
       </trans-unit>
       <trans-unit id="tl_rateit.xls_headers_detail.member">
         <source>Frontend member</source>

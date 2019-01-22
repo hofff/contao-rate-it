@@ -39,12 +39,18 @@ class RateItNewsListener extends RateItFrontend
             return;
         }
 
+        $session = self::getContainer()->get('session');
+        $sessionId = null;
+        if ($session->isStarted()) {
+            $sessionId = $session->getId();
+        }
+
         // TODO: Do not use Environment and User class. Use symfony equivalents here
         $template->ratit_template = $this->Config::get('rating_template') ?: 'rateit_default';
         $template->rating         = $this->ratingService->getRating(
             'news',
             (int) $template->id,
-            (string) $this->Environment->get('ip'),
+            $sessionId,
             (int) $this->User->id
         );
     }

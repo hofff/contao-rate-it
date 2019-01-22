@@ -23,7 +23,7 @@ final class IsUserAllowedToRate
         $this->framework  = $framework;
     }
 
-    public function __invoke(int $ratingId, string $clientIp, ?int $userId) : bool
+    public function __invoke(int $ratingId, ?string $sessionId, ?int $userId) : bool
     {
         $this->framework->initialize();
 
@@ -35,11 +35,15 @@ final class IsUserAllowedToRate
             return $this->hasLoggedInUserAlreadyRated($ratingId, $userId);
         }
 
+        if (!$sessionId) {
+            return true;
+        }
+
         if ($this->areDuplicatesAllowed()) {
             return true;
         }
 
-        return !$this->hasAnonymousUserAlreadyRated($ratingId, $clientIp);
+        return !$this->hasAnonymousUserAlreadyRated($ratingId, $sessionId);
     }
 
     private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId) : bool
@@ -55,12 +59,12 @@ final class IsUserAllowedToRate
         return $statement->fetch(PDO::FETCH_COLUMN) > 0;
     }
 
-    private function hasAnonymousUserAlreadyRated(int $ratingId, string $clientIp) : bool
+    private function hasAnonymousUserAlreadyRated(int $ratingId, string $sessionId) : bool
     {
-        $query     = 'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:ratingId and ip_address=:clientIp';
+        $query     = 'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:ratingId and session_id=:sessionId';
         $statement = $this->connection->prepare($query);
         $statement->bindValue('ratingId', $ratingId);
-        $statement->bindValue('clientIp', $clientIp);
+        $statement->bindValue('sessionId', $sessionId);
         $statement->execute();
 
         return $statement->fetch(PDO::FETCH_COLUMN) > 0;

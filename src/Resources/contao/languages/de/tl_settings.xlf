@@ -39,8 +39,8 @@
         <target>Doppelte Bewertungen zulassen</target>
       </trans-unit>
       <trans-unit id="tl_settings.allow_duplicate_ratings.1">
-        <source>The same ip address may vote more than once for the same rating?</source>
-        <target>Darf mit der gleichen IP-Adresse mehrfach für das gleiche Rating abstimmen?</target>
+        <source>The same user session may vote for more than once for the same rating</source>
+        <target>Darf der Nutzer mit der gleichen Nutzer-Session mehrfach für das gleiche Rating abstimmen?</target>
       </trans-unit>
       <trans-unit id="tl_settings.allow_duplicate_ratings_for_members.0">
         <source>Allow Duplicate votes for members</source>

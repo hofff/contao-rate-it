@@ -39,8 +39,8 @@
         <target>Allow Duplicate votes</target>
       </trans-unit>
       <trans-unit id="tl_settings.allow_duplicate_ratings.1">
-        <source>The same ip address may vote more than once for the same rating?</source>
-        <target>The same ip address may vote more than once for the same rating?</target>
+        <source>The same user session may vote for more than once for the same rating?</source>
+        <target>The same user session may vote for more than once for the same rating?</target>
       </trans-unit>
       <trans-unit id="tl_settings.allow_duplicate_ratings_for_members.0">
         <source>Allow Duplicate votes for members</source>

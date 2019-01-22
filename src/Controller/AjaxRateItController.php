@@ -109,7 +109,17 @@ class AjaxRateItController
      */
     public function doVote(Request $request)
     {
-        $clientIp = $request->getClientIp();
+        $session = $request->getSession();
+        $sessionId = null;
+
+        if ($session) {
+            if (!$session->isStarted()) {
+                $session->start();
+            }
+
+            $sessionId = $session->getId();
+        }
+
         $rkey     = $request->request->get('id');
         $percent  = $request->request->get('vote');
         $type     = $request->request->get('type');
@@ -176,7 +186,7 @@ class AjaxRateItController
         $userId       = $this->determineUserId();
         $ratableKeyId = $this->getRateableKeyId($id, $type);
 
-        if (!$this->isUserAllowedToRate->__invoke($ratableKeyId, $clientIp, $userId)) {
+        if (!$this->isUserAllowedToRate->__invoke($ratableKeyId, $sessionId, $userId)) {
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.duplicate_vote', [], 'contao_default'),
@@ -190,7 +200,7 @@ class AjaxRateItController
             'tl_rateit_ratings',
             ['pid'        => $ratableKeyId,
              'tstamp'     => time(),
-             'ip_address' => $clientIp,
+             'session_id' => $sessionId,
              'memberid'   => $userId ?? null,
              'rating'     => $rating,
              'createdat'  => time(),
@@ -200,7 +210,7 @@ class AjaxRateItController
         return new JsonResponse(
             [
                 'data' => [
-                    'message' => $this->rateItFrontend->getStarMessage($rating)
+                    'message' => 'ok' //$this->rateItFrontend->getStarMessage($rating)
                 ]
             ]
         );

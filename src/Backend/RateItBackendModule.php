@@ -497,7 +497,7 @@ class RateItBackendModule extends BackendModule
             $limit = "LIMIT $first, $cntRows";
         }
 
-        $sql = "SELECT id AS rating_id, ip_address AS ip, memberid, rating, createdat
+        $sql = "SELECT id AS rating_id, session_id, memberid, rating, createdat
 		FROM tl_rateit_ratings r
 		WHERE r.pid=$ext->item_id
 		ORDER BY createdat DESC
