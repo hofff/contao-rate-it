@@ -14,20 +14,11 @@
  * @filesource
  */
 
-use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
-use Hofff\Contao\RateIt\EventListener\Hook\RateItFaqListener;
-use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
-use Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener;
 use Hofff\Contao\RateIt\Backend\RateItBackend;
 use Hofff\Contao\RateIt\Backend\RateItBackendModule;
 use Hofff\Contao\RateIt\Frontend\RateItCE;
 use Hofff\Contao\RateIt\Frontend\RateItModule;
 use Hofff\Contao\RateIt\Frontend\RateItTopRatingsModule;
-
-/**
- * Hooks
- */
-$GLOBALS['TL_HOOKS']['getContentElement'][] = [RateItFaqListener::class, 'getContentElementRateIt'];
 
 /**
  * Back end modules
@@ -42,7 +33,8 @@ array_insert(
             'stylesheet' => RateItBackend::css('backend'),
             'javascript' => RateItBackend::js('RateItBackend'),
         ],
-    ]);
+    ]
+);
 
 /**
  * frontend moduls

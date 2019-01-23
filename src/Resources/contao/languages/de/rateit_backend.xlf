@@ -39,7 +39,7 @@
         <target>Typ</target>
       </trans-unit>
       <trans-unit id="tl_rateit.typ.1">
-        <source>Rating type (rating for an "article", a "page", a "news" or a "faq")</source>
+        <source>Rating type (rating for an "article", a "page" or a "news")</source>
         <target>Typ des Ratings (Rating für eine "Seite" oder einen "Artikel")</target>
       </trans-unit>
       <trans-unit id="tl_rateit.title.0">
@@ -47,7 +47,7 @@
         <target>Titel</target>
       </trans-unit>
       <trans-unit id="tl_rateit.title.1">
-        <source>Title of the article, page, news or faq, on which the rating is included.</source>
+        <source>Title of the article, page or news, on which the rating is included.</source>
         <target>Titel der Seite oder des Artikels, auf der/dem das Rating eingebunden ist.</target>
       </trans-unit>
       <trans-unit id="tl_rateit.createdat.0">
@@ -185,10 +185,6 @@
       <trans-unit id="tl_rateit_type_options.news">
         <source>News</source>
         <target>Nachricht</target>
-      </trans-unit>
-      <trans-unit id="tl_rateit_type_options.faq">
-        <source>FAQ</source>
-        <target>FAQ</target>
       </trans-unit>
       <trans-unit id="tl_rateit_type_options.ce">
         <source>Content element</source>

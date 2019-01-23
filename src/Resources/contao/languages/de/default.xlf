@@ -6,10 +6,6 @@
         <source>Rate It</source>
         <target>Rate It</target>
       </trans-unit>
-      <trans-unit id="FMD.rateit.1">
-        <source>Enables users to leave ratings for articles, pages, news and FAQs.</source>
-        <target>Bietet Benutzern die Möglichkeit Bewertungen für Artikel, Seiten, News und FAQs abzugeben.</target>
-      </trans-unit>
       <trans-unit id="FMD.rateit_top_ratings.0">
         <source>Rate It - Best/Most ratings</source>
         <target>Rate It - Beste/Meiste Bewertungen</target>
@@ -23,8 +19,8 @@
         <target>Rate It</target>
       </trans-unit>
       <trans-unit id="CTE.rateit.1">
-        <source>Enables users to leave ratings for articles, pages, news and FAQs.</source>
-        <target>Bietet Benutzern die Möglichkeit Bewertungen für Artikel, Seiten, News und FAQs abzugeben.</target>
+        <source>Enables users to leave ratings for articles, pages and news.</source>
+        <target>Bietet Benutzern die Möglichkeit Bewertungen für Artikel, Seiten, und News abzugeben.</target>
       </trans-unit>
       <trans-unit id="rateit.rating_label.0">
         <source>vote</source>

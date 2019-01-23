@@ -7,8 +7,8 @@
         <target>Rate It</target>
       </trans-unit>
       <trans-unit id="MOD.rateit.1">
-        <source>View ratings for articles, pages, news and faqs</source>
-        <target>View ratings for articles, pages, news and faqs</target>
+        <source>View ratings for articles, pages and news</source>
+        <target>View ratings for articles, pages and news</target>
       </trans-unit>
     </body>
   </file>

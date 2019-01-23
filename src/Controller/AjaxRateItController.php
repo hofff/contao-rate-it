@@ -155,7 +155,6 @@ class AjaxRateItController
             || $type === 'ce'
             || $type === 'module'
             || $type === 'news'
-            || $type === 'faq'
             || $type === 'news4ward')
         ) {
             return new JsonResponse(
