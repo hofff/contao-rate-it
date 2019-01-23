@@ -59,14 +59,14 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_allow_duplicate_ratings'] = 
     'exclude'   => true,
     'label'     => &$GLOBALS['TL_LANG']['tl_settings']['allow_duplicate_ratings'],
     'inputType' => 'checkbox',
-    'eval'      => ['tl_class' => 'w50 m12'],
+    'eval'      => ['tl_class' => 'clr w50'],
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_allow_duplicate_ratings_for_members'] = [
     'exclude'   => true,
     'label'     => &$GLOBALS['TL_LANG']['tl_settings']['allow_duplicate_ratings_for_members'],
     'inputType' => 'checkbox',
-    'eval'      => ['tl_class' => 'w50 m12'],
+    'eval'      => ['tl_class' => 'w50'],
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_template'] = [

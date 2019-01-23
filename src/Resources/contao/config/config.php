@@ -46,3 +46,12 @@ $GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = RateItTopRatingsModule
  * content elements
  */
 $GLOBALS['TL_CTE']['includes']['rateit'] = RateItCE::class;
+
+/*
+ * Default configuration
+ */
+$GLOBALS['TL_CONFIG']['rating_count']        = 5;
+$GLOBALS['TL_CONFIG']['rating_textposition'] = 'after';
+$GLOBALS['TL_CONFIG']['rating_listsize']     = 10;
+$GLOBALS['TL_CONFIG']['rating_template']     = 'rateit_default';
+$GLOBALS['TL_CONFIG']['rating_description']  = '%current%/%max% %type% (%count% [Stimme|Stimmen])';

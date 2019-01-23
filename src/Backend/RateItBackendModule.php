@@ -17,6 +17,7 @@
 namespace Hofff\Contao\RateIt\Backend;
 
 use Contao\BackendModule;
+use Contao\Config;
 use Contao\Input;
 
 class RateItBackendModule extends BackendModule
@@ -96,7 +97,7 @@ class RateItBackendModule extends BackendModule
             }
         }
 
-        $stars = intval($GLOBALS['TL_CONFIG']['rating_count']);
+        $stars = (int) Config::get('rating_count');
         if ($stars > 0) {
             $this->intStars = $stars;
         }
@@ -115,7 +116,7 @@ class RateItBackendModule extends BackendModule
 
         // load other helpers
         $this->tl_root          = str_replace("\\", '/', TL_ROOT) . '/';
-        $this->tl_files         = str_replace("\\", '/', $GLOBALS['TL_CONFIG']['uploadPath']) . '/';
+        $this->tl_files         = str_replace("\\", '/', Config::get('uploadPath')) . '/';
         $this->Template->rateit = $this->rateit;
 
         // complete rateit initialization

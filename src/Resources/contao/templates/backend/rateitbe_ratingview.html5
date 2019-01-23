@@ -74,7 +74,7 @@ $labels = $GLOBALS['TL_LANG']['rateit']['stars'];
       },
       vAxes: [
     	  {title: '<?php echo $text['month_chart_legend'][1]; ?>', minValue: 0},
-    	  {title: '<?php echo $text['month_chart_legend'][2]; ?>', minValue: 0, maxValue: <?php echo intval($GLOBALS['TL_CONFIG']['rating_count']); ?>}
+    	  {title: '<?php echo $text['month_chart_legend'][2]; ?>', minValue: 0, maxValue: <?php echo (int) \Contao\Config::get('rating_count'); ?>}
       ],
       hAxis: {title: '<?php echo $text['month_chart_legend'][3]; ?>'},
       series: {
@@ -139,7 +139,7 @@ $labels = $GLOBALS['TL_LANG']['rateit']['stars'];
 </tr>
 <tr>
   <th><?php echo $text['createdat'][0]; ?></th>
-  <td><?php echo $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $rating->createdat); ?></td>
+  <td><?php echo $this->parseDate(\Contao\Config::get('dateFormat'), $rating->createdat); ?></td>
   <th><?php echo $text['status'][0]; ?></th>
   <td class="active-<?php echo $rating->active; ?>"><?php echo $active_options[$rating->active]; ?></td>
 </tr>
@@ -181,7 +181,7 @@ $labels = $GLOBALS['TL_LANG']['rateit']['stars'];
   		<?php foreach($rating->ratings as $r) : ?>
   			<tr>
   				<td><div class="ratebarframe"><div class="ratebar" style="width:<?php echo number_format($r->percent,12,'.',','); ?>%"></div></div> <div class="ratebartext"><?php echo sprintf($text['ratingviewfmt'], str_replace(".", ",", $r->rating), $rating->stars).' '.$labels; ?></div></td>
-  				<td><?php echo $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $r->createdat); ?></td>
+  				<td><?php echo $this->parseDate(\Contao\Config::get('datimFormat'), $r->createdat); ?></td>
                 <td><?php echo $r->member; ?></td>
   			</tr>
   		<?php endforeach; ?>

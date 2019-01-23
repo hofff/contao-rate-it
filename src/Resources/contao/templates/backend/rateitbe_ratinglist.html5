@@ -136,7 +136,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 </tr>
 <tr class="info">
   <th><?php echo $text['createdat'][0]; ?></th>
-  <td><?php echo $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $rating->createdat); ?></td>
+  <td><?php echo $this->parseDate(\Contao\Config::get('dateFormat'), $rating->createdat); ?></td>
   <th><?php echo $text['status'][0]; ?></th>
   <td class="active-<?php echo $rating->active; ?>"><?php echo $active_options[$rating->active]; ?></td>
 </tr>

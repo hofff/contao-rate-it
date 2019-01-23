@@ -16,6 +16,7 @@
 
 namespace Hofff\Contao\RateIt\Controller;
 
+use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
@@ -84,8 +85,10 @@ class AjaxRateItController
             define('FE_USER_LOGGED_IN', false);
         }
 
-        $this->allowDuplicates           = (bool)$GLOBALS['TL_CONFIG']['rating_allow_duplicate_ratings'];
-        $this->allowDuplicatesForMembers = (bool)$GLOBALS['TL_CONFIG']['rating_allow_duplicate_ratings_for_members'];
+        $configAdapter = $this->framework->getAdapter(Config::class);
+
+        $this->allowDuplicates           = (bool) $configAdapter->get('rating_allow_duplicate_ratings');
+        $this->allowDuplicatesForMembers = (bool) $configAdapter->get('rating_allow_duplicate_ratings_for_members');
 
         return $this->doVote($request);
     }
