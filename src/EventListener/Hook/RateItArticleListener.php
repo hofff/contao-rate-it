@@ -71,8 +71,7 @@ class RateItArticleListener extends RatingListener
                 }
 
                 $article['rateit_position'] = Config::get('rating_textposition');
-
-                $article = array_merge($article, (array) $this->getRating('article', (int) $articleModel['id']));
+                $article['rating']          = $this->getRating('article', (int) $articleModel['id']);
             }
 
             $arrArticles[] = $article;
