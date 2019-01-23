@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['rateit_title'] = [
     'exclude'   => true,
     'inputType' => 'text',
     'sql'       => "varchar(255) NOT NULL default ''",
-    'eval'      => ['mandatory' => true, 'maxlength' => 255],
+    'eval'      => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'clr'],
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['rateit_active'] = [
