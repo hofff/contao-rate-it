@@ -20,20 +20,15 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\DataContainer;
 
-final class ModuleBaseDcaListener extends BaseDcaListener
+final class FaqDcaListener extends BaseDcaListener
 {
     public function insert(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title);
+        $this->insertOrUpdateRatingKey($dc, 'faq', $dc->activeRecord->question);
     }
 
     public function delete(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'module');
-    }
-
-    public function getRateItTopModuleTemplates() : array
-    {
-        return self::getTemplateGroup('mod_rateit_top');
+        $this->deleteRatingKey($dc, 'faq');
     }
 }

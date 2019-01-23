@@ -16,14 +16,14 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\NewsBaseDcaListener;
+use Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener;
 
 /**
  * Extend tl_article
  */
 
-$GLOBALS['TL_DCA']['tl_news']['config']['onsubmit_callback'][] = [NewsBaseDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_news']['config']['ondelete_callback'][] = [NewsBaseDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_news']['config']['onsubmit_callback'][] = [NewsDcaListener::class, 'insert'];
+$GLOBALS['TL_DCA']['tl_news']['config']['ondelete_callback'][] = [NewsDcaListener::class, 'delete'];
 
 /**
  * Palettes

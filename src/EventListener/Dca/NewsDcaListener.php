@@ -20,7 +20,7 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\DataContainer;
 
-final class NewsBaseDcaListener extends BaseDcaListener
+final class NewsDcaListener extends BaseDcaListener
 {
     public function insert(DataContainer $dc) : void
     {

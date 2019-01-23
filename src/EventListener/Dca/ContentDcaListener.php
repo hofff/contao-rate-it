@@ -18,6 +18,17 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
-final class SettingsBaseDcaListener extends BaseDcaListener
+use Contao\DataContainer;
+
+final class ContentDcaListener extends BaseDcaListener
 {
+    public function insert(DataContainer $dc) : void
+    {
+        $this->insertOrUpdateRatingKey($dc, 'ce', $dc->activeRecord->rateit_title);
+    }
+
+    public function delete(DataContainer $dc) : void
+    {
+        $this->deleteRatingKey($dc, 'ce');
+    }
 }

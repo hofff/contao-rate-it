@@ -16,14 +16,14 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\FaqBaseDcaListener;
+use Hofff\Contao\RateIt\EventListener\Dca\FaqDcaListener;
 
 /**
  * Extend tl_article
  */
 
-$GLOBALS['TL_DCA']['tl_faq']['config']['onsubmit_callback'][] = [FaqBaseDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_faq']['config']['ondelete_callback'][] = [FaqBaseDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_faq']['config']['onsubmit_callback'][] = [FaqDcaListener::class, 'insert'];
+$GLOBALS['TL_DCA']['tl_faq']['config']['ondelete_callback'][] = [FaqDcaListener::class, 'delete'];
 
 /**
  * Palettes
