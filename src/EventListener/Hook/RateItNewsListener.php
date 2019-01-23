@@ -14,44 +14,22 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\ModuleNews;
 use Contao\Template;
-use Hofff\Contao\RateIt\Frontend\RateItFrontend;
-use Hofff\Contao\RateIt\Rating\RatingService;
 
-class RateItNewsListener extends RateItFrontend
+final class RateItNewsListener extends RatingListener
 {
-    /** @var RatingService */
-    private $ratingService;
-
-    public function __construct(RatingService $ratingService)
-    {
-        parent::__construct();
-
-        $this->ratingService = $ratingService;
-    }
-
-    public function parseArticle(Template $template, array $newsArticle, $caller) : void
+    public function onParseArticles(Template $template, array $newsArticle, $caller) : void
     {
         if (!$caller instanceof ModuleNews || !$newsArticle['addRating']) {
             return;
         }
 
-        $session = self::getContainer()->get('session');
-        $sessionId = null;
-        if ($session->isStarted()) {
-            $sessionId = $session->getId();
-        }
-
-        // TODO: Do not use Environment and User class. Use symfony equivalents here
-        $template->ratit_template = $this->Config::get('rating_template') ?: 'rateit_default';
-        $template->rating         = $this->ratingService->getRating(
-            'news',
-            (int) $template->id,
-            $sessionId,
-            $this->User->id ? (int) $this->User->id : null
-        );
+        $template->ratit_template = $this->getRatingTemplate();
+        $template->rating         = $this->getRating('news', (int) $template->id);
     }
 }

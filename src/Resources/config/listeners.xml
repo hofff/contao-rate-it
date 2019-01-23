@@ -6,9 +6,19 @@
     <services>
         <defaults public="false" autoconfigure="false" autowire="false" />
 
-        <!-- Controllers -->
+        <!-- Hook listeners -->
         <service id="Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener" public="true">
             <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingService" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="contao.framework" />
+            <tag name="contao.hook" hook="parseArticles" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener" public="true">
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingService" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="contao.framework" />
+            <tag name="contao.hook" hook="parseTemplate" />
         </service>
     </services>
 </container>

@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * This file is part of hofff/contao-content.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author     David Molineus <david@hofff.com>
+ * @copyright  2013-2018 cgo IT.
+ * @copyright  2019 hofff.com.
+ * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
+ * @filesource
+ */
+
 declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating;
@@ -8,7 +21,6 @@ use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use Doctrine\DBAL\Connection;
-use function dump;
 use PDO;
 
 final class RatingService
@@ -50,15 +62,16 @@ SQL;
         $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
-    public function getRating(string $type, int $ratingTypeId, ?string $sessionId, ?int $userId) : ?array
+    public function getRating(string $type, int $ratingTypeId, ?int $userId) : ?array
     {
         $rating = $this->loadRating($ratingTypeId, $type);
         if (! $rating) {
             return null;
         }
 
-        $stars    = $this->percentToStars($rating['rating']);
-        $maxStars = $this->maxStars();
+        $stars     = $this->percentToStars($rating['rating']);
+        $maxStars  = $this->maxStars();
+        $sessionId = new CurrentUserId();
 
         if (isset($GLOBALS['objPage'])) {
             $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
@@ -72,7 +85,7 @@ SQL;
             'itemreviewed'  => $rating['title'],
             'actRating'     => $this->percentToStars($rating['rating']),
             'maxRating'     => $maxStars,
-            'enabled'       => ($this->isUserAllowedToRate)((int) $rating['id'], $sessionId, $userId),
+            'enabled'       => ($this->isUserAllowedToRate)((int) $rating['id'], (string) $sessionId, $userId),
             'votes'         => $rating['totalRatings'],
             'ratingId'      => $ratingTypeId,
             'ratingType'    => $type,

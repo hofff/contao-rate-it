@@ -19,68 +19,34 @@ namespace Hofff\Contao\RateIt\EventListener\Hook;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\StringUtil;
+use Contao\Template;
 use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use function strpos;
 
-class RateItArticleListener extends RateItFrontend
+class RateItArticleListener extends RatingListener
 {
-
-    /**
-     * Initialize the controller
-     */
-    public function __construct()
+    public function onParseTemplate(Template $template) : void
     {
-        parent::__construct();
+        // TODO: Check if other template names are required, maybe
+//        if (strpos($objTemplate->getName(), 'mod_article') !== 0) {
+//            return;
+//        }
+
+        if ($template->type === 'article') {
+            $this->doArticle($template);
+        } else if ($template->type == 'articleList') {
+            $this->doArticleList($template);
+        }
     }
 
-    public function parseTemplateRateIt($objTemplate)
+    private function doArticle(Template $template) : void
     {
-        if ($objTemplate->type == 'article') {
-            $objTemplate = $this->doArticle($objTemplate);
-        } else if ($objTemplate->type == 'articleList') {
-            $objTemplate = $this->doArticleList($objTemplate);
+        if (! $template->addRating) {
+            return;
         }
 
-        return $objTemplate;
-    }
-
-    private function doArticle($objTemplate)
-    {
-        $arrArticle = $this->Database->prepare('SELECT * FROM tl_article WHERE ID=?')
-            ->limit(1)
-            ->execute($objTemplate->id)
-            ->fetchAssoc();
-
-        if ($arrArticle['addRating']) {
-            $ratingId = $arrArticle['id'];
-            $rating   = $this->loadRating($ratingId, 'article');
-            $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
-            $percent  = round($rating['rating'], 0) . "%";
-
-            $objTemplate->descriptionId = 'rateItRating-' . $ratingId . '-description';
-            $objTemplate->description   = $this->getStarMessage($rating);
-            $objTemplate->rateItID      = 'rateItRating-' . $ratingId . '-article-' . $stars . '_' . $this->intStars;
-            $objTemplate->rateit_class  = 'rateItRating';
-            $objTemplate->itemreviewed  = $rating['title'];
-            $objTemplate->actRating     = $this->percentToStars($rating['rating']);
-            $objTemplate->maxRating     = $this->intStars;
-            $objTemplate->votes         = $rating['totalRatings'];
-
-            if ($this->strTextPosition == "before") {
-                $objTemplate->showBefore = true;
-            } else if ($this->strTextPosition == "after") {
-                $objTemplate->showAfter = true;
-            }
-
-            if ($arrArticle['rateit_position'] == 'before') {
-                $objTemplate->rateit_rating_before = true;
-            } else if ($arrArticle['rateit_position'] == 'after') {
-                $objTemplate->rateit_rating_after = true;
-            }
-
-            $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
-        }
-
-        return $objTemplate;
+        $template->rateit_template = $this->getRatingTemplate();
+        $template->rating          = $this->getRating('article', (int) $template->id);
     }
 
     private function doArticleList($objTemplate)

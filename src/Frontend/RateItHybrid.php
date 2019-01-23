@@ -71,7 +71,7 @@ abstract class RateItHybrid extends RateItFrontend
     {
         $rating = self::getContainer()
             ->get(RatingService::class)
-            ->getRating($this->getType(), (int) $this->getParent()->id, $this->getSessionId(), $this->getUserId());
+            ->getRating($this->getType(), (int) $this->getParent()->id, $this->getUserId());
 
         $this->Template->setData(array_merge($this->Template->getData(), (array) $rating));
 
@@ -82,16 +82,6 @@ abstract class RateItHybrid extends RateItFrontend
     }
 
     abstract protected function getType() : string;
-
-    private function getSessionId(): ?string
-    {
-        $session = self::getContainer()->get('session');
-        if ($session->isStarted()) {
-            return $session->getId();
-        }
-
-        return null;
-    }
 
     private function getUserId(): ?int
     {

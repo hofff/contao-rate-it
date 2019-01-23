@@ -28,9 +28,7 @@ use Hofff\Contao\RateIt\Frontend\RateItTopRatingsModule;
  * Hooks
  */
 $GLOBALS['TL_HOOKS']['generatePage'][]      = [RateItPageListener::class, 'generatePage'];
-$GLOBALS['TL_HOOKS']['parseArticles'][]     = [RateItNewsListener::class, 'parseArticle'];
 $GLOBALS['TL_HOOKS']['getContentElement'][] = [RateItFaqListener::class, 'getContentElementRateIt'];
-$GLOBALS['TL_HOOKS']['parseTemplate'][]     = [RateItArticleListener::class, 'parseTemplateRateIt'];
 
 /**
  * Back end modules

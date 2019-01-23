@@ -84,8 +84,10 @@ HofffRateIt.widget.prototype.rate = function (value) {
             var data = JSON.parse(request.response);
             this.message.innerHTML = data.data.description;
             this.enabled = data.data.enabled === 'true';
+            this.rating  = parseFloat(data.data.actRating);
             HofffRateIt.Util.addClass(this.widget, this.options.disabledClass);
-            this.draw(data.rating);
+
+            this.drawCurrentRating();
         } else {
             var data = JSON.parse(request.response);
             HofffRateIt.Util.addClass(this.message, 'error');

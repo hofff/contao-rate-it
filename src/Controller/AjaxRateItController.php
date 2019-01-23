@@ -21,6 +21,7 @@ use Contao\Database;
 use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use Hofff\Contao\RateIt\Rating\CurrentUserId;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use Hofff\Contao\RateIt\Rating\RatingService;
 use PDO;
@@ -115,18 +116,7 @@ class AjaxRateItController
      */
     public function doVote(Request $request)
     {
-        $session = $request->getSession();
-        $sessionId = null;
-
-        if ($session) {
-            if (!$session->isStarted()) {
-                $session->start();
-            }
-
-            $sessionId = $session->getId();
-        }
-
-        $rkey     = $request->request->get('id');
+         $rkey     = $request->request->get('id');
         $percent  = $request->request->get('vote');
         $type     = $request->request->get('type');
         $id       = null;
@@ -190,8 +180,9 @@ class AjaxRateItController
 
         $userId       = $this->determineUserId();
         $ratableKeyId = $this->getRateableKeyId($id, $type);
+        $sessionId    = new CurrentUserId();
 
-        if (!$this->isUserAllowedToRate->__invoke($ratableKeyId, $sessionId, $userId)) {
+        if (!$this->isUserAllowedToRate->__invoke($ratableKeyId, (string) $sessionId, $userId)) {
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.duplicate_vote', [], 'contao_default'),
@@ -205,7 +196,7 @@ class AjaxRateItController
             'tl_rateit_ratings',
             ['pid'        => $ratableKeyId,
              'tstamp'     => time(),
-             'session_id' => $sessionId,
+             'session_id' => (string) $sessionId,
              'memberid'   => $userId,
              'rating'     => $rating,
              'createdat'  => time(),
@@ -215,7 +206,7 @@ class AjaxRateItController
         return new JsonResponse(
             [
                 'status' => 200,
-                'data' => $this->ratingService->getRating($type, $id, $sessionId, $userId),
+                'data'   => $this->ratingService->getRating($type, $id, $userId),
             ]
         );
     }

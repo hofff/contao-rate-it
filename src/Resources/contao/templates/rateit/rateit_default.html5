@@ -28,4 +28,3 @@
   </span>
 </div>
 <!-- indexer::continue -->
-<?php $this->showTemplateVars() ?>
