@@ -2,7 +2,7 @@
 <div itemtype="http://schema.org/CreativeWork" itemscope>
     <div id="<?= $this->id ?>" class="hofff-rate-it <?= trim($this->class . ' ' . $this->rateit_class) ?> block"<?= $this->cssID ?>>
         <?php if ($this->showBefore) : ?>
-            <div id="<?= $this->descriptionId ?>" class="ratingText"><?= $this->description ?></div>
+            <div class="hofff-rate-it-message"><?= $this->description ?></div>
         <?php endif; ?>
         <div class="hofff-rate-it-widget hofff-rate-it-disabled<?php if ($this->votes == 0): ?> hofff-rate-it-unrated<?php endif ?>"
              data-rating="<?= $this->actRating ?>"
@@ -16,7 +16,7 @@
             <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
         </div>
         <?php if ($this->showAfter) : ?>
-            <div id="<?= $this->descriptionId ?>" class="hofff-rate-it-message"><?= $this->description ?></div>
+            <div class="hofff-rate-it-message"><?= $this->description ?></div>
         <?php endif; ?>
     </div>
     <span class="rating-microdata" itemprop="name"><?php echo $this->itemreviewed; ?></span>
@@ -28,3 +28,4 @@
   </span>
 </div>
 <!-- indexer::continue -->
+<?php $this->showTemplateVars() ?>

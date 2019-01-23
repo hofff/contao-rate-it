@@ -38,9 +38,8 @@ class RateItArticleListener extends RateItFrontend
             $objTemplate = $this->doArticle($objTemplate);
         } else if ($objTemplate->type == 'articleList') {
             $objTemplate = $this->doArticleList($objTemplate);
-        } else if ($objTemplate->type == 'gallery') {
-            $objTemplate = $this->doGallery($objTemplate);
         }
+
         return $objTemplate;
     }
 
@@ -135,100 +134,5 @@ class RateItArticleListener extends RateItFrontend
             $objTemplate->articles = $arrArticles;
         }
         return $objTemplate;
-    }
-
-    private function doGallery($objTemplate)
-    {
-        $arrGallery = $this->Database->prepare('SELECT * FROM tl_content WHERE ID=?')
-            ->limit(1)
-            ->execute($objTemplate->id)
-            ->fetchAssoc();
-
-        if ($arrGallery['rateit_active']) {
-            $arrRating = array();
-
-            if (version_compare(VERSION, '3.2', '>=')) {
-                $objFiles = FilesModel::findMultipleByUuids(StringUtil::deserialize($arrGallery['multiSRC']));
-            } else {
-                $objFiles = FilesModel::findMultipleByIds(StringUtil::deserialize($arrGallery['multiSRC']));
-            }
-
-            if ($objFiles !== null) {
-                // Get all images
-                while ($objFiles->next()) {
-                    // Continue if the files has been processed or does not exist
-                    if (isset($arrRating[$objFiles->path]) || ! file_exists(TL_ROOT . '/' . $objFiles->path)) {
-                        continue;
-                    }
-
-                    // Single files
-                    if ($objFiles->type == 'file') {
-                        $objFile = new File($objFiles->path, true);
-
-                        if (! $objFile->isGdImage) {
-                            continue;
-                        }
-
-                        $this->addRatingForImage($arrRating, $arrGallery['id'], $objFiles->id, $objFile->path);
-                    } // Folders
-                    else {
-                        if (version_compare(VERSION, '3.2', '>=')) {
-                            $objSubfiles = FilesModel::findByPid($objFiles->uuid);
-                        } else {
-                            $objSubfiles = FilesModel::findByPid($objFiles->id);
-                        }
-
-                        if ($objSubfiles === null) {
-                            continue;
-                        }
-
-                        while ($objSubfiles->next()) {
-                            // Skip subfolders
-                            if ($objSubfiles->type == 'folder') {
-                                continue;
-                            }
-
-                            $objFile = new File($objSubfiles->path, true);
-
-                            if (! $objFile->isGdImage) {
-                                continue;
-                            }
-
-                            $this->addRatingForImage($arrRating, $arrGallery['id'], $objSubfiles->id, $objSubfiles->path);
-                        }
-                    }
-                }
-            }
-
-            $objTemplate->arrRating = $arrRating;
-
-            $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
-        }
-
-        return $objTemplate;
-    }
-
-    private function addRatingForImage(&$arrRating, $galleryId, $picId, $picPath)
-    {
-        $ratingId = $galleryId . '|' . $picId;
-        $rating   = $this->loadRating($ratingId, 'galpic');
-        $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
-        $percent  = round($rating['rating'], 0) . "%";
-
-        $arrRating[$picPath]                  = array();
-        $arrRating[$picPath]['descriptionId'] = 'rateItRating-' . $ratingId . '-description';
-        $arrRating[$picPath]['description']   = $this->getStarMessage($rating);
-        $arrRating[$picPath]['rateItID']      = 'rateItRating-' . $ratingId . '-galpic-' . $stars . '_' . $this->intStars;
-        $arrRating[$picPath]['rateit_class']  = 'rateItRating';
-        $arrRating[$picPath]['itemreviewed']  = $rating['title'];
-        $arrRating[$picPath]['actRating']     = $this->percentToStars($rating['rating']);
-        $arrRating[$picPath]['maxRating']     = $this->intStars;
-        $arrRating[$picPath]['votes']         = $rating['totalRatings'];
-
-        if ($this->strTextPosition == "before") {
-            $arrRating[$picPath]['showBefore'] = true;
-        } else if ($this->strTextPosition == "after") {
-            $arrRating[$picPath]['showAfter'] = true;
-        }
     }
 }

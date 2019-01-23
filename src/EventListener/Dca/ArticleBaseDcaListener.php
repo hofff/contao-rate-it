@@ -17,13 +17,13 @@ final class ArticleBaseDcaListener extends BaseDcaListener
         parent::__construct();
     }
 
-    public function insert(DataContainer $dc) : string
+    public function insert(DataContainer $dc) : void
     {
-        return $this->insertOrUpdateRatingKey($dc, 'article', $dc->activeRecord->title);
+        $this->insertOrUpdateRatingKey($dc, 'article', $dc->activeRecord->title);
     }
 
-    public function delete(DataContainer $dc) : string
+    public function delete(DataContainer $dc) : void
     {
-        return $this->deleteRatingKey($dc, 'article');
+        $this->deleteRatingKey($dc, 'article');
     }
 }

@@ -78,10 +78,6 @@
         <source>FAQ</source>
         <target>FAQ</target>
       </trans-unit>
-      <trans-unit id="tl_module.rateit_types.galpic">
-        <source>Gallery Picture</source>
-        <target>Galeriebild</target>
-      </trans-unit>
       <trans-unit id="tl_module.rateit_types.news4ward">
         <source>Blog entry</source>
         <target>Beitrag</target>

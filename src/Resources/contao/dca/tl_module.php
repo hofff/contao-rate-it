@@ -52,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_types'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'exclude'   => true,
     'inputType' => 'checkboxWizard',
-    'options'   => ['page', 'article', 'ce', 'module', 'news', 'faq', 'galpic', 'news4ward'],
+    'options'   => ['page', 'article', 'ce', 'module', 'news', 'faq', 'news4ward'],
     'eval'      => ['multiple' => true, 'mandatory' => true],
     'reference' => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'sql'       => "varchar(255) NOT NULL default ''",

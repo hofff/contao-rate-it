@@ -198,10 +198,6 @@
         <source>Module</source>
         <target>Modul</target>
       </trans-unit>
-      <trans-unit id="tl_rateit_type_options.galpic">
-        <source>Gallery picture</source>
-        <target>Galerie-Bild</target>
-      </trans-unit>
       <trans-unit id="tl_rateit_type_options.news4ward">
         <source>Blog entry</source>
         <target>Beitrag</target>

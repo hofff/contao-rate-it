@@ -18,6 +18,7 @@ namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\BackendTemplate;
 use Contao\FrontendTemplate;
+use Contao\FrontendUser;
 use Hofff\Contao\RateIt\Rating\RatingService;
 
 /**
@@ -33,6 +34,8 @@ abstract class RateItHybrid extends RateItFrontend
     public function __construct($objElement)
     {
         parent::__construct($objElement);
+
+        $this->import(FrontendUser::class, 'User');
     }
 
     /**
@@ -66,22 +69,36 @@ abstract class RateItHybrid extends RateItFrontend
      */
     protected function compile() : void
     {
-        $this->Template = new FrontendTemplate($this->strTemplate);
-        $this->Template->setData($this->arrData);
+        $rating = self::getContainer()
+            ->get(RatingService::class)
+            ->getRating($this->getType(), (int) $this->getParent()->id, $this->getSessionId(), $this->getUserId());
 
-        $rating = self::getContainer()->get(RatingService::class)->getRating($this->getParent()->id, $this->getType());
-        foreach ((array) $rating as $key => $value) {
-            $this->Template->$key = $value;
-        }
+        $this->Template->setData(array_merge($this->Template->getData(), (array) $rating));
 
-        if ($this->strTextPosition === "before") {
-            $this->Template->showBefore = true;
-        } else if ($this->strTextPosition === "after") {
-            $this->Template->showAfter = true;
-        }
+        $this->Template->showBefore = $this->strTextPosition === "before";
+        $this->Template->showAfter  = $this->strTextPosition === "after";
 
         parent::compile();
     }
 
     abstract protected function getType() : string;
+
+    private function getSessionId(): ?string
+    {
+        $session = self::getContainer()->get('session');
+        if ($session->isStarted()) {
+            return $session->getId();
+        }
+
+        return null;
+    }
+
+    private function getUserId(): ?int
+    {
+        if ($this->User->id) {
+            return (int) $this->User->id;
+        }
+
+        return null;
+    }
 }
