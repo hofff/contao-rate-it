@@ -16,73 +16,31 @@
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use Contao\Frontend;
-use Hofff\Contao\RateIt\Frontend\RateItRating;
+use Contao\FrontendTemplate;
+use Contao\LayoutModel;
+use Contao\PageModel;
 
-class RateItPageListener extends Frontend
+class RateItPageListener extends RatingListener
 {
-
-    var $rateItRating;
-
-    /**
-     * Initialize the controller
-     */
-    public function __construct()
+    public function onGeneratePage(PageModel $objPage, LayoutModel $objLayout, $pageHandler) : void
     {
-        parent::__construct();
-
-        $this->rateItRating = new RateItRating();
-        $this->loadDataContainer('settings');
-    }
-
-    public function generatePage($objPage, $objLayout, $objPageType)
-    {
-        if ($objPage->addRating) {
-            $actRecord = $this->Database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ='page'")
-                ->execute($objPage->id)
-                ->fetchAssoc();
-
-            if ($actRecord['active']) {
-                $this->rateItRating->rkey = $objPage->id;
-                $this->rateItRating->generate();
-
-                $rating = $this->rateItRating->output();
-                $rating .= $this->includeJs();
-
-                $objTemplate = $objPageType->Template;
-                if ($objTemplate) {
-                    if ($objPage->rateit_position == 'after') {
-                        $objTemplate->main .= $rating;
-                    } else {
-                        $objTemplate->main = $rating . $objTemplate->main;
-                    }
-                }
-            }
-        }
-    }
-
-    private function includeJs()
-    {
-        $included    = false;
-        $strHeadTags = '';
-        if (is_array($GLOBALS['TL_JAVASCRIPT'])) {
-            foreach ($GLOBALS['TL_JAVASCRIPT'] as $script) {
-                if ($this->startsWith($script, 'bundles/hofffcontaorateit/js/rateit') === true) {
-                    $included = true;
-                    break;
-                }
-            }
+        if (!$objPage->addRating) {
+            return;
         }
 
-        if (! $included) {
-            $strHeadTags .= '<script src="' . self::addStaticUrlTo('bundles/hofffcontaorateit/js/script.js') . '"></script>' . "\n";
+        $pageTemplate = $pageHandler->Template;
+        if (!$pageTemplate) {
+            return;
         }
-        return $strHeadTags;
-    }
 
-    function startsWith($haystack, $needle)
-    {
-        // search backwards starting from haystack length characters from the end
-        return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+        $template = new FrontendTemplate($this->getRatingTemplate());
+        $template->setData((array) $this->getRating('page', $objPage->id));
+        $rating = $template->parse();
+
+        if ($objPage->rateit_position == 'after') {
+            $pageTemplate->main .= $rating;
+        } else {
+            $pageTemplate->main = $rating . $template->main;
+        }
     }
 }
