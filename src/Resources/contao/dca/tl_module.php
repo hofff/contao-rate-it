@@ -49,13 +49,13 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_active'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_types'] = [
-    'label'           => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
-    'exclude'         => true,
-    'inputType'       => 'checkboxWizard',
-    'optins_callback' => [ModuleDcaListener::class, 'typeOptions'],
-    'eval'            => ['multiple' => true, 'mandatory' => true],
-    'reference'       => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
-    'sql'             => "varchar(255) NOT NULL default ''",
+    'label'            => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
+    'exclude'          => true,
+    'inputType'        => 'checkboxWizard',
+    'options_callback' => [ModuleDcaListener::class, 'typeOptions'],
+    'eval'             => ['multiple' => true, 'mandatory' => true],
+    'reference'        => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
+    'sql'              => "varchar(255) NOT NULL default ''",
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_toptype'] = [
@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_template'] = [
     'default'          => 'mod_rateit_top_ratings',
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => ['tl_module_rateit', 'getRateItTopModuleTemplates'],
+    'options_callback' => [ModuleDcaListener::class, 'getRateItTopModuleTemplates'],
     'eval'             => ['mandatory' => true, 'tl_class' => 'w50'],
     'sql'              => "varchar(255) NOT NULL default ''",
 ];
