@@ -8,13 +8,18 @@ HofffRateIt.widget = function (element) {
             rated: '.hofff-rate-it-icon-rated',
             unrated: '.hofff-rate-it-icon-unrated',
             half: '.hofff-rate-it-icon-half'
-        }
+        },
+        selectors: {
+            widget: '.hofff-rate-it-widget',
+            message: '.hofff-rate-it-message',
+        },
+        disabledClass: 'hofff-rate-it-disabled'
     };
 
     this.value   = -1;
     this.element = element;
-    this.widget  = element.querySelector('.hofff-rate-it-widget');
-    this.message = element.querySelector('.hofff-rate-it-message');
+    this.widget  = element.querySelector(this.options.selectors.widget);
+    this.message = element.querySelector(this.options.selectors.message);
     this.rating  = parseFloat(this.widget.getAttribute('data-rating'));
     this.max     = parseInt(this.widget.getAttribute('data-max'));
     this.type    = this.widget.getAttribute('data-type');
@@ -31,7 +36,7 @@ HofffRateIt.widget = function (element) {
 
     if (this.enabled) {
         this.widget.addEventListener('mouseout', this.drawCurrentRating.bind(this));
-        this.removeClass('hofff-rate-it-disabled');
+        HofffRateIt.Util.removeClass(this.widget, this.options.disabledClass);
     }
 };
 
@@ -55,8 +60,7 @@ HofffRateIt.widget.prototype.draw = function (value) {
         }
 
         if (this.enabled) {
-            star.addEventListener('mouseover', this.createHoverHandler(i),);
-            star.addEventListener('mouseover', this.createHoverHandler(i),);
+            star.addEventListener('mouseover', this.createHoverHandler(i));
             star.addEventListener('click', this.createClickHandler(i));
         }
 
@@ -76,7 +80,13 @@ HofffRateIt.widget.prototype.rate = function (value) {
             return;
         }
 
-        if (request.status !== 200) {
+        if (request.status === 200) {
+            var data = JSON.parse(request.response);
+            this.message.innerHTML = data.data.description;
+            this.enabled = data.data.enabled === 'true';
+            HofffRateIt.Util.addClass(this.widget, this.options.disabledClass);
+            this.draw(data.rating);
+        } else {
             var data = JSON.parse(request.response);
             HofffRateIt.Util.addClass(this.message, 'error');
             this.message.innerHTML = data.title;
@@ -90,7 +100,9 @@ HofffRateIt.widget.prototype.rate = function (value) {
 
 HofffRateIt.widget.prototype.createHoverHandler = function (value) {
     return function () {
-        this.draw(value);
+        if (this.enabled) {
+            this.draw(value);
+        }
     }.bind(this);
 };
 
@@ -99,12 +111,10 @@ HofffRateIt.widget.prototype.createClickHandler = function (value) {
         event.stopPropagation();
         event.preventDefault();
 
-        this.rate(value);
+        if (this.enabled) {
+            this.rate(value);
+        }
     }.bind(this);
-};
-
-HofffRateIt.widget.prototype.removeClass = function (value) {
-    HofffRateIt.Util.removeClass(this.widget, value);
 };
 
 HofffRateIt.onReady = function ready(fn) {

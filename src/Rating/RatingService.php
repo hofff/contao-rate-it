@@ -8,6 +8,7 @@ use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use Doctrine\DBAL\Connection;
+use function dump;
 use PDO;
 
 final class RatingService
@@ -49,7 +50,7 @@ SQL;
         $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
-    public function getRating(string $type, int $ratingTypeId, string $sessionId, ?int $userId) : ?array
+    public function getRating(string $type, int $ratingTypeId, ?string $sessionId, ?int $userId) : ?array
     {
         $rating = $this->loadRating($ratingTypeId, $type);
         if (! $rating) {
@@ -80,7 +81,7 @@ SQL;
         ];
     }
 
-    public function loadRating($rkey, $typ) : ?array
+    private function loadRating($rkey, $typ) : ?array
     {
         $statement = $this->connection->prepare(self::SQL_QUERY);
         $statement->bindValue('rkey', $rkey);

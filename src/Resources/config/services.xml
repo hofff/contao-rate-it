@@ -12,6 +12,7 @@
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="translator" />
             <argument type="service" id="contao.framework" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingService" />
             <argument type="service" id="Hofff\Contao\RateIt\Rating\IsUserAllowedToRate" />
         </service>
 

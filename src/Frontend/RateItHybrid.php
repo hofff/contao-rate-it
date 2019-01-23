@@ -69,7 +69,7 @@ abstract class RateItHybrid extends RateItFrontend
         $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->setData($this->arrData);
 
-        $rating = self::getContainer()->get(RatingService::class)->loadRating($this->getParent()->id, $this->getType());
+        $rating = self::getContainer()->get(RatingService::class)->getRating($this->getParent()->id, $this->getType());
         foreach ((array) $rating as $key => $value) {
             $this->Template->$key = $value;
         }

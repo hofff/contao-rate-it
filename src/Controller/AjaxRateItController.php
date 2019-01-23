@@ -22,6 +22,7 @@ use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
+use Hofff\Contao\RateIt\Rating\RatingService;
 use PDO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,11 +59,15 @@ class AjaxRateItController
     /** @var IsUserAllowedToRate */
     private $isUserAllowedToRate;
 
+    /** @var RatingService */
+    private $ratingService;
+
     public function __construct(
         Connection $connection,
         TokenStorageInterface $tokenStorage,
         TranslatorInterface $translator,
         ContaoFrameworkInterface $framework,
+        RatingService $ratingService,
         IsUserAllowedToRate $isUserAllowedToRate
     )
     {
@@ -70,6 +75,7 @@ class AjaxRateItController
         $this->connection          = $connection;
         $this->tokenStorage        = $tokenStorage;
         $this->translator          = $translator;
+        $this->ratingService       = $ratingService;
         $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
@@ -201,7 +207,7 @@ class AjaxRateItController
             ['pid'        => $ratableKeyId,
              'tstamp'     => time(),
              'session_id' => $sessionId,
-             'memberid'   => $userId ?? null,
+             'memberid'   => $userId,
              'rating'     => $rating,
              'createdat'  => time(),
             ]
@@ -209,9 +215,8 @@ class AjaxRateItController
 
         return new JsonResponse(
             [
-                'data' => [
-                    'message' => 'ok' //$this->rateItFrontend->getStarMessage($rating)
-                ]
+                'status' => 200,
+                'data' => $this->ratingService->getRating($type, $id, $sessionId, $userId),
             ]
         );
     }
@@ -239,22 +244,5 @@ class AjaxRateItController
         $statement->execute();
 
         return (int) $statement->fetch(PDO::FETCH_COLUMN);
-    }
-
-    private function countUserRating(?int $userId, string $ratableKeyId) : int
-    {
-        if (!$userId) {
-            return 0;
-        }
-
-        $statement = $this->connection->prepare(
-            'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:pid and memberid=:memberid'
-        );
-
-        $statement->bindValue('pid', $ratableKeyId);
-        $statement->bindValue('memberid', $userId);
-        $statement->execute();
-
-        return (int) $statement->fetch(\PDO::FETCH_COLUMN);
     }
 }

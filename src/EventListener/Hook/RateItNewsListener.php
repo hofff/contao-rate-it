@@ -51,7 +51,7 @@ class RateItNewsListener extends RateItFrontend
             'news',
             (int) $template->id,
             $sessionId,
-            (int) $this->User->id
+            $this->User->id ? (int) $this->User->id : null
         );
     }
 }
