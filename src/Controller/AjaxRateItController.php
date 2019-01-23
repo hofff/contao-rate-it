@@ -17,10 +17,8 @@
 namespace Hofff\Contao\RateIt\Controller;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\Database;
 use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
-use Hofff\Contao\RateIt\Frontend\RateItFrontend;
 use Hofff\Contao\RateIt\Rating\CurrentUserId;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use Hofff\Contao\RateIt\Rating\RatingService;
@@ -36,17 +34,11 @@ class AjaxRateItController
     /** @var ContaoFrameworkInterface */
     private $framework;
 
-    /** @var RateItFrontend */
-    private $rateItFrontend;
-
     /** @var bool */
     private $allowDuplicates;
 
     /** @var bool */
     private $allowDuplicatesForMembers;
-
-    /** @var Database */
-    private $Database;
 
     /** @var Connection */
     private $connection;
@@ -83,7 +75,6 @@ class AjaxRateItController
     public function __invoke(Request $request) : Response
     {
         $this->framework->initialize();
-        $this->Database = Database::getInstance();
 
         // See #4099
         if (! defined('BE_USER_LOGGED_IN')) {
@@ -92,8 +83,6 @@ class AjaxRateItController
         if (! defined('FE_USER_LOGGED_IN')) {
             define('FE_USER_LOGGED_IN', false);
         }
-
-        $this->rateItFrontend = new RateItFrontend();
 
         $this->allowDuplicates           = (bool)$GLOBALS['TL_CONFIG']['rating_allow_duplicate_ratings'];
         $this->allowDuplicatesForMembers = (bool)$GLOBALS['TL_CONFIG']['rating_allow_duplicate_ratings_for_members'];
