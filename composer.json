@@ -38,7 +38,10 @@
     "symfony/http-kernel": "^3.4 || ^4.0"
   },
   "conflict": {
-    "contao/manager-plugin": "<2.0 || >=3.0"
+    "contao/manager-plugin": "<2.0 || >=3.0",
+    "cgo-it/contao-rate-it-bundle": "*",
+    "cgo-it/contao-rate-it": "*",
+    "cgo-it/news4ward-rateit": "*"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.0"
