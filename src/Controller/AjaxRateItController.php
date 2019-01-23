@@ -23,6 +23,7 @@ use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\CurrentUserId;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use Hofff\Contao\RateIt\Rating\RatingService;
+use function in_array;
 use PDO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,13 +57,17 @@ class AjaxRateItController
     /** @var RatingService */
     private $ratingService;
 
+    /** @var string[] */
+    private $ratingTypes;
+
     public function __construct(
         Connection $connection,
         TokenStorageInterface $tokenStorage,
         TranslatorInterface $translator,
         ContaoFrameworkInterface $framework,
         RatingService $ratingService,
-        IsUserAllowedToRate $isUserAllowedToRate
+        IsUserAllowedToRate $isUserAllowedToRate,
+        array $ratingTypes
     )
     {
         $this->framework           = $framework;
@@ -71,6 +76,7 @@ class AjaxRateItController
         $this->translator          = $translator;
         $this->ratingService       = $ratingService;
         $this->isUserAllowedToRate = $isUserAllowedToRate;
+        $this->ratingTypes         = $ratingTypes;
     }
 
     public function __invoke(Request $request) : Response
@@ -152,14 +158,8 @@ class AjaxRateItController
             );
         }
 
-        //Make sure that the ratable type is 'page' or 'ce' or 'module'
-        if (! ($type === 'page'
-            || $type === 'article'
-            || $type === 'ce'
-            || $type === 'module'
-            || $type === 'news'
-            || $type === 'news4ward')
-        ) {
+        //Make sure that the ratable type is supported
+        if (! in_array($type, $this->ratingTypes, true)) {
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.invalid_type', [], 'contao_default'),

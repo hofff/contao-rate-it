@@ -27,5 +27,10 @@
             <argument type="service" id="contao.framework" />
             <tag name="contao.hook" hook="generatePage" />
         </service>
+
+        <!-- Dca listeners -->
+       <service id="Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener" public="true">
+           <argument>%hofff.contao_rate_it.types%</argument>
+       </service>
     </services>
 </container>

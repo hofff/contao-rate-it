@@ -22,6 +22,16 @@ use Contao\DataContainer;
 
 final class ModuleDcaListener extends BaseDcaListener
 {
+    /** @var string[] */
+    private $supportedTypes;
+
+    public function __construct(array $supportedTypes)
+    {
+        parent::__construct();
+
+        $this->supportedTypes = $supportedTypes;
+    }
+
     public function insert(DataContainer $dc) : void
     {
         $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title);
@@ -35,5 +45,10 @@ final class ModuleDcaListener extends BaseDcaListener
     public function getRateItTopModuleTemplates() : array
     {
         return self::getTemplateGroup('mod_rateit_top');
+    }
+
+    public function typeOptions(): array
+    {
+        return $this->supportedTypes;
     }
 }

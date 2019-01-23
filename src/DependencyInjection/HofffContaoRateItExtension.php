@@ -19,7 +19,8 @@ final class HofffContaoRateItExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
 
-        $loader->load('listeners.xml');
+        $loader->load('config.xml');
         $loader->load('services.xml');
+        $loader->load('listeners.xml');
     }
 }

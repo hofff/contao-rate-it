@@ -32,7 +32,7 @@
 $rateit = &$this->rateit;
 $theme = &$rateit->theme;
 $text = &$GLOBALS['TL_LANG']['tl_rateit'];
-$type_options = &$GLOBALS['TL_LANG']['tl_rateit_type_options'];
+$type_options = \Contao\System::getContainer()->getParameter('hofff.contao_rate_it.types');
 $active_options = &$GLOBALS['TL_LANG']['tl_rateit_active_options'];
 $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 
@@ -53,7 +53,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
   <option value=""><?php echo $text['seltyp'][0]; ?></option>
   <option value="">---</option>
 <?php foreach ($type_options as $k=>$v): ?>
-  <option value="<?php echo $k; ?>"<?php if (strcasecmp($rateit->f_typ, $k) == 0) echo ' selected="selected"'; ?>><?php echo $v; ?></option>
+  <option value="<?php echo $k; ?>"<?php if (strcasecmp($rateit->f_typ, $k) == 0) echo ' selected="selected"'; ?>><?php echo $GLOBALS['TL_LANG']['tl_rateit_type_options'][$v] ?? $v; ?></option>
 <?php endforeach; ?>
 </select> 
 <select name="rateit_active" id="rateit_active" class="tl_select<?php if ($rateit->f_active!='') echo ' active'; ?>">

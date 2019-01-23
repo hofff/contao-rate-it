@@ -14,6 +14,7 @@
             <argument type="service" id="contao.framework" />
             <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingService" />
             <argument type="service" id="Hofff\Contao\RateIt\Rating\IsUserAllowedToRate" />
+            <argument>%hofff.contao_rate_it.types%</argument>
         </service>
 
         <!-- RatingService -->

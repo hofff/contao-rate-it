@@ -176,7 +176,7 @@ class RateItBackendModule extends BackendModule
         if (! isset($perpage) || $perpage < 0) $perpage = 10;
 
         if ($rateit->f_page >= 0 && $perpage > 0) {
-            $options['first'] = $rateit->f_page * $perpage;
+            $options['first'] = (int) $rateit->f_page * $perpage;
             $options['limit'] = $perpage;
         } // if
         if ($rateit->f_typ != '') $options['typ'] = $rateit->f_typ;
