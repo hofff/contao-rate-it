@@ -73,10 +73,6 @@ SQL;
         $maxStars  = $this->maxStars();
         $sessionId = new CurrentUserId();
 
-        if (isset($GLOBALS['objPage'])) {
-            $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
-        }
-
         return [
             'descriptionId' => sprintf('rateItRating-%s-description', $ratingTypeId),
             'description'   => $this->getStarMessage($rating),

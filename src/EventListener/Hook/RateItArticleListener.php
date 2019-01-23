@@ -91,8 +91,6 @@ class RateItArticleListener extends RatingListener
                     } else if ($arrArticle['rateit_position'] == 'after') {
                         $article['rateit_rating_after'] = true;
                     }
-
-                    $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
                 }
 
                 $arrArticles[] = $article;

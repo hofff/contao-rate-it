@@ -65,8 +65,6 @@ class RateItTopRatingsModule extends RateItFrontend
 
         $this->arrTypes = StringUtil::deserialize($this->rateit_types);
 
-        $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
-
         return parent::generate();
     }
 
