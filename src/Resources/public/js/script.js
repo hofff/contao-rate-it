@@ -32,8 +32,6 @@ HofffRateIt.widget = function (element) {
         half: this.widget.querySelector(this.options.icons.half)
     };
 
-    console.log(this.icons);
-
     this.draw(this.rating);
 
     if (this.enabled) {
