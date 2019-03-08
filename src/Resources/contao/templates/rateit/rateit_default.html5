@@ -1,31 +1,29 @@
 <?php $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static' ?>
 <!-- indexer::stop -->
-<div itemtype="http://schema.org/CreativeWork" itemscope>
-    <div id="<?= $this->id ?>" class="hofff-rate-it <?= trim($this->class . ' ' . $this->rateit_class) ?> block"<?= $this->cssID ?>>
-        <?php if ($this->showBefore) : ?>
-            <div class="hofff-rate-it-message"><?= $this->description ?></div>
-        <?php endif; ?>
-        <div class="hofff-rate-it-widget hofff-rate-it-disabled<?php if ($this->votes == 0): ?> hofff-rate-it-unrated<?php endif ?>"
-             data-rating="<?= $this->actRating ?>"
-             data-max="<?= $this->maxRating ?>"
-             data-enabled="<?= $this->enabled ? 'true' : 'false' ?>"
-             data-id="<?= $this->ratingId ?>"
-             data-type="<?= $this->ratingType ?>"
-        >
-            <i class="hofff-rate-it-icon-rated fas fa-star"></i>
-            <i class="hofff-rate-it-icon-unrated far fa-star"></i>
-            <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
-        </div>
-        <?php if ($this->showAfter) : ?>
-            <div class="hofff-rate-it-message"><?= $this->description ?></div>
-        <?php endif; ?>
+<div id="<?= $this->id ?>" class="hofff-rate-it <?= trim($this->class . ' ' . $this->rateit_class) ?> block" itemtype="http://schema.org/CreativeWork" itemscope<?= $this->cssID ?>>
+    <meta itemprop="name" content="<?php echo $this->itemreviewed; ?>">
+    <?php if ($this->showBefore) : ?>
+        <div class="hofff-rate-it-description"><?= $this->description ?></div>
+    <?php endif; ?>
+    <div class="hofff-rate-it-widget hofff-rate-it-disabled<?php if ($this->votes == 0): ?> hofff-rate-it-unrated<?php endif ?>"
+         data-rating="<?= $this->actRating ?>"
+         data-max="<?= $this->maxRating ?>"
+         data-enabled="<?= $this->enabled ? 'true' : 'false' ?>"
+         data-id="<?= $this->ratingId ?>"
+         data-type="<?= $this->ratingType ?>"
+    >
+        <i class="hofff-rate-it-icon-rated fas fa-star"></i>
+        <i class="hofff-rate-it-icon-unrated far fa-star"></i>
+        <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
     </div>
-    <span class="rating-microdata" itemprop="name"><?php echo $this->itemreviewed; ?></span>
+    <?php if ($this->showAfter) : ?>
+        <div class="hofff-rate-it-description"><?= $this->description ?></div>
+    <?php endif; ?>
     <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
         <meta itemprop="ratingValue" content="<?php echo $this->actRating; ?>">
         <meta itemprop="worstRating" content="0">
         <meta itemprop="bestRating" content="<?php echo $this->maxRating; ?>">
         <meta itemprop="ratingCount" content="<?php echo $this->votes; ?>">
-  </span>
+    </span>
 </div>
 <!-- indexer::continue -->
