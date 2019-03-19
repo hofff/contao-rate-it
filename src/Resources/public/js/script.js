@@ -36,7 +36,7 @@ HofffRateIt.widget = function (element) {
 
     if (this.enabled) {
         this.widget.addEventListener('mouseout', this.drawCurrentRating.bind(this));
-        HofffRateIt.Util.removeClass(this.widget, this.options.disabledClass);
+        this.widget.classList.remove(this.options.disabledClass);
     }
 };
 
@@ -85,12 +85,12 @@ HofffRateIt.widget.prototype.rate = function (value) {
             this.message.innerHTML = data.data.description;
             this.enabled = data.data.enabled === 'true';
             this.rating  = parseFloat(data.data.actRating);
-            HofffRateIt.Util.addClass(this.widget, this.options.disabledClass);
+            this.widget.classList.add(this.options.disabledClass);
 
             this.drawCurrentRating();
         } else {
             var data = JSON.parse(request.response);
-            HofffRateIt.Util.addClass(this.message, 'error');
+            this.message.classList.add('error');
             this.message.innerHTML = data.title;
         }
     }.bind(this);
@@ -129,34 +129,6 @@ HofffRateIt.onReady = function ready(fn) {
             if (document.readyState != 'loading')
                 fn();
         });
-    }
-};
-
-HofffRateIt.Util = {
-    classes: function (element) {
-        return element.className.split(' ');
-    },
-
-    addClass: function (element, cssClass) {
-        var classes = HofffRateIt.Util.classes(element);
-        var position = classes.indexOf(cssClass);
-
-        if (position < 0) {
-            classes.push(cssClass);
-        }
-    },
-
-    removeClass: function (element, cssClass) {
-        var classes = HofffRateIt.Util.classes(element);
-        var position = classes.indexOf(cssClass);
-
-        if (position < 0) {
-            return;
-        }
-
-        classes.splice(position, 1);
-
-        element.className = classes.join(' ');
     }
 };
 
