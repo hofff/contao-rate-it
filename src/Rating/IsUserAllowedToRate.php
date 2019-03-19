@@ -45,7 +45,7 @@ final class IsUserAllowedToRate
                 return true;
             }
 
-            return $this->hasLoggedInUserAlreadyRated($ratingId, $userId);
+            return ! $this->hasLoggedInUserAlreadyRated($ratingId, $userId);
         }
 
         if (!$sessionId) {
@@ -56,7 +56,7 @@ final class IsUserAllowedToRate
             return true;
         }
 
-        return !$this->hasAnonymousUserAlreadyRated($ratingId, $sessionId);
+        return ! $this->hasAnonymousUserAlreadyRated($ratingId, $sessionId);
     }
 
     private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId) : bool
