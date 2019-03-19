@@ -64,6 +64,16 @@ SQL;
 
     public function getRating(string $type, int $ratingTypeId, ?int $userId) : ?array
     {
+        return $this->getRatingWithMessageTemplate($type, $ratingTypeId, $GLOBALS['TL_CONFIG']['rating_description'], $userId);
+    }
+
+    public function getRatingWithSuccessMessage(string $type, int $ratingTypeId, ?int $userId) : ?array
+    {
+        return $this->getRatingWithMessageTemplate($type, $ratingTypeId, $GLOBALS['TL_CONFIG']['rating_success'] ?: $GLOBALS['TL_CONFIG']['rating_description'], $userId);
+    }
+
+    private function getRatingWithMessageTemplate(string $type, int $ratingTypeId, string $template, ?int $userId) : ?array
+    {
         $rating = $this->loadRating($ratingTypeId, $type);
         if (! $rating) {
             return null;
@@ -75,7 +85,7 @@ SQL;
 
         return [
             'descriptionId' => sprintf('rateItRating-%s-description', $ratingTypeId),
-            'description'   => $this->getStarMessage($rating),
+            'description'   => $this->getStarMessage($template, $rating),
             'id'            => sprintf('rateItRating-%s-%s-%s_%s', $ratingTypeId, $type, $stars, $maxStars),
             'class'         => 'rateItRating',
             'itemreviewed'  => $rating['title'],
@@ -117,19 +127,19 @@ SQL;
     }
 
     // TODO: Rework
-    private function getStarMessage(?array $rating) : string
+    private function getStarMessage(string $template, ?array $rating) : string
     {
         $this->framework->initialize();
         $this->framework->getAdapter(System::class)->loadLanguageFile('default');
 
         $stars = $this->percentToStars($rating['rating']);
-        preg_match('/^.*\[(.+)\|(.+)\].*$/i', $GLOBALS['TL_CONFIG']['rating_description'], $labels);
+        preg_match('/^.*\[(.+)\|(.+)\].*$/i', $template, $labels);
         if (! is_array($labels) && (! count($labels) == 2 || ! count($labels) == 3)) {
             $label       = ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating ? $GLOBALS['TL_LANG']['rateit']['rating_label'][1] : $GLOBALS['TL_LANG']['rateit']['rating_label'][0];
             $description = '%current%/%max% %type% (%count% [' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][0] . '|' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][1] . '])';
         } else {
             $label       = count($labels) == 2 ? $labels[1] : ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating ? $labels[2] : $labels[1];
-            $description = $GLOBALS['TL_CONFIG']['rating_description'];
+            $description = $template;
         }
         $actValue = $rating === false ? 0 : $rating['totalRatings'];
         $type     = $GLOBALS['TL_LANG']['rateit']['stars'];

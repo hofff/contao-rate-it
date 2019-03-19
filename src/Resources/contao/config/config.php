@@ -55,3 +55,4 @@ $GLOBALS['TL_CONFIG']['rating_textposition'] = 'after';
 $GLOBALS['TL_CONFIG']['rating_listsize']     = 10;
 $GLOBALS['TL_CONFIG']['rating_template']     = 'rateit_default';
 $GLOBALS['TL_CONFIG']['rating_description']  = '%current%/%max% %type% (%count% [Stimme|Stimmen])';
+$GLOBALS['TL_CONFIG']['rating_success']      = '';

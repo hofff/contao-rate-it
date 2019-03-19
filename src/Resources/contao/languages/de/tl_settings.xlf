@@ -66,6 +66,14 @@
         <source>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
         <target>Beschriftung für die einzelnen Ratings. Variablen werden dabei entsprechend ersetzt.&lt;br&gt;verfügbare Variablen:&lt;br&gt;%current% - aktuelle Bewertung&lt;br&gt;%max% - max. mögliche Bewertung&lt;br&gt;%type% - Art der Bewertung (Sterne)&lt;br&gt;%count% - Anzahl abgegebener Stimmen&lt;br&gt;[Singular|Plural] - Text für abgegebene Stimmen&lt;br&gt;&lt;br&gt;Beispiele:&lt;br&gt;&lt;br&gt;%current%/%max% (%count% [Stimme|Stimmen]) liefert 3,7/5 Sterne (7 Stimmen)&lt;br&gt;%count% [Like|Likes] liefert 1 Like bzw. 4 Likes</target>
       </trans-unit>
+      <trans-unit id="tl_settings.rating_success.0">
+        <source>Success message</source>
+        <target>Beschriftung</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_success.1">
+        <source>Label for success message. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
+        <target>Erfolgsmeldung einer getätigten Berwertung. Variablen werden dabei entsprechend ersetzt.&lt;br&gt;verfügbare Variablen:&lt;br&gt;%current% - aktuelle Bewertung&lt;br&gt;%max% - max. mögliche Bewertung&lt;br&gt;%type% - Art der Bewertung (Sterne)&lt;br&gt;%count% - Anzahl abgegebener Stimmen&lt;br&gt;[Singular|Plural] - Text für abgegebene Stimmen&lt;br&gt;&lt;br&gt;Beispiele:&lt;br&gt;&lt;br&gt;%current%/%max% (%count% [Stimme|Stimmen]) liefert 3,7/5 Sterne (7 Stimmen)&lt;br&gt;%count% [Like|Likes] liefert 1 Like bzw. 4 Likes</target>
+      </trans-unit>
       <trans-unit id="tl_settings.stars.0">
         <source>stars</source>
         <target>Sterne</target>

@@ -21,7 +21,9 @@ use Hofff\Contao\RateIt\EventListener\Dca\SettingsDcaListener;
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{rateit_legend:hide},rating_count,rating_textposition,rating_listsize,rating_allow_duplicate_ratings,rating_allow_duplicate_ratings_for_members,rating_template,rating_description';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{rateit_legend:hide},rating_count,rating_textposition'
+    . ',rating_listsize,rating_allow_duplicate_ratings,rating_allow_duplicate_ratings_for_members,rating_template'
+    . ',rating_description,rating_success';
 
 /**
  * fields
@@ -84,4 +86,12 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_description'] = [
     'default'   => '%current%/%max% %type% (%count% [Stimme|Stimmen])',
     'inputType' => 'text',
     'eval'      => ['mandatory' => true, 'allowHtml' => true, 'tl_class' => 'w50'],
+];
+
+$GLOBALS['TL_DCA']['tl_settings']['fields']['rating_success'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_success'],
+    'exclude'   => true,
+    'default'   => '%current%/%max% %type% (%count% [Stimme|Stimmen])',
+    'inputType' => 'text',
+    'eval'      => ['mandatory' => false, 'allowHtml' => true, 'tl_class' => 'w50'],
 ];

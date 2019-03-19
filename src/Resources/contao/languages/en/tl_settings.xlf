@@ -70,6 +70,18 @@
         <source>stars</source>
         <target>stars</target>
       </trans-unit>
+      <trans-unit id="tl_settings.rating_success.0">
+        <source>Success message</source>
+        <target>Success message</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_success.1">
+        <source>Label for success message. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
+        <target>Label for success message. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.stars.0">
+        <source>stars</source>
+        <target>stars</target>
+      </trans-unit>
       <trans-unit id="tl_settings.stars.1">
         <source>Illustration with stars</source>
         <target>Illustration with stars</target>

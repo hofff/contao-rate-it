@@ -173,7 +173,7 @@ class AjaxRateItController
         $ratableKeyId = $this->getRateableKeyId($id, $type);
         $sessionId    = new CurrentUserId();
 
-        if (!$this->isUserAllowedToRate->__invoke($ratableKeyId, (string) $sessionId, $userId)) {
+        if (! $this->isUserAllowedToRate->__invoke($ratableKeyId, (string) $sessionId, $userId)) {
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.duplicate_vote', [], 'contao_default'),
@@ -197,7 +197,7 @@ class AjaxRateItController
         return new JsonResponse(
             [
                 'status' => 200,
-                'data'   => $this->ratingService->getRating($type, $id, $userId),
+                'data'   => $this->ratingService->getRatingWithSuccessMessage($type, $id, $userId),
             ]
         );
     }
