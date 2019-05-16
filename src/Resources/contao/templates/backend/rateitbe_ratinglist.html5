@@ -32,7 +32,7 @@
 $rateit = &$this->rateit;
 $theme = &$rateit->theme;
 $text = &$GLOBALS['TL_LANG']['tl_rateit'];
-$type_options = \Contao\System::getContainer()->getParameter('hofff.contao_rate_it.types');
+$type_options = &$GLOBALS['TL_LANG']['tl_rateit_type_options'];
 $active_options = &$GLOBALS['TL_LANG']['tl_rateit_active_options'];
 $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 
