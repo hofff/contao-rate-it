@@ -95,7 +95,7 @@ HofffRateIt.widget.prototype.rate = function (value) {
         }
     }.bind(this);
 
-    request.open('POST', '/app_dev.php/rateit', true);
+    request.open('POST', '/rateit', true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send('id=' + this.id + '&type=' + this.type + '&vote=' + (100 / this.max * value));
 };
