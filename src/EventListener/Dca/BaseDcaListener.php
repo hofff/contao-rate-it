@@ -86,7 +86,6 @@ abstract class BaseDcaListener
             $database->prepare("UPDATE tl_rateit_items SET active='' WHERE rkey=? and typ=?")
                 ->execute($dc->activeRecord->id, $type)
                 ->updatedId;
-
         }
         return true;
     }
