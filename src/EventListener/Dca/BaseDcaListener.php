@@ -40,13 +40,7 @@ abstract class BaseDcaListener extends Backend
      */
     public function getRateItTemplates(DataContainer $dc)
     {
-        $intPid = $dc->activeRecord->pid;
-
-        if ($this->Input->get('act') == 'overrideAll') {
-            $intPid = $this->Input->get('id');
-        }
-
-        return $this->getTemplateGroup('rateit_', $intPid);
+        return $this->getTemplateGroup('rateit_');
     }
 
     /**
