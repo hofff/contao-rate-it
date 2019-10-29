@@ -46,6 +46,6 @@ final class ContentDcaListener extends BaseDcaListener
 
     public function delete(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'ce');
+        $this->onDeleteItemUpdateRating($dc, 'ce');
     }
 }

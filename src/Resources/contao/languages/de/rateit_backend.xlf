@@ -34,6 +34,14 @@
         <source>Please choose whether you want to display only active or inactive ratings.</source>
         <target>Bitte wählen Sie, ob Sie nur aktive bzw. inaktive Bewertungen anzeigen wollen.</target>
       </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.0">
+        <source>Active/Invisible/Removed</source>
+        <target>Aktiv/Unsichtbar/Gelöscht</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.1">
+        <source>Please choose whether you want to display only ratings where the linked element has a specific status.</source>
+        <target>Bitte wählen Sie, ob Sie nur Bewertungen anzeigen wollen, wo das verknüpfte Element einen bestimmten Status hat.</target>
+      </trans-unit>
       <trans-unit id="tl_rateit.typ.0">
         <source>Type</source>
         <target>Typ</target>
@@ -65,6 +73,14 @@
       <trans-unit id="tl_rateit.status.1">
         <source>Indicates whether this rating is currently enabled or not.</source>
         <target>Gibt an, ob diese Bewertung derzeit aktiviert ist oder nicht.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.0">
+        <source>Related element</source>
+        <target>Dazugehöriges Element</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.1">
+        <source>Indicates the state of the related element.</source>
+        <target>Gibt den Status des dazugehörigen Elements dieser Bewertung an.</target>
       </trans-unit>
       <trans-unit id="tl_rateit.rating.0">
         <source>Rating</source>
@@ -174,6 +190,10 @@
         <source>Reset selected ratings</source>
         <target>Markierte Bewertungen zurücksetzen</target>
       </trans-unit>
+      <trans-unit id="tl_rateit.removeratings">
+        <source>Completely remove selected ratings</source>
+        <target>Bewertungen vollständig löschen</target>
+      </trans-unit>
       <trans-unit id="tl_rateit_type_options.page">
         <source>Page</source>
         <target>Seite</target>
@@ -221,6 +241,18 @@
       <trans-unit id="tl_rateit_active_options.1">
         <source>active</source>
         <target>aktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.a">
+        <source>active</source>
+        <target>aktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.i">
+        <source>invisible</source>
+        <target>unsichtbar</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.r">
+        <source>removed</source>
+        <target>gelöscht</target>
       </trans-unit>
       <trans-unit id="tl_rateit.xls_sheetname_ratings">
         <source>Ratings</source>

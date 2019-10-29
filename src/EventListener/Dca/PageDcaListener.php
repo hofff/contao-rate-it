@@ -55,6 +55,6 @@ final class PageDcaListener extends BaseDcaListener
 
     public function delete(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'page');
+        $this->onDeleteItemUpdateRating($dc, 'page');
     }
 }

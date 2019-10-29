@@ -48,7 +48,7 @@ final class ModuleDcaListener extends BaseDcaListener
 
     public function delete(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'module');
+        $this->onDeleteItemUpdateRating($dc, 'module');
     }
 
     public function getRateItTopModuleTemplates() : array

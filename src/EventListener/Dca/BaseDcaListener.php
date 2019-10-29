@@ -18,6 +18,7 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
 use Contao\Database;
+use Contao\Input;
 use Contao\DataContainer;
 
 /**
@@ -59,47 +60,47 @@ abstract class BaseDcaListener
      */
     public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle)
     {
-        $database = Database::getInstance();
+        $database     = Database::getInstance();
+        $parentstatus = Input::post('published') == '1' ? 'a' : Input::get('state') == '1' ? 'a' : 'i';
 
         if ($dc->activeRecord->rateit_active || $dc->activeRecord->addRating) {
             $actRecord = $database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
                 ->execute($dc->activeRecord->id, $type)
                 ->fetchAssoc();
             if (! is_array($actRecord)) {
-                $arrSet       = array('rkey'      => $dc->activeRecord->id,
-                                      'tstamp'    => time(),
-                                      'typ'       => $type,
-                                      'createdat' => time(),
-                                      'title'     => $ratingTitle,
-                                      'active'    => '1',
+                $arrSet       = array('rkey'         => $dc->activeRecord->id,
+                                      'tstamp'       => time(),
+                                      'typ'          => $type,
+                                      'createdat'    => time(),
+                                      'title'        => $ratingTitle,
+                                      'active'       => '1',
+                                      'parentstatus' => $parentstatus,
                 );
-                $insertRecord = $database->prepare("INSERT INTO tl_rateit_items %s")
+                $database->prepare("INSERT INTO tl_rateit_items %s")
                     ->set($arrSet)
-                    ->execute()
-                    ->insertId;
+                    ->execute();
             } else {
-                $database->prepare("UPDATE tl_rateit_items SET active='1', title=? WHERE rkey=? and typ=?")
-                    ->execute($ratingTitle, $dc->activeRecord->id, $type)
-                    ->updatedId;
+                $database->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
+                    ->execute($ratingTitle, $parentstatus, $dc->activeRecord->id, $type);
             }
         } else {
-            $database->prepare("UPDATE tl_rateit_items SET active='' WHERE rkey=? and typ=?")
-                ->execute($dc->activeRecord->id, $type)
-                ->updatedId;
+            $database->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
+                ->execute($parentstatus, $dc->activeRecord->id, $type);
         }
         return true;
     }
 
     /**
-     * Löschen eines Datensatzes aus der Tabelle tl_rateit_items.
-     * @param mixed
-     * @param object
-     * @return string
+     * Updates the rating when the parent item has been deleted.
+     * 
+     * @param DataContainer $dc Provides the current active item.
+     * @param string $type Contao type, e. g. news
+     * @return boolean Always true
      */
-    public function deleteRatingKey(DataContainer $dc, $type)
+    public function onDeleteItemUpdateRating(DataContainer $dc, $type)
     {
         Database::getInstance()
-            ->prepare('DELETE FROM tl_rateit_items WHERE rkey=? and typ=?')
+            ->prepare("UPDATE tl_rateit_items SET parentstatus = 'r' WHERE rkey=? and typ=?")
             ->execute($dc->activeRecord->id, $type);
 
         return true;

@@ -33,6 +33,8 @@ $theme = &$rateit->theme;
 $text = &$GLOBALS['TL_LANG']['tl_rateit'];
 $type_options = &$GLOBALS['TL_LANG']['tl_rateit_type_options'];
 $active_options = &$GLOBALS['TL_LANG']['tl_rateit_active_options'];
+$parentstatus_options = &$GLOBALS['TL_LANG']['tl_rateit_parentstatus_options'];
+ksort($parentstatus_options);
 $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 
 ?>
@@ -62,6 +64,13 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
   <option value="<?php echo $k; ?>"<?php if (strcasecmp($rateit->f_active, $k) == 0) echo ' selected="selected"'; ?>><?php echo $v; ?></option>
 <?php endforeach; ?>
 </select> 
+<select name="rateit_parentstatus" id="rateit_parentstatus" class="tl_select<?php if ($rateit->f_parentstatus!='') echo ' active'; ?>">
+  <option value=""><?php echo $text['selparentstatus'][0]; ?></option>
+  <option value="">---</option>
+<?php foreach ($parentstatus_options as $k=>$v): ?>
+  <option value="<?php echo $k; ?>"<?php if (strcasecmp($rateit->f_parentstatus, $k) == 0) echo ' selected="selected"'; ?>><?php echo $v; ?></option>
+<?php endforeach; ?>
+</select>
 </div>
 
 <div class="clear"></div>
@@ -142,14 +151,15 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 <tr class="info">
   <th><?php echo property_exists($rating, 'rating') ? $text['rateit'][0] : '&nbsp;'; ?></th>
   <td class="nowrap"><?php if (property_exists($rating, 'rating')): ?><div class="ratebarframe"><div class="ratebar" style="width:<?php echo number_format($rating->percent,12,'.',','); ?>%"></div></div> <div class="ratebartext"><?php echo sprintf($text['ratingfmt'], str_replace(".", ",", $rating->rating), $rating->stars, $rating->totalRatings); ?></div><?php endif; ?></td>
-  <th>&nbsp;</th>
-  <td>&nbsp;</td>
+  <th><?php echo $text['parentstatus'][0]; ?></th>
+  <td><?php echo $parentstatus_options[$rating->parentstatus]; ?></td>
 </tr>
 </table>
 <?php endforeach; ?>
 <div class="tl_formbody_submit">
   <div class="tl_submit_container">
-    <input type="submit" name="rateit_clearbutton" id="rateit_clearbutton" class="tl_submit" value="<?php echo $text['clearratings']; ?>">
+    <button type="submit" name="rateit_action" id="rateit_clearbutton" class="tl_submit" value="clearratings"><?php echo $text['clearratings']; ?></button>
+    <button type="submit" name="rateit_action" id="rateit_removebutton" class="tl_submit" value="removeratings"><?php echo $text['removeratings']; ?></button>
   </div>
 </div>
 <?php endif; ?>
@@ -169,6 +179,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
       }
     }
     document.getElementById('rateit_clearbutton').disabled = !sel;
+    document.getElementById('rateit_removebutton').disabled = !sel;
   }
   function selectUnselectAll() {
     var chk = document.getElementById('selectall').checked;
