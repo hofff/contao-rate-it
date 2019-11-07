@@ -20,12 +20,11 @@
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
- * PHP version 5
- * @copyright  cgo IT, 2013
- * @author     Carsten Götzinger (info@cgo-it.de)
- * @package    rateit
- * @version    3.1.0 stable
- * @license    GNU/LGPL
+ * @author     David Molineus <david@hofff.com>
+ * @author     Carsten Götzinger <info@cgo-it.de>
+ * @copyright  2019 hofff.com.
+ * @copyright  2013-2018 cgo IT.
+ * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
 
