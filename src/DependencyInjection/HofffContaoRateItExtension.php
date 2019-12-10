@@ -34,5 +34,8 @@ final class HofffContaoRateItExtension extends Extension
         $loader->load('config.xml');
         $loader->load('services.xml');
         $loader->load('listeners.xml');
+
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter('hofff_contao_rate_it.items', $config['items']);
     }
 }
