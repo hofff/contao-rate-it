@@ -25,7 +25,7 @@ use Contao\DataContainer;
 abstract class BaseDcaListener extends Backend
 {
     /** @var string[] */
-    private $activeItems;
+    protected $activeItems;
 
     /**
      * Constructor

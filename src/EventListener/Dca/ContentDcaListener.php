@@ -22,8 +22,25 @@ use Contao\DataContainer;
 
 final class ContentDcaListener extends BaseDcaListener
 {
+    public function onLoad() : void
+    {
+        if (! $this->isActive('ce')) {
+            return;
+        }
+
+        $dca = &$GLOBALS['TL_DCA']['tl_content'];
+
+        $dca['config']['onsubmit_callback'][] = [self::class, 'insert'];
+        $dca['config']['ondelete_callback'][] = [self::class, 'delete'];
+    }
+
     public function insert(DataContainer $dc) : void
     {
+        if ($dc->activeRecord->type !== 'rateit') {
+            return;
+        }
+
+        // FIXME: insertOrUpdateRatingKey for tl_content can't work because no addRating flag exists
         $this->insertOrUpdateRatingKey($dc, 'ce', $dc->activeRecord->rateit_title);
     }
 

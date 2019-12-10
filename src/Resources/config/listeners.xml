@@ -28,6 +28,11 @@
             <tag name="contao.hook" hook="generatePage" />
         </service>
 
+        <service id="Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener">
+            <argument>%hofff_contao_rate_it.items%</argument>
+            <tag name="contao.hook" hook="initializeSystem" />
+        </service>
+
         <!-- Dca listeners -->
        <service id="Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener" public="true">
            <argument>%hofff.contao_rate_it.types%</argument>
