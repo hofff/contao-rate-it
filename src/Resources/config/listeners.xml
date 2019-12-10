@@ -42,6 +42,10 @@
             <argument>%hofff.contao_rate_it.types%</argument>
         </service>
 
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+        </service>
+
         <service id="Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener" public="true">
             <argument>%hofff.contao_rate_it.types%</argument>
         </service>
