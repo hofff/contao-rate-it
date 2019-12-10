@@ -28,7 +28,7 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('items')
+                ->arrayNode('types')
                     ->children()
                         ->booleanNode('page')
                             ->defaultTrue()

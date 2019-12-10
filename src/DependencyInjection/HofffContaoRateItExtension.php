@@ -31,11 +31,12 @@ final class HofffContaoRateItExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
 
-        $loader->load('config.xml');
         $loader->load('services.xml');
         $loader->load('listeners.xml');
 
         $config = $this->processConfiguration(new Configuration(), $configs);
-        $container->setParameter('hofff_contao_rate_it.items', $config['items']);
+        $types  = array_keys(array_filter($config['types']));
+
+        $container->setParameter('hofff.contao_rate_it.types', $types);
     }
 }
