@@ -22,14 +22,12 @@ use Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener;
  * Extend tl_article
  */
 
-$GLOBALS['TL_DCA']['tl_news']['config']['onsubmit_callback'][] = [NewsDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_news']['config']['ondelete_callback'][] = [NewsDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_news']['config']['onload_callback'][] = [NewsDcaListener::class, 'onLoad'];
 
 /**
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_news']['palettes']['__selector__'][] = 'addRating';
-$GLOBALS['TL_DCA']['tl_news']['palettes']['default']        = $GLOBALS['TL_DCA']['tl_news']['palettes']['default'] . ';{rating_legend:hide},addRating';
 
 /**
  * Add subpalettes to tl_article

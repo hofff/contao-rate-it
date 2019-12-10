@@ -49,5 +49,9 @@
         <service id="Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener" public="true">
             <argument>%hofff.contao_rate_it.types%</argument>
         </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+        </service>
     </services>
 </container>
