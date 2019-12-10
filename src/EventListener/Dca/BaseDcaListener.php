@@ -24,13 +24,22 @@ use Contao\DataContainer;
  */
 abstract class BaseDcaListener extends Backend
 {
+    /** @var string[] */
+    private $activeItems;
 
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(array $activeItems)
     {
         parent::__construct();
+
+        $this->activeItems = $activeItems;
+    }
+
+    protected function isActive(string $name) : bool
+    {
+        return in_array($name, $this->activeItems, true);
     }
 
     /**
