@@ -29,6 +29,7 @@ final class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('types')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('page')
                             ->defaultTrue()

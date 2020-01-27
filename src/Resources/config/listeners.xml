@@ -29,7 +29,7 @@
         </service>
 
         <service id="Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener">
-            <argument>%hofff_contao_rate_it.types%</argument>
+            <argument>%hofff.contao_rate_it.types%</argument>
             <tag name="contao.hook" hook="initializeSystem" />
         </service>
 
