@@ -43,7 +43,7 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('module')
                             ->defaultTrue()
                         ->end()
-                        ->booleanNode('content')
+                        ->booleanNode('ce')
                             ->defaultTrue()
                         ->end()
                     ->end()

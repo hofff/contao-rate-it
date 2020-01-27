@@ -33,7 +33,7 @@ class FrontendIntegrationListener
 
     public function onInitializeSystem() : void
     {
-        if (in_array('content', $this->activeItems, true)) {
+        if (in_array('ce', $this->activeItems, true)) {
             $GLOBALS['TL_CTE']['includes']['rateit'] = RateItCE::class;
         }
 
