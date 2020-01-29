@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\DependencyInjection;
 
+use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
+use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
+use Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -38,5 +41,17 @@ final class HofffContaoRateItExtension extends Extension
         $types  = array_keys(array_filter($config['types']));
 
         $container->setParameter('hofff.contao_rate_it.types', $types);
+
+        if (! in_array('page', $types, true)) {
+            $container->removeDefinition(RateItPageListener::class);
+        }
+
+        if (! in_array('article', $types, true)) {
+            $container->removeDefinition(RateItArticleListener::class);
+        }
+
+        if (! in_array('news', $types, true)) {
+            $container->removeDefinition(RateItNewsListener::class);
+        }
     }
 }
