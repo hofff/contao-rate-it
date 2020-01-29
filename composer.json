@@ -44,7 +44,8 @@
     "cgo-it/news4ward-rateit": "*"
   },
   "require-dev": {
-    "contao/manager-plugin": "^2.0"
+    "contao/manager-plugin": "^2.0",
+    "php-http/guzzle6-adapter": "^1.1"
   },
   "config": {
     "sort-packages": true

@@ -3,6 +3,10 @@
 This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**, provided as 
 [cgoIT/contao-rate-it-bundle](https://github.com/cgoIT/contao-rate-it-bundle) with following differences:
 
+**Added**
+
+ * Disable ratings for types which should not be used
+
 **Changed**
 
  * Change namespaces of every class
@@ -24,3 +28,19 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
 
  * At least Contao 4.6
  * AT least PHP 7.1
+
+## Configuration
+
+You man want to configure the bundle using the application configuration (`config/config.yml` or `app/config/config.yml`)
+depending on your project. Right now you are only able to disable supported content types.
+
+```
+# Default configuration
+hofff_contao_rate_it:
+    types:
+        page:                 true
+        article:              true
+        news:                 true
+        module:               true
+        ce:                   true
+```

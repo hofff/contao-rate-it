@@ -18,18 +18,26 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
 
 final class ModuleDcaListener extends BaseDcaListener
 {
-    /** @var string[] */
-    private $supportedTypes;
-
-    public function __construct(array $supportedTypes)
+    public function onLoad() : void
     {
-        parent::__construct();
+        if (! $this->isActive('module')) {
+            return;
+        }
 
-        $this->supportedTypes = $supportedTypes;
+        $dca = &$GLOBALS['TL_DCA']['tl_module'];
+
+        $dca['config']['onsubmit_callback'][] = [self::class, 'insert'];
+        $dca['config']['ondelete_callback'][] = [self::class, 'delete'];
+
+        PaletteManipulator::create()
+            ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
+            ->addField('rateit_active', 'rateit_legend', PaletteManipulator::POSITION_APPEND)
+            ->applyToPalette('default', 'tl_module');
     }
 
     public function insert(DataContainer $dc) : void
@@ -49,6 +57,6 @@ final class ModuleDcaListener extends BaseDcaListener
 
     public function typeOptions(): array
     {
-        return $this->supportedTypes;
+        return $this->activeItems;
     }
 }

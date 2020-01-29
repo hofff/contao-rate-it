@@ -206,10 +206,16 @@ class RateItBackendModule extends BackendModule
         } // if
 
         // add view links
+        $types = [];
         foreach ($rateit->ratingitems as &$ext) {
             $ext->viewLink = $this->createUrl(array('act' => 'view', 'rkey' => $ext->rkey, 'typ' => $ext->typ));
             $totrecs       = $ext->totcount;
+            $types[]       = $ext->typ;
         } // foreach
+
+        $types = array_unique($types);
+        sort($types);
+        $rateit->types = $types;
 
         // create pages list
         $rateit->pages = array();

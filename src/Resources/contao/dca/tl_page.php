@@ -20,24 +20,12 @@ use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
  * Extend tl_page
  */
 
-$GLOBALS['TL_DCA']['tl_page']['config']['onsubmit_callback'][] = [PageDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_page']['config']['ondelete_callback'][] = [PageDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_page']['config']['onload_callback'][] = [PageDcaListener::class, 'onLoad'];
 
 /**
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'addRating';
-foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $keyPalette => $valuePalette) {
-    // Skip if we have a array or the palettes for subselections
-    if (is_array($valuePalette) || $keyPalette == "__selector__" || $keyPalette == "root" || $keyPalette == "forward" || $keyPalette == "redirect") {
-        continue;
-    }
-
-    $valuePalette .= ';{rateit_legend:hide},addRating';
-
-    // Write new entry back in the palette
-    $GLOBALS['TL_DCA']['tl_page']['palettes'][$keyPalette] = $valuePalette;
-}
 
 /**
  * Add subpalettes to tl_page

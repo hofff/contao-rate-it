@@ -28,9 +28,30 @@
             <tag name="contao.hook" hook="generatePage" />
         </service>
 
+        <service id="Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener">
+            <argument>%hofff.contao_rate_it.types%</argument>
+            <tag name="contao.hook" hook="initializeSystem" />
+        </service>
+
         <!-- Dca listeners -->
        <service id="Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener" public="true">
            <argument>%hofff.contao_rate_it.types%</argument>
        </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\ArticleDcaListener" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+        </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+        </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+        </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+        </service>
     </services>
 </container>
