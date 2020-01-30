@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
+use Contao\Backend;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
 
@@ -52,7 +53,7 @@ final class ModuleDcaListener extends BaseDcaListener
 
     public function getRateItTopModuleTemplates() : array
     {
-        return self::getTemplateGroup('mod_rateit_top');
+        return Backend::getTemplateGroup('mod_rateit_top');
     }
 
     public function typeOptions(): array

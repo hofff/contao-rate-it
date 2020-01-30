@@ -9,3 +9,4 @@
 ### Breaking
 
  - Renamed `ArticleBaseDcaListener` to `ArticleDcaListener`
+ - `BaseDcaListener` does not inherit from `Backend` anymore

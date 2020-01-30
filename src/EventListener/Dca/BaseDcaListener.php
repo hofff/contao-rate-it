@@ -17,12 +17,13 @@
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
+use Contao\Database;
 use Contao\DataContainer;
 
 /**
  * Class DcaHelper
  */
-abstract class BaseDcaListener extends Backend
+abstract class BaseDcaListener
 {
     /** @var string[] */
     protected $activeItems;
@@ -32,8 +33,6 @@ abstract class BaseDcaListener extends Backend
      */
     public function __construct(array $activeItems)
     {
-        parent::__construct();
-
         $this->activeItems = $activeItems;
     }
 
@@ -49,7 +48,7 @@ abstract class BaseDcaListener extends Backend
      */
     public function getRateItTemplates(DataContainer $dc)
     {
-        return $this->getTemplateGroup('rateit_');
+        return Backend::getTemplateGroup('rateit_');
     }
 
     /**
@@ -60,8 +59,10 @@ abstract class BaseDcaListener extends Backend
      */
     public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle)
     {
+        $database = Database::getInstance();
+
         if ($dc->activeRecord->rateit_active || $dc->activeRecord->addRating) {
-            $actRecord = $this->Database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
+            $actRecord = $database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
                 ->execute($dc->activeRecord->id, $type)
                 ->fetchAssoc();
             if (! is_array($actRecord)) {
@@ -72,17 +73,17 @@ abstract class BaseDcaListener extends Backend
                                       'title'     => $ratingTitle,
                                       'active'    => '1',
                 );
-                $insertRecord = $this->Database->prepare("INSERT INTO tl_rateit_items %s")
+                $insertRecord = $database->prepare("INSERT INTO tl_rateit_items %s")
                     ->set($arrSet)
                     ->execute()
                     ->insertId;
             } else {
-                $this->Database->prepare("UPDATE tl_rateit_items SET active='1', title=? WHERE rkey=? and typ=?")
+                $database->prepare("UPDATE tl_rateit_items SET active='1', title=? WHERE rkey=? and typ=?")
                     ->execute($ratingTitle, $dc->activeRecord->id, $type)
                     ->updatedId;
             }
         } else {
-            $this->Database->prepare("UPDATE tl_rateit_items SET active='' WHERE rkey=? and typ=?")
+            $database->prepare("UPDATE tl_rateit_items SET active='' WHERE rkey=? and typ=?")
                 ->execute($dc->activeRecord->id, $type)
                 ->updatedId;
 
@@ -98,8 +99,10 @@ abstract class BaseDcaListener extends Backend
      */
     public function deleteRatingKey(DataContainer $dc, $type)
     {
-        $this->Database->prepare("DELETE FROM tl_rateit_items WHERE rkey=? and typ=?")
+        Database::getInstance()
+            ->prepare('DELETE FROM tl_rateit_items WHERE rkey=? and typ=?')
             ->execute($dc->activeRecord->id, $type);
+
         return true;
     }
 }
