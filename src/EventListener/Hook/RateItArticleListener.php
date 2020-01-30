@@ -16,7 +16,6 @@
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use function array_merge;
 use Contao\Config;
 use Contao\Template;
 

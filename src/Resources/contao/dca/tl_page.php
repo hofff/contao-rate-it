@@ -21,6 +21,7 @@ use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
  */
 
 $GLOBALS['TL_DCA']['tl_page']['config']['onload_callback'][] = [PageDcaListener::class, 'onLoad'];
+$GLOBALS['TL_DCA']['tl_page']['config']['onundo_callback'][] = [PageDcaListener::class, 'onUndo'];
 
 /**
  * Palettes

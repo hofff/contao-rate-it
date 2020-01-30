@@ -31,8 +31,9 @@ final class PageDcaListener extends BaseDcaListener
 
         $dca = &$GLOBALS['TL_DCA']['tl_page'];
 
-        $dca['config']['onsubmit_callback'][] = [self::class, 'insert'];
-        $dca['config']['ondelete_callback'][] = [self::class, 'delete'];
+        $dca['config']['onsubmit_callback'][]          = [self::class, 'insert'];
+        $dca['config']['ondelete_callback'][]          = [self::class, 'delete'];
+        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
 
         $manipulator = PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
@@ -50,11 +51,25 @@ final class PageDcaListener extends BaseDcaListener
 
     public function insert(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'page', $dc->activeRecord->title);
+        $this->insertOrUpdateRatingKey($dc, 'page', $dc->activeRecord->title, $dc->activeRecord->published);
     }
 
     public function delete(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'page');
+        $this->onDeleteItemUpdateRating($dc, 'page');
+    }
+
+    public function onRestore(string $table, $insertId, $version, array $data) : void
+    {
+        $this->restore($insertId, 'page', $data['published']);
+    }
+
+    public function onUndo(string $table, array $row) : void
+    {
+        if (! $this->isActive('page')) {
+            return;
+        }
+
+        $this->restore($row['id'], 'page', $row['published']);
     }
 }

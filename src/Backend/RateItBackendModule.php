@@ -19,6 +19,7 @@ namespace Hofff\Contao\RateIt\Backend;
 use Contao\BackendModule;
 use Contao\Config;
 use Contao\Input;
+use Contao\System;
 
 class RateItBackendModule extends BackendModule
 {
@@ -143,28 +144,31 @@ class RateItBackendModule extends BackendModule
         // returning from submit?
         if ($this->filterPost('rateit_action') == $rateit->f_action) {
             // get url parameters
-            $rateit->f_typ    = trim(Input::post('rateit_typ'));
-            $rateit->f_active = trim(Input::post('rateit_active'));
-            $rateit->f_order  = trim(Input::post('rateit_order'));
-            $rateit->f_page   = trim(Input::post('rateit_page'));
-            $rateit->f_find   = trim(Input::post('rateit_find'));
+            $rateit->f_typ          = trim(Input::post('rateit_typ'));
+            $rateit->f_active       = trim(Input::post('rateit_active'));
+            $rateit->f_parentstatus = trim(Input::post('rateit_parentstatus'));
+            $rateit->f_order        = trim(Input::post('rateit_order'));
+            $rateit->f_page         = trim(Input::post('rateit_page'));
+            $rateit->f_find         = trim(Input::post('rateit_find'));
             $this->Session->set(
                 'rateit_settings',
                 array(
-                    'rateit_typ'   => $rateit->f_typ,
-                    'rateit_order' => $rateit->f_order,
-                    'rateit_page'  => $rateit->f_page,
-                    'rateit_find'  => $rateit->f_find,
+                    'rateit_typ'          => $rateit->f_typ,
+                    'rateit_parentstatus' => $rateit->f_parentstatus,
+                    'rateit_order'        => $rateit->f_order,
+                    'rateit_page'         => $rateit->f_page,
+                    'rateit_find'         => $rateit->f_find,
                 )
             );
         } else {
             $stg = $this->Session->get('rateit_settings');
             if (is_array($stg)) {
-                $rateit->f_typ    = trim($stg['rateit_typ']);
-                $rateit->f_active = trim($stg['rateit_active']);
-                $rateit->f_order  = trim($stg['rateit_order']);
-                $rateit->f_page   = trim($stg['rateit_page']);
-                $rateit->f_find   = trim($stg['rateit_find']);
+                $rateit->f_typ          = trim($stg['rateit_typ']);
+                $rateit->f_active       = trim($stg['rateit_active']);
+                $rateit->f_parentstatus = trim($stg['rateit_parentstatus']);
+                $rateit->f_order        = trim($stg['rateit_order']);
+                $rateit->f_page         = trim($stg['rateit_page']);
+                $rateit->f_find         = trim($stg['rateit_find']);
             } // if
         } // if
 
@@ -181,6 +185,7 @@ class RateItBackendModule extends BackendModule
         } // if
         if ($rateit->f_typ != '') $options['typ'] = $rateit->f_typ;
         if ($rateit->f_active != '') $options['active'] = $rateit->f_active == '0' ? '' : $rateit->f_active;
+        if ($rateit->f_parentstatus != '') $options['parentstatus'] = $rateit->f_parentstatus;
         if ($rateit->f_find != '') $options['find'] = $rateit->f_find;
 
         switch ($rateit->f_order) {
@@ -206,16 +211,11 @@ class RateItBackendModule extends BackendModule
         } // if
 
         // add view links
-        $types = [];
         foreach ($rateit->ratingitems as &$ext) {
             $ext->viewLink = $this->createUrl(array('act' => 'view', 'rkey' => $ext->rkey, 'typ' => $ext->typ));
             $totrecs       = $ext->totcount;
             $types[]       = $ext->typ;
         } // foreach
-
-        $types = array_unique($types);
-        sort($types);
-        $rateit->types = $types;
 
         // create pages list
         $rateit->pages = array();
@@ -228,6 +228,8 @@ class RateItBackendModule extends BackendModule
                 $totrecs         -= $cnt;
             } // while
         } // if
+
+        $this->Template->types = $this->getUsedTypes();
     } // listRatings
 
     /**
@@ -291,7 +293,7 @@ class RateItBackendModule extends BackendModule
         if (! isset($perpage) || $perpage < 0) $perpage = 10;
 
         if ($rateit->f_page >= 0 && $perpage > 0) {
-            $options['first'] = $rateit->f_page * $perpage;
+            $options['first'] = ((int) $rateit->f_page) * $perpage;
             $options['limit'] = $perpage;
         } // if
 
@@ -340,13 +342,21 @@ class RateItBackendModule extends BackendModule
             return;
         }
 
+        $removeParent = Input::post('rateit_action') == 'removeratings';
+
         foreach ($ids0 as $id) {
             list($rkey, $typ) = explode('__', $id);
+            $this->Database->query('START TRANSACTION');
             $pid = $this->Database->prepare('SELECT id FROM tl_rateit_items WHERE rkey=? and typ=?')
                 ->execute($rkey, $typ)
                 ->fetchRow();
             $this->Database->prepare('DELETE FROM tl_rateit_ratings WHERE pid=?')
                 ->execute($pid[0]);
+            if ($removeParent) {
+                $this->Database->prepare('DELETE FROM tl_rateit_items WHERE id=?')
+                    ->execute($pid[0]);
+            }
+            $this->Database->query('COMMIT');
         }
 
         $this->redirect($rateit->homeLink);
@@ -358,7 +368,7 @@ class RateItBackendModule extends BackendModule
      * @param array $aParams Assiciative array with key/value pairs as parameters.
      * @return string The create link.
      */
-    protected function createUrl($aParams = null)
+    protected function createUrl($aParams = [])
     {
         return $this->createPageUrl(Input::get('do'), $aParams);
     } // createUrl
@@ -369,15 +379,11 @@ class RateItBackendModule extends BackendModule
      * @param array  $aParams Assiciative array with key/value pairs as parameters.
      * @return string The create link.
      */
-    protected function createPageUrl($aPage, $aParams = null)
+    protected function createPageUrl($aPage, $aParams = [])
     {
-        $url = 'contao?do=' . $aPage;
-        if (is_array($aParams)) {
-            foreach ($aParams as $key => $val)
-                if ($val != '')
-                    $url .= '&amp;' . $key . '=' . $val;
-        }
-        return $url;
+        $aParams['do'] = $aPage;
+
+        return System::getContainer()->get('router')->generate('contao_backend', $aParams);
     } // createPageUrl
 
     /**
@@ -413,13 +419,14 @@ class RateItBackendModule extends BackendModule
 				i.typ as typ,
 				i.createdat as createdat,
 				i.active as active,
+                i.parentstatus as parentstatus,
 				IFNULL(AVG(r.rating),0) AS rating,
 				COUNT( r.rating ) AS totalRatings
 				FROM tl_rateit_items i
 				LEFT OUTER JOIN tl_rateit_ratings r
 				ON (i.id = r.pid)
 				%w
-				GROUP BY rkey, title, item_id, typ, createdat, active
+				GROUP BY rkey, title, item_id, typ, createdat, active, parentstatus
 				%o
 				%l";
 
@@ -633,5 +640,10 @@ class RateItBackendModule extends BackendModule
             }
         }
         return $strString;
+    }
+
+    private function getUsedTypes() : array
+    {
+        return $this->Database->execute('SELECT typ FROM tl_rateit_items GROUP BY typ ORDER BY typ')->fetchEach('typ');
     }
 } // class rateitBackendModule

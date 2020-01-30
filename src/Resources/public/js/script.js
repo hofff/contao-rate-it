@@ -1,4 +1,4 @@
-var HofffRateIt = {};
+var HofffRateIt = HofffRateIt || {};
 
 HofffRateIt.API_ENTRYPOINT = '/rateit';
 
@@ -95,7 +95,7 @@ HofffRateIt.widget.prototype.rate = function (value) {
         }
     }.bind(this);
 
-    request.open('POST', '/rateit', true);
+    request.open('POST', HofffRateIt.API_ENTRYPOINT, true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send('id=' + this.id + '&type=' + this.type + '&vote=' + (100 / this.max * value));
 };

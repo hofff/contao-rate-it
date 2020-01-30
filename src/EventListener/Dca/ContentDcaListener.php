@@ -30,8 +30,9 @@ final class ContentDcaListener extends BaseDcaListener
 
         $dca = &$GLOBALS['TL_DCA']['tl_content'];
 
-        $dca['config']['onsubmit_callback'][] = [self::class, 'insert'];
-        $dca['config']['ondelete_callback'][] = [self::class, 'delete'];
+        $dca['config']['onsubmit_callback'][]          = [self::class, 'insert'];
+        $dca['config']['ondelete_callback'][]          = [self::class, 'delete'];
+        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
     public function insert(DataContainer $dc) : void
@@ -41,11 +42,25 @@ final class ContentDcaListener extends BaseDcaListener
         }
 
         // FIXME: insertOrUpdateRatingKey for tl_content can't work because no addRating flag exists
-        $this->insertOrUpdateRatingKey($dc, 'ce', $dc->activeRecord->rateit_title);
+        $this->insertOrUpdateRatingKey($dc, 'ce', $dc->activeRecord->rateit_title, $dc->activeRecord->published);
     }
 
     public function delete(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'ce');
+        $this->onDeleteItemUpdateRating($dc, 'ce');
+    }
+
+    public function onRestore(string $table, $insertId, $version, array $data) : void
+    {
+        $this->restore($insertId, 'ce', !$data['invisible']);
+    }
+
+    public function onUndo(string $table, array $row) : void
+    {
+        if (! $this->isActive('ce')) {
+            return;
+        }
+
+        $this->restore($row['id'], 'ce', !$row['invisibile']);
     }
 }

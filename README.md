@@ -14,6 +14,7 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
  * Do not use client ip to detect votes of the same user. Use session id instead.
  * The configured rating templates is used everywhere where ratings are used.
  * Use Font Awesome as `rating_default` template
+ * The rating for each element is retained when the element gets deleted. Ratings can be deleted in the backend.
  
 **Dropped**
 

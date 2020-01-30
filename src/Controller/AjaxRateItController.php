@@ -114,7 +114,7 @@ class AjaxRateItController
      */
     public function doVote(Request $request)
     {
-         $rkey     = $request->request->get('id');
+        $rkey     = $request->request->get('id');
         $percent  = $request->request->get('vote');
         $type     = $request->request->get('type');
         $id       = null;

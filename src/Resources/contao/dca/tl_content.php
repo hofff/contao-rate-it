@@ -19,6 +19,7 @@ declare(strict_types=1);
 use Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener;
 
 $GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = [ContentDcaListener::class, 'onLoad'];
+$GLOBALS['TL_DCA']['tl_content']['config']['onundo_callback'][] = [ContentDcaListener::class, 'onUndo'];
 
 /**
  * palettes
