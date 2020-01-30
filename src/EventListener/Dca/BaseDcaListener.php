@@ -18,7 +18,6 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
 use Contao\Database;
-use Contao\Input;
 use Contao\DataContainer;
 
 /**

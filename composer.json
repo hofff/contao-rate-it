@@ -27,10 +27,10 @@
   ],
   "require": {
     "php": ">=7.1",
-    "ext-pdo": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
+    "ext-pdo": "*",
     "ext-session": "*",
     "contao/core-bundle": "^4.6",
     "symfony/config": "^3.4 || ^4.0",
