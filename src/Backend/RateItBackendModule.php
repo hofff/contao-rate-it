@@ -19,6 +19,7 @@ namespace Hofff\Contao\RateIt\Backend;
 use Contao\BackendModule;
 use Contao\Config;
 use Contao\Input;
+use Contao\System;
 
 class RateItBackendModule extends BackendModule
 {
@@ -288,7 +289,7 @@ class RateItBackendModule extends BackendModule
         if (! isset($perpage) || $perpage < 0) $perpage = 10;
 
         if ($rateit->f_page >= 0 && $perpage > 0) {
-            $options['first'] = $rateit->f_page * $perpage;
+            $options['first'] = ((int) $rateit->f_page) * $perpage;
             $options['limit'] = $perpage;
         } // if
 
@@ -355,7 +356,7 @@ class RateItBackendModule extends BackendModule
      * @param array $aParams Assiciative array with key/value pairs as parameters.
      * @return string The create link.
      */
-    protected function createUrl($aParams = null)
+    protected function createUrl($aParams = [])
     {
         return $this->createPageUrl(Input::get('do'), $aParams);
     } // createUrl
@@ -366,15 +367,11 @@ class RateItBackendModule extends BackendModule
      * @param array  $aParams Assiciative array with key/value pairs as parameters.
      * @return string The create link.
      */
-    protected function createPageUrl($aPage, $aParams = null)
+    protected function createPageUrl($aPage, $aParams = [])
     {
-        $url = 'contao?do=' . $aPage;
-        if (is_array($aParams)) {
-            foreach ($aParams as $key => $val)
-                if ($val != '')
-                    $url .= '&amp;' . $key . '=' . $val;
-        }
-        return $url;
+        $aParams['do'] = $aPage;
+
+        return System::getContainer()->get('router')->generate('contao_backend', $aParams);
     } // createPageUrl
 
     /**
