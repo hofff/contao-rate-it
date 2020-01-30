@@ -39,7 +39,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 
 <div class="mod_rateit">
 
-<form action="<?php echo $rateit->f_link; ?>" id="rateit_editform" method="post">
+<form action="" id="rateit_editform" method="post">
 <div class="tl_formbody">
 <input type="hidden" name="rateit_action" value="<?php echo $rateit->f_action; ?>">
 <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
@@ -51,7 +51,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
 <select name="rateit_typ" id="rateit_typ" class="tl_select<?php if ($rateit->f_type!='') echo ' active'; ?>">
   <option value=""><?php echo $text['seltyp'][0]; ?></option>
   <option value="">---</option>
-<?php foreach ($rateit->types as $k): ?>
+<?php foreach ($this->types as $k): ?>
   <option value="<?php echo $k; ?>"<?php if (strcasecmp($rateit->f_typ, $k) == 0) echo ' selected="selected"'; ?>><?php echo $GLOBALS['TL_LANG']['tl_rateit_type_options'][$k] ?? $k; ?></option>
 <?php endforeach; ?>
 </select> 

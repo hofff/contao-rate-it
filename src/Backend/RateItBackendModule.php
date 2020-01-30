@@ -206,16 +206,11 @@ class RateItBackendModule extends BackendModule
         } // if
 
         // add view links
-        $types = [];
         foreach ($rateit->ratingitems as &$ext) {
             $ext->viewLink = $this->createUrl(array('act' => 'view', 'rkey' => $ext->rkey, 'typ' => $ext->typ));
             $totrecs       = $ext->totcount;
             $types[]       = $ext->typ;
         } // foreach
-
-        $types = array_unique($types);
-        sort($types);
-        $rateit->types = $types;
 
         // create pages list
         $rateit->pages = array();
@@ -228,6 +223,8 @@ class RateItBackendModule extends BackendModule
                 $totrecs         -= $cnt;
             } // while
         } // if
+
+        $this->Template->types = $this->getUsedTypes();
     } // listRatings
 
     /**
@@ -633,5 +630,10 @@ class RateItBackendModule extends BackendModule
             }
         }
         return $strString;
+    }
+
+    private function getUsedTypes() : array
+    {
+        return $this->Database->execute('SELECT typ FROM tl_rateit_items GROUP BY typ ORDER BY typ')->fetchEach('typ');
     }
 } // class rateitBackendModule
