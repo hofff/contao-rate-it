@@ -54,14 +54,15 @@ abstract class BaseDcaListener
 
     /**
      * Anlegen eines Datensatzes in der Tabelle tl_rateit_items, falls dieser noch nicht exisitiert.
+     *
      * @param mixed
      * @param object
-     * @return string
+     * @return bool
      */
-    public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle)
+    public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle, $published)
     {
         $database     = Database::getInstance();
-        $parentstatus = Input::post('published') == '1' ? 'a' : Input::get('state') == '1' ? 'a' : 'i';
+        $parentstatus = $published == '1' ? 'a' : 'i';
 
         if ($dc->activeRecord->rateit_active || $dc->activeRecord->addRating) {
             $actRecord = $database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
@@ -87,6 +88,7 @@ abstract class BaseDcaListener
             $database->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
                 ->execute($parentstatus, $dc->activeRecord->id, $type);
         }
+
         return true;
     }
 
@@ -104,5 +106,13 @@ abstract class BaseDcaListener
             ->execute($dc->activeRecord->id, $type);
 
         return true;
+    }
+
+    public function restore($rkey, $type, $published)
+    {
+        Database::getInstance()
+            ->prepare('UPDATE tl_rateit_items %s WHERE rkey=? and typ=?')
+            ->set(['parentstatus' => $published ? 'a' : 'i'])
+            ->execute($rkey, $type);
     }
 }

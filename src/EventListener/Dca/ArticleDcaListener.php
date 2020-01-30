@@ -42,7 +42,7 @@ final class ArticleDcaListener extends BaseDcaListener
 
     public function insert(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'article', $dc->activeRecord->title);
+        $this->insertOrUpdateRatingKey($dc, 'article', $dc->activeRecord->title, $dc->activeRecord->published);
     }
 
     public function delete(DataContainer $dc) : void

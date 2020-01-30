@@ -43,12 +43,21 @@ final class ModuleDcaListener extends BaseDcaListener
 
     public function insert(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title);
+        $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title, true);
     }
 
     public function delete(DataContainer $dc) : void
     {
         $this->onDeleteItemUpdateRating($dc, 'module');
+    }
+
+    public function onUndo(string $table, array $row) : void
+    {
+        if (! $this->isActive('module')) {
+            return;
+        }
+
+        $this->restore($row['id'], 'module', true);
     }
 
     public function getRateItTopModuleTemplates() : array

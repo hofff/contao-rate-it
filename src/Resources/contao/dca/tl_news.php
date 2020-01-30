@@ -23,6 +23,7 @@ use Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener;
  */
 
 $GLOBALS['TL_DCA']['tl_news']['config']['onload_callback'][] = [NewsDcaListener::class, 'onLoad'];
+$GLOBALS['TL_DCA']['tl_news']['config']['onundo_callback'][] = [NewsDcaListener::class, 'onUndo'];
 
 /**
  * Palettes
