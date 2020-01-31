@@ -40,5 +40,36 @@
             <argument type="service" id="database_connection" />
             <argument type="service" id="contao.framework"/>
         </service>
+
+        <!-- Rating types -->
+        <service id="Hofff\Contao\RateIt\Rating\RatingTypes">
+            <argument type="tagged" tag="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\ArticleRatingType">
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\CeRatingType">
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\CommentsRatingType">
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator" />
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\ModuleRatingType">
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\NewsRatingType">
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\PageRatingType">
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
     </services>
 </container>
