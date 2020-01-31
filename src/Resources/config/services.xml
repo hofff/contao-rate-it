@@ -29,5 +29,16 @@
             <argument type="service" id="database_connection" />
             <argument type="service" id="contao.framework" />
         </service>
+
+        <!-- Comments related services -->
+        <service id="Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader">
+            <argument type="service" id="contao.framework" />
+            <argument>%hofff.contao_rate_it.comment_sources%</argument>
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="contao.framework"/>
+        </service>
     </services>
 </container>

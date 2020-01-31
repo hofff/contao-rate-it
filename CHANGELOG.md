@@ -6,7 +6,8 @@
 
 - A new function to delete ratings in the back end.
 - Ratings reflect the published state of the corresponding element.
-- Add bundle configuration to disable rating types
+- Add bundle configuration to disable rating types.
+- News comments can be rated now. 
 
 ### Breaking
 
