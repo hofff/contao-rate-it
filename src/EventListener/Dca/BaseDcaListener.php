@@ -58,12 +58,16 @@ abstract class BaseDcaListener
      * @param object
      * @return bool
      */
-    public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle, $published)
+    public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle, $published, ?bool $active = null)
     {
         $database     = Database::getInstance();
         $parentstatus = $published == '1' ? 'a' : 'i';
 
-        if ($dc->activeRecord->rateit_active || $dc->activeRecord->addRating) {
+        if ($active === null) {
+            $active = $dc->activeRecord->rateit_active || $dc->activeRecord->addRating;
+        }
+
+        if ($active) {
             $actRecord = $database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
                 ->execute($dc->activeRecord->id, $type)
                 ->fetchAssoc();
@@ -89,6 +93,15 @@ abstract class BaseDcaListener
         }
 
         return true;
+    }
+
+    public function updateRatingKey($rkey, string $type, string $title, $published, bool $active) : void
+    {
+        $parentstatus = $published == '1' ? 'a' : 'i';
+
+        Database::getInstance()
+            ->prepare("UPDATE tl_rateit_items SET active=?, title=?, parentstatus=? WHERE rkey=? and typ=?")
+            ->execute($active, $title, $parentstatus, $rkey, $type);
     }
 
     /**
