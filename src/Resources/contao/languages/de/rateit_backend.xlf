@@ -194,6 +194,10 @@
         <source>Completely remove selected ratings</source>
         <target>Bewertungen vollständig löschen</target>
       </trans-unit>
+      <trans-unit id="tl_rateit.updateinformation">
+        <source>Sync parent information</source>
+        <target>Element-Informationen aktualisieren</target>
+      </trans-unit>
       <trans-unit id="tl_rateit_type_options.page">
         <source>Page</source>
         <target>Seite</target>

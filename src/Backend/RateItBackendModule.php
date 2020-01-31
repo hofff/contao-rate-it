@@ -20,6 +20,8 @@ use Contao\BackendModule;
 use Contao\Config;
 use Contao\Input;
 use Contao\System;
+use Hofff\Contao\RateIt\Rating\RatingTypes;
+use function is_array;
 
 class RateItBackendModule extends BackendModule
 {
@@ -333,6 +335,11 @@ class RateItBackendModule extends BackendModule
 
     protected function resetRatings()
     {
+        if (Input::post('rateit_action') === 'updateinformation') {
+            $this->updateParentInformation();
+            return;
+        }
+
         $rateit = &$this->Template->rateit;
 
         // nothing checked?
@@ -347,21 +354,59 @@ class RateItBackendModule extends BackendModule
         foreach ($ids0 as $id) {
             list($rkey, $typ) = explode('__', $id);
             $this->Database->beginTransaction();
+
             $pid = $this->Database->prepare('SELECT id FROM tl_rateit_items WHERE rkey=? and typ=?')
                 ->execute($rkey, $typ)
                 ->fetchRow();
+
             $this->Database->prepare('DELETE FROM tl_rateit_ratings WHERE pid=?')
                 ->execute($pid[0]);
+
             if ($removeParent) {
                 $this->Database->prepare('DELETE FROM tl_rateit_items WHERE id=?')
                     ->execute($pid[0]);
             }
+
             $this->Database->commitTransaction();
         }
 
         $this->redirect($rateit->homeLink);
 
     } // resetRatings
+
+    public function updateParentInformation()
+    {
+        $rateit = &$this->Template->rateit;
+
+        // nothing checked?
+        $ids0 = Input::post('selectedids');
+        if (! is_array($ids0)) {
+            self::redirect($rateit->homeLink);
+            return;
+        }
+
+        $pageTypes = self::getContainer()->get(RatingTypes::class);
+        $result    = $this->Database->execute('SELECT id, rkey, typ FROM tl_rateit_items');
+
+        while ($result->next()) {
+            $information = $pageTypes->sourceInformation($result->typ, (int) $result->rkey);
+            if ($information === null) {
+                $this->Database
+                    ->prepare('UPDATE tl_rateit_items %s WHERE id=?')
+                    ->set(['parentstatus' => 'r'])
+                    ->execute($result->id);
+
+                continue;
+            }
+
+            $this->Database
+                ->prepare('UPDATE tl_rateit_items %s WHERE id=?')
+                ->set(['parentstatus' => $information->parentStatus(), 'title' => $information->title()])
+                ->execute($result->id);
+        }
+
+        self::redirect($rateit->homeLink);
+    }
 
     /**
      * Create url for hyperlink to the current page.

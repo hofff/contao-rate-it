@@ -194,6 +194,9 @@
         <source>Completely remove selected ratings</source>
         <target>Completely remove selected ratings</target>
       </trans-unit>
+      <trans-unit id="tl_rateit.updateinformation">
+        <source>Sync parent information</source>
+      </trans-unit>
       <trans-unit id="tl_rateit_type_options.page">
         <source>Page</source>
         <target>Page</target>

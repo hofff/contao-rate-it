@@ -42,7 +42,7 @@
         </service>
 
         <!-- Rating types -->
-        <service id="Hofff\Contao\RateIt\Rating\RatingTypes">
+        <service id="Hofff\Contao\RateIt\Rating\RatingTypes" public="true">
             <argument>%hofff.contao_rate_it.types%</argument>
             <argument type="tagged" tag="hoff_contao_rate_it.rating_type" />
         </service>

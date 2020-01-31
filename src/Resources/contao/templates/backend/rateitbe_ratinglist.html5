@@ -160,6 +160,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
   <div class="tl_submit_container">
     <button type="submit" name="rateit_action" id="rateit_clearbutton" class="tl_submit" value="clearratings"><?php echo $text['clearratings']; ?></button>
     <button type="submit" name="rateit_action" id="rateit_removebutton" class="tl_submit" value="removeratings"><?php echo $text['removeratings']; ?></button>
+    <button type="submit" name="rateit_action" id="rateit_updateinformation" class="tl_submit" value="updateinformation"><?php echo $text['updateinformation']; ?></button>
   </div>
 </div>
 <?php endif; ?>
@@ -180,6 +181,7 @@ $order_options = &$GLOBALS['TL_LANG']['tl_rateit_order_options'];
     }
     document.getElementById('rateit_clearbutton').disabled = !sel;
     document.getElementById('rateit_removebutton').disabled = !sel;
+    document.getElementById('rateit_updateinformation').disabled = !sel;
   }
   function selectUnselectAll() {
     var chk = document.getElementById('selectall').checked;
