@@ -23,13 +23,13 @@ use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\CurrentUserId;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use Hofff\Contao\RateIt\Rating\RatingService;
-use function in_array;
 use PDO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use function in_array;
 
 class AjaxRateItController
 {
