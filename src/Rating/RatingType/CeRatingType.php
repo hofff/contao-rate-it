@@ -45,4 +45,9 @@ final class CeRatingType extends BaseParentSourceRatingType
     {
         return 'title';
     }
+
+    protected function activeKey() : string
+    {
+        return 'rateit_active';
+    }
 }

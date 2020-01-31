@@ -45,4 +45,9 @@ final class ModuleRatingType extends BaseParentSourceRatingType
     {
         return 'name';
     }
+
+    protected function activeKey() : string
+    {
+        return 'rateit_active';
+    }
 }

@@ -34,7 +34,7 @@ abstract class BaseParentSourceRatingType extends BaseRatingType
     {
         $model = $this->loadModel($sourceId);
         if ($model) {
-            return (bool) $model->addRating;
+            return (bool) $model->{$this->activeKey()};
         }
 
         return false;
@@ -53,4 +53,9 @@ abstract class BaseParentSourceRatingType extends BaseRatingType
     abstract protected function loadModel(int $sourceId) : ?Model;
 
     abstract protected function labelKey() : string;
+
+    protected function activeKey() : string
+    {
+        return 'addRating';
+    }
 }
