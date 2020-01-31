@@ -218,6 +218,10 @@
         <source>Blog entry</source>
         <target>Beitrag</target>
       </trans-unit>
+      <trans-unit id="tl_rateit_type_options.comments">
+        <source>Comments</source>
+        <target>Kommentare</target>
+      </trans-unit>
       <trans-unit id="tl_rateit_order_options.rating desc">
         <source>Rating</source>
         <target>Bewertung</target>

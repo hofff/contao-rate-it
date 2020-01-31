@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['tl_news_archive']['fields']['rateit_position_comments'] = [
     'exclude'   => true,
     'inputType' => 'select',
     'options'   => ['after', 'before'],
-    'reference' => &$GLOBALS['TL_LANG']['tl_news_archive'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_news_archive']['rateit_positions'],
     'sql'       => "varchar(6) NOT NULL default ''",
     'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
 ];
