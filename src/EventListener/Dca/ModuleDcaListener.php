@@ -20,13 +20,14 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\DataContainer;
 
 final class ModuleDcaListener extends BaseDcaListener
 {
+    protected static $typeName = 'module';
+
     public function onLoad() : void
     {
-        if (! $this->isActive('module')) {
+        if (! $this->isActive()) {
             return;
         }
 
@@ -39,25 +40,6 @@ final class ModuleDcaListener extends BaseDcaListener
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
             ->addField('rateit_active', 'rateit_legend', PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('default', 'tl_module');
-    }
-
-    public function insert(DataContainer $dc) : void
-    {
-        $this->insertOrUpdateRatingKey($dc);
-    }
-
-    public function delete(DataContainer $dc) : void
-    {
-        $this->markRatingItemAsDeleted($dc);
-    }
-
-    public function onUndo(string $table, array $row) : void
-    {
-        if (! $this->isActive()) {
-            return;
-        }
-
-        $this->restore((int) $row['id']);
     }
 
     public function getRateItTopModuleTemplates() : array

@@ -37,12 +37,12 @@ final class ContentDcaListener extends BaseDcaListener
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
-    public function insert(DataContainer $dc) : void
+    public function onSubmit(DataContainer $dc) : void
     {
         if ($dc->activeRecord->type !== 'rateit') {
             return;
         }
 
-        $this->insertOrUpdateRatingKey($dc);
+        parent::onSubmit($dc);
     }
 }

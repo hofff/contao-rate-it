@@ -50,12 +50,12 @@ abstract class BaseDcaListener
 
     public function onSubmit(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc);
+        $this->insertOrUpdateRatingKey((int) $dc->id);
     }
 
     public function onDelete(DataContainer $dc) : void
     {
-        $this->markRatingItemAsDeleted($dc);
+        $this->markRatingItemAsDeleted((int) $dc->id);
     }
 
     public function onRestore(string $table, $insertId) : void
@@ -74,15 +74,10 @@ abstract class BaseDcaListener
 
     /**
      * Anlegen eines Datensatzes in der Tabelle tl_rateit_items, falls dieser noch nicht exisitiert.
-     *
-     * @param mixed
-     * @param object
-     * @return void
      */
-    public function insertOrUpdateRatingKey(DataContainer $dc)
+    public function insertOrUpdateRatingKey(int $sourceId): void
     {
         $database     = Database::getInstance();
-        $sourceId     = (int) $dc->id;
         $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
 
         if (!$information) {
@@ -92,12 +87,12 @@ abstract class BaseDcaListener
         if ($information->active()) {
             $actRecord = $database
                 ->prepare('SELECT * FROM tl_rateit_items WHERE rkey=? and typ=? LIMIT 0,1')
-                ->execute($dc->activeRecord->id, static::$typeName)
+                ->execute($sourceId, static::$typeName)
                 ->fetchAssoc();
 
             if (! is_array($actRecord)) {
                 $arrSet = [
-                    'rkey'         => $dc->activeRecord->id,
+                    'rkey'         => $sourceId,
                     'tstamp'       => time(),
                     'typ'          => static::$typeName,
                     'createdat'    => time(),
@@ -113,7 +108,7 @@ abstract class BaseDcaListener
             } else {
                 $database
                     ->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
-                    ->execute($information->title(), $information->parentStatus(), $dc->id, static::$typeName);
+                    ->execute($information->title(), $information->parentStatus(), $sourceId, static::$typeName);
             }
         } else {
             $database
@@ -136,14 +131,12 @@ abstract class BaseDcaListener
 
     /**
      * Updates the rating when the parent item has been deleted.
-     * 
-     * @param DataContainer $dc Provides the current active item.
      */
-    public function markRatingItemAsDeleted(DataContainer $dc): void
+    public function markRatingItemAsDeleted(int $sourceId): void
     {
         Database::getInstance()
             ->prepare("UPDATE tl_rateit_items SET parentstatus = 'r' WHERE rkey=? and typ=?")
-            ->execute($dc->activeRecord->id, static::$typeName);
+            ->execute($sourceId, static::$typeName);
     }
 
     public function restore(int $statusId)

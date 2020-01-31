@@ -41,14 +41,4 @@ final class ArticleDcaListener extends BaseDcaListener
             ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('default', 'tl_article');
     }
-
-    public function insert(DataContainer $dc) : void
-    {
-        $this->insertOrUpdateRatingKey($dc);
-    }
-
-    public function delete(DataContainer $dc) : void
-    {
-        $this->markRatingItemAsDeleted($dc);
-    }
 }
