@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
-use Contao\Model;
 use Contao\ModuleModel;
 
 final class ModuleRatingType extends BaseParentSourceRatingType
@@ -26,19 +25,14 @@ final class ModuleRatingType extends BaseParentSourceRatingType
         return 'module';
     }
 
-    protected function determineParentPublishedState(int $sourceId) : ?bool
+    protected function determineParentPublishedState(array $record) : bool
     {
-        $model = $this->loadModel($sourceId);
-        if ($model) {
-            return true;
-        }
-
-        return null;
+        return true;
     }
 
-    protected function loadModel(int $sourceId) : ?Model
+    protected function tableName() : string
     {
-        return ModuleModel::findByPk($sourceId);
+        return ModuleModel::getTable();
     }
 
     protected function labelKey() : string

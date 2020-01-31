@@ -32,8 +32,8 @@ final class ModuleDcaListener extends BaseDcaListener
 
         $dca = &$GLOBALS['TL_DCA']['tl_module'];
 
-        $dca['config']['onsubmit_callback'][] = [self::class, 'insert'];
-        $dca['config']['ondelete_callback'][] = [self::class, 'delete'];
+        $dca['config']['onsubmit_callback'][] = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][] = [self::class, 'onDelete'];
 
         PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
@@ -43,21 +43,21 @@ final class ModuleDcaListener extends BaseDcaListener
 
     public function insert(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title, true);
+        $this->insertOrUpdateRatingKey($dc);
     }
 
     public function delete(DataContainer $dc) : void
     {
-        $this->onDeleteItemUpdateRating($dc, 'module');
+        $this->markRatingItemAsDeleted($dc);
     }
 
     public function onUndo(string $table, array $row) : void
     {
-        if (! $this->isActive('module')) {
+        if (! $this->isActive()) {
             return;
         }
 
-        $this->restore($row['id'], 'module', true);
+        $this->restore((int) $row['id']);
     }
 
     public function getRateItTopModuleTemplates() : array
@@ -67,6 +67,6 @@ final class ModuleDcaListener extends BaseDcaListener
 
     public function typeOptions(): array
     {
-        return $this->activeItems;
+        return $this->ratingTypes->activeTypeNames();
     }
 }

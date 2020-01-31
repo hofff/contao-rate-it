@@ -16,13 +16,38 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
+use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\RatingType;
+use Hofff\Contao\RateIt\Rating\SourceInformation;
+use PDO;
 
 abstract class BaseRatingType implements RatingType
 {
-    public function determineParentStatus(int $sourceId) : string
+    /** @var Connection */
+    private $connection;
+
+    public function __construct(Connection $connection)
     {
-        $published = $this->determineParentPublishedState($sourceId);
+        $this->connection = $connection;
+    }
+
+    public function sourceInformation(int $sourceId) : ?SourceInformation
+    {
+        $record = $this->loadRecord($sourceId);
+        if ($record === null) {
+            return null;
+        }
+
+        return new SourceInformation(
+            $this->generateTitle($record),
+            $this->determineActiveState($record),
+            $this->determineParentStatus($record)
+        );
+    }
+
+    protected function determineParentStatus(array  $record) : string
+    {
+        $published = $this->determineParentPublishedState($record);
 
         switch ($published) {
             case true:
@@ -37,5 +62,23 @@ abstract class BaseRatingType implements RatingType
         }
     }
 
-    abstract protected function determineParentPublishedState(int $sourceId) : ?bool;
+    protected function loadRecord(int $sourceId): ?array
+    {
+        $statement = $this->connection->prepare(sprintf('SELECT * FROM %s WHERE id=? LIMIT 0,1', $this->tableName()));
+        $statement->execute([$sourceId]);
+
+        if ($statement->rowCount() === 0) {
+            return null;
+        }
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    abstract protected function tableName() : string;
+
+    abstract protected function generateTitle(array $record) : string;
+
+    abstract protected function determineActiveState(array $record) : bool;
+
+    abstract protected function determineParentPublishedState(array $record) : bool;
 }

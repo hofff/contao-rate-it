@@ -16,39 +16,60 @@
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
-use Contao\Backend;
 use Contao\Database;
 use Contao\DataContainer;
+use Hofff\Contao\RateIt\Rating\RatingTypes;
 
 /**
  * Class DcaHelper
  */
 abstract class BaseDcaListener
 {
-    /** @var string[] */
-    protected $activeItems;
+    /** @var RatingTypes */
+    protected $ratingTypes;
+
+    /** @var string */
+    protected static $typeName;
 
     /**
      * Constructor
      */
-    public function __construct(array $activeItems)
+    public function __construct(RatingTypes $ratingTypes)
     {
-        $this->activeItems = $activeItems;
+        $this->ratingTypes = $ratingTypes;
+
+        if (!isset(static::$typeName)) {
+            throw new \RuntimeException('Type name has to be defined');
+        }
     }
 
-    protected function isActive(string $name) : bool
+    protected function isActive() : bool
     {
-        return in_array($name, $this->activeItems, true);
+        return $this->ratingTypes->has(static::$typeName);
     }
 
-    /**
-     * Return all navigation templates as array
-     * @param DataContainer
-     * @return array
-     */
-    public function getRateItTemplates(DataContainer $dc)
+    public function onSubmit(DataContainer $dc) : void
     {
-        return Backend::getTemplateGroup('rateit_');
+        $this->insertOrUpdateRatingKey($dc);
+    }
+
+    public function onDelete(DataContainer $dc) : void
+    {
+        $this->markRatingItemAsDeleted($dc);
+    }
+
+    public function onRestore(string $table, $insertId) : void
+    {
+        $this->restore((int) $insertId);
+    }
+
+    public function onUndo(string $table, array $row) : void
+    {
+        if (! $this->isActive()) {
+            return;
+        }
+
+        $this->restore((int) $row['id']);
     }
 
     /**
@@ -56,75 +77,85 @@ abstract class BaseDcaListener
      *
      * @param mixed
      * @param object
-     * @return bool
+     * @return void
      */
-    public function insertOrUpdateRatingKey(DataContainer $dc, $type, $ratingTitle, $published, ?bool $active = null)
+    public function insertOrUpdateRatingKey(DataContainer $dc)
     {
         $database     = Database::getInstance();
-        $parentstatus = $published == '1' ? 'a' : 'i';
+        $sourceId     = (int) $dc->id;
+        $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
 
-        if ($active === null) {
-            $active = $dc->activeRecord->rateit_active || $dc->activeRecord->addRating;
+        if (!$information) {
+            return;
         }
 
-        if ($active) {
-            $actRecord = $database->prepare("SELECT * FROM tl_rateit_items WHERE rkey=? and typ=?")
-                ->execute($dc->activeRecord->id, $type)
+        if ($information->active()) {
+            $actRecord = $database
+                ->prepare('SELECT * FROM tl_rateit_items WHERE rkey=? and typ=? LIMIT 0,1')
+                ->execute($dc->activeRecord->id, static::$typeName)
                 ->fetchAssoc();
+
             if (! is_array($actRecord)) {
-                $arrSet       = array('rkey'         => $dc->activeRecord->id,
-                                      'tstamp'       => time(),
-                                      'typ'          => $type,
-                                      'createdat'    => time(),
-                                      'title'        => $ratingTitle,
-                                      'active'       => '1',
-                                      'parentstatus' => $parentstatus,
-                );
-                $database->prepare("INSERT INTO tl_rateit_items %s")
+                $arrSet = [
+                    'rkey'         => $dc->activeRecord->id,
+                    'tstamp'       => time(),
+                    'typ'          => static::$typeName,
+                    'createdat'    => time(),
+                    'title'        => $information->title(),
+                    'active'       => '1',
+                    'parentstatus' => $information->parentStatus(),
+                ];
+
+                $database
+                    ->prepare('INSERT INTO tl_rateit_items %s')
                     ->set($arrSet)
                     ->execute();
             } else {
-                $database->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
-                    ->execute($ratingTitle, $parentstatus, $dc->activeRecord->id, $type);
+                $database
+                    ->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
+                    ->execute($information->title(), $information->parentStatus(), $dc->id, static::$typeName);
             }
         } else {
-            $database->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
-                ->execute($parentstatus, $dc->activeRecord->id, $type);
+            $database
+                ->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
+                ->execute($information->parentStatus(), $dc->id, static::$typeName);
         }
-
-        return true;
     }
 
-    public function updateRatingKey($rkey, string $type, string $title, $published, bool $active) : void
+    public function updateRatingKey(int $sourceId) : void
     {
-        $parentstatus = $published == '1' ? 'a' : 'i';
+        $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
+        if (!$information) {
+            return;
+        }
 
         Database::getInstance()
-            ->prepare("UPDATE tl_rateit_items SET active=?, title=?, parentstatus=? WHERE rkey=? and typ=?")
-            ->execute($active, $title, $parentstatus, $rkey, $type);
+            ->prepare('UPDATE tl_rateit_items SET title=?, parentstatus=? WHERE rkey=? and typ=?')
+            ->execute($information->title(), $information->parentStatus(), $sourceId, static::$typeName);
     }
 
     /**
      * Updates the rating when the parent item has been deleted.
      * 
      * @param DataContainer $dc Provides the current active item.
-     * @param string $type Contao type, e. g. news
-     * @return boolean Always true
      */
-    public function onDeleteItemUpdateRating(DataContainer $dc, $type)
+    public function markRatingItemAsDeleted(DataContainer $dc): void
     {
         Database::getInstance()
             ->prepare("UPDATE tl_rateit_items SET parentstatus = 'r' WHERE rkey=? and typ=?")
-            ->execute($dc->activeRecord->id, $type);
-
-        return true;
+            ->execute($dc->activeRecord->id, static::$typeName);
     }
 
-    public function restore($rkey, $type, $published)
+    public function restore(int $statusId)
     {
+        $information = $this->ratingTypes->sourceInformation(static::$typeName, $statusId);
+        if (!$information) {
+            return;
+        }
+
         Database::getInstance()
             ->prepare('UPDATE tl_rateit_items %s WHERE rkey=? and typ=?')
-            ->set(['parentstatus' => $published ? 'a' : 'i'])
-            ->execute($rkey, $type);
+            ->set(['parentstatus' => $information->parentStatus()])
+            ->execute($statusId, static::$typeName);
     }
 }

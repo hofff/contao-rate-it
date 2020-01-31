@@ -16,46 +16,35 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
-use Contao\Model;
-
 abstract class BaseParentSourceRatingType extends BaseRatingType
 {
-    protected function determineParentPublishedState(int $sourceId) : ?bool
+    protected function generateTitle(array $record) : string
     {
-        $model = $this->loadModel($sourceId);
-        if ($model) {
-            return (bool) $model->published;
-        }
-
-        return null;
+        return (string) $record[$this->labelKey()];
     }
 
-    public function determineActiveState(int $sourceId) : bool
+    protected function determineActiveState(array $record) : bool
     {
-        $model = $this->loadModel($sourceId);
-        if ($model) {
-            return (bool) $model->{$this->activeKey()};
-        }
-
-        return false;
+        return (bool) $record[$this->activeKey()];
     }
 
-    public function generateTitle(int $sourceId) : string
+    protected function determineParentPublishedState(array $record) : bool
     {
-        $model = $this->loadModel($sourceId);
-        if ($model) {
-            return (string) $model->{$this->labelKey()};
-        }
-
-        return '';
+        return (bool) $record[$this->publishedKey()];
     }
 
-    abstract protected function loadModel(int $sourceId) : ?Model;
-
-    abstract protected function labelKey() : string;
+    protected function labelKey() : string
+    {
+        return 'title';
+    }
 
     protected function activeKey() : string
     {
         return 'addRating';
+    }
+
+    protected function publishedKey(): string
+    {
+        return 'published';
     }
 }

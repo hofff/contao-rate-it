@@ -43,32 +43,39 @@
 
         <!-- Rating types -->
         <service id="Hofff\Contao\RateIt\Rating\RatingTypes">
+            <argument>%hofff.contao_rate_it.types%</argument>
             <argument type="tagged" tag="hoff_contao_rate_it.rating_type" />
         </service>
 
         <service id="Hofff\Contao\RateIt\Rating\RatingType\ArticleRatingType">
+            <argument type="service" id="database_connection" />
             <tag name="hoff_contao_rate_it.rating_type" />
         </service>
 
         <service id="Hofff\Contao\RateIt\Rating\RatingType\CeRatingType">
+            <argument type="service" id="database_connection" />
             <tag name="hoff_contao_rate_it.rating_type" />
         </service>
 
         <service id="Hofff\Contao\RateIt\Rating\RatingType\CommentsRatingType">
+            <argument type="service" id="database_connection" />
             <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader" />
             <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator" />
             <tag name="hoff_contao_rate_it.rating_type" />
         </service>
 
         <service id="Hofff\Contao\RateIt\Rating\RatingType\ModuleRatingType">
+            <argument type="service" id="database_connection" />
             <tag name="hoff_contao_rate_it.rating_type" />
         </service>
 
         <service id="Hofff\Contao\RateIt\Rating\RatingType\NewsRatingType">
+            <argument type="service" id="database_connection" />
             <tag name="hoff_contao_rate_it.rating_type" />
         </service>
 
         <service id="Hofff\Contao\RateIt\Rating\RatingType\PageRatingType">
+            <argument type="service" id="database_connection" />
             <tag name="hoff_contao_rate_it.rating_type" />
         </service>
     </services>

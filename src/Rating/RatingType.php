@@ -20,9 +20,5 @@ interface RatingType
 {
     public function name(): string;
 
-    public function determineParentStatus(int $sourceId) : string;
-
-    public function determineActiveState(int $sourceId) : bool;
-
-    public function generateTitle(int $sourceId) : string;
+    public function sourceInformation(int $sourceId) : ?SourceInformation;
 }

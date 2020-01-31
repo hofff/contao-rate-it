@@ -19,20 +19,21 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\DataContainer;
 
 final class PageDcaListener extends BaseDcaListener
 {
+    protected static $typeName = 'page';
+
     public function onLoad() : void
     {
-        if (! $this->isActive('page')) {
+        if (! $this->isActive()) {
             return;
         }
 
         $dca = &$GLOBALS['TL_DCA']['tl_page'];
 
-        $dca['config']['onsubmit_callback'][]          = [self::class, 'insert'];
-        $dca['config']['ondelete_callback'][]          = [self::class, 'delete'];
+        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
 
         $manipulator = PaletteManipulator::create()
@@ -47,29 +48,5 @@ final class PageDcaListener extends BaseDcaListener
 
             $manipulator->applyToPalette($keyPalette, 'tl_page');
         }
-    }
-
-    public function insert(DataContainer $dc) : void
-    {
-        $this->insertOrUpdateRatingKey($dc, 'page', $dc->activeRecord->title, $dc->activeRecord->published);
-    }
-
-    public function delete(DataContainer $dc) : void
-    {
-        $this->onDeleteItemUpdateRating($dc, 'page');
-    }
-
-    public function onRestore(string $table, $insertId, $version, array $data) : void
-    {
-        $this->restore($insertId, 'page', $data['published']);
-    }
-
-    public function onUndo(string $table, array $row) : void
-    {
-        if (! $this->isActive('page')) {
-            return;
-        }
-
-        $this->restore($row['id'], 'page', $row['published']);
     }
 }

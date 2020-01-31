@@ -19,49 +19,26 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\DataContainer;
 
 final class NewsDcaListener extends BaseDcaListener
 {
-    public function onLoad(DataContainer $dataContainer) : void
+    protected static $typeName = 'news';
+
+    public function onLoad() : void
     {
-        if (! $this->isActive('news')) {
+        if (! $this->isActive()) {
             return;
         }
 
         $dca = &$GLOBALS['TL_DCA']['tl_news'];
 
-        $dca['config']['onsubmit_callback'][]          = [self::class, 'insert'];
-        $dca['config']['ondelete_callback'][]          = [self::class, 'delete'];
+        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
 
         PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
             ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('default', 'tl_news');
-    }
-
-    public function insert(DataContainer $dc) : void
-    {
-        $this->insertOrUpdateRatingKey($dc, 'news', $dc->activeRecord->headline, $dc->activeRecord->published);
-    }
-
-    public function delete(DataContainer $dc) : void
-    {
-        $this->onDeleteItemUpdateRating($dc, 'news');
-    }
-
-    public function onRestore(string $table, $insertId, $version, array $data) : void
-    {
-        $this->restore($insertId, 'news', $data['published']);
-    }
-
-    public function onUndo(string $table, array $row) : void
-    {
-        if (! $this->isActive('news')) {
-            return;
-        }
-
-        $this->restore($row['id'], 'news', $row['published']);
     }
 }

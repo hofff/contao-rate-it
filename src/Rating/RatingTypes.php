@@ -16,16 +16,26 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating;
 
+use function array_filter;
+use function array_flip;
+use function array_keys;
+use function in_array;
+
 final class RatingTypes
 {
     /** @var RatingType[] */
-    private $ratingTypes;
+    private $ratingTypes = [];
+
+    /** @var string[] */
+    private $activeTypesNames;
 
     /**
      * @param RatingType[] $ratingTypes
      */
-    public function __construct(iterable $ratingTypes)
+    public function __construct(array $activeTypesNames, iterable $ratingTypes = [])
     {
+        $this->activeTypesNames = array_flip($activeTypesNames);
+
         foreach ($ratingTypes as $ratingType) {
             $this->register($ratingType);
         }
@@ -36,30 +46,27 @@ final class RatingTypes
         $this->ratingTypes[$ratingType->name()] = $ratingType;
     }
 
-    public function determineParentStatus(string $type, int $sourceId) : string
+    public function has(string $type) : bool
     {
-        if (!isset($this->ratingTypes[$type])) {
-            return 'r';
-        }
-
-        return $this->ratingTypes[$type]->determineParentStatus($sourceId);
-    }
-
-    public function determineActiveState(string $type, int $sourceId) : bool
-    {
-        if (!isset($this->ratingTypes[$type])) {
+        if (! isset($this->activeTypesNames[$type])) {
             return false;
         }
 
-        return $this->ratingTypes[$type]->determineActiveState($sourceId);
+        return isset($this->ratingTypes[$type]);
     }
 
-    public function generateTitle(string $type, int $sourceId) : string
+    public function sourceInformation(string $type, int $sourceId) : ?SourceInformation
     {
-        if (!isset($this->ratingTypes[$type])) {
-            return sprintf('%s %s', $type, $sourceId);
+        if (! $this->has($type)) {
+            return null;
         }
 
-        return $this->ratingTypes[$type]->generateTitle($sourceId);
+        return $this->ratingTypes[$type]->sourceInformation($sourceId);
+    }
+
+    /** @return string[] */
+    public function activeTypeNames() : array
+    {
+        return array_keys($this->ratingTypes);
     }
 }

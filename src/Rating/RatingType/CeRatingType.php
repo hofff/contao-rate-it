@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\ContentModel;
-use Contao\Model;
 
 final class CeRatingType extends BaseParentSourceRatingType
 {
@@ -26,28 +25,28 @@ final class CeRatingType extends BaseParentSourceRatingType
         return 'ce';
     }
 
-    protected function determineParentPublishedState(int $sourceId) : ?bool
+    protected function determineParentPublishedState(array $record) : bool
     {
-        $model = $this->loadModel($sourceId);
-        if ($model) {
-            return ! $model->invisible;
-        }
-
-        return null;
+        return !parent::determineParentPublishedState($record);
     }
 
-    protected function loadModel(int $sourceId) : ?Model
+    protected function tableName() : string
     {
-        return ContentModel::findByPk($sourceId);
+        return ContentModel::getTable();
     }
 
-    protected function labelKey() : string
+    protected function publishedKey() : string
     {
-        return 'title';
+        return 'invisible';
     }
 
     protected function activeKey() : string
     {
         return 'rateit_active';
+    }
+
+    protected function labelKey() : string
+    {
+        return 'rateit_title';
     }
 }

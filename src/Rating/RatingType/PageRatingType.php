@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
-use Contao\Model;
 use Contao\PageModel;
 
 final class PageRatingType extends BaseParentSourceRatingType
@@ -26,13 +25,8 @@ final class PageRatingType extends BaseParentSourceRatingType
         return 'page';
     }
 
-    protected function loadModel(int $sourceId) : ?Model
+    protected function tableName() : string
     {
-        return PageModel::findByPk($sourceId);
-    }
-
-    protected function labelKey() : string
-    {
-        return 'title';
+        return PageModel::getTable();
     }
 }

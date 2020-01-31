@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\CommentsModel;
+use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
 
@@ -28,8 +29,13 @@ final class CommentsRatingType extends BaseRatingType
     /** @var CommentsTitleGenerator */
     private $titleGenerator;
 
-    public function __construct(CommentsConfigurationLoader $configurationLoader, CommentsTitleGenerator $titleGenerator)
-    {
+    public function __construct(
+        Connection $connection,
+        CommentsConfigurationLoader $configurationLoader,
+        CommentsTitleGenerator $titleGenerator
+    ) {
+        parent::__construct($connection);
+
         $this->configurationLoader = $configurationLoader;
         $this->titleGenerator      = $titleGenerator;
     }
@@ -39,24 +45,9 @@ final class CommentsRatingType extends BaseRatingType
         return 'comments';
     }
 
-    protected function determineParentPublishedState(int $sourceId) : ?bool
+    public function determineActiveState(array $record) : bool
     {
-        $comment = $this->loadComment($sourceId);
-        if ($comment) {
-            return (bool) $comment->published;
-        }
-
-        return null;
-    }
-
-    public function determineActiveState(int $sourceId) : bool
-    {
-        $comment = $this->loadComment($sourceId);
-        if ($comment === null) {
-            return false;
-        }
-
-        $configuration = $this->configurationLoader->load($comment->source, $comment->parent);
+        $configuration = $this->configurationLoader->load($record['source'], $record['parent']);
         if (!$configuration) {
             return false;
         }
@@ -64,18 +55,18 @@ final class CommentsRatingType extends BaseRatingType
         return (bool) $configuration->addCommentsRating;
     }
 
-    public function generateTitle(int $sourceId) : string
+    public function generateTitle(array $record) : string
     {
-        $comment = $this->loadComment($sourceId);
-        if ($comment === null) {
-            return sprintf('Comment ID %s', $sourceId);
-        }
-
-        return $this->titleGenerator->generate($comment->name, $comment->source, $comment->parent);
+        return $this->titleGenerator->generate($record['name'], $record['source'], $record['parent']);
     }
 
-    private function loadComment(int $sourceId): ?CommentsModel
+    protected function tableName() : string
     {
-        return CommentsModel::findByPk($sourceId);
+        return CommentsModel::getTable();
+    }
+
+    protected function determineParentPublishedState(array $record) : bool
+    {
+        return (bool) $record['published'];
     }
 }

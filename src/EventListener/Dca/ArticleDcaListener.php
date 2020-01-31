@@ -23,16 +23,18 @@ use Contao\DataContainer;
 
 final class ArticleDcaListener extends BaseDcaListener
 {
+    protected static $typeName = 'article';
+
     public function onLoad(DataContainer $dataContainer) : void
     {
-        if (! $this->isActive('article')) {
+        if (! $this->isActive()) {
             return;
         }
 
         $dca = &$GLOBALS['TL_DCA']['tl_article'];
 
-        $dca['config']['onsubmit_callback'][] = [self::class, 'insert'];
-        $dca['config']['ondelete_callback'][] = [self::class, 'delete'];
+        $dca['config']['onsubmit_callback'][] = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][] = [self::class, 'onDelete'];
 
         PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
@@ -42,11 +44,11 @@ final class ArticleDcaListener extends BaseDcaListener
 
     public function insert(DataContainer $dc) : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'article', $dc->activeRecord->title, $dc->activeRecord->published);
+        $this->insertOrUpdateRatingKey($dc);
     }
 
     public function delete(DataContainer $dc) : void
     {
-        $this->onDeleteItemUpdateRating($dc, 'article');
+        $this->markRatingItemAsDeleted($dc);
     }
 }

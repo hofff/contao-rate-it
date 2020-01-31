@@ -45,37 +45,33 @@
 
         <!-- Dca listeners -->
        <service id="Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener" public="true">
-           <argument>%hofff.contao_rate_it.types%</argument>
+           <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
        </service>
 
         <service id="Hofff\Contao\RateIt\EventListener\Dca\ArticleDcaListener" public="true">
-            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
         </service>
 
         <service id="Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener" public="true">
-            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
         </service>
 
         <service id="Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener" public="true">
-            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
         </service>
 
         <service id="Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener" public="true">
-            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
         </service>
 
         <service id="Hofff\Contao\RateIt\EventListener\Dca\NewsArchiveDcaListener" public="true">
-            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
         </service>
 
-        <service id="Hofff\Contao\RateIt\EventListener\Dca\SettingsDcaListener" public="true">
-            <argument>%hofff.contao_rate_it.types%</argument>
-        </service>
+        <service id="Hofff\Contao\RateIt\EventListener\Dca\SettingsDcaListener" public="true" />
 
         <service id="Hofff\Contao\RateIt\EventListener\Dca\CommentsDcaListener" public="true">
-            <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader" />
-            <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator" />
-            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
         </service>
     </services>
 </container>

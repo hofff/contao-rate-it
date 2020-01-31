@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\ArticleModel;
-use Contao\Model;
 
 final class ArticleRatingType extends BaseParentSourceRatingType
 {
@@ -26,13 +25,8 @@ final class ArticleRatingType extends BaseParentSourceRatingType
         return 'article';
     }
 
-    protected function loadModel(int $sourceId) : ?Model
+    protected function tableName() : string
     {
-        return ArticleModel::findByPk($sourceId);
-    }
-
-    protected function labelKey() : string
-    {
-        return 'title';
+        return ArticleModel::getTable();
     }
 }
