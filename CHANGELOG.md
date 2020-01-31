@@ -7,12 +7,14 @@
 - A new function to delete ratings in the back end.
 - Ratings reflect the published state of the corresponding element.
 - Add bundle configuration to disable rating types.
-- News comments can be rated now. 
+- News comments can be rated now.
+- Introduce rating types as abstraction for rating item related logic 
 
 ### Breaking
 
  - Renamed `ArticleBaseDcaListener` to `ArticleDcaListener`
  - `BaseDcaListener` does not inherit from `Backend` anymore
+ - Rework all dca listeners
 
 ### Changed:
 
