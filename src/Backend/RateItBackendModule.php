@@ -338,7 +338,7 @@ class RateItBackendModule extends BackendModule
         // nothing checked?
         $ids0 = Input::post('selectedids');
         if (! is_array($ids0)) {
-            $this->redirect($rep->homeLink);
+            $this->redirect($rateit->homeLink);
             return;
         }
 
@@ -346,7 +346,7 @@ class RateItBackendModule extends BackendModule
 
         foreach ($ids0 as $id) {
             list($rkey, $typ) = explode('__', $id);
-            $this->Database->query('START TRANSACTION');
+            $this->Database->beginTransaction();
             $pid = $this->Database->prepare('SELECT id FROM tl_rateit_items WHERE rkey=? and typ=?')
                 ->execute($rkey, $typ)
                 ->fetchRow();
@@ -356,7 +356,7 @@ class RateItBackendModule extends BackendModule
                 $this->Database->prepare('DELETE FROM tl_rateit_items WHERE id=?')
                     ->execute($pid[0]);
             }
-            $this->Database->query('COMMIT');
+            $this->Database->commitTransaction();
         }
 
         $this->redirect($rateit->homeLink);
