@@ -25,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use function in_array;
+use function var_dump;
 
 final class HofffContaoRateItExtension extends Extension
 {
@@ -44,6 +45,7 @@ final class HofffContaoRateItExtension extends Extension
         $bundles = $container->getParameter('kernel.bundles');
 
         $container->setParameter('hofff.contao_rate_it.types', $types);
+        $container->setParameter('hofff.contao_rate_it.comment_sources', $config['comment_sources']);
 
         if (! in_array('page', $types, true)) {
             $container->removeDefinition(RateItPageListener::class);
