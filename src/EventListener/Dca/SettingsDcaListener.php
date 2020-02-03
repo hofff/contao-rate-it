@@ -18,6 +18,8 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
+use Contao\Backend;
+
 final class SettingsDcaListener
 {
     /**
