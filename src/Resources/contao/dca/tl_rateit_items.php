@@ -53,5 +53,8 @@ $GLOBALS['TL_DCA']['tl_rateit_items'] = array(
         'active'    => array(
             'sql' => "char(1) NOT NULL default ''",
         ),
+        'parentstatus'    => array(
+            'sql' => "char(1) NOT NULL default ''",
+        ),
     ),
 );

@@ -17,6 +17,13 @@
             <argument>%hofff.contao_rate_it.types%</argument>
         </service>
 
+        <!-- Commands -->
+        <service id="Hofff\Contao\RateIt\Console\Command\MigrateCommand" public="true">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
+            <tag name="console.command" />
+        </service>
+
         <!-- RatingService -->
         <service id="Hofff\Contao\RateIt\Rating\RatingService" public="true">
             <argument type="service" id="database_connection" />
@@ -28,6 +35,55 @@
         <service id="Hofff\Contao\RateIt\Rating\IsUserAllowedToRate">
             <argument type="service" id="database_connection" />
             <argument type="service" id="contao.framework" />
+        </service>
+
+        <!-- Comments related services -->
+        <service id="Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader">
+            <argument type="service" id="contao.framework" />
+            <argument>%hofff.contao_rate_it.comment_sources%</argument>
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="contao.framework"/>
+        </service>
+
+        <!-- Rating types -->
+        <service id="Hofff\Contao\RateIt\Rating\RatingTypes" public="true">
+            <argument>%hofff.contao_rate_it.types%</argument>
+            <argument type="tagged" tag="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\ArticleRatingType">
+            <argument type="service" id="database_connection" />
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\CeRatingType">
+            <argument type="service" id="database_connection" />
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\CommentsRatingType">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator" />
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\ModuleRatingType">
+            <argument type="service" id="database_connection" />
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\NewsRatingType">
+            <argument type="service" id="database_connection" />
+            <tag name="hoff_contao_rate_it.rating_type" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\Rating\RatingType\PageRatingType">
+            <argument type="service" id="database_connection" />
+            <tag name="hoff_contao_rate_it.rating_type" />
         </service>
     </services>
 </container>

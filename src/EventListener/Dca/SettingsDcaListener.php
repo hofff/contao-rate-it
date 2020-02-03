@@ -18,6 +18,17 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
-final class SettingsDcaListener extends BaseDcaListener
+use Contao\Backend;
+
+final class SettingsDcaListener
 {
+    /**
+     * Return all navigation templates as array.
+     *
+     * @return array
+     */
+    public function getRateItTemplates()
+    {
+        return Backend::getTemplateGroup('rateit_');
+    }
 }

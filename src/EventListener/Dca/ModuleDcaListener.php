@@ -18,37 +18,37 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
-use Contao\DataContainer;
+use Contao\Backend;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 final class ModuleDcaListener extends BaseDcaListener
 {
-    /** @var string[] */
-    private $supportedTypes;
+    protected static $typeName = 'module';
 
-    public function __construct(array $supportedTypes)
+    public function onLoad() : void
     {
-        parent::__construct();
+        if (! $this->isActive()) {
+            return;
+        }
 
-        $this->supportedTypes = $supportedTypes;
-    }
+        $dca = &$GLOBALS['TL_DCA']['tl_module'];
 
-    public function insert(DataContainer $dc) : void
-    {
-        $this->insertOrUpdateRatingKey($dc, 'module', $dc->activeRecord->rateit_title);
-    }
+        $dca['config']['onsubmit_callback'][] = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][] = [self::class, 'onDelete'];
 
-    public function delete(DataContainer $dc) : void
-    {
-        $this->deleteRatingKey($dc, 'module');
+        PaletteManipulator::create()
+            ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
+            ->addField('rateit_active', 'rateit_legend', PaletteManipulator::POSITION_APPEND)
+            ->applyToPalette('default', 'tl_module');
     }
 
     public function getRateItTopModuleTemplates() : array
     {
-        return self::getTemplateGroup('mod_rateit_top');
+        return Backend::getTemplateGroup('mod_rateit_top');
     }
 
     public function typeOptions(): array
     {
-        return $this->supportedTypes;
+        return $this->ratingTypes->activeTypeNames();
     }
 }

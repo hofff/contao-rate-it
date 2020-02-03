@@ -7,50 +7,48 @@
  * file that was distributed with this source code.
  *
  * @author     David Molineus <david@hofff.com>
- * @author     Carsten Götzinger <info@cgo-it.de>
- * @copyright  2019 hofff.com.
- * @copyright  2013-2018 cgo IT.
+ * @copyright  2019-2020 hofff.com.
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener;
+use Hofff\Contao\RateIt\EventListener\Dca\NewsArchiveDcaListener;
 
 /**
  * Extend tl_article
  */
 
-$GLOBALS['TL_DCA']['tl_news']['config']['onload_callback'][] = [NewsDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_news']['config']['onundo_callback'][] = [NewsDcaListener::class, 'onUndo'];
+$GLOBALS['TL_DCA']['tl_news_archive']['config']['onload_callback'][] = [NewsArchiveDcaListener::class, 'onLoad'];
 
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_news']['palettes']['__selector__'][] = 'addRating';
+$GLOBALS['TL_DCA']['tl_news_archive']['palettes']['__selector__'][] = 'addRating';
 
 /**
  * Add subpalettes to tl_article
  */
-$GLOBALS['TL_DCA']['tl_news']['subpalettes']['addRating'] = 'rateit_position';
+$GLOBALS['TL_DCA']['tl_news_archive']['palettes']['__selector__'][]       = 'addCommentsRating';
+$GLOBALS['TL_DCA']['tl_news_archive']['subpalettes']['addCommentsRating'] = 'rateit_position_comments';
 
 // Fields
-$GLOBALS['TL_DCA']['tl_news']['fields']['addRating'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_news']['addRating'],
+$GLOBALS['TL_DCA']['tl_news_archive']['fields']['addCommentsRating'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_news_archive']['addCommentsRating'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
     'eval'      => ['tl_class' => 'w50 m12', 'submitOnChange' => true],
 ];
 
-$GLOBALS['TL_DCA']['tl_news']['fields']['rateit_position'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_news']['rateit_position'],
+$GLOBALS['TL_DCA']['tl_news_archive']['fields']['rateit_position_comments'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_news_archive']['rateit_position_comments'],
     'default'   => 'before',
     'exclude'   => true,
     'inputType' => 'select',
     'options'   => ['after', 'before'],
-    'reference' => &$GLOBALS['TL_LANG']['tl_news'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_news_archive']['rateit_positions'],
     'sql'       => "varchar(6) NOT NULL default ''",
     'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
 ];

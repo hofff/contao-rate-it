@@ -18,13 +18,16 @@ declare(strict_types=1);
 
 use Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener;
 
-$GLOBALS['TL_DCA']['tl_content']['config']['onsubmit_callback'][] = [ContentDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_content']['config']['ondelete_callback'][] = [ContentDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = [ContentDcaListener::class, 'onLoad'];
+$GLOBALS['TL_DCA']['tl_content']['config']['onundo_callback'][] = [ContentDcaListener::class, 'onUndo'];
 
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_content']['palettes']['rateit']  = '{type_legend},type,rateit_title;{rateit_legend},rateit_active;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['rateit']  = '{type_legend},type,rateit_title'
+    . ';{rateit_legend},rateit_active'
+    . ';{protected_legend:hide},protected'
+    . ';{expert_legend:hide},guests,cssID,space';
 
 /**
  * fields

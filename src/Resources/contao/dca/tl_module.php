@@ -18,15 +18,14 @@ declare(strict_types=1);
 
 use Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener;
 
-$GLOBALS['TL_DCA']['tl_module']['config']['onsubmit_callback'][] = [ModuleDcaListener::class, 'insert'];
-$GLOBALS['TL_DCA']['tl_module']['config']['ondelete_callback'][] = [ModuleDcaListener::class, 'delete'];
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [ModuleDcaListener::class, 'onLoad'];
+$GLOBALS['TL_DCA']['tl_module']['config']['onundo_callback'][] = [ModuleDcaListener::class, 'onRestore'];
 
 /**
  * palettes
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['rateit']             = '{title_legend},name,rateit_title,type;{rateit_legend},rateit_active;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['rateit_top_ratings'] = '{title_legend},name,headline,type;{rateit_legend},rateit_types,rateit_toptype,rateit_count,rateit_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['articleList']        = $GLOBALS['TL_DCA']['tl_module']['palettes']['articleList'] . ';{rateit_legend},rateit_active';
 
 /**
  * fields

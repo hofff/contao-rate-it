@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_news_archive.php" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="tl_news_archive.addCommentsRating.0">
+        <source>Activate rating for comments</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.addCommentsRating.1">
+        <source>Enables the rating for comments in this news archive</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_position_comments.0">
+        <source>Rating position</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_position_comments.1">
+        <source>Position of the rating (before or above) the comments</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.before.0">
+        <source>above</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.before.1">
+        <source>Display the text above the news entry</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.after.0">
+        <source>below</source>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.after.1">
+        <source>Display the text below the news entry</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

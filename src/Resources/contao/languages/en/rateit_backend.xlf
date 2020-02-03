@@ -34,6 +34,14 @@
         <source>Please choose whether you want to display only active or inactive ratings.</source>
         <target>Please choose whether you want to display only active or inactive ratings.</target>
       </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.0">
+        <source>Active/Invisible/Removed</source>
+        <target>Active/Invisible/Removed</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.1">
+        <source>Please choose whether you want to display only ratings where the linked element has a specific status.</source>
+        <target>Please choose whether you want to display only ratings where the linked element has a specific status.</target>
+      </trans-unit>
       <trans-unit id="tl_rateit.typ.0">
         <source>Type</source>
         <target>Type</target>
@@ -65,6 +73,14 @@
       <trans-unit id="tl_rateit.status.1">
         <source>Indicates whether this rating is currently enabled or not.</source>
         <target>Indicates whether this rating is currently enabled or not.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.0">
+        <source>Related element</source>
+        <target>Related element</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.1">
+        <source>Indicates the state of the related element.</source>
+        <target>Indicates the state of the related element.</target>
       </trans-unit>
       <trans-unit id="tl_rateit.rating.0">
         <source>Rating</source>
@@ -174,6 +190,13 @@
         <source>Reset selected ratings</source>
         <target>Reset selected ratings</target>
       </trans-unit>
+      <trans-unit id="tl_rateit.removeratings">
+        <source>Completely remove selected ratings</source>
+        <target>Completely remove selected ratings</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.updateinformation">
+        <source>Sync parent information</source>
+      </trans-unit>
       <trans-unit id="tl_rateit_type_options.page">
         <source>Page</source>
         <target>Page</target>
@@ -194,9 +217,8 @@
         <source>Module</source>
         <target>Module</target>
       </trans-unit>
-      <trans-unit id="tl_rateit_type_options.news4ward">
-        <source>Blog entry</source>
-        <target>Blog entry</target>
+      <trans-unit id="tl_rateit_type_options.comments">
+        <source>Comments</source>
       </trans-unit>
       <trans-unit id="tl_rateit_order_options.rating desc">
         <source>Rating</source>
@@ -221,6 +243,18 @@
       <trans-unit id="tl_rateit_active_options.1">
         <source>active</source>
         <target>active</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.a">
+        <source>active</source>
+        <target>active</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_sparentstatus_options.i">
+        <source>invisible</source>
+        <target>invisible</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.r">
+        <source>removed</source>
+        <target>removed</target>
       </trans-unit>
       <trans-unit id="tl_rateit.xls_sheetname_ratings">
         <source>Ratings</source>

@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  *
  * @author     David Molineus <david@hofff.com>
- * @author     Carsten Götzinger <info@cgo-it.de>
- * @copyright  2019 hofff.com.
- * @copyright  2013-2018 cgo IT.
+ * @copyright  2019-2020 hofff.com.
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
@@ -18,11 +16,11 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\DataContainer;
 
-final class NewsDcaListener extends BaseDcaListener
+final class CommentsDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'news';
+    protected static $typeName = 'comments';
 
     public function onLoad() : void
     {
@@ -30,15 +28,15 @@ final class NewsDcaListener extends BaseDcaListener
             return;
         }
 
-        $dca = &$GLOBALS['TL_DCA']['tl_news'];
+        $dca = &$GLOBALS['TL_DCA']['tl_comments'];
 
         $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
         $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
+    }
 
-        PaletteManipulator::create()
-            ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
-            ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND)
-            ->applyToPalette('default', 'tl_news');
+    public function insert(DataContainer $dc) : void
+    {
+        $this->updateRatingKey((int) $dc->id);
     }
 }

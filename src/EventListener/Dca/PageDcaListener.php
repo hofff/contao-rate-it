@@ -18,17 +18,35 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
-use Contao\DataContainer;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 final class PageDcaListener extends BaseDcaListener
 {
-    public function insert(DataContainer $dc) : void
-    {
-        $this->insertOrUpdateRatingKey($dc, 'page', $dc->activeRecord->title);
-    }
+    protected static $typeName = 'page';
 
-    public function delete(DataContainer $dc) : void
+    public function onLoad() : void
     {
-        $this->deleteRatingKey($dc, 'page');
+        if (! $this->isActive()) {
+            return;
+        }
+
+        $dca = &$GLOBALS['TL_DCA']['tl_page'];
+
+        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
+        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
+
+        $manipulator = PaletteManipulator::create()
+            ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
+            ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND);
+
+        foreach (array_keys($dca['palettes']) as $keyPalette) {
+            // Skip if we have a array or the palettes for subselections
+            if (in_array($keyPalette, ['__selector__', 'root', 'forward', 'redirect'], true)) {
+                continue;
+            }
+
+            $manipulator->applyToPalette($keyPalette, 'tl_page');
+        }
     }
 }

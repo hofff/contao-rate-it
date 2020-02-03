@@ -22,13 +22,27 @@ use Contao\DataContainer;
 
 final class ContentDcaListener extends BaseDcaListener
 {
-    public function insert(DataContainer $dc) : void
+    protected static $typeName = 'ce';
+
+    public function onLoad() : void
     {
-        $this->insertOrUpdateRatingKey($dc, 'ce', $dc->activeRecord->rateit_title);
+        if (! $this->isActive()) {
+            return;
+        }
+
+        $dca = &$GLOBALS['TL_DCA']['tl_content'];
+
+        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
+        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
+        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
-    public function delete(DataContainer $dc) : void
+    public function onSubmit(DataContainer $dc) : void
     {
-        $this->deleteRatingKey($dc, 'ce');
+        if ($dc->activeRecord->type !== 'rateit') {
+            return;
+        }
+
+        parent::onSubmit($dc);
     }
 }

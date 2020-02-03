@@ -27,15 +27,20 @@
   ],
   "require": {
     "php": ">=7.1",
-    "ext-pdo": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
+    "ext-pdo": "*",
     "ext-session": "*",
     "contao/core-bundle": "^4.6",
+    "doctrine/dbal": "^2.5",
     "symfony/config": "^3.4 || ^4.0",
+    "symfony/console": "^3.4 || ^4.0",
+    "symfony/dependency-injection": "^3.4.26 || ^4.1.12",
     "symfony/http-foundation": "^3.4 || ^4.0",
-    "symfony/http-kernel": "^3.4 || ^4.0"
+    "symfony/http-kernel": "^3.4 || ^4.0",
+    "symfony/security": "^3.4 || ^4.0",
+    "symfony/translation": "^3.4 || ^4.0"
   },
   "conflict": {
     "contao/manager-plugin": "<2.0 || >=3.0",
@@ -44,7 +49,8 @@
     "cgo-it/news4ward-rateit": "*"
   },
   "require-dev": {
-    "contao/manager-plugin": "^2.0"
+    "contao/manager-plugin": "^2.0",
+    "php-http/guzzle6-adapter": "^1.1"
   },
   "config": {
     "sort-packages": true
@@ -57,8 +63,8 @@
     },
     "contao-manager-plugin": "Hofff\\Contao\\RateIt\\ContaoManager\\Plugin",
     "branch-alias": {
-      "dev-master": "0.1.x-dev",
-      "dev-develop": "0.2.x-dev"
+      "dev-master": "0.2.x-dev",
+      "dev-develop": "0.3.x-dev"
     }
   },
   "autoload": {

@@ -16,11 +16,10 @@
 
 use Hofff\Contao\RateIt\Backend\RateItBackend;
 use Hofff\Contao\RateIt\Backend\RateItBackendModule;
-use Hofff\Contao\RateIt\Frontend\RateItCE;
-use Hofff\Contao\RateIt\Frontend\RateItModule;
+use Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener;
 use Hofff\Contao\RateIt\Frontend\RateItTopRatingsModule;
 
-/**
+/*
  * Back end modules
  */
 array_insert(
@@ -36,16 +35,15 @@ array_insert(
     ]
 );
 
-/**
+/*
  * frontend moduls
  */
-$GLOBALS['FE_MOD']['application']['rateit']             = RateItModule::class;
 $GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = RateItTopRatingsModule::class;
 
-/**
- * content elements
+/*
+ * Hooks
  */
-$GLOBALS['TL_CTE']['includes']['rateit'] = RateItCE::class;
+$GLOBALS['TL_HOOK']['initializeSystem'][] = [FrontendIntegrationListener::class, 'onInitialize'];
 
 /*
  * Default configuration
