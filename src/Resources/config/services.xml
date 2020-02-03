@@ -17,6 +17,13 @@
             <argument>%hofff.contao_rate_it.types%</argument>
         </service>
 
+        <!-- Commands -->
+        <service id="Hofff\Contao\RateIt\Console\Command\MigrateCommand" public="true">
+            <argument type="service" id="database_connection" />
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingTypes" />
+            <tag name="console.command" />
+        </service>
+
         <!-- RatingService -->
         <service id="Hofff\Contao\RateIt\Rating\RatingService" public="true">
             <argument type="service" id="database_connection" />
