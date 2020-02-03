@@ -113,7 +113,7 @@ abstract class BaseDcaListener
         } else {
             $database
                 ->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
-                ->execute($information->parentStatus(), $dc->id, static::$typeName);
+                ->execute($information->parentStatus(), $sourceId, static::$typeName);
         }
     }
 
