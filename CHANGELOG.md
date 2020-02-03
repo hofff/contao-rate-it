@@ -9,6 +9,7 @@
 - Add bundle configuration to disable rating types.
 - News comments can be rated now.
 - Introduce rating types as abstraction for rating item related logic 
+- Add migration command to migrate article ratings to page ratings
 
 ### Breaking
 

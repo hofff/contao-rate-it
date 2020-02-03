@@ -6,6 +6,7 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
 **Added**
 
  * Disable ratings for types which should not be used
+ * Migration command to migrate article ratings to page ratings
 
 **Changed**
 
@@ -45,3 +46,17 @@ hofff_contao_rate_it:
         module:               true
         ce:                   true
 ```
+
+## How to
+
+### Migrate article ratings to page ratings
+
+The migration command migrates all article ratings to the corresponding pages
+
+ - Enables rating for pages with rated articles
+ - Create rating items for pages if not exist
+ - Reassign article ratings to the page
+ - Deletes article rating items
+ 
+1. Backup your database!
+2. Run vendor/bin/contao-console hofff-rate-it:migrate
