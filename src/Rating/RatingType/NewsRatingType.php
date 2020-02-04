@@ -29,4 +29,9 @@ final class NewsRatingType extends BaseParentSourceRatingType
     {
         return NewsModel::getTable();
     }
+
+    protected function labelKey() : string
+    {
+        return 'headline';
+    }
 }
