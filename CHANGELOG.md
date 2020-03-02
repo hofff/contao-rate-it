@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## [0.3.1] (2020-03-02)
+
+### Fixed
+
+- Recognize rating setting on current page in *rateit_page_rating* insert tag
+
 ## [0.3.0] (2020-03-02)
 
 ### Added
@@ -36,6 +42,7 @@
 - Deleting an elements sets the field `parentstatus` of the corresponding rating item to 'r' (removed).
 
 
+[0.3.1]: https://github.com/hofff/contao-rate-it/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/hofff/contao-rate-it/compare/0.2.1...0.3.0
 [0.2.1]: https://github.com/hofff/contao-rate-it/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/hofff/contao-rate-it/compare/0.1.2...0.2.0

@@ -25,8 +25,8 @@ final class PageRatingInsertTagListener extends RatingListener
             return false;
         }
 
-        if (!isset($GLOBALS['objPage'])) {
-            return false;
+        if (!isset($GLOBALS['objPage']) || !$GLOBALS['objPage']->addRating) {
+            return '';
         }
 
         return $this->render((array) $this->getRating('page', (int) $GLOBALS['objPage']->id));
