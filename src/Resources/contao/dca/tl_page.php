@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['rateit_position'] = array
     'default'   => 'before',
     'exclude'   => true,
     'inputType' => 'select',
-    'options'   => array('after', 'before'),
+    'options'   => array('after', 'before', 'custom'),
     'reference' => &$GLOBALS['TL_LANG']['tl_page'],
     'sql'       => "varchar(6) NOT NULL default ''",
     'eval'      => array('mandatory' => true, 'tl_class' => 'w50'),

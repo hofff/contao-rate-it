@@ -18,6 +18,7 @@ namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\FrontendTemplate;
 use Contao\FrontendUser;
 use Hofff\Contao\RateIt\Rating\RatingService;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -51,6 +52,14 @@ abstract class RatingListener
     protected function getRatingTemplate() : string
     {
         return $this->framework->getAdapter(Config::class)->get('rating_template') ?: 'ratit_default';
+    }
+
+    protected function render(array $data) : string
+    {
+        $template = new FrontendTemplate($this->getRatingTemplate());
+        $template->setData($data);
+
+        return $template->parse();
     }
 
     private function getUserId() : ?int

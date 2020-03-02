@@ -24,7 +24,7 @@ class RateItPageListener extends RatingListener
 {
     public function onGeneratePage(PageModel $objPage, LayoutModel $objLayout, $pageHandler) : void
     {
-        if (!$objPage->addRating) {
+        if (!$objPage->addRating || $objPage->rateit_position === 'custom') {
             return;
         }
 
@@ -34,7 +34,7 @@ class RateItPageListener extends RatingListener
         }
 
         $template = new FrontendTemplate($this->getRatingTemplate());
-        $template->setData((array) $this->getRating('page', $objPage->id));
+        $template->setData((array) $this->getRating('page', (int) $objPage->id));
         $rating = $template->parse();
 
         if ($objPage->rateit_position == 'after') {

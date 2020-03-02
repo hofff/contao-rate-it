@@ -38,6 +38,14 @@
         <source>Display the text below the page</source>
         <target>Anzeige des Texts unterhalb der Seite</target>
       </trans-unit>
+      <trans-unit id="tl_page.custom.0">
+        <source>custom</source>
+        <target>manuell</target>
+      </trans-unit>
+      <trans-unit id="tl_page.custom.1">
+        <source><![CDATA[Use a custom position by the <em>rateit_page_rating</em> Insert tag.]]></source>
+        <target><![CDATA[Benutzen Sie den Inserttag <em>rateit_page_rating</em> zur individuellen Positonierung.]]></target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

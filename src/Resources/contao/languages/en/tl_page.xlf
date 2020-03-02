@@ -38,6 +38,12 @@
         <source>Display the text below the page</source>
         <target>Display the text below the page</target>
       </trans-unit>
+      <trans-unit id="tl_page.custom.0">
+        <source>custom</source>
+      </trans-unit>
+      <trans-unit id="tl_page.custom.1">
+        <source><![CDATA[Use a custom position by the <em>rateit_page_rating</em> Insert tag.]]></source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

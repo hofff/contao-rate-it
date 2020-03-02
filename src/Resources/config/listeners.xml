@@ -38,9 +38,16 @@
             <tag name="contao.hook" hook="parseTemplate" />
         </service>
 
-        <service id="Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener">
+        <service id="Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener" public="true">
             <argument>%hofff.contao_rate_it.types%</argument>
             <tag name="contao.hook" hook="initializeSystem" />
+        </service>
+
+        <service id="Hofff\Contao\RateIt\EventListener\Hook\PageRatingInsertTagListener" public="true">
+            <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingService" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="contao.framework" />
+            <tag name="contao.hook" hook="replaceInsertTags" />
         </service>
 
         <!-- Dca listeners -->

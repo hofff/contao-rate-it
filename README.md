@@ -7,6 +7,7 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
 
  * Disable ratings for types which should not be used
  * Migration command to migrate article ratings to page ratings
+ * Custom position for page ratings and `rateit_page_rating` insert tag
 
 **Changed**
 
