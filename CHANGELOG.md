@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+- Fix Contao 4.9 compatibility caused of changed security token in Symfony 4.4 
+
 ## [0.3.1] (2020-03-02)
 
 ### Fixed

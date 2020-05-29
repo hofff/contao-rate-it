@@ -39,7 +39,7 @@
     "symfony/dependency-injection": "^3.4.26 || ^4.1.12",
     "symfony/http-foundation": "^3.4 || ^4.0",
     "symfony/http-kernel": "^3.4 || ^4.0",
-    "symfony/security": "^3.4 || ^4.0",
+    "symfony/security-core": "^3.4 || ^4.0",
     "symfony/translation": "^3.4 || ^4.0"
   },
   "conflict": {

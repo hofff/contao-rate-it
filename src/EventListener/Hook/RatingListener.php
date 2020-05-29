@@ -21,14 +21,14 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\FrontendTemplate;
 use Contao\FrontendUser;
 use Hofff\Contao\RateIt\Rating\RatingService;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 abstract class RatingListener
 {
     /** @var RatingService */
     protected $ratingService;
 
-    /** @var TokenStorage */
+    /** @var TokenStorageInterface */
     private $tokenStorage;
 
     /** @var ContaoFrameworkInterface */
@@ -36,7 +36,7 @@ abstract class RatingListener
 
     public function __construct(
         RatingService $ratingService,
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         ContaoFrameworkInterface $framework
     ) {
         $this->ratingService = $ratingService;

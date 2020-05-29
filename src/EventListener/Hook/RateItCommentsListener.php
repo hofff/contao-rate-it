@@ -22,7 +22,7 @@ use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
 use Hofff\Contao\RateIt\Rating\RatingService;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use function strncmp;
 use function substr;
 use function time;
@@ -40,7 +40,7 @@ final class RateItCommentsListener extends RatingListener
 
     public function __construct(
         RatingService $ratingService,
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         ContaoFrameworkInterface $framework,
         CommentsConfigurationLoader $configurationLoader,
         CommentsTitleGenerator $titleGenerator,
