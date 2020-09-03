@@ -68,8 +68,6 @@ class RateItBackend
      */
     public static function createImage($file, $alt = '', $attributes = '')
     {
-        $webDirectory = System::getContainer()->getParameter('contao.web_dir');
-
         if ($alt == '') $alt = 'icon';
         $img  = self::image($file);
         $size = getimagesize($img);
