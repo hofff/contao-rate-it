@@ -48,6 +48,13 @@ hofff_contao_rate_it:
         ce:                   true
 ```
 
+If you use Contao just as a Symfony bundle (not a managed edition), don't forget to add the routing information to your `routes.yaml`:
+```
+# routes.yaml
+HofffContaoRateItBundle:
+    resource: '@HofffContaoRateItBundle/Resources/config/routing.xml'
+```
+
 ## How to
 
 ### Migrate article ratings to page ratings
