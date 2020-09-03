@@ -17,6 +17,7 @@
 namespace Hofff\Contao\RateIt\Backend;
 
 use Contao\StringUtil;
+use Contao\System;
 
 class RateItBackend
 {
@@ -49,9 +50,11 @@ class RateItBackend
      */
     public static function image($file)
     {
+        $webDirectory = System::getContainer()->getParameter('contao.web_dir');
+
         $url = self::path . 'images/';
-        if (is_file(TL_ROOT . '/web/' . $url . $file . '.png')) return $url . $file . '.png';
-        if (is_file(TL_ROOT . '/web/' . $url . $file . '.gif')) return $url . $file . '.gif';
+        if (is_file(TL_ROOT . '/' . $webDirectory . '/' . $url . $file . '.png')) return $url . $file . '.png';
+        if (is_file(TL_ROOT . '/' . $webDirectory . '/' . $url . $file . '.gif')) return $url . $file . '.gif';
 
         return $url . 'star.gif';
     } // image
@@ -65,9 +68,11 @@ class RateItBackend
      */
     public static function createImage($file, $alt = '', $attributes = '')
     {
+        $webDirectory = System::getContainer()->getParameter('contao.web_dir');
+
         if ($alt == '') $alt = 'icon';
         $img  = self::image($file);
-        $size = getimagesize(TL_ROOT . '/web/' . $img);
+        $size = getimagesize(TL_ROOT . '/' . $webDirectory . '/' . $img);
         return '<img' . ((substr($img, -4) == '.png') ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
     } // createImage
 
