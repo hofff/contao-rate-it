@@ -31,6 +31,7 @@ This package **hofff/contao-rate-it** is a fork of Contao extension **Rate It**,
 
  * At least Contao 4.6
  * AT least PHP 7.1
+ * Integrated Font Awesome 5 (or a custom `rating_*` template)
 
 ## Configuration
 
