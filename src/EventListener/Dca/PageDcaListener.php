@@ -42,7 +42,7 @@ final class PageDcaListener extends BaseDcaListener
 
         foreach (array_keys($dca['palettes']) as $keyPalette) {
             // Skip if we have a array or the palettes for subselections
-            if (in_array($keyPalette, ['__selector__', 'root', 'forward', 'redirect'], true)) {
+            if (in_array($keyPalette, ['__selector__', 'root', 'rootfallback', 'forward', 'redirect'], true)) {
                 continue;
             }
 
