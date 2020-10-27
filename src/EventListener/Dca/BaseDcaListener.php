@@ -108,12 +108,12 @@ abstract class BaseDcaListener
             } else {
                 $database
                     ->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
-                    ->execute($information->title(), $information->parentStatus(), $sourceId, static::$typeName);
+                    ->execute($information->title(), $information->parentStatus(), (string) $sourceId, static::$typeName);
             }
         } else {
             $database
                 ->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
-                ->execute($information->parentStatus(), $sourceId, static::$typeName);
+                ->execute($information->parentStatus(), (string) $sourceId, static::$typeName);
         }
     }
 
@@ -126,7 +126,7 @@ abstract class BaseDcaListener
 
         Database::getInstance()
             ->prepare('UPDATE tl_rateit_items SET title=?, parentstatus=? WHERE rkey=? and typ=?')
-            ->execute($information->title(), $information->parentStatus(), $sourceId, static::$typeName);
+            ->execute($information->title(), $information->parentStatus(), (string) $sourceId, static::$typeName);
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class BaseDcaListener
     {
         Database::getInstance()
             ->prepare("UPDATE tl_rateit_items SET parentstatus = 'r' WHERE rkey=? and typ=?")
-            ->execute($sourceId, static::$typeName);
+            ->execute((string) $sourceId, static::$typeName);
     }
 
     public function restore(int $statusId)
@@ -149,6 +149,6 @@ abstract class BaseDcaListener
         Database::getInstance()
             ->prepare('UPDATE tl_rateit_items %s WHERE rkey=? and typ=?')
             ->set(['parentstatus' => $information->parentStatus()])
-            ->execute($statusId, static::$typeName);
+            ->execute((string) $statusId, static::$typeName);
     }
 }
