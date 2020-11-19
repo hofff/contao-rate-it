@@ -10,6 +10,7 @@ HofffRateIt.widget = function (element) {
             half: '.hofff-rate-it-icon-half'
         },
         selectors: {
+            icons: '.hofff-rate-it-icon',
             widget: '.hofff-rate-it-widget',
             message: '.hofff-rate-it-message',
         },
@@ -32,6 +33,7 @@ HofffRateIt.widget = function (element) {
         half: this.widget.querySelector(this.options.icons.half)
     };
 
+    this.init()
     this.draw(this.rating);
 
     if (this.enabled) {
@@ -40,24 +42,12 @@ HofffRateIt.widget = function (element) {
     }
 };
 
-HofffRateIt.widget.prototype.draw = function (value) {
+HofffRateIt.widget.prototype.init = function () {
     var star;
-
-    if (this.value === value) {
-        return;
-    }
-
     this.widget.innerHTML = '';
-    this.value = value;
 
     for (var i = 1; i <= this.max; i++) {
-        if (value > (i - 0.25)) {
-            star = this.icons.rated.cloneNode(true);
-        } else if (value > (i - 0.75)) {
-            star = this.icons.half.cloneNode(true);
-        } else {
-            star = this.icons.unrated.cloneNode(true);
-        }
+        star = this.icons.unrated.cloneNode(true);
 
         if (this.enabled) {
             star.addEventListener('mouseover', this.createHoverHandler(i));
@@ -66,6 +56,27 @@ HofffRateIt.widget.prototype.draw = function (value) {
 
         this.widget.appendChild(star);
     }
+};
+
+HofffRateIt.widget.prototype.draw = function (value) {
+    if (this.value === value) {
+        return;
+    }
+
+    this.value = value;
+
+    var widget = this;
+    var stars = this.widget.querySelectorAll(this.options.selectors.icons);
+
+    stars.forEach(function(star, i) {
+        if (value > (i + 1 - 0.25)) {
+            star.className = widget.icons.rated.className;
+        } else if (value > (i + 1 - 0.75)) {
+            star.className = widget.icons.half.className;
+        } else {
+            star.className = widget.icons.unrated.className;
+        }
+    });
 };
 
 HofffRateIt.widget.prototype.drawCurrentRating = function () {
