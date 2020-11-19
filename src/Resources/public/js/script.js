@@ -10,7 +10,6 @@ HofffRateIt.widget = function (element) {
             half: '.hofff-rate-it-icon-half'
         },
         selectors: {
-            icons: '.hofff-rate-it-icon',
             widget: '.hofff-rate-it-widget',
             message: '.hofff-rate-it-message',
         },
@@ -64,19 +63,17 @@ HofffRateIt.widget.prototype.draw = function (value) {
     }
 
     this.value = value;
+    var stars = this.widget.querySelectorAll(this.options.icons.rated + ',' + this.options.icons.unrated + ',' + this.options.half);
 
-    var widget = this;
-    var stars = this.widget.querySelectorAll(this.options.selectors.icons);
-
-    stars.forEach(function(star, i) {
-        if (value > (i + 1 - 0.25)) {
-            star.className = widget.icons.rated.className;
-        } else if (value > (i + 1 - 0.75)) {
-            star.className = widget.icons.half.className;
+    for (var i = 1; i <= this.max; i++) {
+        if (value > (i - 0.25)) {
+            stars[i-1].className = this.icons.rated.className;
+        } else if (value > (i - 0.75)) {
+            stars[i-1].className = this.icons.half.className;
         } else {
-            star.className = widget.icons.unrated.className;
+            stars[i-1].className = this.icons.unrated.className;
         }
-    });
+    }
 };
 
 HofffRateIt.widget.prototype.drawCurrentRating = function () {

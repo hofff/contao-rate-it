@@ -12,9 +12,9 @@
          data-id="<?= $this->ratingId ?>"
          data-type="<?= $this->ratingType ?>"
     >
-        <i class="hofff-rate-it-icon hofff-rate-it-icon-rated fas fa-star"></i>
-        <i class="hofff-rate-it-icon hofff-rate-it-icon-unrated far fa-star"></i>
-        <i class="hofff-rate-it-icon hofff-rate-it-icon-half fas fa-star-half-alt"></i>
+        <i class="hofff-rate-it-icon-rated fas fa-star"></i>
+        <i class="hofff-rate-it-icon-unrated far fa-star"></i>
+        <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
     </div>
     <?php if ($this->showAfter) : ?>
         <div class="hofff-rate-it-message"><?= $this->description ?></div>
