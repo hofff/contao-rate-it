@@ -63,7 +63,7 @@ HofffRateIt.widget.prototype.draw = function (value) {
     }
 
     this.value = value;
-    var stars = this.widget.querySelectorAll(this.options.icons.rated + ',' + this.options.icons.unrated + ',' + this.options.half);
+    var stars = this.widget.querySelectorAll(this.options.icons.rated + ',' + this.options.icons.unrated + ',' + this.options.icons.half);
 
     for (var i = 1; i <= this.max; i++) {
         if (value > (i - 0.25)) {
