@@ -26,6 +26,7 @@ HofffRateIt.widget = function (element) {
     this.id      = this.widget.getAttribute('data-id');
     this.enabled = this.widget.getAttribute('data-enabled') === 'true';
     this.stars   = [];
+    this.drawing = false;
     this.icons   = {
         unrated: this.widget.querySelector(this.options.icons.unrated),
         rated: this.widget.querySelector(this.options.icons.rated),
@@ -35,10 +36,16 @@ HofffRateIt.widget = function (element) {
     this.draw(this.rating);
 
     if (this.enabled) {
-        this.widget.addEventListener('mouseout', this.drawCurrentRating.bind(this));
+        this.widget.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+        this.widget.addEventListener('mouseover', this.handleMouseOver.bind(this));
+        this.widget.addEventListener('click', this.handleClick.bind(this));
         this.widget.classList.remove(this.options.disabledClass);
     }
 };
+
+HofffRateIt.widget.prototype.isDrawingAllowed = function () {
+    return this.enabled && !this.drawing;
+}
 
 HofffRateIt.widget.prototype.draw = function (value) {
     var star;
@@ -47,6 +54,7 @@ HofffRateIt.widget.prototype.draw = function (value) {
         return;
     }
 
+    this.drawing = true;
     this.widget.innerHTML = '';
     this.value = value;
 
@@ -59,13 +67,12 @@ HofffRateIt.widget.prototype.draw = function (value) {
             star = this.icons.unrated.cloneNode(true);
         }
 
-        if (this.enabled) {
-            star.addEventListener('mouseover', this.createHoverHandler(i));
-            star.addEventListener('click', this.createClickHandler(i));
-        }
+        star.setAttribute('data-value', i);
 
         this.widget.appendChild(star);
     }
+
+    this.drawing = false;
 };
 
 HofffRateIt.widget.prototype.drawCurrentRating = function () {
@@ -100,24 +107,30 @@ HofffRateIt.widget.prototype.rate = function (value) {
     request.send('id=' + this.id + '&type=' + this.type + '&vote=' + (100 / this.max * value));
 };
 
-HofffRateIt.widget.prototype.createHoverHandler = function (value) {
-    return function () {
-        if (this.enabled) {
-            this.draw(value);
-        }
-    }.bind(this);
-};
+HofffRateIt.widget.prototype.handleMouseLeave = function () {
+    if (this.isDrawingAllowed()) {
+        this.drawCurrentRating();
+    }
+}
 
-HofffRateIt.widget.prototype.createClickHandler = function (value) {
-    return function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+HofffRateIt.widget.prototype.handleMouseOver = function (event) {
+    if (!this.isDrawingAllowed() || event.target === undefined || !event.target.hasAttribute('data-value')) {
+        return ;
+    }
 
-        if (this.enabled) {
-            this.rate(value);
-        }
-    }.bind(this);
-};
+    this.draw(parseInt(event.target.getAttribute('data-value')));
+}
+
+HofffRateIt.widget.prototype.handleClick = function (event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!this.isDrawingAllowed() || event.target === undefined || !event.target.hasAttribute('data-value')) {
+        return;
+    }
+
+    this.rate(parseInt(event.target.getAttribute('data-value')));
+}
 
 HofffRateIt.onReady = function ready(fn) {
     if (document.readyState != 'loading') {
