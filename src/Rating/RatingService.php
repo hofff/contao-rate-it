@@ -139,9 +139,9 @@ SQL;
             $label       = ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating ? $GLOBALS['TL_LANG']['rateit']['rating_label'][1] : $GLOBALS['TL_LANG']['rateit']['rating_label'][0];
             $description = '%current%/%max% %type% (%count% [' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][0] . '|' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][1] . '])';
         } else {
-            $label       = count($labels) == 2
+            $label       = (count($labels) == 2
                 ? $labels[1]
-                : ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0 || ! $rating) ? $labels[2] : $labels[1];
+                : ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0 || ! $rating)) ? $labels[2] : $labels[1];
             $description = $template;
         }
         $actValue = $rating === false ? 0 : $rating['totalRatings'];
