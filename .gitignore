@@ -4,3 +4,4 @@ composer.lock
 
 # PHPCQ and related tools
 /.phpcq
+.idea
