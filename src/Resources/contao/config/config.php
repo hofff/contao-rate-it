@@ -32,7 +32,7 @@ ArrayUtil::arrayInsert(
             'callback'   => RateItBackendModule::class,
             'icon'       => RateItBackend::image('icon'),
             'stylesheet' => RateItBackend::css('backend'),
-            'javascript' => RateItBackend::js('RateItBackend'),
+            'javascript' => RateItBackend::javascript('RateItBackend'),
         ],
     ]
 );

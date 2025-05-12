@@ -9,7 +9,7 @@
     },
     "psalm": {
       "configuration": {
-        "errorLevel": "3"
+        "errorLevel": "8"
       }
     },
     "phpcq": {

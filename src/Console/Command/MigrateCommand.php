@@ -17,11 +17,8 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Console\Command;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
-use Doctrine\DBAL\ForwardCompatibility\Result as ForwardCompatibilityResult;
 use Doctrine\DBAL\Result;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
-use PDO;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -58,6 +55,7 @@ final class MigrateCommand extends Command
         );
     }
 
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
@@ -69,10 +67,10 @@ final class MigrateCommand extends Command
         };
     }
 
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     private function migrateArticlesToPages(InputInterface $input) : int
     {
         $unratedPagesWithArticleRatings = $this->getUnratedPagesWithArticleRatings();
-        $createdRatings = [];
 
         while ($row = $unratedPagesWithArticleRatings->fetchAssociative()) {
             $this->createRateItItem($row['pageId'], $input->getOption('position'));
@@ -83,7 +81,7 @@ final class MigrateCommand extends Command
         return 0;
     }
 
-    /** @return Result|ForwardCompatibilityResult */
+    /** @return Result */
     private function getUnratedPagesWithArticleRatings()
     {
         $sql = <<<'SQL'

@@ -30,12 +30,10 @@
     "source": "https://github.com/hofff/contao-rate-it"
   },
   "require": {
-    "php": "^8.3",
+    "php": "^8.2",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "ext-pdo": "*",
-    "ext-session": "*",
     "contao/core-bundle": "^5.3",
     "doctrine/dbal": "^3.9",
     "symfony/config": "^6.4 || ^7.0",
@@ -48,6 +46,8 @@
   },
   "require-dev": {
     "contao/manager-plugin": "^2.1",
+    "contao/comments-bundle": "^5.3",
+    "contao/news-bundle": "^5.3",
     "phpcq/runner-bootstrap": "@dev",
     "doctrine/coding-standard": "^13.0"
   },

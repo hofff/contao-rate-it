@@ -49,21 +49,23 @@ abstract class BaseDcaListener
         return $this->ratingTypes->has(static::$typeName);
     }
 
-    public function onSubmit(DataContainer $dc) : void
+    public function onSubmit(DataContainer $dataContainer) : void
     {
-        $this->insertOrUpdateRatingKey((int) $dc->id);
+        $this->insertOrUpdateRatingKey((int) $dataContainer->id);
     }
 
-    public function onDelete(DataContainer $dc) : void
+    public function onDelete(DataContainer $dataContainer) : void
     {
-        $this->markRatingItemAsDeleted((int) $dc->id);
+        $this->markRatingItemAsDeleted((int) $dataContainer->id);
     }
 
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function onRestore(string $table, $insertId) : void
     {
         $this->restore((int) $insertId);
     }
 
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function onUndo(string $table, array $row) : void
     {
         if (! $this->isActive()) {

@@ -13,6 +13,7 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
 namespace Hofff\Contao\RateIt\Backend;
 
 use Contao\StringUtil;
@@ -20,7 +21,7 @@ use Contao\System;
 
 class RateItBackend
 {
-    const path = 'bundles/hofffcontaorateit/';
+    const PATH = 'bundles/hofffcontaorateit/';
 
     /**
      * Get a css file.
@@ -29,7 +30,7 @@ class RateItBackend
      */
     public static function css($file)
     {
-        return self::path . 'css/' . $file . '.css';
+        return self::PATH . 'css/' . $file . '.css';
     } // file
 
     /**
@@ -37,9 +38,9 @@ class RateItBackend
      * @param string $file The basename if the file (without extension).
      * @return string The file path.
      */
-    public static function js($file)
+    public static function javascript($file)
     {
-        return self::path . 'js/' . $file . '.js';
+        return self::PATH . 'js/' . $file . '.js';
     } // file
 
     /**
@@ -50,7 +51,7 @@ class RateItBackend
     public static function image($file)
     {
         $webDirectory = System::getContainer()->getParameter('contao.web_dir');
-        $url = self::path . 'images/';
+        $url = self::PATH . 'images/';
 
         if (is_file($webDirectory . '/' . $url . $file . '.png')) return $url . $file . '.png';
         if (is_file($webDirectory . '/' . $url . $file . '.gif')) return $url . $file . '.gif';

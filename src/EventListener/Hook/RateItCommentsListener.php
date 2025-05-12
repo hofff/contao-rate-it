@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Template;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
 use Hofff\Contao\RateIt\Rating\RatingService;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use function strncmp;
+
 use function substr;
 use function time;
 
@@ -32,7 +32,7 @@ final class RateItCommentsListener extends RatingListener
     public function __construct(
         RatingService $ratingService,
         TokenStorageInterface $tokenStorage,
-        ContaoFrameworkInterface $framework,
+        ContaoFramework $framework,
         private readonly CommentsConfigurationLoader $configurationLoader,
         private readonly CommentsTitleGenerator $titleGenerator,
         private readonly Connection $connection
@@ -40,10 +40,6 @@ final class RateItCommentsListener extends RatingListener
     {
         parent::__construct($ratingService, $tokenStorage, $framework);
     }
-
-    private $supportedSources = [
-        'tl_news' => 'tl_news_archive',
-    ];
 
     public function onParseTemplate(Template $template) : void
     {

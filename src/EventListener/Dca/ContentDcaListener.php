@@ -38,12 +38,12 @@ final class ContentDcaListener extends BaseDcaListener
     }
 
     #[\Override]
-    public function onSubmit(DataContainer $dc) : void
+    public function onSubmit(DataContainer $dataContainer) : void
     {
-        if ($dc->activeRecord->type !== 'rateit') {
+        if ($dataContainer->activeRecord->type !== 'rateit') {
             return;
         }
 
-        parent::onSubmit($dc);
+        parent::onSubmit($dataContainer);
     }
 }

@@ -16,23 +16,23 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating\Comments;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model;
 use function class_exists;
 
 final class CommentsConfigurationLoader
 {
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     private $framework;
 
-    public function __construct(ContaoFrameworkInterface $framework, private array $supportedSources)
+    public function __construct(ContaoFramework $framework, private array $supportedSources)
     {
         $this->framework        = $framework;
     }
 
-    public function load(string $source, $parent, bool $checkSupportedSources = true) : ?Model
+    public function load(string $source, $parent, bool $checkSupported = true) : ?Model
     {
-        if ($checkSupportedSources && ! isset($this->supportedSources[$source])) {
+        if ($checkSupported && ! isset($this->supportedSources[$source])) {
             return null;
         }
 
@@ -49,7 +49,7 @@ final class CommentsConfigurationLoader
             return null;
         }
 
-        if (! $checkSupportedSources || $source === $this->supportedSources[$source]) {
+        if (! $checkSupported || $source === $this->supportedSources[$source]) {
             return $parentRecord;
         }
 

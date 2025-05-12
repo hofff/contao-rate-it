@@ -46,7 +46,7 @@ abstract class RateItHybrid extends RateItFrontend
     #[\Override]
     public function generate()
     {
-        if (TL_MODE === 'BE') {
+        if (self::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest()) {
             $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### Rate IT ###';

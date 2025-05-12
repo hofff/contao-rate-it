@@ -18,29 +18,22 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Controller;
 
-use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\CurrentUserId;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use Hofff\Contao\RateIt\Rating\RatingService;
-use PDO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function in_array;
 
 class AjaxRateItController
 {
-    /** @var bool */
-    private $allowDuplicates;
-
-    /** @var bool */
-    private $allowDuplicatesForMembers;
-
     public function __construct(
         private readonly Connection $connection,
         private readonly TokenStorageInterface $tokenStorage,
@@ -50,8 +43,7 @@ class AjaxRateItController
         private readonly IsUserAllowedToRate $isUserAllowedToRate,
         /** @var string[] */
         private readonly array $ratingTypes
-    )
-    {
+    ) {
     }
 
     public function __invoke(Request $request) : Response
@@ -65,11 +57,6 @@ class AjaxRateItController
         if (! defined('FE_USER_LOGGED_IN')) {
             define('FE_USER_LOGGED_IN', false);
         }
-
-        $configAdapter = $this->framework->getAdapter(Config::class);
-
-        $this->allowDuplicates           = (bool) $configAdapter->get('rating_allow_duplicate_ratings');
-        $this->allowDuplicatesForMembers = (bool) $configAdapter->get('rating_allow_duplicate_ratings_for_members');
 
         return $this->doVote($request);
     }
@@ -92,7 +79,7 @@ class AjaxRateItController
         $rkey     = $request->request->get('id');
         $percent  = $request->request->get('vote');
         $type     = $request->request->get('type');
-        $id       = null;
+        $itemId   = null;
 
         //Make sure that the ratable ID is a number and not something crazy.
         if (str_contains($rkey, '|')) {
@@ -104,11 +91,11 @@ class AjaxRateItController
                         400
                     );
                 }
-                $id = $rkey;
+                $itemId = $rkey;
             }
         } else {
             if (is_numeric($rkey)) {
-                $id = $rkey;
+                $itemId = $rkey;
             } else {
                 return new JsonResponse(
                     [
@@ -145,7 +132,7 @@ class AjaxRateItController
         }
 
         $userId       = $this->determineUserId();
-        $ratableKeyId = $this->getRateableKeyId($id, $type);
+        $ratableKeyId = $this->getRateableKeyId($itemId, $type);
         $sessionId    = new CurrentUserId();
 
         if (! $this->isUserAllowedToRate->__invoke($ratableKeyId, (string) $sessionId, $userId)) {
@@ -172,7 +159,7 @@ class AjaxRateItController
         return new JsonResponse(
             [
                 'status' => 200,
-                'data'   => $this->ratingService->getRatingWithSuccessMessage($type, $id, $userId),
+                'data'   => $this->ratingService->getRatingWithSuccessMessage($type, $itemId, $userId),
             ]
         );
     }
@@ -192,10 +179,10 @@ class AjaxRateItController
         return null;
     }
 
-    protected function getRateableKeyId($id, string $type) : int
+    protected function getRateableKeyId($itemId, string $type) : int
     {
         $statement = $this->connection->prepare('SELECT id FROM tl_rateit_items WHERE rkey=:id and typ=:type');
-        $statement->bindValue('id', $id);
+        $statement->bindValue('id', $itemId);
         $statement->bindValue('type', $type);
         $result = $statement->executeQuery();
 

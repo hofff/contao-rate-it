@@ -19,16 +19,15 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating;
 
 use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Doctrine\DBAL\Connection;
-use PDO;
 
 final class IsUserAllowedToRate
 {
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     private $framework;
 
-    public function __construct(private readonly Connection $connection, ContaoFrameworkInterface $framework)
+    public function __construct(private readonly Connection $connection, ContaoFramework $framework)
     {
         $this->framework  = $framework;
     }

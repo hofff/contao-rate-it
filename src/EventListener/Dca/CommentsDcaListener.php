@@ -35,8 +35,8 @@ final class CommentsDcaListener extends BaseDcaListener
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
-    public function insert(DataContainer $dc) : void
+    public function insert(DataContainer $dataContainer) : void
     {
-        $this->updateRatingKey((int) $dc->id);
+        $this->updateRatingKey((int) $dataContainer->id);
     }
 }

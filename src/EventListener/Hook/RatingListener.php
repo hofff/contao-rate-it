@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\FrontendTemplate;
 use Contao\FrontendUser;
 use Hofff\Contao\RateIt\Rating\RatingService;
@@ -28,13 +28,13 @@ abstract class RatingListener
     /** @var RatingService */
     protected $ratingService;
 
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     private $framework;
 
     public function __construct(
         RatingService $ratingService,
         private readonly TokenStorageInterface $tokenStorage,
-        ContaoFrameworkInterface $framework
+        ContaoFramework $framework
     ) {
         $this->ratingService = $ratingService;
         $this->framework     = $framework;

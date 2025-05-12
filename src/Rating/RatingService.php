@@ -19,10 +19,9 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating;
 
 use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\System;
 use Doctrine\DBAL\Connection;
-use PDO;
 
 final class RatingService
 {
@@ -44,12 +43,12 @@ WHERE
 GROUP BY i.rkey, i.id, i.title;
 SQL;
 
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     private $framework;
 
     public function __construct(
         private readonly Connection $connection,
-        ContaoFrameworkInterface $framework,
+        ContaoFramework $framework,
         private readonly IsUserAllowedToRate $isUserAllowedToRate
     )  {
         $this->framework           = $framework;

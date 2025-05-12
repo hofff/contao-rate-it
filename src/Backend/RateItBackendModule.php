@@ -23,6 +23,7 @@ use Contao\System;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
 use function is_array;
 
+/** @SuppressWarnings(PHPMD.LongVariable) */
 class RateItBackendModule extends BackendModule
 {
     protected $strTemplate;
@@ -30,8 +31,8 @@ class RateItBackendModule extends BackendModule
 
     protected $rateit;
 
-    protected $tl_root;
-    protected $tl_files;
+    protected $projectDir;
+    protected $uploadPath;
     protected $languages;
 
     private $compiler;
@@ -120,8 +121,8 @@ class RateItBackendModule extends BackendModule
         if ($compiler == 'hide') return;
 
         // load other helpers
-        $this->tl_root          = str_replace("\\", '/', TL_ROOT) . '/';
-        $this->tl_files         = str_replace("\\", '/', Config::get('uploadPath')) . '/';
+        $this->projectDir       = str_replace("\\", '/', System::getContainer()->getParameter('kernel.project_dir')) . '/';
+        $this->uploadPath       = str_replace("\\", '/', Config::get('uploadPath')) . '/';
         $this->Template->rateit = $this->rateit;
 
         // complete rateit initialization
@@ -205,7 +206,6 @@ class RateItBackendModule extends BackendModule
         foreach ($rateit->ratingitems as &$ext) {
             $ext->viewLink = $this->createUrl(['act' => 'view', 'rkey' => $ext->rkey, 'typ' => $ext->typ]);
             $totrecs       = $ext->totcount;
-            $types[]       = $ext->typ;
         } // foreach
 
         // create pages list
@@ -256,12 +256,9 @@ class RateItBackendModule extends BackendModule
                     $this->redirect($rateit->homeLink);
                     exit;
                 }
-                $id = $rkey;
             }
         } else {
-            if (is_numeric($rkey)) {
-                $id = $rkey;
-            } else {
+            if (! is_numeric($rkey)) {
                 $this->redirect($rateit->homeLink);
                 exit;
             }
@@ -426,18 +423,18 @@ class RateItBackendModule extends BackendModule
      */
     protected function filterPost($aKey, $aMode = '')
     {
-        $v = trim(Input::postRaw($aKey));
-        if ($v == '' || $aMode == '') return $v;
+        $value = trim(Input::postRaw($aKey));
+        if ($value == '' || $aMode == '') return $value;
         switch ($aMode) {
             case 'nohtml':
-                $v = strip_tags($v);
+                $value = strip_tags($value);
                 break;
             case 'text':
-                $v = strip_tags($v);
+                $value = strip_tags($value);
                 break;
         } // switch
-        $v = preg_replace('/<(\w+) .*>/U', '<$1>', $v);
-        return $v;
+        $value = preg_replace('/<(\w+) .*>/U', '<$1>', $value);
+        return $value;
     } // filterPost
 
     protected function getRatingItems($aOptions, $noLimit = false)
@@ -649,21 +646,23 @@ class RateItBackendModule extends BackendModule
 
     /**
      * Convert encoding
-     * @return String
+     *
      * @param $strString String to convert
      * @param string $from      charset to convert from
-     * @param string $to        charset to convert to
+     * @param string $target    charset to convert to
+     *
+     *@return String
      */
-    public function convertEncoding($strString, $from, $to)
+    public function convertEncoding($strString, $from, $target)
     {
         if (function_exists('mb_strlen')) {
             @mb_substitute_character('none');
-            return @mb_convert_encoding($strString, $to, $from);
+            return @mb_convert_encoding($strString, $target, $from);
         } elseif (function_exists('iconv')) {
-            if (strlen($iconv = @iconv($from, $to . '//IGNORE', (string) $strString))) {
+            if (strlen($iconv = @iconv($from, $target . '//IGNORE', (string) $strString))) {
                 return $iconv;
             } else {
-                return @iconv($from, $to, (string) $strString);
+                return @iconv($from, $target, (string) $strString);
             }
         }
         return $strString;

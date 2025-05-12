@@ -25,7 +25,7 @@ final class ArticleDcaListener extends BaseDcaListener
 {
     protected static $typeName = 'article';
 
-    public function onLoad(DataContainer $dataContainer) : void
+    public function onLoad() : void
     {
         if (! $this->isActive()) {
             return;

@@ -24,6 +24,7 @@ use Contao\PageModel;
 
 class RateItPageListener extends RatingListener
 {
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function onGeneratePage(PageModel $objPage, LayoutModel $objLayout, $pageHandler) : void
     {
         if (!$objPage->addRating || $objPage->rateit_position === 'custom') {

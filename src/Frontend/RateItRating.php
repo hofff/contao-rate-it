@@ -63,7 +63,6 @@ class RateItRating extends RateItFrontend
         $rating   = $this->loadRating($this->rkey, $this->ratingType);
         $ratingId = $this->rkey;
         $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
-        $percent  = round($rating['rating'], 0) . "%";
 
         $this->Template->descriptionId = 'rateItRating-' . $ratingId . '-description';
         $this->Template->description   = $this->getStarMessage($rating);

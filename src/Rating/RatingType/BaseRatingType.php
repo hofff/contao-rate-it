@@ -19,7 +19,6 @@ namespace Hofff\Contao\RateIt\Rating\RatingType;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\RatingType;
 use Hofff\Contao\RateIt\Rating\SourceInformation;
-use PDO;
 
 abstract class BaseRatingType implements RatingType
 {
