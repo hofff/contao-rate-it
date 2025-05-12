@@ -17,9 +17,11 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Hofff\Contao\RateIt\Frontend\RateItCE;
 use Hofff\Contao\RateIt\Frontend\RateItModule;
 
+#[AsHook('initializeSystem')]
 class FrontendIntegrationListener
 {
     /** @param string[] $activeItems */

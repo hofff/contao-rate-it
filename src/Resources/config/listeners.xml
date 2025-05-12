@@ -7,6 +7,9 @@
         <defaults public="false" autoconfigure="false" autowire="false" />
 
         <!-- Hook listeners -->
+        <service id="Hofff\Contao\RateIt\EventListener\Hook\Frontend\IntegrationListener" autoconfigure="true">
+        </service>
+
         <service id="Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener" public="true">
             <argument type="service" id="Hofff\Contao\RateIt\Rating\RatingService" />
             <argument type="service" id="security.token_storage" />
