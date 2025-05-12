@@ -76,6 +76,7 @@ class RateItFrontend extends Hybrid
      * Display a wildcard in the back end
      * @return string
      */
+    #[\Override]
     public function generate()
     {
         return parent::generate();
@@ -92,6 +93,7 @@ class RateItFrontend extends Hybrid
     /**
      * Generate the module/content element
      */
+    #[\Override]
     protected function compile()
     {
     }

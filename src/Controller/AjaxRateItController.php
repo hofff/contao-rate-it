@@ -35,9 +35,6 @@ use function in_array;
 
 class AjaxRateItController
 {
-    /** @var ContaoFramework */
-    private $framework;
-
     /** @var bool */
     private $allowDuplicates;
 
@@ -48,14 +45,13 @@ class AjaxRateItController
         private readonly Connection $connection,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly TranslatorInterface $translator,
-        ContaoFramework $framework,
+        private readonly ContaoFramework $framework,
         private readonly RatingService $ratingService,
         private readonly IsUserAllowedToRate $isUserAllowedToRate,
         /** @var string[] */
         private readonly array $ratingTypes
     )
     {
-        $this->framework           = $framework;
     }
 
     public function __invoke(Request $request) : Response

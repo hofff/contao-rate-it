@@ -40,6 +40,7 @@ final class Plugin implements BundlePluginInterface, RoutingPluginInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBundles(ParserInterface $parser) : array
     {
         return [
@@ -52,6 +53,7 @@ final class Plugin implements BundlePluginInterface, RoutingPluginInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
     {
         return $resolver

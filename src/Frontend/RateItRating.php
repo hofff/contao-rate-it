@@ -43,6 +43,7 @@ class RateItRating extends RateItFrontend
      * Display a wildcard in the back end
      * @return string
      */
+    #[\Override]
     public function generate()
     {
         parent::generate();
@@ -51,6 +52,7 @@ class RateItRating extends RateItFrontend
     /**
      * Compile
      */
+    #[\Override]
     protected function compile()
     {
         $this->loadLanguageFile('default');

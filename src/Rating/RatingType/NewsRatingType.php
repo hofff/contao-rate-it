@@ -20,16 +20,19 @@ use Contao\NewsModel;
 
 final class NewsRatingType extends BaseParentSourceRatingType
 {
+    #[\Override]
     public function name() : string
     {
         return 'news';
     }
 
+    #[\Override]
     protected function tableName() : string
     {
         return NewsModel::getTable();
     }
 
+    #[\Override]
     protected function labelKey() : string
     {
         return 'headline';

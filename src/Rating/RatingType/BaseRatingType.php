@@ -27,6 +27,7 @@ abstract class BaseRatingType implements RatingType
     {
     }
 
+    #[\Override]
     public function sourceInformation(int $sourceId) : ?SourceInformation
     {
         $record = $this->loadRecord($sourceId);

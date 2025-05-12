@@ -37,6 +37,7 @@ final class CurrentUserId implements \Stringable
         setcookie('hofff_rate_it', $this->value, ['expires' => time() + 31536000]);
     }
 
+    #[\Override]
     public function __toString() : string
     {
         return $this->value;

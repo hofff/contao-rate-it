@@ -20,31 +20,37 @@ use Contao\ContentModel;
 
 final class CeRatingType extends BaseParentSourceRatingType
 {
+    #[\Override]
     public function name() : string
     {
         return 'ce';
     }
 
+    #[\Override]
     protected function determineParentPublishedState(array $record) : bool
     {
         return !parent::determineParentPublishedState($record);
     }
 
+    #[\Override]
     protected function tableName() : string
     {
         return ContentModel::getTable();
     }
 
+    #[\Override]
     protected function publishedKey() : string
     {
         return 'invisible';
     }
 
+    #[\Override]
     protected function activeKey() : string
     {
         return 'rateit_active';
     }
 
+    #[\Override]
     protected function labelKey() : string
     {
         return 'rateit_title';

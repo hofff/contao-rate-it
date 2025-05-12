@@ -31,11 +31,13 @@ final class CommentsRatingType extends BaseRatingType
         parent::__construct($connection);
     }
 
+    #[\Override]
     public function name() : string
     {
         return 'comments';
     }
 
+    #[\Override]
     public function determineActiveState(array $record) : bool
     {
         $configuration = $this->configurationLoader->load($record['source'], $record['parent']);
@@ -46,16 +48,19 @@ final class CommentsRatingType extends BaseRatingType
         return (bool) $configuration->addCommentsRating;
     }
 
+    #[\Override]
     public function generateTitle(array $record) : string
     {
         return $this->titleGenerator->generate($record['name'], $record['source'], $record['parent']);
     }
 
+    #[\Override]
     protected function tableName() : string
     {
         return CommentsModel::getTable();
     }
 
+    #[\Override]
     protected function determineParentPublishedState(array $record) : bool
     {
         return (bool) $record['published'];

@@ -37,6 +37,7 @@ final class ContentDcaListener extends BaseDcaListener
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
+    #[\Override]
     public function onSubmit(DataContainer $dc) : void
     {
         if ($dc->activeRecord->type !== 'rateit') {

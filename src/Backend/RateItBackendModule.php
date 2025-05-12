@@ -78,6 +78,7 @@ class RateItBackendModule extends BackendModule
      * - Select the template and compiler in the front end
      * @return string
      */
+    #[\Override]
     public function generate()
     {
         $this->rateit     = new \stdClass();
@@ -111,6 +112,7 @@ class RateItBackendModule extends BackendModule
     /**
      * Compile module: common initializations and forwarding to distinct function compiler
      */
+    #[\Override]
     protected function compile()
     {
         // hide module?

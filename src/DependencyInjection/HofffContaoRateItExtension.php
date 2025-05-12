@@ -30,6 +30,7 @@ use function var_dump;
 final class HofffContaoRateItExtension extends Extension
 {
     /** @param mixed[][] $configs */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container) : void
     {
         $loader = new XmlFileLoader(

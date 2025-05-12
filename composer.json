@@ -30,7 +30,7 @@
     "source": "https://github.com/hofff/contao-rate-it"
   },
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",

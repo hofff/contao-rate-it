@@ -43,6 +43,7 @@ abstract class RateItHybrid extends RateItFrontend
      * Display a wildcard in the back end
      * @return string
      */
+    #[\Override]
     public function generate()
     {
         if (TL_MODE === 'BE') {
@@ -66,6 +67,7 @@ abstract class RateItHybrid extends RateItFrontend
     /**
      * Generate the module/content element
      */
+    #[\Override]
     protected function compile() : void
     {
         $rating = self::getContainer()

@@ -48,6 +48,7 @@ class RateItTopRatingsModule extends RateItFrontend
      * Display a wildcard in the back end
      * @return string
      */
+    #[\Override]
     public function generate()
     {
         if (TL_MODE === 'BE') {
@@ -72,6 +73,7 @@ class RateItTopRatingsModule extends RateItFrontend
     /**
      * Generate the module/content element
      */
+    #[\Override]
     protected function compile()
     {
         $this->Template = new FrontendTemplate($this->strTemplate);

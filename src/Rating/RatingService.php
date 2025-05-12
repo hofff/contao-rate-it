@@ -26,7 +26,7 @@ use PDO;
 
 final class RatingService
 {
-    private const SQL_QUERY = <<<'SQL'
+    private const string SQL_QUERY = <<<'SQL'
 
 SELECT
     i.id AS id,

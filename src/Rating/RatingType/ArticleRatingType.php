@@ -20,11 +20,13 @@ use Contao\ArticleModel;
 
 final class ArticleRatingType extends BaseParentSourceRatingType
 {
+    #[\Override]
     public function name() : string
     {
         return 'article';
     }
 
+    #[\Override]
     protected function tableName() : string
     {
         return ArticleModel::getTable();

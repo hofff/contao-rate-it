@@ -39,6 +39,7 @@ final class MigrateCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure() : void
     {
         $this->addArgument(
@@ -57,6 +58,7 @@ final class MigrateCommand extends Command
         );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $task = $input->getArgument('task');
