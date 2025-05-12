@@ -34,18 +34,9 @@ final class MigrateCommand extends Command
     /** @var string */
     protected static $defaultName = 'hofff-rate-it:migrate';
 
-    /** @var Connection */
-    private $connection;
-
-    /** @var RatingTypes */
-    private $ratingTypes;
-
-    public function __construct(Connection $connection, RatingTypes $ratingTypes)
+    public function __construct(private readonly Connection $connection, private readonly RatingTypes $ratingTypes)
     {
         parent::__construct();
-
-        $this->connection  = $connection;
-        $this->ratingTypes = $ratingTypes;
     }
 
     protected function configure() : void
@@ -70,14 +61,10 @@ final class MigrateCommand extends Command
     {
         $task = $input->getArgument('task');
 
-        switch ($task) {
-            case 'article-to-page':
-                return $this->migrateArticlesToPages($input);
-                break;
-
-            default:
-                throw new \InvalidArgumentException(sprintf('Task "%s" is not supported.', $task));
-        }
+        return match ($task) {
+            'article-to-page' => $this->migrateArticlesToPages($input),
+            default => throw new \InvalidArgumentException(sprintf('Task "%s" is not supported.', $task)),
+        };
     }
 
     private function migrateArticlesToPages(InputInterface $input) : int

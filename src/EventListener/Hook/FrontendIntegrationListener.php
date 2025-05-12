@@ -12,6 +12,7 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
 declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
@@ -21,13 +22,9 @@ use Hofff\Contao\RateIt\Frontend\RateItModule;
 
 class FrontendIntegrationListener
 {
-    /** @var string[] */
-    private $activeItems;
-
     /** @param string[] $activeItems */
-    public function __construct(array $activeItems)
+    public function __construct(private readonly array $activeItems)
     {
-        $this->activeItems = $activeItems;
     }
 
     public function onInitializeSystem() : void

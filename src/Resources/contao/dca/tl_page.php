@@ -14,6 +14,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
 
 /**

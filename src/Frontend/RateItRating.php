@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -13,7 +15,6 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
-
 namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\FrontendTemplate;
@@ -33,7 +34,7 @@ class RateItRating extends RateItFrontend
     /**
      * Initialize the controller
      */
-    public function __construct($objElement = array())
+    public function __construct($objElement = [])
     {
         parent::__construct($objElement);
     }

@@ -14,6 +14,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\FrontendTemplate;

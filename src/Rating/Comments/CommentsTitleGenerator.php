@@ -26,15 +26,11 @@ use function is_array;
 
 final class CommentsTitleGenerator
 {
-    /** @var Connection */
-    private $connection;
-
     /** @var ContaoFrameworkInterface */
     private $framework;
 
-    public function __construct(Connection $connection, ContaoFrameworkInterface $framework)
+    public function __construct(private readonly Connection $connection, ContaoFrameworkInterface $framework)
     {
-        $this->connection = $connection;
         $this->framework  = $framework;
     }
 

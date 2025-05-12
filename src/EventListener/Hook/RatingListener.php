@@ -28,19 +28,15 @@ abstract class RatingListener
     /** @var RatingService */
     protected $ratingService;
 
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
-
     /** @var ContaoFrameworkInterface */
     private $framework;
 
     public function __construct(
         RatingService $ratingService,
-        TokenStorageInterface $tokenStorage,
+        private readonly TokenStorageInterface $tokenStorage,
         ContaoFrameworkInterface $framework
     ) {
         $this->ratingService = $ratingService;
-        $this->tokenStorage  = $tokenStorage;
         $this->framework     = $framework;
     }
 

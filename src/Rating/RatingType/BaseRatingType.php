@@ -23,12 +23,8 @@ use PDO;
 
 abstract class BaseRatingType implements RatingType
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function sourceInformation(int $sourceId) : ?SourceInformation

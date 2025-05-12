@@ -1,0 +1,42 @@
+{
+  "receipts": ["projects/contao-bundle/5.3"],
+  "config": {
+    "phpConstraint": "^8.2"
+  },
+  "tools": {
+    "composer": {
+      "namespace": "Hofff\\Contao\\RateIt"
+    },
+    "psalm": {
+      "configuration": {
+        "errorLevel": "3"
+      }
+    },
+    "phpcq": {
+      "plugins": {
+        "phpunit": false,
+        "phpcs": false
+      },
+      "presets": {
+        "composer-require-checker": {
+          "tasks": {
+            "composer-require-checker": {
+              "config": {
+                "config_file": ".composer-require-checker.json"
+              }
+            }
+          }
+        },
+        "phpcpd": {
+          "tasks": {
+            "phpcpd": {
+              "config": {
+                "exclude": ["src/Rating/RatingService.php", "src/Frontend/RateItFrontend.php"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

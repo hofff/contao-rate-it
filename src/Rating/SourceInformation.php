@@ -16,22 +16,10 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating;
 
-final class SourceInformation
+final readonly class SourceInformation
 {
-    /** @var string */
-    private $title;
-
-    /** @var bool */
-    private $active;
-
-    /** @var string */
-    private $parentStatus;
-
-    public function __construct(string $title, bool $active, string $parentStatus)
+    public function __construct(private string $title, private bool $active, private string $parentStatus)
     {
-        $this->title        = $title;
-        $this->active       = $active;
-        $this->parentStatus = $parentStatus;
     }
 
     public function active(): bool

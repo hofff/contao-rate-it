@@ -14,6 +14,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 use Hofff\Contao\RateIt\Backend\RateItBackend;
 use Hofff\Contao\RateIt\Backend\RateItBackendModule;
 use Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener;

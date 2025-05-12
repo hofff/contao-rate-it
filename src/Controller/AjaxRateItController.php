@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -17,7 +19,7 @@
 namespace Hofff\Contao\RateIt\Controller;
 
 use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\CurrentUserId;
@@ -33,7 +35,7 @@ use function in_array;
 
 class AjaxRateItController
 {
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     private $framework;
 
     /** @var bool */
@@ -42,41 +44,18 @@ class AjaxRateItController
     /** @var bool */
     private $allowDuplicatesForMembers;
 
-    /** @var Connection */
-    private $connection;
-
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var IsUserAllowedToRate */
-    private $isUserAllowedToRate;
-
-    /** @var RatingService */
-    private $ratingService;
-
-    /** @var string[] */
-    private $ratingTypes;
-
     public function __construct(
-        Connection $connection,
-        TokenStorageInterface $tokenStorage,
-        TranslatorInterface $translator,
-        ContaoFrameworkInterface $framework,
-        RatingService $ratingService,
-        IsUserAllowedToRate $isUserAllowedToRate,
-        array $ratingTypes
+        private readonly Connection $connection,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly TranslatorInterface $translator,
+        ContaoFramework $framework,
+        private readonly RatingService $ratingService,
+        private readonly IsUserAllowedToRate $isUserAllowedToRate,
+        /** @var string[] */
+        private readonly array $ratingTypes
     )
     {
         $this->framework           = $framework;
-        $this->connection          = $connection;
-        $this->tokenStorage        = $tokenStorage;
-        $this->translator          = $translator;
-        $this->ratingService       = $ratingService;
-        $this->isUserAllowedToRate = $isUserAllowedToRate;
-        $this->ratingTypes         = $ratingTypes;
     }
 
     public function __invoke(Request $request) : Response
@@ -120,7 +99,7 @@ class AjaxRateItController
         $id       = null;
 
         //Make sure that the ratable ID is a number and not something crazy.
-        if (false !== strpos($rkey, '|')) {
+        if (str_contains($rkey, '|')) {
             $arrRkey = explode('|', $rkey);
             foreach ($arrRkey as $key) {
                 if (! is_numeric($key)) {

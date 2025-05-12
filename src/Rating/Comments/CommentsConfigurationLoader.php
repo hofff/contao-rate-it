@@ -25,13 +25,9 @@ final class CommentsConfigurationLoader
     /** @var ContaoFrameworkInterface */
     private $framework;
 
-    /** @var array */
-    private $supportedSources;
-
-    public function __construct(ContaoFrameworkInterface $framework, array $supportedSources)
+    public function __construct(ContaoFrameworkInterface $framework, private array $supportedSources)
     {
         $this->framework        = $framework;
-        $this->supportedSources = $supportedSources;
     }
 
     public function load(string $source, $parent, bool $checkSupportedSources = true) : ?Model

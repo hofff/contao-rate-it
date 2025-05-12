@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -13,7 +15,6 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
-
 namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\ArticleModel;
@@ -31,7 +32,7 @@ use Contao\StringUtil;
  */
 class RateItTopRatingsModule extends RateItFrontend
 {
-    private static $arrUrlCache = array();
+    private static $arrUrlCache = [];
 
     /**
      * Initialize the controller
@@ -97,7 +98,7 @@ class RateItTopRatingsModule extends RateItFrontend
             ->execute()
             ->fetchAllAssoc();
 
-        $objReturn = array();
+        $objReturn = [];
         foreach ($arrResult as $result) {
             $return        = new \stdClass();
             $return->title = $result['title'];
@@ -114,7 +115,7 @@ class RateItTopRatingsModule extends RateItFrontend
             $return->url = $this->getUrl($result);
 
             // Beschriftung ermitteln
-            $rating                 = array();
+            $rating                 = [];
             $rating['totalRatings'] = $result['most'];
             $rating['rating']       = $result['best'];
             $return->description    = $this->getStarMessage($rating);
@@ -149,7 +150,7 @@ class RateItTopRatingsModule extends RateItFrontend
             }
 
             // Encode e-mail addresses
-            if (substr($objArticle->url, 0, 7) == 'mailto:') {
+            if (str_starts_with($objArticle->url, 'mailto:')) {
                 $strArticleUrl = StringUtil::encodeEmail($objArticle->url);
             } // Ampersand URIs
             else {
@@ -180,7 +181,7 @@ class RateItTopRatingsModule extends RateItFrontend
         switch ($objItem->source) {
             // Link to an external page
             case 'external' :
-                if (substr($objItem->url, 0, 7) == 'mailto:') {
+                if (str_starts_with($objItem->url, 'mailto:')) {
                     self::$arrUrlCache[$strCacheKey] = StringUtil::encodeEmail($objItem->url);
                 } else {
                     self::$arrUrlCache[$strCacheKey] = ampersand($objItem->url);
@@ -197,9 +198,7 @@ class RateItTopRatingsModule extends RateItFrontend
 
             // Link to an article
             case 'article' :
-                if (($objArticle = ArticleModel::findByPk($objItem->articleId, array(
-                        'eager' => true,
-                    ))) !== null && ($objPid = $objArticle->getRelated('pid')) !== null) {
+                if (($objArticle = ArticleModel::findByPk($objItem->articleId, ['eager' => true])) !== null && ($objPid = $objArticle->getRelated('pid')) !== null) {
                     /** @var \PageModel $objPid */
                     self::$arrUrlCache[$strCacheKey] = ampersand($objPid->getFrontendUrl('/articles/' . ((! Config::get('disableAlias') && $objArticle->alias != '') ? $objArticle->alias : $objArticle->id)));
                 }

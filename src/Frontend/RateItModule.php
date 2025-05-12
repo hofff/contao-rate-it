@@ -13,7 +13,6 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
-
 namespace Hofff\Contao\RateIt\Frontend;
 
 /**

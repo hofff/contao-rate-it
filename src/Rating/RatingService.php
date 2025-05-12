@@ -44,23 +44,15 @@ WHERE
 GROUP BY i.rkey, i.id, i.title;
 SQL;
 
-    /** @var Connection */
-    private $connection;
-
     /** @var ContaoFrameworkInterface */
     private $framework;
 
-    /** @var IsUserAllowedToRate */
-    private $isUserAllowedToRate;
-
     public function __construct(
-        Connection $connection,
+        private readonly Connection $connection,
         ContaoFrameworkInterface $framework,
-        IsUserAllowedToRate $isUserAllowedToRate
+        private readonly IsUserAllowedToRate $isUserAllowedToRate
     )  {
-        $this->connection          = $connection;
         $this->framework           = $framework;
-        $this->isUserAllowedToRate = $isUserAllowedToRate;
     }
 
     public function getRating(string $type, int $ratingTypeId, ?int $userId) : ?array

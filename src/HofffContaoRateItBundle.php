@@ -14,6 +14,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

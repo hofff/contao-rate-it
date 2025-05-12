@@ -19,42 +19,42 @@ declare(strict_types=1);
 /**
  * Table tl_rateit_items
  */
-$GLOBALS['TL_DCA']['tl_rateit_items'] = array(
-    'config' => array(
+$GLOBALS['TL_DCA']['tl_rateit_items'] = [
+    'config' => [
         'dataContainer' => 'Table',
-        'ctable'        => array('tl_rateit_ratings'),
+        'ctable'        => ['tl_rateit_ratings'],
         'switchToEdit'  => false,
-        'sql'           => array(
-            'keys' => array(
+        'sql'           => [
+            'keys' => [
                 'id' => 'primary',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
 
-    'fields' => array(
-        'id'        => array(
+    'fields' => [
+        'id'        => [
             'sql' => "int(10) unsigned NOT NULL auto_increment",
-        ),
-        'tstamp'    => array(
+        ],
+        'tstamp'    => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'title'     => array(
+        ],
+        'title'     => [
             'sql' => "varchar(513) NOT NULL default ''",
-        ),
-        'rkey'      => array(
+        ],
+        'rkey'      => [
             'sql' => "varchar(32) NOT NULL default ''",
-        ),
-        'typ'       => array(
+        ],
+        'typ'       => [
             'sql' => "varchar(32) NOT NULL default ''",
-        ),
-        'createdat' => array(
+        ],
+        'createdat' => [
             'sql' => "int(10) NOT NULL default '0'",
-        ),
-        'active'    => array(
+        ],
+        'active'    => [
             'sql' => "char(1) NOT NULL default ''",
-        ),
-        'parentstatus'    => array(
+        ],
+        'parentstatus'    => [
             'sql' => "char(1) NOT NULL default ''",
-        ),
-    ),
-);
+        ],
+    ],
+];

@@ -23,21 +23,12 @@ use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
 
 final class CommentsRatingType extends BaseRatingType
 {
-    /** @var CommentsConfigurationLoader */
-    private $configurationLoader;
-
-    /** @var CommentsTitleGenerator */
-    private $titleGenerator;
-
     public function __construct(
         Connection $connection,
-        CommentsConfigurationLoader $configurationLoader,
-        CommentsTitleGenerator $titleGenerator
+        private readonly CommentsConfigurationLoader $configurationLoader,
+        private readonly CommentsTitleGenerator $titleGenerator
     ) {
         parent::__construct($connection);
-
-        $this->configurationLoader = $configurationLoader;
-        $this->titleGenerator      = $titleGenerator;
     }
 
     public function name() : string

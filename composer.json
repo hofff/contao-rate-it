@@ -36,25 +36,26 @@
     "ext-mbstring": "*",
     "ext-pdo": "*",
     "ext-session": "*",
-    "contao/core-bundle": "^4.13 || ^5.3",
+    "contao/core-bundle": "^5.3",
     "doctrine/dbal": "^3.9",
-    "symfony/config": "^5.4 || ^6.4 || ^7.0",
-    "symfony/console": "^5.4 || ^6.4 || ^7.0",
-    "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
-    "symfony/http-foundation": "^5.4 || ^6.4 || ^7.0",
-    "symfony/http-kernel": "^5.4 || ^6.4 || ^7.0",
-    "symfony/security-core": "^5.4 || ^6.4 || ^7.0",
-    "symfony/translation-contracts": "^1.1 || ^2.0 || ^3.0"
+    "symfony/config": "^6.4 || ^7.0",
+    "symfony/console": "^6.4 || ^7.0",
+    "symfony/dependency-injection": "^6.4 || ^7.0",
+    "symfony/http-foundation": "^6.4 || ^7.0",
+    "symfony/http-kernel": "^6.4 || ^7.0",
+    "symfony/security-core": "^6.4 || ^7.0",
+    "symfony/translation-contracts": "^3.0"
   },
   "require-dev": {
-    "contao/manager-plugin": "^2.0",
-    "phpcq/runner-bootstrap": "^1.0@dev"
+    "contao/manager-plugin": "^2.1",
+    "phpcq/runner-bootstrap": "@dev",
+    "doctrine/coding-standard": "^13.0"
   },
   "conflict": {
     "cgo-it/contao-rate-it": "*",
     "cgo-it/contao-rate-it-bundle": "*",
     "cgo-it/news4ward-rateit": "*",
-    "contao/manager-plugin": "<2.0 || >=3.0"
+    "contao/manager-plugin": "<2.1 || >= 3.0"
   },
   "autoload": {
     "psr-4": {
@@ -63,8 +64,10 @@
   },
   "config": {
     "allow-plugins": {
-      "contao-components/installer": false,
-      "contao/manager-plugin": true
+      "contao-components/installer": true,
+      "contao/manager-plugin": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "php-http/discovery": true
     },
     "sort-packages": true
   },

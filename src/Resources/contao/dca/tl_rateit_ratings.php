@@ -19,42 +19,42 @@ declare(strict_types=1);
 /**
  * Table tl_rateit_items
  */
-$GLOBALS['TL_DCA']['tl_rateit_ratings'] = array(
-    'config' => array(
+$GLOBALS['TL_DCA']['tl_rateit_ratings'] = [
+    'config' => [
         'dataContainer' => 'Table',
         'ptable'        => 'tl_rateit_items',
         'switchToEdit'  => false,
-        'sql'           => array(
-            'keys' => array(
+        'sql'           => [
+            'keys' => [
                 'id'  => 'primary',
                 'pid' => 'index',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
 
-    'fields' => array(
-        'id'         => array(
+    'fields' => [
+        'id'         => [
             'sql' => "int(10) unsigned NOT NULL auto_increment",
-        ),
-        'tstamp'     => array(
+        ],
+        'tstamp'     => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'pid'        => array(
+        ],
+        'pid'        => [
             'foreignKey' => 'tl_rateit_items.id',
             'sql'        => "int(10) unsigned NOT NULL default '0'",
-            'relation'   => array('type' => 'belongsTo', 'load' => 'lazy'),
-        ),
-        'session_id' => array(
+            'relation'   => ['type' => 'belongsTo', 'load' => 'lazy'],
+        ],
+        'session_id' => [
             'sql' => "varchar(255) NULL",
-        ),
-        'memberid'   => array(
+        ],
+        'memberid'   => [
             'sql' => "int(10) unsigned NULL",
-        ),
-        'rating'     => array(
+        ],
+        'rating'     => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'createdat'  => array(
+        ],
+        'createdat'  => [
             'sql' => "int(10) NOT NULL default '0'",
-        ),
-    ),
-);
+        ],
+    ],
+];

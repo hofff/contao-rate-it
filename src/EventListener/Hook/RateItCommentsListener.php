@@ -29,29 +29,16 @@ use function time;
 
 final class RateItCommentsListener extends RatingListener
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var CommentsTitleGenerator */
-    private $titleGenerator;
-
-    /** @var CommentsConfigurationLoader */
-    private $configurationLoader;
-
     public function __construct(
         RatingService $ratingService,
         TokenStorageInterface $tokenStorage,
         ContaoFrameworkInterface $framework,
-        CommentsConfigurationLoader $configurationLoader,
-        CommentsTitleGenerator $titleGenerator,
-        Connection $connection
+        private readonly CommentsConfigurationLoader $configurationLoader,
+        private readonly CommentsTitleGenerator $titleGenerator,
+        private readonly Connection $connection
     )
     {
         parent::__construct($ratingService, $tokenStorage, $framework);
-
-        $this->connection          = $connection;
-        $this->titleGenerator      = $titleGenerator;
-        $this->configurationLoader = $configurationLoader;
     }
 
     private $supportedSources = [
@@ -60,7 +47,7 @@ final class RateItCommentsListener extends RatingListener
 
     public function onParseTemplate(Template $template) : void
     {
-        if (strncmp($template->getName(), 'com_', 4) !== 0) {
+        if (!str_starts_with($template->getName(), 'com_')) {
             return;
         }
 

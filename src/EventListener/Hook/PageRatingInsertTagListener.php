@@ -21,7 +21,7 @@ final class PageRatingInsertTagListener extends RatingListener
     /** @return string|false */
     public function onReplaceInsertTags(string $tag)
     {
-        if (strpos($tag, 'rateit_page_rating') !== 0) {
+        if (!str_starts_with($tag, 'rateit_page_rating')) {
             return false;
         }
 

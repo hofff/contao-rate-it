@@ -13,7 +13,6 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
-
 namespace Hofff\Contao\RateIt\Backend;
 
 use Contao\StringUtil;
@@ -71,7 +70,7 @@ class RateItBackend
         if ($alt == '') $alt = 'icon';
         $img  = self::image($file);
         $size = getimagesize($img);
-        return '<img' . ((substr($img, -4) == '.png') ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
+        return '<img' . ((str_ends_with($img, '.png')) ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
     } // createImage
 
     /**
@@ -87,7 +86,7 @@ class RateItBackend
     {
         $target  = $popup ? ' target="_blank"' : '';
         $onclick = ($confirm != '') ? ' onclick="if(!confirm(\'' . $confirm . '\'))return false"' : '';
-        return '<a href="' . $link . '" title="' . $text . '"' . $target . $onclick . '>' . $this->createImage($file, $text) . '</a>';
+        return '<a href="' . $link . '" title="' . $text . '"' . $target . $onclick . '>' . static::createImage($file, $text) . '</a>';
     } // createListButton
 
     public function createMainButton($file, $link, $text, $confirm = '')
@@ -95,6 +94,6 @@ class RateItBackend
         $onclick = ($confirm == '')
             ? ''
             : ' onclick="if(!confirm(\'' . $confirm . '\'))return false"';
-        return '<a href="' . $link . '" title="' . $text . '"' . $onclick . '>' . $this->createImage($file, $text) . ' ' . $text . '</a>';
+        return '<a href="' . $link . '" title="' . $text . '"' . $onclick . '>' . static::createImage($file, $text) . ' ' . $text . '</a>';
     } // createMainButton
 } // class RateItBackend

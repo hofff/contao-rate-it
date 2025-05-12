@@ -14,6 +14,8 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\Config;
@@ -54,7 +56,7 @@ class RateItArticleListener extends RatingListener
         $objTemplate->rateit_template = $this->getRatingTemplate();
 
         $bolTemplateFixed = false;
-        $arrArticles      = array();
+        $arrArticles      = [];
 
         foreach ($objTemplate->articles as $article) {
             $articleModel = \Contao\ArticleModel::findByPk($article['articleId']);
