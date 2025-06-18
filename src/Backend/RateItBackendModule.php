@@ -80,12 +80,11 @@ class RateItBackendModule extends BackendModule
      * @return string
      */
     #[\Override]
-    public function generate()
+    public function generate(): string
     {
-        $this->rateit     = new \stdClass();
-        $rateit           = &$this->rateit;
-        $rateit->username = $this->BackendUser->username;
-        $rateit->isadmin  = $this->BackendUser->isAdmin;
+        $this->rateit           = new \stdClass();
+        $this->rateit->username = $this->BackendUser->username;
+        $this->rateit->isadmin  = $this->BackendUser->isAdmin;
 
         $this->strTemplate = $this->actions[0][1];
         $this->compiler    = $this->actions[0][2];
@@ -126,7 +125,7 @@ class RateItBackendModule extends BackendModule
         $this->Template->rateit = $this->rateit;
 
         // complete rateit initialization
-        $rateit           = &$this->rateit;
+        $rateit           = $this->rateit;
         $rateit->f_link   = $this->createUrl([$this->action => $this->parameter]);
         $rateit->f_action = $this->compiler;
         $rateit->f_mode   = $this->action;
@@ -143,7 +142,7 @@ class RateItBackendModule extends BackendModule
      */
     protected function listRatings()
     {
-        $rateit         = &$this->Template->rateit;
+        $rateit         = $this->Template->rateit;
         $rateit->f_page = 0;
 
         // returning from submit?
@@ -229,7 +228,7 @@ class RateItBackendModule extends BackendModule
      */
     protected function viewRating()
     {
-        $rateit = &$this->Template->rateit;
+        $rateit = $this->Template->rateit;
 
         $rateit->f_page = 0;
 
@@ -282,7 +281,7 @@ class RateItBackendModule extends BackendModule
 
         $rateit->ratingitems = $this->getRatingItems($options, true);
         if (count($rateit->ratingitems) < 1) $this->redirect($rateit->homeLink);
-        $ext = &$rateit->ratingitems[0];
+        $ext = $rateit->ratingitems[0];
 
         $ext->ratings = $this->getRatings($ext, $options);
         if ($rateit->f_page >= 0 && $perpage > 0 && count($ext->ratings) == 0) {
@@ -321,7 +320,7 @@ class RateItBackendModule extends BackendModule
             return;
         }
 
-        $rateit = &$this->Template->rateit;
+        $rateit = $this->Template->rateit;
 
         // nothing checked?
         $ids0 = Input::post('selectedids');
@@ -357,7 +356,7 @@ class RateItBackendModule extends BackendModule
 
     public function updateParentInformation()
     {
-        $rateit = &$this->Template->rateit;
+        $rateit = $this->Template->rateit;
 
         // nothing checked?
         $ids0 = Input::post('selectedids');

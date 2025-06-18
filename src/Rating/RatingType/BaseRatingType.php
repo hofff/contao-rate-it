@@ -43,19 +43,7 @@ abstract class BaseRatingType implements RatingType
 
     protected function determineParentStatus(array  $record) : string
     {
-        $published = $this->determineParentPublishedState($record);
-
-        switch ($published) {
-            case true:
-                return 'a';
-
-            case false:
-                return 'i';
-
-            case null:
-            default:
-                return 'r';
-        }
+        return $this->determineParentPublishedState($record) ? 'a' : 'i';
     }
 
     protected function loadRecord(int $sourceId): ?array

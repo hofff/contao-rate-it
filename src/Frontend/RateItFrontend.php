@@ -20,6 +20,8 @@ use Contao\Hybrid;
 use Contao\Model;
 use Contao\Model\Collection;
 
+use function str_replace;
+
 /**
  * Class RateItFrontend
  */
@@ -103,7 +105,7 @@ class RateItFrontend extends Hybrid
         $this->loadLanguageFile('default');
         $stars = $this->percentToStars($rating['rating']);
         preg_match('/^.*\[(.+)\|(.+)\].*$/i', (string) $GLOBALS['TL_CONFIG']['rating_description'], $labels);
-        if (! is_array($labels) && (! count($labels) == 2 || ! count($labels) == 3)) {
+        if (! is_array($labels) || (count($labels) !== 2 && count($labels) !== 3)) {
             $label       = ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating ? $GLOBALS['TL_LANG']['rateit']['rating_label'][1] : $GLOBALS['TL_LANG']['rateit']['rating_label'][0];
             $description = '%current%/%max% %type% (%count% [' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][0] . '|' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][1] . '])';
         } else {
@@ -111,14 +113,14 @@ class RateItFrontend extends Hybrid
             $description = $GLOBALS['TL_CONFIG']['rating_description'];
         }
         $actValue = $rating === false ? 0 : $rating['totalRatings'];
-        $type     = $GLOBALS['TL_LANG']['rateit']['stars'];
-// 		return str_replace('.', ',', $stars)."/$this->intStars ".$type." ($actValue $label)";
-        $description = str_replace('%current%', str_replace('.', ',', $stars), $description);
-        $description = str_replace('%max%', $this->intStars, $description);
-        $description = str_replace('%type%', $type, $description);
-        $description = str_replace('%count%', $actValue, $description);
-        $description = preg_replace('/^(.*)(\[.*\])(.*)$/i', "\\1$label\\3", $description);
-        return $description;
+        $description = strtr($description, [
+            '%current%' => str_replace('.', ',', (string) $stars),
+            '%max%'     => (string) $this->intStars,
+            '%type%'    => $GLOBALS['TL_LANG']['rateit']['stars'],
+            '%count%'   => (string) $actValue,
+        ]);
+
+        return preg_replace('/^(.*)(\[.*\])(.*)$/i', "\\1$label\\3", $description);
     }
 
     public function loadRating($rkey, $typ)

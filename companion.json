@@ -1,7 +1,7 @@
 {
   "receipts": ["projects/contao-bundle/5.3"],
   "config": {
-    "phpConstraint": "^8.2"
+    "phpConstraint": "^8.3"
   },
   "tools": {
     "composer": {
