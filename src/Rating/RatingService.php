@@ -51,7 +51,7 @@ SQL;
     public function __construct(
         private readonly Connection $connection,
         ContaoFramework $framework,
-        private readonly IsUserAllowedToRate $isUserAllowedToRate
+        private readonly IsUserAllowedToRate $isUserAllowedToRate,
     )  {
         $this->framework           = $framework;
     }
@@ -73,17 +73,17 @@ SQL;
             return null;
         }
 
-        $stars     = $this->percentToStars($rating['rating']);
+        $stars     = $this->percentToStars((float) $rating['rating']);
         $maxStars  = $this->maxStars();
         $sessionId = new CurrentUserId();
 
         return [
             'descriptionId' => sprintf('rateItRating-%s-description', $ratingTypeId),
-            'description'   => $this->getStarMessage($template, $rating),
+            'description'   => $this->getStarMessageUsingTemplate($template, $rating),
             'id'            => sprintf('rateItRating-%s-%s-%s_%s', (string) $ratingTypeId, $type, $stars, $maxStars),
             'class'         => 'rateItRating',
             'itemreviewed'  => $rating['title'],
-            'actRating'     => $this->percentToStars($rating['rating']),
+            'actRating'     => $this->percentToStars((float) $rating['rating']),
             'maxRating'     => $maxStars,
             'enabled'       => ($this->isUserAllowedToRate)((int) $rating['id'], (string) $sessionId, $userId),
             'votes'         => $rating['totalRatings'],
@@ -94,7 +94,12 @@ SQL;
         ];
     }
 
-    private function loadRating($rkey, $typ) : ?array
+    public function getStarMessage(array|null $rating) : string
+    {
+        return $this->getStarMessageUsingTemplate($GLOBALS['TL_CONFIG']['rating_description'], $rating);
+    }
+
+    public function loadRating(int $rkey, string $typ) : ?array
     {
         $statement = $this->connection->prepare(self::SQL_QUERY);
         $statement->bindValue('rkey', $rkey);
@@ -105,15 +110,15 @@ SQL;
             return null;
         }
 
-        return $result->fetchAssociative();
+        return (array) $result->fetchAssociative();
     }
 
     private function maxStars() : int
     {
-        return (int)$this->getConfig('rating_count') ?: 5;
+        return (int) $this->getConfig('rating_count') ?: 5;
     }
 
-    private function getConfig(string $key)
+    private function getConfig(string $key): mixed
     {
         $this->framework->initialize();
 
@@ -121,23 +126,28 @@ SQL;
     }
 
     // TODO: Rework
-    private function getStarMessage(string $template, ?array $rating) : string
+    private function getStarMessageUsingTemplate(string $template, ?array $rating) : string
     {
         $this->framework->initialize();
         $this->framework->getAdapter(System::class)->loadLanguageFile('default');
 
-        $stars = $this->percentToStars($rating['rating']);
         preg_match('/^.*\[(.+)\|(.+)\].*$/i', $template, $labels);
-        if (! is_array($labels) || (count($labels) !== 2 && count($labels) !== 3)) {
-            $label       = ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating ? $GLOBALS['TL_LANG']['rateit']['rating_label'][1] : $GLOBALS['TL_LANG']['rateit']['rating_label'][0];
+        if (count($labels) !== 2 && count($labels) !== 3) {
+            if ($rating === null || ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0)) {
+                $label = $GLOBALS['TL_LANG']['rateit']['rating_label'][1];
+            } else {
+                $label = $GLOBALS['TL_LANG']['rateit']['rating_label'][0];
+            }
+
             $description = '%current%/%max% %type% (%count% [' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][0] . '|' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][1] . '])';
         } else {
             $label       = count($labels) == 2
                 ? $labels[1]
-                : (($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0 || ! $rating) ? $labels[2] : $labels[1]);
+                : (! $rating || ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) ? $labels[2] : $labels[1]);
             $description = $template;
         }
-        $actValue = $rating === false ? 0 : $rating['totalRatings'];
+        $actValue = $rating === null ? 0 : $rating['totalRatings'];
+        $stars = $rating ? $this->percentToStars((float) $rating['rating']) : 0;
         $description = strtr($description, [
             '%current%' => str_replace('.', ',', (string) $stars),
             '%max%'     => (string) $this->maxStars(),
@@ -145,12 +155,12 @@ SQL;
             '%count%'   => (string) $actValue,
         ]);
 
-        return preg_replace('/^(.*)(\[.*\])(.*)$/i', "\\1$label\\3", $description);
+        return (string) preg_replace('/^(.*)(\[.*\])(.*)$/i', "\\1$label\\3", $description);
     }
 
-    private function percentToStars($rating) : float
+    private function percentToStars(float $rating) : float
     {
-        $modifier = 100 / $this->maxStars();
+        $modifier = (float) (100 / $this->maxStars());
         return round($rating / $modifier, 1);
     }
 }

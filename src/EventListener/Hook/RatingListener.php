@@ -25,19 +25,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 abstract class RatingListener
 {
-    /** @var RatingService */
-    protected $ratingService;
-
-    /** @var ContaoFramework */
-    private $framework;
-
     public function __construct(
-        RatingService $ratingService,
+        protected readonly RatingService $ratingService,
         private readonly TokenStorageInterface $tokenStorage,
-        ContaoFramework $framework
+        private readonly ContaoFramework $framework
     ) {
-        $this->ratingService = $ratingService;
-        $this->framework     = $framework;
     }
 
     protected function getRating(string $type, int $ratingTypeId) : ?array
@@ -67,7 +59,7 @@ abstract class RatingListener
 
         $user = $token->getUser();
         if ($user instanceof FrontendUser && $user->id) {
-            return (int) $user->id;
+            return $user->id;
         }
 
         return null;

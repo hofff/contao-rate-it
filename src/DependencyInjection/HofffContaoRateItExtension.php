@@ -43,7 +43,7 @@ final class HofffContaoRateItExtension extends Extension
 
         $config  = $this->processConfiguration(new Configuration(), $configs);
         $types   = array_keys(array_filter($config['types']));
-        $bundles = $container->getParameter('kernel.bundles');
+        $bundles = (array) $container->getParameter('kernel.bundles');
 
         $container->setParameter('hofff.contao_rate_it.types', $types);
         $container->setParameter('hofff.contao_rate_it.comment_sources', $config['comment_sources']);

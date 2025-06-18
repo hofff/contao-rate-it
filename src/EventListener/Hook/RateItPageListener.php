@@ -21,29 +21,29 @@ namespace Hofff\Contao\RateIt\EventListener\Hook;
 use Contao\FrontendTemplate;
 use Contao\LayoutModel;
 use Contao\PageModel;
+use Contao\PageRegular;
 
-class RateItPageListener extends RatingListener
+final class RateItPageListener extends RatingListener
 {
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function onGeneratePage(PageModel $objPage, LayoutModel $objLayout, $pageHandler) : void
+    public function onGeneratePage(PageModel $pageModel, LayoutModel $layoutModel, PageRegular $pageHandler) : void
     {
-        if (!$objPage->addRating || $objPage->rateit_position === 'custom') {
+        if (!$pageModel->addRating || $pageModel->rateit_position === 'custom') {
             return;
         }
 
-        $pageTemplate = $pageHandler->Template;
-        if (!$pageTemplate) {
+        if (! isset ($pageModel->Template)) {
             return;
         }
 
         $template = new FrontendTemplate($this->getRatingTemplate());
-        $template->setData((array) $this->getRating('page', (int) $objPage->id));
+        $template->setData((array) $this->getRating('page', $pageModel->id));
         $rating = $template->parse();
 
-        if ($objPage->rateit_position == 'after') {
-            $pageTemplate->main = $pageTemplate->main . $rating;
+        if ($pageModel->rateit_position === 'after') {
+            $pageModel->Template->main = $pageModel->Template->main . $rating;
         } else {
-            $pageTemplate->main = $rating . $pageTemplate->main;
+            $pageModel->Template->main = $rating . $pageModel->Template->main;
         }
     }
 }

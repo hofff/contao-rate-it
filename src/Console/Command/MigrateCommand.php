@@ -73,7 +73,7 @@ final class MigrateCommand extends Command
         $unratedPagesWithArticleRatings = $this->getUnratedPagesWithArticleRatings();
 
         while ($row = $unratedPagesWithArticleRatings->fetchAssociative()) {
-            $this->createRateItItem($row['pageId'], $input->getOption('position'));
+            $this->createRateItItem((int) $row['pageId'], $input->getOption('position'));
         }
 
         $this->migrateArticleRatings();
@@ -81,8 +81,7 @@ final class MigrateCommand extends Command
         return 0;
     }
 
-    /** @return Result */
-    private function getUnratedPagesWithArticleRatings()
+    private function getUnratedPagesWithArticleRatings(): Result
     {
         $sql = <<<'SQL'
 SELECT 
@@ -100,9 +99,9 @@ SQL;
         return $this->connection->executeQuery($sql);
     }
 
-    private function createRateItItem($pageId, string $position) : void
+    private function createRateItItem(int $pageId, string $position) : void
     {
-        $sourceInformation = $this->ratingTypes->sourceInformation('page', (int) $pageId);
+        $sourceInformation = $this->ratingTypes->sourceInformation('page', $pageId);
         if (!$sourceInformation) {
             return;
         }

@@ -22,7 +22,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 final class NewsDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'news';
+    protected static string $typeName = 'news';
 
     public function onLoad() : void
     {

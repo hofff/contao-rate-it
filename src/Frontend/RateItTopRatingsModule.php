@@ -15,37 +15,40 @@ declare(strict_types=1);
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
 namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\ArticleModel;
 use Contao\BackendTemplate;
 use Contao\FrontendTemplate;
-use Contao\News;
+use Contao\Model;
+use Contao\Model\Collection;
 use Contao\NewsModel;
 use Contao\PageModel;
 use Contao\StringUtil;
+use Contao\System;
 
 /**
- * Class RateItTopRatingsModule
+ * @property string|int $rateit_count
+ * @property string $rateit_toptype
+ * @property string $rateit_types
+ * @property string $rateit_template
+ * @psalm-suppress PropertyNotSetInConstructor
  */
-class RateItTopRatingsModule extends RateItFrontend
+final class RateItTopRatingsModule extends RateItFrontend
 {
-    /**
-     * Initialize the controller
-     */
-    public function __construct($objElement)
+    private array $types = [];
+
+    public function __construct(Model|Collection|null $objElement = null)
     {
         parent::__construct($objElement);
 
         $this->strKey = "rateit_top_ratings";
     }
 
-    /**
-     * Display a wildcard in the back end
-     * @return string
-     */
+    /** Display a wildcard in the back end */
     #[\Override]
-    public function generate()
+    public function generate(): string
     {
         if (self::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest()) {
             $objTemplate = new BackendTemplate('be_wildcard');
@@ -54,14 +57,14 @@ class RateItTopRatingsModule extends RateItFrontend
             $objTemplate->title    = $this->name;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;
-            $objTemplate->href     = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href     = 'contao?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
             return $objTemplate->parse();
         }
 
         $this->strTemplate = $this->rateit_template;
 
-        $this->arrTypes = StringUtil::deserialize($this->rateit_types);
+        $this->types = (array) StringUtil::deserialize($this->rateit_types, true);
 
         return parent::generate();
     }
@@ -70,7 +73,7 @@ class RateItTopRatingsModule extends RateItFrontend
      * Generate the module/content element
      */
     #[\Override]
-    protected function compile()
+    protected function compile(): void
     {
         $this->Template = new FrontendTemplate($this->strTemplate);
 
@@ -89,10 +92,10 @@ class RateItTopRatingsModule extends RateItFrontend
 				LEFT OUTER JOIN tl_rateit_ratings r
 					ON (i.id = r.pid)
 			WHERE
-				typ IN ('" . implode("', '", $this->arrTypes) . "')
+				typ IN ('" . implode("', '", $this->types) . "')
 			GROUP BY rkey, title, item_id, typ, createdat, active
 			ORDER BY " . $this->rateit_toptype . " DESC")
-            ->limit($this->rateit_count)
+            ->limit((int) $this->rateit_count)
             ->execute()
             ->fetchAllAssoc();
 
@@ -103,7 +106,7 @@ class RateItTopRatingsModule extends RateItFrontend
             $return->typ   = $result['typ'];
 
             // ID ermitteln
-            $stars                 = $this->percentToStars($result['best']);
+            $stars                 = (string) $this->percentToStars((float) $result['best']);
             $return->rateItID      = 'rateItRating-' . $result['rkey'] . '-' . $result['typ'] . '-' .
                 $stars . '_' . intval($GLOBALS['TL_CONFIG']['rating_count']);
             $return->descriptionId = 'rateItRating-' . $result['rkey'] . '-description';
@@ -127,37 +130,21 @@ class RateItTopRatingsModule extends RateItFrontend
         $this->Template->arrRatings = $objReturn;
     }
 
-    private function getUrl($rating)
+    private function getUrl(array $rating): string|null
     {
-        if ($rating['typ'] === 'page') {
-            return PageModel::findById($rating['rkey'])->getAbsoluteUrl();
-        }
-        if ($rating['typ'] === 'article') {
-            $objArticle = ArticleModel::findPublishedById($rating['rkey']);
-            if (! is_null($objArticle)) {
-                return PageModel::findById($objArticle->pid)->getAbsoluteUrl() . '#' . $objArticle->alias;
-            }
-        }
-        if ($rating['typ'] === 'news') {
-            $objNews    = NewsModel::findById($rating['rkey']);
-            $objArticle = NewsModel::findPublishedByPid($objNews->pid);
+        $model = match ($rating['typ']) {
+            'page' => PageModel::findById($rating['rkey']),
+            'article' => ArticleModel::findPublishedById($rating['rkey']),
+            'news' => NewsModel::findById($rating['rkey']),
+            default => null,
+        };
 
-            // Internal link
-            if ($objArticle->source != 'external') {
-                return News::generateNewsUrl($objNews);
-            }
-
-            // Encode e-mail addresses
-            if (str_starts_with($objArticle->url, 'mailto:')) {
-                $strArticleUrl = StringUtil::encodeEmail($objArticle->url);
-            } // Ampersand URIs
-            else {
-                $strArticleUrl = StringUtil::ampersand($objArticle->url);
-            }
-
-            // External link
-            return $strArticleUrl;
+        if ($model === null) {
+            return null;
         }
-        return false;
+
+        $urlGenerator = System::getContainer()->get('contao.routing.content_url_generator');
+
+        return $urlGenerator->generate($model);
     }
 }

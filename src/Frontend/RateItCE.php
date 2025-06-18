@@ -17,16 +17,13 @@ declare(strict_types=1);
  */
 namespace Hofff\Contao\RateIt\Frontend;
 
-/**
- * Class RateItCE
- */
-class RateItCE extends RateItHybrid
-{
+use Contao\Model;
+use Contao\Model\Collection;
 
-    /**
-     * Initialize the controller
-     */
-    public function __construct($objElement)
+/** @psalm-suppress PropertyNotSetInConstructor */
+final class RateItCE extends RateItHybrid
+{
+    public function __construct(Model|Collection|null $objElement = null)
     {
         parent::__construct($objElement);
     }

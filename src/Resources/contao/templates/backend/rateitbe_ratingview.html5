@@ -29,7 +29,6 @@
  */
 
 $rateit = &$this->rateit;
-$theme = &$rateit->theme;
 $text = &$GLOBALS['TL_LANG']['tl_rateit'];
 $type_options = &$GLOBALS['TL_LANG']['tl_rateit_type_options'];
 $active_options = &$GLOBALS['TL_LANG']['tl_rateit_active_options'];

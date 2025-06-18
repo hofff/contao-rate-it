@@ -20,7 +20,7 @@ use Contao\DataContainer;
 
 final class CommentsDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'comments';
+    protected static string $typeName = 'comments';
 
     public function onLoad() : void
     {

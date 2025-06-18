@@ -32,8 +32,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function in_array;
 
-class AjaxRateItController
+final class AjaxRateItController
 {
+    /** @param string[] $ratingTypes */
     public function __construct(
         private readonly Connection $connection,
         private readonly TokenStorageInterface $tokenStorage,
@@ -41,7 +42,6 @@ class AjaxRateItController
         private readonly ContaoFramework $framework,
         private readonly RatingService $ratingService,
         private readonly IsUserAllowedToRate $isUserAllowedToRate,
-        /** @var string[] */
         private readonly array $ratingTypes
     ) {
     }
@@ -49,14 +49,6 @@ class AjaxRateItController
     public function __invoke(Request $request) : Response
     {
         $this->framework->initialize();
-
-        // See #4099
-        if (! defined('BE_USER_LOGGED_IN')) {
-            define('BE_USER_LOGGED_IN', false);
-        }
-        if (! defined('FE_USER_LOGGED_IN')) {
-            define('FE_USER_LOGGED_IN', false);
-        }
 
         return $this->doVote($request);
     }
@@ -74,9 +66,9 @@ class AjaxRateItController
      * @param integer id      - The id of key to register a rating for.
      * @param integer percent - The rating in percentages.
      */
-    public function doVote(Request $request)
+    public function doVote(Request $request): Response
     {
-        $rkey     = $request->request->get('id');
+        $rkey     = (string) $request->request->get('id');
         $percent  = $request->request->get('vote');
         $type     = $request->request->get('type');
         $itemId   = null;
@@ -132,7 +124,7 @@ class AjaxRateItController
         }
 
         $userId       = $this->determineUserId();
-        $ratableKeyId = $this->getRateableKeyId($itemId, $type);
+        $ratableKeyId = $this->getRateableKeyId((int) $itemId, $type);
         $sessionId    = new CurrentUserId();
 
         if (! $this->isUserAllowedToRate->__invoke($ratableKeyId, (string) $sessionId, $userId)) {
@@ -159,7 +151,7 @@ class AjaxRateItController
         return new JsonResponse(
             [
                 'status' => 200,
-                'data'   => $this->ratingService->getRatingWithSuccessMessage($type, $itemId, $userId),
+                'data'   => $this->ratingService->getRatingWithSuccessMessage($type, (int) $itemId, $userId),
             ]
         );
     }
@@ -173,13 +165,13 @@ class AjaxRateItController
 
         $user = $token->getUser();
         if ($user instanceof FrontendUser) {
-            return (int)$user->id;
+            return $user->id;
         }
 
         return null;
     }
 
-    protected function getRateableKeyId($itemId, string $type) : int
+    protected function getRateableKeyId(int $itemId, string $type) : int
     {
         $statement = $this->connection->prepare('SELECT id FROM tl_rateit_items WHERE rkey=:id and typ=:type');
         $statement->bindValue('id', $itemId);

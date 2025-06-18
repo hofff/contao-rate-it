@@ -30,18 +30,11 @@ use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
-/**
- * Plugin for the Contao Manager.
- *
- * @author Carsten Götzinger
- */
 final class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     #[\Override]
-    public function getBundles(ParserInterface $parser) : array
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(HofffContaoRateItBundle::class)
@@ -50,14 +43,15 @@ final class Plugin implements BundlePluginInterface, RoutingPluginInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     #[\Override]
-    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): RouteCollection|null
     {
-        return $resolver
-            ->resolve(__DIR__ . '/../Resources/config/routing.xml')
-            ->load(__DIR__ . '/../Resources/config/routing.xml');
+        $loader = $resolver->resolve(__DIR__ . '/../Resources/config/routing.xml');
+        if ($loader == false) {
+            return null;
+        }
+
+        return $loader->load(__DIR__ . '/../Resources/config/routing.xml');
     }
 }

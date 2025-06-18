@@ -13,18 +13,17 @@
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
 namespace Hofff\Contao\RateIt\Frontend;
 
-/**
- * Class RateItModule
- */
-class RateItModule extends RateItHybrid
-{
+use Contao\Model;
+use Contao\Model\Collection;
 
-    /**
-     * Initialize the controller
-     */
-    public function __construct($objElement)
+/** @psalm-suppress PropertyNotSetInConstructor */
+final class RateItModule extends RateItHybrid
+{
+    public function __construct(Model|Collection|null $objElement = null)
+
     {
         parent::__construct($objElement);
     }

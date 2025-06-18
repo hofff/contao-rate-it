@@ -23,7 +23,7 @@ use Contao\DataContainer;
 
 final class ArticleDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'article';
+    protected static string $typeName = 'article';
 
     public function onLoad() : void
     {

@@ -55,7 +55,7 @@ abstract class BaseRatingType implements RatingType
             return null;
         }
 
-        return $result->fetchAssociative();
+        return (array) $result->fetchAssociative();
     }
 
     abstract protected function tableName() : string;

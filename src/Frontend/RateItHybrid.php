@@ -20,19 +20,14 @@ namespace Hofff\Contao\RateIt\Frontend;
 use Contao\BackendTemplate;
 use Contao\FrontendTemplate;
 use Contao\FrontendUser;
+use Contao\Model;
+use Contao\Model\Collection;
 use Hofff\Contao\RateIt\Rating\RatingService;
 
-/**
- * Class RateItHybrid
- */
+/** @psalm-suppress PropertyNotSetInConstructor */
 abstract class RateItHybrid extends RateItFrontend
 {
-    //protected $intStars = 5;
-
-    /**
-     * Initialize the controller
-     */
-    public function __construct($objElement)
+    public function __construct(Model|Collection|null $objElement = null)
     {
         parent::__construct($objElement);
 
@@ -44,7 +39,7 @@ abstract class RateItHybrid extends RateItFrontend
      * @return string
      */
     #[\Override]
-    public function generate()
+    public function generate(): string
     {
         if (self::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest()) {
             $objTemplate = new BackendTemplate('be_wildcard');
@@ -53,7 +48,7 @@ abstract class RateItHybrid extends RateItFrontend
             $objTemplate->title    = $this->rateit_title;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;
-            $objTemplate->href     = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href     = 'contao?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
             return $objTemplate->parse();
         }
@@ -84,12 +79,8 @@ abstract class RateItHybrid extends RateItFrontend
 
     abstract protected function getType() : string;
 
-    private function getUserId(): ?int
+    private function getUserId(): int|null
     {
-        if ($this->User->id) {
-            return (int) $this->User->id;
-        }
-
-        return null;
+        return $this->User->id ?: null;
     }
 }

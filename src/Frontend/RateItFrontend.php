@@ -19,48 +19,39 @@ namespace Hofff\Contao\RateIt\Frontend;
 use Contao\Hybrid;
 use Contao\Model;
 use Contao\Model\Collection;
+use Contao\Template;
+use Hofff\Contao\RateIt\Rating\RatingService;
 
-use function str_replace;
+use function assert;
+use function intval;
 
 /**
- * Class RateItFrontend
+ * @property Template   $Template
+ * @property int|string $id
+ * @property string     $name
+ * @property string     $rateit_title
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class RateItFrontend extends Hybrid
 {
+    /** Primary key */
+    protected string $strPk = 'id';
 
-    /**
-     * Primary key
-     * @var string
-     */
-    protected $strPk = 'id';
-
-    /**
-     * Template
-     * @var string
-     */
+    /** Template */
     protected $strTemplate = 'rateit_default';
 
-    /**
-     * Anzahl der Herzen/Sterne
-     * @var int
-     */
-    protected $intStars = 5;
+    /** Anzahl der Herzen/Sterne */
+    protected int $intStars = 5;
 
-    /**
-     * Textposition
-     * @var string
-     */
-    protected $strTextPosition = 'after';
+    /** Textposition */
+    protected string $strTextPosition = 'after';
 
-    /**
-     * Initialize the controller
-     */
-    public function __construct($objElement = [])
+    public function __construct(Model|Collection|null $objElement = null)
     {
         if (! empty($objElement)) {
             if ($objElement instanceof Model) {
                 $this->strTable = $objElement->getTable();
-            } elseif ($objElement instanceof Collection) {
+            } else {
                 $this->strTable = $objElement->current()->getTable();
             }
 
@@ -71,77 +62,50 @@ class RateItFrontend extends Hybrid
         if ($stars > 0) {
             $this->intStars = $stars;
         }
+
+        /** @psalm-suppress InvalidArgument */
         parent::__construct($objElement);
     }
 
-    /**
-     * Display a wildcard in the back end
-     * @return string
-     */
     #[\Override]
-    public function generate()
+    public function generate(): string
     {
-        return parent::generate();
         $this->loadLanguageFile('default');
-        $stars         = intval($GLOBALS['TL_CONFIG']['rating_count']);
+        $stars = intval($GLOBALS['TL_CONFIG']['rating_count']);
         if ($stars > 0) {
             $this->intStars = $stars;
         }
         $this->strTemplate     = $GLOBALS['TL_CONFIG']['rating_template'];
         $this->strTextPosition = $GLOBALS['TL_CONFIG']['rating_textposition'];
+
+        return parent::generate();
     }
 
-
-    /**
-     * Generate the module/content element
-     */
     #[\Override]
-    protected function compile()
+    protected function compile(): void
     {
     }
 
-    public function getStarMessage($rating)
+    public function getStarMessage(array|null $rating): string
     {
-        $this->loadLanguageFile('default');
-        $stars = $this->percentToStars($rating['rating']);
-        preg_match('/^.*\[(.+)\|(.+)\].*$/i', (string) $GLOBALS['TL_CONFIG']['rating_description'], $labels);
-        if (! is_array($labels) || (count($labels) !== 2 && count($labels) !== 3)) {
-            $label       = ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating ? $GLOBALS['TL_LANG']['rateit']['rating_label'][1] : $GLOBALS['TL_LANG']['rateit']['rating_label'][0];
-            $description = '%current%/%max% %type% (%count% [' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][0] . '|' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][1] . '])';
-        } else {
-            $label       = (count($labels) == 2 ? $labels[1] : ($rating['totalRatings'] > 1 || $rating['totalRatings'] == 0) || ! $rating) ? $labels[2] : $labels[1];
-            $description = $GLOBALS['TL_CONFIG']['rating_description'];
-        }
-        $actValue = $rating === false ? 0 : $rating['totalRatings'];
-        $description = strtr($description, [
-            '%current%' => str_replace('.', ',', (string) $stars),
-            '%max%'     => (string) $this->intStars,
-            '%type%'    => $GLOBALS['TL_LANG']['rateit']['stars'],
-            '%count%'   => (string) $actValue,
-        ]);
+        $service = self::getContainer()->get(RatingService::class);
+        assert($service instanceof RatingService);
 
-        return preg_replace('/^(.*)(\[.*\])(.*)$/i', "\\1$label\\3", $description);
+        return $service->getStarMessage($rating);
     }
 
-    public function loadRating($rkey, $typ)
+    protected function loadRating(int $ratingKey, string $ratingType): array|null
     {
-        $SQL_GET_RATINGS = "SELECT i.rkey AS rkey,
-			i.title AS title,
-			IFNULL(AVG(r.rating),0) AS rating,
-			COUNT( r.rating ) AS totalRatings
-			FROM tl_rateit_items i
-			LEFT OUTER JOIN tl_rateit_ratings r
-			ON ( i.id = r.pid ) WHERE i.rkey = ? and typ=? and active='1'
-			GROUP BY i.rkey, i.title;";
-        $result          = $this->Database->prepare($SQL_GET_RATINGS)
-            ->execute($rkey, $typ)
-            ->fetchAssoc();
-        return $result;
+        $service = self::getContainer()->get(RatingService::class);
+        assert($service instanceof RatingService);
+
+        return $service->loadRating($ratingKey, $ratingType);
     }
 
-    protected function percentToStars($percent)
+    protected function percentToStars(float $percent): float
     {
-        $modifier = 100 / $this->intStars;
+        $modifier = (float) (100 / $this->intStars);
+
         return round($percent / $modifier, 1);
     }
 }

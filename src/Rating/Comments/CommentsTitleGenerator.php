@@ -24,17 +24,13 @@ use Doctrine\DBAL\Connection;
 
 use function is_array;
 
-final class CommentsTitleGenerator
+final readonly class CommentsTitleGenerator
 {
-    /** @var ContaoFramework */
-    private $framework;
-
-    public function __construct(private readonly Connection $connection, ContaoFramework $framework)
+    public function __construct(private Connection $connection, private ContaoFramework $framework)
     {
-        $this->framework  = $framework;
     }
 
-    public function generate(string $author, string $source, $sourceId) : string
+    public function generate(string $author, string $source, int $sourceId) : string
     {
         $this->initialize();
         $title = $this->generateDefaultTitle($author, $source, $sourceId);
@@ -100,21 +96,21 @@ final class CommentsTitleGenerator
     {
         $this->framework->initialize();
 
-        /** @var Adapter|Controller $adapter */
         $adapter = $this->framework->getAdapter(Controller::class);
         $adapter->loadLanguageFile('tl_comments');
         $adapter->loadLanguageFile('default');
     }
 
-    private function generateDefaultTitle(string $author, string $source, $sourceId) : string
+    private function generateDefaultTitle(string $author, string $source, int $sourceId) : string
     {
         $title = $GLOBALS['TL_LANG']['MSC']['com_by'] . ' ' . $author . ' - ';
         $title .= $GLOBALS['TL_LANG']['tl_comments'][$source] ?? $source;
-        $title .= ' ' . $sourceId;
+        $title .= ' ' . ((string) $sourceId);
+
         return $title;
     }
 
-    private function determineSource(string &$source, &$sourceId) : void
+    private function determineSource(string &$source, int &$sourceId) : void
     {
         if ($source !== 'tl_content') {
             return;
@@ -127,8 +123,8 @@ final class CommentsTitleGenerator
             return;
         }
 
-        $row      = $result->fetchAssociative();
+        $row      = (array) $result->fetchAssociative();
         $source   = $row['ptable'] ?: 'tl_article';
-        $sourceId = $row['pid'];
+        $sourceId = (int) $row['pid'];
     }
 }

@@ -22,7 +22,7 @@ use Contao\DataContainer;
 
 final class ContentDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'ce';
+    protected static string $typeName = 'ce';
 
     public function onLoad() : void
     {
@@ -40,7 +40,7 @@ final class ContentDcaListener extends BaseDcaListener
     #[\Override]
     public function onSubmit(DataContainer $dataContainer) : void
     {
-        if ($dataContainer->activeRecord->type !== 'rateit') {
+        if (($dataContainer->getCurrentRecord()['type'] ?? null) !== 'rateit') {
             return;
         }
 

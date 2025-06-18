@@ -20,7 +20,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 final class NewsArchiveDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'comments';
+    protected static string $typeName = 'comments';
 
     public function onLoad() : void
     {

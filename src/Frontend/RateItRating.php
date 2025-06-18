@@ -15,75 +15,53 @@ declare(strict_types=1);
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
 namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\FrontendTemplate;
-use Hofff\Contao\RateIt\Frontend\RateItFrontend;
+use Contao\Model;
+use Contao\Model\Collection;
 
-class RateItRating extends RateItFrontend
+/** @psalm-suppress PropertyNotSetInConstructor */
+final class RateItRating extends RateItFrontend
 {
+    public int $ratingKey = 0;
 
-    /**
-     * RatingKey
-     * @var int
-     */
-    public $rkey = 0;
+    public string $ratingType = 'page';
 
-    public $ratingType = 'page';
-
-    /**
-     * Initialize the controller
-     */
-    public function __construct($objElement = [])
+    public function __construct(Model|Collection|null $objElement = null)
     {
         parent::__construct($objElement);
-    }
-
-    /**
-     * Display a wildcard in the back end
-     * @return string
-     */
-    #[\Override]
-    public function generate()
-    {
-        parent::generate();
     }
 
     /**
      * Compile
      */
     #[\Override]
-    protected function compile()
+    protected function compile(): void
     {
         $this->loadLanguageFile('default');
 
         $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->setData($this->arrData);
 
-        $rating   = $this->loadRating($this->rkey, $this->ratingType);
-        $ratingId = $this->rkey;
-        $stars    = ! $rating ? 0 : $this->percentToStars($rating['rating']);
+        $rating   = $this->loadRating($this->ratingKey, $this->ratingType);
+        $ratingId = $this->ratingKey;
+        $stars    = ! $rating ? 0 : $this->percentToStars((float) $rating['rating']);
 
         $this->Template->descriptionId = 'rateItRating-' . $ratingId . '-description';
         $this->Template->description   = $this->getStarMessage($rating);
-        $this->Template->id            = 'rateItRating-' . $ratingId . '-' . $this->ratingType . '-' . $stars . '_' . $this->intStars;
+        $this->Template->id            = 'rateItRating-' . $ratingId . '-' . $this->ratingType . '-' . (string) $stars . '_' . $this->intStars;
         $this->Template->class         = 'rateItRating';
-        $this->Template->itemreviewed  = $rating['title'];
-        $this->Template->actRating     = $this->percentToStars($rating['rating']);
+        $this->Template->itemreviewed  = $rating['title'] ?? null;
+        $this->Template->actRating     = $this->percentToStars((float) ($rating['rating'] ?? 0));
         $this->Template->maxRating     = $this->intStars;
-        $this->Template->votes         = $rating['totalRatings'];
+        $this->Template->votes         = $rating['totalRatings'] ?? null;
 
-        if ($this->strTextPosition == "before") {
+        if ($this->strTextPosition === "before") {
             $this->Template->showBefore = true;
-        } else if ($this->strTextPosition == "after") {
+        } else if ($this->strTextPosition === "after") {
             $this->Template->showAfter = true;
         }
-
-        return $this->Template->parse();
-    }
-
-    public function output()
-    {
-        return $this->compile();
     }
 }

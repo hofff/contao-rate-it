@@ -22,7 +22,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 final class PageDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'page';
+    protected static string $typeName = 'page';
 
     public function onLoad() : void
     {
@@ -40,8 +40,9 @@ final class PageDcaListener extends BaseDcaListener
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
             ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND);
 
+        /** @var string $keyPalette */
         foreach (array_keys($dca['palettes']) as $keyPalette) {
-            // Skip if we have a array or the palettes for subselections
+            // Skip if we have an array or the palettes for subselections
             if (in_array($keyPalette, ['__selector__', 'root', 'rootfallback', 'forward', 'redirect'], true)) {
                 continue;
             }

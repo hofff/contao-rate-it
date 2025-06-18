@@ -19,82 +19,104 @@ namespace Hofff\Contao\RateIt\Backend;
 use Contao\StringUtil;
 use Contao\System;
 
+/** @psalm-suppress ClassMustBeFinal */
 class RateItBackend
 {
-    const PATH = 'bundles/hofffcontaorateit/';
+    private const string PATH = 'bundles/hofffcontaorateit/';
 
     /**
      * Get a css file.
      * @param string $file The basename if the file (without extension).
      * @return string The file path.
      */
-    public static function css($file)
+    public static function css(string $file): string
     {
         return self::PATH . 'css/' . $file . '.css';
-    } // file
+    }
 
     /**
      * Get a js file.
      * @param string $file The basename if the file (without extension).
      * @return string The file path.
      */
-    public static function javascript($file)
+    public static function javascript(string $file): string
     {
         return self::PATH . 'js/' . $file . '.js';
-    } // file
+    }
 
     /**
      * Get image url from the theme.
      * @param string $file The basename if the image (without extension).
      * @return string The image path.
      */
-    public static function image($file)
+    public static function image(string $file): string
     {
-        $webDirectory = System::getContainer()->getParameter('contao.web_dir');
-        $url = self::PATH . 'images/';
+        /** @psalm-suppress PossiblyInvalidCast */
+        $webDirectory = (string) System::getContainer()->getParameter('contao.web_dir');
+        $url          = self::PATH . 'images/';
 
-        if (is_file($webDirectory . '/' . $url . $file . '.png')) return $url . $file . '.png';
-        if (is_file($webDirectory . '/' . $url . $file . '.gif')) return $url . $file . '.gif';
+        if (is_file($webDirectory . '/' . $url . $file . '.png')) {
+            return $url . $file . '.png';
+        }
+
+        if (is_file($webDirectory . '/' . $url . $file . '.gif')) {
+            return $url . $file . '.gif';
+        }
 
         return $url . 'star.gif';
-    } // image
+    }
 
     /**
-     * Create a 'img' tag from theme icons.
+     * Create an 'img' tag from theme icons.
+     *
      * @param string $file       The basename if the image (without extension).
      * @param string $alt        The 'alt' text.
      * @param string $attributes Additional tag attributes.
+     *
      * @return string The html code.
      */
-    public static function createImage($file, $alt = '', $attributes = '')
+    public static function createImage(string $file, string $alt = '', string $attributes = ''): string
     {
         if ($alt == '') $alt = 'icon';
         $img  = self::image($file);
         $size = getimagesize($img);
-        return '<img' . ((str_ends_with($img, '.png')) ? ' class="pngfix"' : '') . ' src="' . $img . '" ' . $size[3] . ' alt="' . StringUtil::specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
-    } // createImage
+
+        return sprintf('<img%s src="%s" alt="%s"%s>',
+            $img,
+            $size[3] ?? '',
+            StringUtil::specialchars($alt),
+            $attributes !== '' ? (' ' . $attributes) : '',
+        );
+    }
 
     /**
      * Create a list button (link button)
+     *
      * @param string  $file    The basename if the image (without extension).
      * @param string  $link    The URL of the link to create.
      * @param string  $text    The alt/title text.
      * @param string  $confirm Optional confirmation text before redirecting to the link.
      * @param boolean $popup   Open the target in a new window.
-     * @return string The html code.
+     *
+     * @return string The HTML code.
      */
-    public function createListButton($file, $link, $text, $confirm = '', $popup = false)
-    {
+    public function createListButton(
+        string $file,
+        string $link,
+        string $text,
+        string $confirm = '',
+        bool $popup = false
+    ): string {
         $target  = $popup ? ' target="_blank"' : '';
         $onclick = ($confirm != '') ? ' onclick="if(!confirm(\'' . $confirm . '\'))return false"' : '';
-        return '<a href="' . $link . '" title="' . $text . '"' . $target . $onclick . '>' . static::createImage($file, $text) . '</a>';
-    } // createListButton
 
-    public function createMainButton($file, $link, $text, $confirm = '')
-    {
-        $onclick = ($confirm == '')
-            ? ''
-            : ' onclick="if(!confirm(\'' . $confirm . '\'))return false"';
-        return '<a href="' . $link . '" title="' . $text . '"' . $onclick . '>' . static::createImage($file, $text) . ' ' . $text . '</a>';
-    } // createMainButton
-} // class RateItBackend
+        return sprintf(
+            '<a href="%s" title="%s"%s%s>%s</a>',
+            $link,
+            $text,
+            $target,
+            $onclick,
+            static::createImage($file, $text),
+        );
+    }
+}

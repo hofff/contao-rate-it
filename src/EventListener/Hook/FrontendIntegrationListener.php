@@ -22,10 +22,10 @@ use Hofff\Contao\RateIt\Frontend\RateItCE;
 use Hofff\Contao\RateIt\Frontend\RateItModule;
 
 #[AsHook('initializeSystem')]
-class FrontendIntegrationListener
+final readonly class FrontendIntegrationListener
 {
     /** @param string[] $activeItems */
-    public function __construct(private readonly array $activeItems)
+    public function __construct(private array $activeItems)
     {
     }
 

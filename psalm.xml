@@ -1,20 +1,31 @@
 <?xml version="1.0"?>
-<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config" errorLevel="8" findUnusedCode="false" findUnusedBaselineEntry="false" hideExternalErrors="true"><projectFiles><directory name="src"/></projectFiles>
-  <issueHandlers>
-    <ClassMustBeFinal>
-        <errorLevel type="suppress">
-            <directory name="src"/>
-        </errorLevel>
-    </ClassMustBeFinal>
-    <RiskyTruthyFalsyComparison>
-      <errorLevel type="suppress">
+<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config"
+       xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config" errorLevel="8"
+       findUnusedCode="false" findUnusedBaselineEntry="false" hideExternalErrors="true">
+    <projectFiles>
         <directory name="src"/>
-      </errorLevel>
-    </RiskyTruthyFalsyComparison>
-  </issueHandlers>
-  <universalObjectCrates>
-    <class name="Contao\BackendTemplate"/>
-    <class name="Contao\FrontendTemplate"/>
-    <class name="Contao\Model"/>
-  </universalObjectCrates>
+        <ignoreFiles>
+            <file name="src/DependencyInjection/Configuration.php"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <RiskyTruthyFalsyComparison>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </RiskyTruthyFalsyComparison>
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Contao\Template"/>
+            </errorLevel>
+        </DeprecatedClass>
+    </issueHandlers>
+    <universalObjectCrates>
+        <class name="Contao\BackendTemplate"/>
+        <class name="Contao\Database\Result"/>
+        <class name="Contao\FrontendTemplate"/>
+        <class name="Contao\Model"/>
+        <class name="Contao\PageModel"/>
+        <class name="Contao\Template"/>
+    </universalObjectCrates>
 </psalm>

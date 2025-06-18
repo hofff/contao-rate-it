@@ -75,7 +75,7 @@ final class RateItCommentsListener extends RatingListener
                 'title'        => $this->titleGenerator->generate(
                     $template->name,
                     $template->source,
-                    $template->parent
+                    (int) $template->parent
                 ),
                 'active'       => '1',
                 'parentstatus' => 'a',

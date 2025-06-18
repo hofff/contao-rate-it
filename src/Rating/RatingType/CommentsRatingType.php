@@ -51,7 +51,7 @@ final class CommentsRatingType extends BaseRatingType
     #[\Override]
     public function generateTitle(array $record) : string
     {
-        return $this->titleGenerator->generate($record['name'], $record['source'], $record['parent']);
+        return $this->titleGenerator->generate($record['name'], $record['source'], (int) $record['parent']);
     }
 
     #[\Override]
