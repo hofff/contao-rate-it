@@ -24,7 +24,7 @@ final class ContentDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'ce';
 
-    public function onLoad() : void
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
@@ -38,7 +38,7 @@ final class ContentDcaListener extends BaseDcaListener
     }
 
     #[\Override]
-    public function onSubmit(DataContainer $dataContainer) : void
+    public function onSubmit(DataContainer $dataContainer): void
     {
         if (($dataContainer->getCurrentRecord()['type'] ?? null) !== 'rateit') {
             return;

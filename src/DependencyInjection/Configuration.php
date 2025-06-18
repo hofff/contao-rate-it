@@ -24,7 +24,7 @@ use function is_array;
 final class Configuration implements ConfigurationInterface
 {
     #[\Override]
-    public function getConfigTreeBuilder() : TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('hofff_contao_rate_it');
         $rootNode    = $treeBuilder->getRootNode();

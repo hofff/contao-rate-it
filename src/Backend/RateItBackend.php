@@ -77,11 +77,14 @@ class RateItBackend
      */
     public static function createImage(string $file, string $alt = '', string $attributes = ''): string
     {
-        if ($alt == '') $alt = 'icon';
+        if ($alt == '') {
+            $alt = 'icon';
+        }
         $img  = self::image($file);
         $size = getimagesize($img);
 
-        return sprintf('<img%s src="%s" alt="%s"%s>',
+        return sprintf(
+            '<img%s src="%s" alt="%s"%s>',
             $img,
             $size[3] ?? '',
             StringUtil::specialchars($alt),

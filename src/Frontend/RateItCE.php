@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -15,6 +13,9 @@ declare(strict_types=1);
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\Model;
@@ -29,7 +30,7 @@ final class RateItCE extends RateItHybrid
     }
 
     #[\Override]
-    protected function getType() : string
+    protected function getType(): string
     {
         return 'ce';
     }

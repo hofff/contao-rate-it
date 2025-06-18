@@ -19,29 +19,29 @@ namespace Hofff\Contao\RateIt\Rating\RatingType;
 abstract class BaseParentSourceRatingType extends BaseRatingType
 {
     #[\Override]
-    protected function generateTitle(array $record) : string
+    protected function generateTitle(array $record): string
     {
         return (string) $record[$this->labelKey()];
     }
 
     #[\Override]
-    protected function determineActiveState(array $record) : bool
+    protected function determineActiveState(array $record): bool
     {
         return (bool) $record[$this->activeKey()];
     }
 
     #[\Override]
-    protected function determineParentPublishedState(array $record) : bool
+    protected function determineParentPublishedState(array $record): bool
     {
         return (bool) $record[$this->publishedKey()];
     }
 
-    protected function labelKey() : string
+    protected function labelKey(): string
     {
         return 'title';
     }
 
-    protected function activeKey() : string
+    protected function activeKey(): string
     {
         return 'addRating';
     }

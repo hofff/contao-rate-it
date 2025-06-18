@@ -29,7 +29,7 @@ final readonly class FrontendIntegrationListener
     {
     }
 
-    public function onInitializeSystem() : void
+    public function onInitializeSystem(): void
     {
         if (in_array('ce', $this->activeItems, true)) {
             $GLOBALS['TL_CTE']['includes']['rateit'] = RateItCE::class;

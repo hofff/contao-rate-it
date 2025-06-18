@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -15,6 +13,8 @@ declare(strict_types=1);
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
+declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Controller;
 
@@ -46,7 +46,7 @@ final class AjaxRateItController
     ) {
     }
 
-    public function __invoke(Request $request) : Response
+    public function __invoke(Request $request): Response
     {
         $this->framework->initialize();
 
@@ -156,7 +156,7 @@ final class AjaxRateItController
         );
     }
 
-    private function determineUserId() : ?int
+    private function determineUserId(): ?int
     {
         $token = $this->tokenStorage->getToken();
         if (! $token) {
@@ -171,7 +171,7 @@ final class AjaxRateItController
         return null;
     }
 
-    protected function getRateableKeyId(int $itemId, string $type) : int
+    protected function getRateableKeyId(int $itemId, string $type): int
     {
         $statement = $this->connection->prepare('SELECT id FROM tl_rateit_items WHERE rkey=:id and typ=:type');
         $statement->bindValue('id', $itemId);

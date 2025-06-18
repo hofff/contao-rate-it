@@ -25,7 +25,7 @@ final class ModuleDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'module';
 
-    public function onLoad() : void
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
@@ -42,7 +42,7 @@ final class ModuleDcaListener extends BaseDcaListener
             ->applyToPalette('default', 'tl_module');
     }
 
-    public function getRateItTopModuleTemplates() : array
+    public function getRateItTopModuleTemplates(): array
     {
         return Backend::getTemplateGroup('mod_rateit_top');
     }

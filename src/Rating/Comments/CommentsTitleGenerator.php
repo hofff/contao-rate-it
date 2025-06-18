@@ -30,7 +30,7 @@ final readonly class CommentsTitleGenerator
     {
     }
 
-    public function generate(string $author, string $source, int $sourceId) : string
+    public function generate(string $author, string $source, int $sourceId): string
     {
         $this->initialize();
         $title = $this->generateDefaultTitle($author, $source, $sourceId);
@@ -92,7 +92,7 @@ final readonly class CommentsTitleGenerator
         return $title;
     }
 
-    private function initialize() : void
+    private function initialize(): void
     {
         $this->framework->initialize();
 
@@ -101,7 +101,7 @@ final readonly class CommentsTitleGenerator
         $adapter->loadLanguageFile('default');
     }
 
-    private function generateDefaultTitle(string $author, string $source, int $sourceId) : string
+    private function generateDefaultTitle(string $author, string $source, int $sourceId): string
     {
         $title = $GLOBALS['TL_LANG']['MSC']['com_by'] . ' ' . $author . ' - ';
         $title .= $GLOBALS['TL_LANG']['tl_comments'][$source] ?? $source;
@@ -110,7 +110,7 @@ final readonly class CommentsTitleGenerator
         return $title;
     }
 
-    private function determineSource(string &$source, int &$sourceId) : void
+    private function determineSource(string &$source, int &$sourceId): void
     {
         if ($source !== 'tl_content') {
             return;

@@ -21,13 +21,13 @@ use Contao\PageModel;
 final class PageRatingType extends BaseParentSourceRatingType
 {
     #[\Override]
-    public function name() : string
+    public function name(): string
     {
         return 'page';
     }
 
     #[\Override]
-    protected function tableName() : string
+    protected function tableName(): string
     {
         return PageModel::getTable();
     }

@@ -18,6 +18,7 @@ namespace Hofff\Contao\RateIt\Rating\Comments;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model;
+
 use function class_exists;
 
 final readonly class CommentsConfigurationLoader
@@ -26,7 +27,7 @@ final readonly class CommentsConfigurationLoader
     {
     }
 
-    public function load(string $source, int $parent, bool $checkSupported = true) : ?Model
+    public function load(string $source, int $parent, bool $checkSupported = true): ?Model
     {
         if ($checkSupported && ! isset($this->supportedSources[$source])) {
             return null;
@@ -49,8 +50,10 @@ final readonly class CommentsConfigurationLoader
             return $parentRecord;
         }
 
-        if (! isset($GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'])
-            || $GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'] === $source) {
+        if (
+            ! isset($GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'])
+            || $GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'] === $source
+        ) {
             return null;
         }
 

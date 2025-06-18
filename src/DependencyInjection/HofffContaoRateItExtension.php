@@ -24,6 +24,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+
 use function in_array;
 use function var_dump;
 
@@ -31,7 +32,7 @@ final class HofffContaoRateItExtension extends Extension
 {
     /** @param mixed[][] $configs */
     #[\Override]
-    public function load(array $configs, ContainerBuilder $container) : void
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader(
             $container,

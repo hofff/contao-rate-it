@@ -41,12 +41,12 @@ final class RatingTypes
         }
     }
 
-    public function register(RatingType $ratingType) : void
+    public function register(RatingType $ratingType): void
     {
         $this->ratingTypes[$ratingType->name()] = $ratingType;
     }
 
-    public function has(string $type) : bool
+    public function has(string $type): bool
     {
         if (! isset($this->activeTypesNames[$type])) {
             return false;
@@ -55,7 +55,7 @@ final class RatingTypes
         return isset($this->ratingTypes[$type]);
     }
 
-    public function sourceInformation(string $type, int $sourceId) : ?SourceInformation
+    public function sourceInformation(string $type, int $sourceId): ?SourceInformation
     {
         if (! $this->has($type)) {
             return null;
@@ -65,7 +65,7 @@ final class RatingTypes
     }
 
     /** @return string[] */
-    public function activeTypeNames() : array
+    public function activeTypeNames(): array
     {
         return array_keys($this->ratingTypes);
     }

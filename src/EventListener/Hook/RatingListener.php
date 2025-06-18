@@ -32,17 +32,17 @@ abstract class RatingListener
     ) {
     }
 
-    protected function getRating(string $type, int $ratingTypeId) : ?array
+    protected function getRating(string $type, int $ratingTypeId): ?array
     {
         return $this->ratingService->getRating($type, $ratingTypeId, $this->getUserId());
     }
 
-    protected function getRatingTemplate() : string
+    protected function getRatingTemplate(): string
     {
         return $this->framework->getAdapter(Config::class)->get('rating_template') ?: 'ratit_default';
     }
 
-    protected function render(array $data) : string
+    protected function render(array $data): string
     {
         $template = new FrontendTemplate($this->getRatingTemplate());
         $template->setData($data);
@@ -50,7 +50,7 @@ abstract class RatingListener
         return $template->parse();
     }
 
-    private function getUserId() : ?int
+    private function getUserId(): ?int
     {
         $token = $this->tokenStorage->getToken();
         if (!$token) {

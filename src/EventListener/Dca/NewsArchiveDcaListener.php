@@ -22,7 +22,7 @@ final class NewsArchiveDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'comments';
 
-    public function onLoad() : void
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;

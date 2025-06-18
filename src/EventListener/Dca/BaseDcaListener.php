@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -15,6 +13,9 @@ declare(strict_types=1);
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Database;
@@ -39,29 +40,29 @@ abstract class BaseDcaListener
         }
     }
 
-    protected function isActive() : bool
+    protected function isActive(): bool
     {
         return $this->ratingTypes->has(static::$typeName);
     }
 
-    public function onSubmit(DataContainer $dataContainer) : void
+    public function onSubmit(DataContainer $dataContainer): void
     {
         $this->insertOrUpdateRatingKey((int) $dataContainer->id);
     }
 
-    public function onDelete(DataContainer $dataContainer) : void
+    public function onDelete(DataContainer $dataContainer): void
     {
         $this->markRatingItemAsDeleted((int) $dataContainer->id);
     }
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function onRestore(string $table, mixed $insertId) : void
+    public function onRestore(string $table, mixed $insertId): void
     {
         $this->restore((int) $insertId);
     }
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function onUndo(string $table, array $row) : void
+    public function onUndo(string $table, array $row): void
     {
         if (! $this->isActive()) {
             return;
@@ -108,7 +109,12 @@ abstract class BaseDcaListener
                 /** @psalm-suppress TooManyArguments */
                 $database
                     ->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
-                    ->execute($information->title(), $information->parentStatus(), (string) $sourceId, static::$typeName);
+                    ->execute(
+                        $information->title(),
+                        $information->parentStatus(),
+                        (string) $sourceId,
+                        static::$typeName
+                    );
             }
         } else {
             /** @psalm-suppress TooManyArguments */
@@ -118,7 +124,7 @@ abstract class BaseDcaListener
         }
     }
 
-    public function updateRatingKey(int $sourceId) : void
+    public function updateRatingKey(int $sourceId): void
     {
         $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
         if (!$information) {

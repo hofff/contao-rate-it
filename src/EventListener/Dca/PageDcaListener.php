@@ -24,7 +24,7 @@ final class PageDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'page';
 
-    public function onLoad() : void
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;

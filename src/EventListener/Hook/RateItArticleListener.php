@@ -33,12 +33,12 @@ final class RateItArticleListener extends RatingListener
 
         if ($template->type === 'article') {
             $this->doArticle($template);
-        } else if ($template->type === 'articleList') {
+        } elseif ($template->type === 'articleList') {
             $this->doArticleList($template);
         }
     }
 
-    private function doArticle(Template $template) : void
+    private function doArticle(Template $template): void
     {
         if (! $template->addRating) {
             return;

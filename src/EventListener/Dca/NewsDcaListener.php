@@ -24,7 +24,7 @@ final class NewsDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'news';
 
-    public function onLoad() : void
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;

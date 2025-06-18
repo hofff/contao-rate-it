@@ -21,31 +21,31 @@ use Contao\ModuleModel;
 final class ModuleRatingType extends BaseParentSourceRatingType
 {
     #[\Override]
-    public function name() : string
+    public function name(): string
     {
         return 'module';
     }
 
     #[\Override]
-    protected function determineParentPublishedState(array $record) : bool
+    protected function determineParentPublishedState(array $record): bool
     {
         return true;
     }
 
     #[\Override]
-    protected function tableName() : string
+    protected function tableName(): string
     {
         return ModuleModel::getTable();
     }
 
     #[\Override]
-    protected function labelKey() : string
+    protected function labelKey(): string
     {
         return 'name';
     }
 
     #[\Override]
-    protected function activeKey() : string
+    protected function activeKey(): string
     {
         return 'rateit_active';
     }

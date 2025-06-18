@@ -23,13 +23,12 @@ use Contao\Model\Collection;
 final class RateItModule extends RateItHybrid
 {
     public function __construct(Model|Collection|null $objElement = null)
-
     {
         parent::__construct($objElement);
     }
 
     #[\Override]
-    protected function getType() : string
+    protected function getType(): string
     {
         return 'module';
     }

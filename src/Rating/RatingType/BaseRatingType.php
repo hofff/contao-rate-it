@@ -27,7 +27,7 @@ abstract class BaseRatingType implements RatingType
     }
 
     #[\Override]
-    public function sourceInformation(int $sourceId) : ?SourceInformation
+    public function sourceInformation(int $sourceId): ?SourceInformation
     {
         $record = $this->loadRecord($sourceId);
         if ($record === null) {
@@ -41,7 +41,7 @@ abstract class BaseRatingType implements RatingType
         );
     }
 
-    protected function determineParentStatus(array  $record) : string
+    protected function determineParentStatus(array $record): string
     {
         return $this->determineParentPublishedState($record) ? 'a' : 'i';
     }
@@ -58,11 +58,11 @@ abstract class BaseRatingType implements RatingType
         return (array) $result->fetchAssociative();
     }
 
-    abstract protected function tableName() : string;
+    abstract protected function tableName(): string;
 
-    abstract protected function generateTitle(array $record) : string;
+    abstract protected function generateTitle(array $record): string;
 
-    abstract protected function determineActiveState(array $record) : bool;
+    abstract protected function determineActiveState(array $record): bool;
 
-    abstract protected function determineParentPublishedState(array $record) : bool;
+    abstract protected function determineParentPublishedState(array $record): bool;
 }

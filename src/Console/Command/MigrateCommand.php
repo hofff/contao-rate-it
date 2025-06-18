@@ -24,6 +24,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
 use function time;
 
 final class MigrateCommand extends Command
@@ -37,7 +38,7 @@ final class MigrateCommand extends Command
     }
 
     #[\Override]
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->addArgument(
             'task',
@@ -57,7 +58,7 @@ final class MigrateCommand extends Command
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     #[\Override]
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $task = $input->getArgument('task');
 
@@ -68,7 +69,7 @@ final class MigrateCommand extends Command
     }
 
     /** @SuppressWarnings(PHPMD.LongVariable) */
-    private function migrateArticlesToPages(InputInterface $input) : int
+    private function migrateArticlesToPages(InputInterface $input): int
     {
         $unratedPagesWithArticleRatings = $this->getUnratedPagesWithArticleRatings();
 
@@ -99,7 +100,7 @@ SQL;
         return $this->connection->executeQuery($sql);
     }
 
-    private function createRateItItem(int $pageId, string $position) : void
+    private function createRateItItem(int $pageId, string $position): void
     {
         $sourceInformation = $this->ratingTypes->sourceInformation('page', $pageId);
         if (!$sourceInformation) {
@@ -120,7 +121,7 @@ SQL;
         $this->connection->update('tl_page', ['addRating' => '1', 'rateit_position' => $position], ['id' => $pageId]);
     }
 
-    private function migrateArticleRatings() : void
+    private function migrateArticleRatings(): void
     {
         $sql = <<<'SQL'
 

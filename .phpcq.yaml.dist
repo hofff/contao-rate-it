@@ -5,12 +5,6 @@ phpcq:
     - src
   artifact: .phpcq/build
   plugins:
-    doctrine-coding-standard:
-      version: ^1.0
-      signed: false
-      requirements:
-        composer:
-          doctrine/coding-standard: ^13.0
     composer-normalize:
       version: ^1.0
       signed: false
@@ -29,7 +23,7 @@ phpcq:
     psalm:
       version: ^1.0
       signed: false
-    rector:
+    phpcs:
       version: ^1.0
       signed: false
   trusted-keys:
@@ -40,10 +34,14 @@ phpcq:
     - 9093F8B32E4815AA
     - 8A03EA3B385DBAA1
     - 12CE0F1D262429A5
+    - 31C7E470E2138192
+    - 5E6DDE998AB73B8E
+    - A978220305CD5C32
+    - 97B02DD8E5071466
 tasks:
   fix:
     - composer-normalize-fix
-    - rector-fix
+    - phpcbf
   verify:
     - composer-normalize
     - composer-require-checker
@@ -52,7 +50,7 @@ tasks:
     - phploc
     - phpmd
     - psalm
-    - rector
+    - phpcs
   default:
     - verify
     - analyze
@@ -76,7 +74,7 @@ tasks:
       exclude:
         - src/Rating/RatingService.php
         - src/Frontend/RateItFrontend.php
-  rector-fix:
+  phpcbf:
     config:
-      dry-run: false
-    plugin: rector
+      fix: true
+    plugin: phpcs

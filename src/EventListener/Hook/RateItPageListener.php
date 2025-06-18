@@ -26,13 +26,13 @@ use Contao\PageRegular;
 final class RateItPageListener extends RatingListener
 {
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function onGeneratePage(PageModel $pageModel, LayoutModel $layoutModel, PageRegular $pageHandler) : void
+    public function onGeneratePage(PageModel $pageModel, LayoutModel $layoutModel, PageRegular $pageHandler): void
     {
         if (!$pageModel->addRating || $pageModel->rateit_position === 'custom') {
             return;
         }
 
-        if (! isset ($pageModel->Template)) {
+        if (! isset($pageModel->Template)) {
             return;
         }
 

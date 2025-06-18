@@ -22,7 +22,7 @@ final class CommentsDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'comments';
 
-    public function onLoad() : void
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
@@ -35,7 +35,7 @@ final class CommentsDcaListener extends BaseDcaListener
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
-    public function insert(DataContainer $dataContainer) : void
+    public function insert(DataContainer $dataContainer): void
     {
         $this->updateRatingKey((int) $dataContainer->id);
     }

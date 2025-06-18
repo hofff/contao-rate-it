@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -15,6 +13,8 @@ declare(strict_types=1);
  * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
  * @filesource
  */
+
+declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Frontend;
 
@@ -51,7 +51,12 @@ final class RateItRating extends RateItFrontend
 
         $this->Template->descriptionId = 'rateItRating-' . $ratingId . '-description';
         $this->Template->description   = $this->getStarMessage($rating);
-        $this->Template->id            = 'rateItRating-' . $ratingId . '-' . $this->ratingType . '-' . (string) $stars . '_' . $this->intStars;
+        $this->Template->id            = 'rateItRating-'
+            . $ratingId . '-'
+            . $this->ratingType
+            . '-'
+            . (string) $stars
+            . '_' . $this->intStars;
         $this->Template->class         = 'rateItRating';
         $this->Template->itemreviewed  = $rating['title'] ?? null;
         $this->Template->actRating     = $this->percentToStars((float) ($rating['rating'] ?? 0));
@@ -60,7 +65,7 @@ final class RateItRating extends RateItFrontend
 
         if ($this->strTextPosition === "before") {
             $this->Template->showBefore = true;
-        } else if ($this->strTextPosition === "after") {
+        } elseif ($this->strTextPosition === "after") {
             $this->Template->showAfter = true;
         }
     }

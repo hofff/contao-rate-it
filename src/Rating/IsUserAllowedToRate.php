@@ -32,7 +32,7 @@ final class IsUserAllowedToRate
         $this->framework  = $framework;
     }
 
-    public function __invoke(int $ratingId, ?string $sessionId, ?int $userId) : bool
+    public function __invoke(int $ratingId, ?string $sessionId, ?int $userId): bool
     {
         $this->framework->initialize();
 
@@ -55,7 +55,7 @@ final class IsUserAllowedToRate
         return ! $this->hasAnonymousUserAlreadyRated($ratingId, $sessionId);
     }
 
-    private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId) : bool
+    private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId): bool
     {
         $statement = $this->connection->prepare(
             'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:pid and memberid=:memberid'
@@ -68,7 +68,7 @@ final class IsUserAllowedToRate
         return $result->fetchOne() > 0;
     }
 
-    private function hasAnonymousUserAlreadyRated(int $ratingId, string $sessionId) : bool
+    private function hasAnonymousUserAlreadyRated(int $ratingId, string $sessionId): bool
     {
         $query     = 'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:ratingId and session_id=:sessionId';
         $statement = $this->connection->prepare($query);
@@ -79,12 +79,12 @@ final class IsUserAllowedToRate
         return $result->fetchOne() > 0;
     }
 
-    private function areDuplicatesAllowed() : bool
+    private function areDuplicatesAllowed(): bool
     {
         return (bool) $this->framework->getAdapter(Config::class)->get('rating_allow_duplicate_ratings');
     }
 
-    private function areDuplicatesAllowedForMembers() : bool
+    private function areDuplicatesAllowedForMembers(): bool
     {
         return (bool) $this->framework->getAdapter(Config::class)->get('rating_allow_duplicate_ratings_for_members');
     }

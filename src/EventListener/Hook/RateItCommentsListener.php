@@ -36,12 +36,11 @@ final class RateItCommentsListener extends RatingListener
         private readonly CommentsConfigurationLoader $configurationLoader,
         private readonly CommentsTitleGenerator $titleGenerator,
         private readonly Connection $connection
-    )
-    {
+    ) {
         parent::__construct($ratingService, $tokenStorage, $framework);
     }
 
-    public function onParseTemplate(Template $template) : void
+    public function onParseTemplate(Template $template): void
     {
         if (!str_starts_with($template->getName(), 'com_')) {
             return;
@@ -57,7 +56,7 @@ final class RateItCommentsListener extends RatingListener
         $template->rating          = $this->getCommentRating($template);
     }
 
-    private function getCommentRating(Template $template) : ?array
+    private function getCommentRating(Template $template): ?array
     {
         $commentId = (int)substr($template->id, 1);
         $rating    = $this->getRating('comments', $commentId);

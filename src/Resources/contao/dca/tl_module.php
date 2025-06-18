@@ -24,8 +24,15 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onundo_callback'][] = [ModuleDcaListe
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit']             = '{title_legend},name,rateit_title,type;{rateit_legend},rateit_active;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit_top_ratings'] = '{title_legend},name,headline,type;{rateit_legend},rateit_types,rateit_toptype,rateit_count,rateit_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit'] = '{title_legend},name,rateit_title,type'
+    . ';{rateit_legend},rateit_active'
+    . ';{protected_legend:hide},protected'
+    . ';{expert_legend:hide},guests,cssID,space';
+
+$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit_top_ratings'] = '{title_legend},name,headline,type'
+    . ';{rateit_legend},rateit_types,rateit_toptype,rateit_count,rateit_template'
+    . ';{protected_legend:hide},protected'
+    . ';{expert_legend:hide},guests,cssID,space';
 
 /**
  * fields
@@ -86,4 +93,3 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_template'] = [
     'eval'             => ['mandatory' => true, 'tl_class' => 'w50'],
     'sql'              => "varchar(255) NOT NULL default ''",
 ];
-
