@@ -20,6 +20,11 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
+use function array_keys;
+use function assert;
+use function in_array;
+use function is_string;
+
 final class PageDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'page';
@@ -40,13 +45,16 @@ final class PageDcaListener extends BaseDcaListener
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
             ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND);
 
-        /** @var string $keyPalette */
         foreach (array_keys($dca['palettes']) as $keyPalette) {
+            /** @psalm-suppress TypeDoesNotContainType */
+            assert(is_string($keyPalette));
+
             // Skip if we have an array or the palettes for subselections
             if (in_array($keyPalette, ['__selector__', 'root', 'rootfallback', 'forward', 'redirect'], true)) {
                 continue;
             }
 
+            /** @psalm-suppress NoValue */
             $manipulator->applyToPalette($keyPalette, 'tl_page');
         }
     }

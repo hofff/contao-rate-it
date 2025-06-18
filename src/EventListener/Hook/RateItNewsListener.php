@@ -23,9 +23,10 @@ use Contao\Template;
 
 final class RateItNewsListener extends RatingListener
 {
+    /** @param array<string, mixed> $newsArticle */
     public function onParseArticles(Template $template, array $newsArticle, object $caller): void
     {
-        if (!$caller instanceof ModuleNews || !$newsArticle['addRating']) {
+        if (! $caller instanceof ModuleNews || ! $newsArticle['addRating']) {
             return;
         }
 

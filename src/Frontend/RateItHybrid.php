@@ -19,11 +19,13 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\BackendTemplate;
-use Contao\FrontendTemplate;
 use Contao\FrontendUser;
 use Contao\Model;
 use Contao\Model\Collection;
 use Hofff\Contao\RateIt\Rating\RatingService;
+use Override;
+
+use function array_merge;
 
 /** @psalm-suppress PropertyNotSetInConstructor */
 abstract class RateItHybrid extends RateItFrontend
@@ -37,9 +39,8 @@ abstract class RateItHybrid extends RateItFrontend
 
     /**
      * Display a wildcard in the back end
-     * @return string
      */
-    #[\Override]
+    #[Override]
     public function generate(): string
     {
         if (self::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest()) {
@@ -54,7 +55,7 @@ abstract class RateItHybrid extends RateItFrontend
             return $objTemplate->parse();
         }
 
-        $this->strTemplate = $GLOBALS['TL_CONFIG']['rating_template'];
+        $this->strTemplate     = $GLOBALS['TL_CONFIG']['rating_template'];
         $this->strTextPosition = $GLOBALS['TL_CONFIG']['rating_textposition'];
 
         return parent::generate();
@@ -63,7 +64,7 @@ abstract class RateItHybrid extends RateItFrontend
     /**
      * Generate the module/content element
      */
-    #[\Override]
+    #[Override]
     protected function compile(): void
     {
         $rating = self::getContainer()
@@ -72,8 +73,8 @@ abstract class RateItHybrid extends RateItFrontend
 
         $this->Template->setData(array_merge($this->Template->getData(), (array) $rating));
 
-        $this->Template->showBefore = $this->strTextPosition === "before";
-        $this->Template->showAfter  = $this->strTextPosition === "after";
+        $this->Template->showBefore = $this->strTextPosition === 'before';
+        $this->Template->showAfter  = $this->strTextPosition === 'after';
 
         parent::compile();
     }

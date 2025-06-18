@@ -16,16 +16,17 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use function str_starts_with;
+
 final class PageRatingInsertTagListener extends RatingListener
 {
-    /** @return string|false */
-    public function onReplaceInsertTags(string $tag)
+    public function onReplaceInsertTags(string $tag): string|false
     {
-        if (!str_starts_with($tag, 'rateit_page_rating')) {
+        if (! str_starts_with($tag, 'rateit_page_rating')) {
             return false;
         }
 
-        if (!isset($GLOBALS['objPage']) || !$GLOBALS['objPage']->addRating) {
+        if (! isset($GLOBALS['objPage']) || ! $GLOBALS['objPage']->addRating) {
             return '';
         }
 

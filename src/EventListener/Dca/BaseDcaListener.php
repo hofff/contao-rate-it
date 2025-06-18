@@ -21,10 +21,11 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 use Contao\Database;
 use Contao\DataContainer;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
+use RuntimeException;
 
-/**
- * Class DcaHelper
- */
+use function is_array;
+use function time;
+
 abstract class BaseDcaListener
 {
     protected static string $typeName;
@@ -35,8 +36,8 @@ abstract class BaseDcaListener
     public function __construct(protected RatingTypes $ratingTypes)
     {
         /** @psalm-suppress RedundantPropertyInitializationCheck */
-        if (!isset(static::$typeName)) {
-            throw new \RuntimeException('Type name has to be defined');
+        if (! isset(static::$typeName)) {
+            throw new RuntimeException('Type name has to be defined');
         }
     }
 
@@ -61,7 +62,11 @@ abstract class BaseDcaListener
         $this->restore((int) $insertId);
     }
 
-    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    /**
+     * @param array<array-key, mixed> $row
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function onUndo(string $table, array $row): void
     {
         if (! $this->isActive()) {
@@ -76,10 +81,10 @@ abstract class BaseDcaListener
      */
     public function insertOrUpdateRatingKey(int $sourceId): void
     {
-        $database     = Database::getInstance();
-        $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
+        $database    = Database::getInstance();
+        $information = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
 
-        if (!$information) {
+        if (! $information) {
             return;
         }
 
@@ -113,7 +118,7 @@ abstract class BaseDcaListener
                         $information->title(),
                         $information->parentStatus(),
                         (string) $sourceId,
-                        static::$typeName
+                        static::$typeName,
                     );
             }
         } else {
@@ -126,8 +131,8 @@ abstract class BaseDcaListener
 
     public function updateRatingKey(int $sourceId): void
     {
-        $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
-        if (!$information) {
+        $information = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
+        if (! $information) {
             return;
         }
 
@@ -151,7 +156,7 @@ abstract class BaseDcaListener
     public function restore(int $statusId): void
     {
         $information = $this->ratingTypes->sourceInformation(static::$typeName, $statusId);
-        if (!$information) {
+        if (! $information) {
             return;
         }
 

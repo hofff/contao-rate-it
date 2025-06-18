@@ -19,32 +19,34 @@ namespace Hofff\Contao\RateIt\Console\Command;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
+use InvalidArgumentException;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function sprintf;
 use function time;
 
 final class MigrateCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'hofff-rate-it:migrate';
+    protected static string $defaultName = 'hofff-rate-it:migrate';
 
     public function __construct(private readonly Connection $connection, private readonly RatingTypes $ratingTypes)
     {
         parent::__construct();
     }
 
-    #[\Override]
+    #[Override]
     protected function configure(): void
     {
         $this->addArgument(
             'task',
             InputArgument::OPTIONAL,
             'Decide which migration task should be run',
-            'article-to-page'
+            'article-to-page',
         );
 
         $this->addOption(
@@ -52,19 +54,19 @@ final class MigrateCommand extends Command
             'p',
             InputOption::VALUE_REQUIRED,
             'Position of the rating being added to a page',
-            'before'
+            'before',
         );
     }
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    #[\Override]
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $task = $input->getArgument('task');
 
         return match ($task) {
             'article-to-page' => $this->migrateArticlesToPages($input),
-            default => throw new \InvalidArgumentException(sprintf('Task "%s" is not supported.', $task)),
+            default => throw new InvalidArgumentException(sprintf('Task "%s" is not supported.', $task)),
         };
     }
 
@@ -103,7 +105,7 @@ SQL;
     private function createRateItItem(int $pageId, string $position): void
     {
         $sourceInformation = $this->ratingTypes->sourceInformation('page', $pageId);
-        if (!$sourceInformation) {
+        if (! $sourceInformation) {
             return;
         }
 

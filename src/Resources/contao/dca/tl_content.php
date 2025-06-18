@@ -24,7 +24,7 @@ $GLOBALS['TL_DCA']['tl_content']['config']['onundo_callback'][] = [ContentDcaLis
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_content']['palettes']['rateit']  = '{type_legend},type,rateit_title'
+$GLOBALS['TL_DCA']['tl_content']['palettes']['rateit'] = '{type_legend},type,rateit_title'
     . ';{rateit_legend},rateit_active'
     . ';{protected_legend:hide},protected'
     . ';{expert_legend:hide},guests,cssID,space';

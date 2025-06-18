@@ -20,10 +20,11 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Template;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
-use Hofff\Contao\RateIt\Rating\RatingService;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
+use Hofff\Contao\RateIt\Rating\RatingService;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+use function str_starts_with;
 use function substr;
 use function time;
 
@@ -35,14 +36,14 @@ final class RateItCommentsListener extends RatingListener
         ContaoFramework $framework,
         private readonly CommentsConfigurationLoader $configurationLoader,
         private readonly CommentsTitleGenerator $titleGenerator,
-        private readonly Connection $connection
+        private readonly Connection $connection,
     ) {
         parent::__construct($ratingService, $tokenStorage, $framework);
     }
 
     public function onParseTemplate(Template $template): void
     {
-        if (!str_starts_with($template->getName(), 'com_')) {
+        if (! str_starts_with($template->getName(), 'com_')) {
             return;
         }
 
@@ -56,9 +57,9 @@ final class RateItCommentsListener extends RatingListener
         $template->rating          = $this->getCommentRating($template);
     }
 
-    private function getCommentRating(Template $template): ?array
+    private function getCommentRating(Template $template): array|null
     {
-        $commentId = (int)substr($template->id, 1);
+        $commentId = (int) substr($template->id, 1);
         $rating    = $this->getRating('comments', $commentId);
         if ($rating !== null) {
             return $rating;
@@ -74,11 +75,11 @@ final class RateItCommentsListener extends RatingListener
                 'title'        => $this->titleGenerator->generate(
                     $template->name,
                     $template->source,
-                    (int) $template->parent
+                    (int) $template->parent,
                 ),
                 'active'       => '1',
                 'parentstatus' => 'a',
-            ]
+            ],
         );
 
         return $this->getRating('comments', $commentId);

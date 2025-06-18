@@ -24,15 +24,11 @@ use Doctrine\DBAL\Connection;
 
 final class IsUserAllowedToRate
 {
-    /** @var ContaoFramework */
-    private $framework;
-
-    public function __construct(private readonly Connection $connection, ContaoFramework $framework)
+    public function __construct(private readonly Connection $connection, private ContaoFramework $framework)
     {
-        $this->framework  = $framework;
     }
 
-    public function __invoke(int $ratingId, ?string $sessionId, ?int $userId): bool
+    public function __invoke(int $ratingId, string|null $sessionId, int|null $userId): bool
     {
         $this->framework->initialize();
 
@@ -44,7 +40,7 @@ final class IsUserAllowedToRate
             return ! $this->hasLoggedInUserAlreadyRated($ratingId, $userId);
         }
 
-        if (!$sessionId) {
+        if (! $sessionId) {
             return true;
         }
 
@@ -58,7 +54,7 @@ final class IsUserAllowedToRate
     private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId): bool
     {
         $statement = $this->connection->prepare(
-            'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:pid and memberid=:memberid'
+            'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:pid and memberid=:memberid',
         );
 
         $statement->bindValue('pid', $ratingId);

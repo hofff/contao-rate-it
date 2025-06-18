@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -19,6 +21,10 @@ namespace Hofff\Contao\RateIt\Backend;
 use Contao\StringUtil;
 use Contao\System;
 
+use function getimagesize;
+use function is_file;
+use function sprintf;
+
 /** @psalm-suppress ClassMustBeFinal */
 class RateItBackend
 {
@@ -26,7 +32,9 @@ class RateItBackend
 
     /**
      * Get a css file.
+     *
      * @param string $file The basename if the file (without extension).
+     *
      * @return string The file path.
      */
     public static function css(string $file): string
@@ -36,7 +44,9 @@ class RateItBackend
 
     /**
      * Get a js file.
+     *
      * @param string $file The basename if the file (without extension).
+     *
      * @return string The file path.
      */
     public static function javascript(string $file): string
@@ -46,7 +56,9 @@ class RateItBackend
 
     /**
      * Get image url from the theme.
+     *
      * @param string $file The basename if the image (without extension).
+     *
      * @return string The image path.
      */
     public static function image(string $file): string
@@ -77,9 +89,10 @@ class RateItBackend
      */
     public static function createImage(string $file, string $alt = '', string $attributes = ''): string
     {
-        if ($alt == '') {
+        if ($alt === '') {
             $alt = 'icon';
         }
+
         $img  = self::image($file);
         $size = getimagesize($img);
 
@@ -88,18 +101,18 @@ class RateItBackend
             $img,
             $size[3] ?? '',
             StringUtil::specialchars($alt),
-            $attributes !== '' ? (' ' . $attributes) : '',
+            $attributes !== '' ? ' ' . $attributes : '',
         );
     }
 
     /**
      * Create a list button (link button)
      *
-     * @param string  $file    The basename if the image (without extension).
-     * @param string  $link    The URL of the link to create.
-     * @param string  $text    The alt/title text.
-     * @param string  $confirm Optional confirmation text before redirecting to the link.
-     * @param boolean $popup   Open the target in a new window.
+     * @param string $file    The basename if the image (without extension).
+     * @param string $link    The URL of the link to create.
+     * @param string $text    The alt/title text.
+     * @param string $confirm Optional confirmation text before redirecting to the link.
+     * @param bool   $popup   Open the target in a new window.
      *
      * @return string The HTML code.
      */
@@ -108,10 +121,10 @@ class RateItBackend
         string $link,
         string $text,
         string $confirm = '',
-        bool $popup = false
+        bool $popup = false,
     ): string {
         $target  = $popup ? ' target="_blank"' : '';
-        $onclick = ($confirm != '') ? ' onclick="if(!confirm(\'' . $confirm . '\'))return false"' : '';
+        $onclick = $confirm !== '' ? ' onclick="if(!confirm(\'' . $confirm . '\'))return false"' : '';
 
         return sprintf(
             '<a href="%s" title="%s"%s%s>%s</a>',

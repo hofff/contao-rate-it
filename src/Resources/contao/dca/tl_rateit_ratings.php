@@ -34,7 +34,7 @@ $GLOBALS['TL_DCA']['tl_rateit_ratings'] = [
 
     'fields' => [
         'id'         => [
-            'sql' => "int(10) unsigned NOT NULL auto_increment",
+            'sql' => 'int(10) unsigned NOT NULL auto_increment',
         ],
         'tstamp'     => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
@@ -45,10 +45,10 @@ $GLOBALS['TL_DCA']['tl_rateit_ratings'] = [
             'relation'   => ['type' => 'belongsTo', 'load' => 'lazy'],
         ],
         'session_id' => [
-            'sql' => "varchar(255) NULL",
+            'sql' => 'varchar(255) NULL',
         ],
         'memberid'   => [
-            'sql' => "int(10) unsigned NULL",
+            'sql' => 'int(10) unsigned NULL',
         ],
         'rating'     => [
             'sql' => "int(10) unsigned NOT NULL default '0'",

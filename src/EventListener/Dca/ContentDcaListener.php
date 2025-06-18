@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\DataContainer;
+use Override;
 
 final class ContentDcaListener extends BaseDcaListener
 {
@@ -37,7 +38,7 @@ final class ContentDcaListener extends BaseDcaListener
         $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
-    #[\Override]
+    #[Override]
     public function onSubmit(DataContainer $dataContainer): void
     {
         if (($dataContainer->getCurrentRecord()['type'] ?? null) !== 'rateit') {

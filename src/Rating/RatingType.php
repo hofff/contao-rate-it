@@ -20,5 +20,5 @@ interface RatingType
 {
     public function name(): string;
 
-    public function sourceInformation(int $sourceId): ?SourceInformation;
+    public function sourceInformation(int $sourceId): SourceInformation|null;
 }

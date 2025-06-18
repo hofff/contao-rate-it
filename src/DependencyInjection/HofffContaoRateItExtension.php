@@ -20,23 +20,25 @@ use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItCommentsListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener;
+use Override;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
+use function array_filter;
+use function array_keys;
 use function in_array;
-use function var_dump;
 
 final class HofffContaoRateItExtension extends Extension
 {
     /** @param mixed[][] $configs */
-    #[\Override]
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config'),
         );
 
         $loader->load('services.xml');
@@ -61,8 +63,10 @@ final class HofffContaoRateItExtension extends Extension
             $container->removeDefinition(RateItNewsListener::class);
         }
 
-        if (! isset($bundles['ContaoCommentsBundle']) || ! in_array('comments', $types, true)) {
-            $container->removeDefinition(RateItCommentsListener::class);
+        if (isset($bundles['ContaoCommentsBundle']) && in_array('comments', $types, true)) {
+            return;
         }
+
+        $container->removeDefinition(RateItCommentsListener::class);
     }
 }

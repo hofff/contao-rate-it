@@ -5,6 +5,12 @@ phpcq:
     - src
   artifact: .phpcq/build
   plugins:
+    doctrine-coding-standard:
+      version: ^1.0
+      signed: false
+      requirements:
+        composer:
+          doctrine/coding-standard: ^13.0
     composer-normalize:
       version: ^1.0
       signed: false
@@ -74,7 +80,17 @@ tasks:
       exclude:
         - src/Rating/RatingService.php
         - src/Frontend/RateItFrontend.php
-  phpcbf:
+  phpcs:
     config:
-      fix: true
+      standard: ~
+    uses:
+      doctrine-coding-standard:
+        phpcs_standard: ignore
+  phpcbf:
     plugin: phpcs
+    config:
+      standard: ~
+      fix: true
+    uses:
+      doctrine-coding-standard:
+        phpcs_standard: ignore

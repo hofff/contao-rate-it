@@ -21,6 +21,7 @@ namespace Hofff\Contao\RateIt\Frontend;
 use Contao\FrontendTemplate;
 use Contao\Model;
 use Contao\Model\Collection;
+use Override;
 
 /** @psalm-suppress PropertyNotSetInConstructor */
 final class RateItRating extends RateItFrontend
@@ -37,7 +38,7 @@ final class RateItRating extends RateItFrontend
     /**
      * Compile
      */
-    #[\Override]
+    #[Override]
     protected function compile(): void
     {
         $this->loadLanguageFile('default');
@@ -63,9 +64,9 @@ final class RateItRating extends RateItFrontend
         $this->Template->maxRating     = $this->intStars;
         $this->Template->votes         = $rating['totalRatings'] ?? null;
 
-        if ($this->strTextPosition === "before") {
+        if ($this->strTextPosition === 'before') {
             $this->Template->showBefore = true;
-        } elseif ($this->strTextPosition === "after") {
+        } elseif ($this->strTextPosition === 'after') {
             $this->Template->showAfter = true;
         }
     }

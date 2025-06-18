@@ -1,17 +1,11 @@
 {
-  "receipts": ["projects/contao-bundle/common"],
+  "receipts": ["projects/contao-bundle/5.3"],
   "config": {
     "phpConstraint": "^8.3"
   },
   "tools": {
     "composer": {
-      "namespace": "Hofff\\Contao\\RateIt",
-      "constraints": {
-        "#^contao/.+-bundle$#": "^5.3",
-        "#^symfony/(?!polyfill-)[a-z0-9\\-]+(?<!-contracts)$#": "^6.4 || ^7.0",
-        "#^symfony/.*-contracts$#": "^3.0",
-        "#^psr/log$#": "^1.0 || ^2.0 || ^3.0"
-      }
+      "namespace": "Hofff\\Contao\\RateIt"
     },
     "psalm": {
       "configuration": {

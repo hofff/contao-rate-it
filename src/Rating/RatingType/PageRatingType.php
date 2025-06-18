@@ -17,16 +17,17 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\PageModel;
+use Override;
 
 final class PageRatingType extends BaseParentSourceRatingType
 {
-    #[\Override]
+    #[Override]
     public function name(): string
     {
         return 'page';
     }
 
-    #[\Override]
+    #[Override]
     protected function tableName(): string
     {
         return PageModel::getTable();

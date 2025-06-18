@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['addRating'] = [
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
-    'eval'      => ['tl_class' => 'w50 m12', 'submitOnChange' => true]
+    'eval'      => ['tl_class' => 'w50 m12', 'submitOnChange' => true],
 ];
 
 $GLOBALS['TL_DCA']['tl_page']['fields']['rateit_position'] = [
@@ -52,5 +52,5 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['rateit_position'] = [
     'options'   => ['after', 'before', 'custom'],
     'reference' => &$GLOBALS['TL_LANG']['tl_page'],
     'sql'       => "varchar(6) NOT NULL default ''",
-    'eval'      => ['mandatory' => true, 'tl_class' => 'w50']
+    'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
 ];

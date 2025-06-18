@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -18,6 +20,7 @@ namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\Model;
 use Contao\Model\Collection;
+use Override;
 
 /** @psalm-suppress PropertyNotSetInConstructor */
 final class RateItModule extends RateItHybrid
@@ -27,7 +30,7 @@ final class RateItModule extends RateItHybrid
         parent::__construct($objElement);
     }
 
-    #[\Override]
+    #[Override]
     protected function getType(): string
     {
         return 'module';

@@ -20,6 +20,7 @@ namespace Hofff\Contao\RateIt\Frontend;
 
 use Contao\Model;
 use Contao\Model\Collection;
+use Override;
 
 /** @psalm-suppress PropertyNotSetInConstructor */
 final class RateItCE extends RateItHybrid
@@ -29,7 +30,7 @@ final class RateItCE extends RateItHybrid
         parent::__construct($objElement);
     }
 
-    #[\Override]
+    #[Override]
     protected function getType(): string
     {
         return 'ce';

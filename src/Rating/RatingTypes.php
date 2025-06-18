@@ -16,20 +16,19 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating;
 
-use function array_filter;
 use function array_flip;
 use function array_keys;
-use function in_array;
 
 final class RatingTypes
 {
     /** @var RatingType[] */
-    private $ratingTypes = [];
+    private array $ratingTypes = [];
 
     /** @var string[] */
-    private $activeTypesNames;
+    private array $activeTypesNames;
 
     /**
+     * @param string[]     $activeTypesNames
      * @param RatingType[] $ratingTypes
      */
     public function __construct(array $activeTypesNames, iterable $ratingTypes = [])
@@ -55,7 +54,7 @@ final class RatingTypes
         return isset($this->ratingTypes[$type]);
     }
 
-    public function sourceInformation(string $type, int $sourceId): ?SourceInformation
+    public function sourceInformation(string $type, int $sourceId): SourceInformation|null
     {
         if (! $this->has($type)) {
             return null;
@@ -64,7 +63,7 @@ final class RatingTypes
         return $this->ratingTypes[$type]->sourceInformation($sourceId);
     }
 
-    /** @return string[] */
+    /** @return list<string> */
     public function activeTypeNames(): array
     {
         return array_keys($this->ratingTypes);

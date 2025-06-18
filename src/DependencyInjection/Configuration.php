@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\DependencyInjection;
 
+use Override;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -23,7 +24,7 @@ use function is_array;
 
 final class Configuration implements ConfigurationInterface
 {
-    #[\Override]
+    #[Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('hofff_contao_rate_it');
@@ -69,16 +70,16 @@ final class Configuration implements ConfigurationInterface
                         ->always()
                         ->then(
                             static function ($value) {
-                                if (!is_array($value)) {
+                                if (! is_array($value)) {
                                     return ['tl_news' => 'tl_news_archive'];
                                 }
 
-                                if (!isset($value['tl_news'])) {
+                                if (! isset($value['tl_news'])) {
                                     $value['tl_news'] = 'tl_news_archive';
                                 }
 
                                 return $value;
-                            }
+                            },
                         )
                     ->end()
                 ->end()

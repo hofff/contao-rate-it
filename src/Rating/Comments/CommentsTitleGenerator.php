@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\Comments;
 
 use Contao\Controller;
-use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\System;
 use Doctrine\DBAL\Connection;
@@ -74,9 +73,11 @@ final readonly class CommentsTitleGenerator
                 $row = $result->fetchAssociative();
                 foreach ($GLOBALS['TL_HOOKS']['listComments'] as $callback) {
                     $callback[0] = System::importStatic($callback[0]);
+                    $tmp         = $callback[0]->{$callback[1]}($row);
 
-                    if ($tmp = $callback[0]->{$callback[1]}($row)) {
+                    if ($tmp) {
                         $title .= $tmp;
+
                         break;
                     }
                 }
@@ -103,7 +104,7 @@ final readonly class CommentsTitleGenerator
 
     private function generateDefaultTitle(string $author, string $source, int $sourceId): string
     {
-        $title = $GLOBALS['TL_LANG']['MSC']['com_by'] . ' ' . $author . ' - ';
+        $title  = $GLOBALS['TL_LANG']['MSC']['com_by'] . ' ' . $author . ' - ';
         $title .= $GLOBALS['TL_LANG']['tl_comments'][$source] ?? $source;
         $title .= ' ' . ((string) $sourceId);
 

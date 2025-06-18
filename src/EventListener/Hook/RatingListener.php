@@ -28,11 +28,11 @@ abstract class RatingListener
     public function __construct(
         protected readonly RatingService $ratingService,
         private readonly TokenStorageInterface $tokenStorage,
-        private readonly ContaoFramework $framework
+        private readonly ContaoFramework $framework,
     ) {
     }
 
-    protected function getRating(string $type, int $ratingTypeId): ?array
+    protected function getRating(string $type, int $ratingTypeId): array|null
     {
         return $this->ratingService->getRating($type, $ratingTypeId, $this->getUserId());
     }
@@ -42,6 +42,7 @@ abstract class RatingListener
         return $this->framework->getAdapter(Config::class)->get('rating_template') ?: 'ratit_default';
     }
 
+    /** @param array<string, mixed> $data */
     protected function render(array $data): string
     {
         $template = new FrontendTemplate($this->getRatingTemplate());
@@ -50,10 +51,10 @@ abstract class RatingListener
         return $template->parse();
     }
 
-    private function getUserId(): ?int
+    private function getUserId(): int|null
     {
         $token = $this->tokenStorage->getToken();
-        if (!$token) {
+        if (! $token) {
             return null;
         }
 

@@ -28,7 +28,7 @@ final class RateItPageListener extends RatingListener
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function onGeneratePage(PageModel $pageModel, LayoutModel $layoutModel, PageRegular $pageHandler): void
     {
-        if (!$pageModel->addRating || $pageModel->rateit_position === 'custom') {
+        if (! $pageModel->addRating || $pageModel->rateit_position === 'custom') {
             return;
         }
 
@@ -41,7 +41,7 @@ final class RateItPageListener extends RatingListener
         $rating = $template->parse();
 
         if ($pageModel->rateit_position === 'after') {
-            $pageModel->Template->main = $pageModel->Template->main . $rating;
+            $pageModel->Template->main .= $rating;
         } else {
             $pageModel->Template->main = $rating . $pageModel->Template->main;
         }

@@ -23,11 +23,11 @@ use Contao\Backend;
 final class SettingsDcaListener
 {
     /**
-     * Return all navigation templates as array.
+     * Return all navigation templates as an array.
      *
-     * @return array
+     * @return array<array-key, string>
      */
-    public function getRateItTemplates()
+    public function getRateItTemplates(): array
     {
         return Backend::getTemplateGroup('rateit_');
     }

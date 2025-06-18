@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -21,9 +23,11 @@ use Contao\Model;
 use Contao\Model\Collection;
 use Contao\Template;
 use Hofff\Contao\RateIt\Rating\RatingService;
+use Override;
 
 use function assert;
 use function intval;
+use function round;
 
 /**
  * @property Template   $Template
@@ -37,7 +41,8 @@ class RateItFrontend extends Hybrid
     /** Primary key */
     protected string $strPk = 'id';
 
-    /** Template */
+    /** @var string */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
     protected $strTemplate = 'rateit_default';
 
     /** Anzahl der Herzen/Sterne */
@@ -67,7 +72,7 @@ class RateItFrontend extends Hybrid
         parent::__construct($objElement);
     }
 
-    #[\Override]
+    #[Override]
     public function generate(): string
     {
         $this->loadLanguageFile('default');
@@ -75,13 +80,14 @@ class RateItFrontend extends Hybrid
         if ($stars > 0) {
             $this->intStars = $stars;
         }
+
         $this->strTemplate     = $GLOBALS['TL_CONFIG']['rating_template'];
         $this->strTextPosition = $GLOBALS['TL_CONFIG']['rating_textposition'];
 
         return parent::generate();
     }
 
-    #[\Override]
+    #[Override]
     protected function compile(): void
     {
     }

@@ -50,7 +50,7 @@ final class RateItArticleListener extends RatingListener
 
     private function doArticleList(Template $template): void
     {
-        if (!$template->rateit_active) {
+        if (! $template->rateit_active) {
             return;
         }
 

@@ -19,6 +19,9 @@ namespace Hofff\Contao\RateIt\Rating\RatingType;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\RatingType;
 use Hofff\Contao\RateIt\Rating\SourceInformation;
+use Override;
+
+use function sprintf;
 
 abstract class BaseRatingType implements RatingType
 {
@@ -26,8 +29,8 @@ abstract class BaseRatingType implements RatingType
     {
     }
 
-    #[\Override]
-    public function sourceInformation(int $sourceId): ?SourceInformation
+    #[Override]
+    public function sourceInformation(int $sourceId): SourceInformation|null
     {
         $record = $this->loadRecord($sourceId);
         if ($record === null) {
@@ -37,16 +40,17 @@ abstract class BaseRatingType implements RatingType
         return new SourceInformation(
             $this->generateTitle($record),
             $this->determineActiveState($record),
-            $this->determineParentStatus($record)
+            $this->determineParentStatus($record),
         );
     }
 
+    /** @param array<string, mixed> $record */
     protected function determineParentStatus(array $record): string
     {
         return $this->determineParentPublishedState($record) ? 'a' : 'i';
     }
 
-    protected function loadRecord(int $sourceId): ?array
+    protected function loadRecord(int $sourceId): array|null
     {
         $statement = $this->connection->prepare(sprintf('SELECT * FROM %s WHERE id=? LIMIT 0,1', $this->tableName()));
         $result    = $statement->executeQuery([$sourceId]);
@@ -60,9 +64,12 @@ abstract class BaseRatingType implements RatingType
 
     abstract protected function tableName(): string;
 
+    /** @param array<string, mixed> $record */
     abstract protected function generateTitle(array $record): string;
 
+    /** @param array<string, mixed> $record */
     abstract protected function determineActiveState(array $record): bool;
 
+    /** @param array<string, mixed> $record */
     abstract protected function determineParentPublishedState(array $record): bool;
 }

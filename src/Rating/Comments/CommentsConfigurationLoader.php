@@ -20,14 +20,16 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model;
 
 use function class_exists;
+use function is_subclass_of;
 
 final readonly class CommentsConfigurationLoader
 {
+    /** @param array<string, string> $supportedSources */
     public function __construct(private ContaoFramework $framework, private array $supportedSources)
     {
     }
 
-    public function load(string $source, int $parent, bool $checkSupported = true): ?Model
+    public function load(string $source, int $parent, bool $checkSupported = true): Model|null
     {
         if ($checkSupported && ! isset($this->supportedSources[$source])) {
             return null;
@@ -36,11 +38,10 @@ final readonly class CommentsConfigurationLoader
         $this->framework->initialize();
 
         $modelClass = Model::getClassFromTable($source);
-        if (! class_exists($modelClass)) {
+        if (! class_exists($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
             return null;
         }
 
-        /** @var Model $modelClass */
         $parentRecord = $modelClass::findByPk($parent);
         if (! $parentRecord) {
             return null;
@@ -60,7 +61,7 @@ final readonly class CommentsConfigurationLoader
         return $this->load(
             $GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'],
             (int) $parentRecord->pid,
-            false
+            false,
         );
     }
 }

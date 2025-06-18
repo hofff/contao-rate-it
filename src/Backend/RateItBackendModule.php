@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of hofff/contao-rate-it.
  *
@@ -24,9 +26,23 @@ use Contao\Input;
 use Contao\System;
 use Contao\Template;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
+use Override;
 use stdClass;
 
+use function array_reverse;
+use function count;
+use function explode;
 use function is_array;
+use function is_numeric;
+use function json_encode;
+use function preg_replace;
+use function round;
+use function sprintf;
+use function str_replace;
+use function strip_tags;
+use function strlen;
+use function strstr;
+use function trim;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -38,8 +54,11 @@ use const JSON_THROW_ON_ERROR;
  */
 final class RateItBackendModule extends BackendModule
 {
+    /** @var string */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
     protected $strTemplate;
 
+    /** @var list<array{0: string, 1: string, 2: string}> */
     protected array $actions = [
         //    act[0]            strTemplate                 compiler
         ['', 'rateitbe_ratinglist', 'listRatings'],
@@ -50,10 +69,13 @@ final class RateItBackendModule extends BackendModule
     protected stdClass $rateit;
 
     private string $compiler;
-    private string $action = '';
+    private string $action    = '';
     private string $parameter = '';
 
+    /** @var array<string, string> */
     private array $exportHeader;
+
+    /** @var array<string, string> */
     private array $exportHeaderDetails;
 
     /** Anzahl der Herzen/Sterne */
@@ -83,12 +105,11 @@ final class RateItBackendModule extends BackendModule
      * Generate module:
      * - Display a wildcard in the back end
      * - Select the template and compiler in the front end
-     * @return string
      */
-    #[\Override]
+    #[Override]
     public function generate(): string
     {
-        $this->rateit           = new \stdClass();
+        $this->rateit           = new stdClass();
         $this->rateit->username = $this->BackendUser->username;
         $this->rateit->isadmin  = $this->BackendUser->isAdmin;
 
@@ -119,7 +140,7 @@ final class RateItBackendModule extends BackendModule
     /**
      * Compile module: common initializations and forwarding to distinct function compiler
      */
-    #[\Override]
+    #[Override]
     protected function compile(): void
     {
         // hide module?
@@ -151,20 +172,20 @@ final class RateItBackendModule extends BackendModule
         $rateit->f_page = 0;
 
         // returning from submit?
-        if ($this->filterPost('rateit_action') == $rateit->f_action) {
+        if ($this->filterPost('rateit_action') === $rateit->f_action) {
             // get url parameters
             /** @psalm-suppress PossiblyInvalidCast */
-            $rateit->f_typ          = trim((string) Input::post('rateit_typ'));
+            $rateit->f_typ = trim((string) Input::post('rateit_typ'));
             /** @psalm-suppress PossiblyInvalidCast */
-            $rateit->f_active       = trim((string) Input::post('rateit_active'));
+            $rateit->f_active = trim((string) Input::post('rateit_active'));
             /** @psalm-suppress PossiblyInvalidCast */
             $rateit->f_parentstatus = trim((string) Input::post('rateit_parentstatus'));
             /** @psalm-suppress PossiblyInvalidCast */
-            $rateit->f_order        = trim((string) Input::post('rateit_order'));
+            $rateit->f_order = trim((string) Input::post('rateit_order'));
             /** @psalm-suppress PossiblyInvalidCast */
-            $rateit->f_page         = trim((string) Input::post('rateit_page'));
+            $rateit->f_page = trim((string) Input::post('rateit_page'));
             /** @psalm-suppress PossiblyInvalidCast */
-            $rateit->f_find         = trim((string) Input::post('rateit_find'));
+            $rateit->f_find = trim((string) Input::post('rateit_find'));
             $this->Session->set(
                 'rateit_settings',
                 [
@@ -172,8 +193,8 @@ final class RateItBackendModule extends BackendModule
                     'rateit_parentstatus' => $rateit->f_parentstatus,
                     'rateit_order'        => $rateit->f_order,
                     'rateit_page'         => $rateit->f_page,
-                    'rateit_find'         => $rateit->f_find
-                ]
+                    'rateit_find'         => $rateit->f_find,
+                ],
             );
         } else {
             $stg = $this->Session->get('rateit_settings');
@@ -187,14 +208,16 @@ final class RateItBackendModule extends BackendModule
             } // if
         } // if
 
-        if ($rateit->f_order == '') {
+        if ($rateit->f_order === '') {
             $rateit->f_order = 'rating';
         }
+
         //if (!isset($rateit->f_active)) $rateit->f_active = '-1';
 
         if (isset($GLOBALS['TL_CONFIG']['rating_listsize'])) {
-            $perpage = (int)trim((string) $GLOBALS['TL_CONFIG']['rating_listsize']);
+            $perpage = (int) trim((string) $GLOBALS['TL_CONFIG']['rating_listsize']);
         }
+
         if (! isset($perpage) || $perpage < 0) {
             $perpage = 10;
         }
@@ -204,16 +227,20 @@ final class RateItBackendModule extends BackendModule
             $options['first'] = (int) $rateit->f_page * $perpage;
             $options['limit'] = $perpage;
         } // if
-        if ($rateit->f_typ != '') {
+
+        if ($rateit->f_typ !== '') {
             $options['typ'] = $rateit->f_typ;
         }
-        if ($rateit->f_active != '') {
-            $options['active'] = $rateit->f_active == '0' ? '' : $rateit->f_active;
+
+        if ($rateit->f_active !== '') {
+            $options['active'] = $rateit->f_active === '0' ? '' : $rateit->f_active;
         }
-        if ($rateit->f_parentstatus != '') {
+
+        if ($rateit->f_parentstatus !== '') {
             $options['parentstatus'] = $rateit->f_parentstatus;
         }
-        if ($rateit->f_find != '') {
+
+        if ($rateit->f_find !== '') {
             $options['find'] = $rateit->f_find;
         }
 
@@ -226,7 +253,7 @@ final class RateItBackendModule extends BackendModule
 
         // query extensions
         $rateit->ratingitems = $this->getRatingItems($options);
-        if ($rateit->f_page >= 0 && $perpage > 0 && count($rateit->ratingitems) == 0) {
+        if ($rateit->f_page >= 0 && $perpage > 0 && count($rateit->ratingitems) === 0) {
             $rateit->f_page      = 0;
             $options['first']    = 0;
             $rateit->ratingitems = $this->getRatingItems($options);
@@ -246,8 +273,8 @@ final class RateItBackendModule extends BackendModule
             while ($totrecs > 0) {
                 $cnt             = $totrecs > $perpage ? $perpage : $totrecs;
                 $rateit->pages[] = $first . ' - ' . ($first + $cnt - 1);
-                $first           += $cnt;
-                $totrecs         -= $cnt;
+                $first          += $cnt;
+                $totrecs        -= $cnt;
             }
         }
 
@@ -264,13 +291,13 @@ final class RateItBackendModule extends BackendModule
         $rateit->f_page = 0;
 
         // returning from submit?
-        if ($this->filterPost('rateit_action') == $rateit->f_action) {
+        if ($this->filterPost('rateit_action') === $rateit->f_action) {
             // get url parameters
             /** @psalm-suppress PossiblyInvalidCast */
             $rateit->f_page = trim((string) Input::post('rateit_details_page'));
             $this->Session->set(
                 'rateit_settings',
-                ['rateit_details_page' => $rateit->f_page]
+                ['rateit_details_page' => $rateit->f_page],
             );
         } else {
             $stg = $this->Session->get('rateit_settings');
@@ -299,13 +326,14 @@ final class RateItBackendModule extends BackendModule
         $typ = Input::get('typ');
 
         // compose base options
-        $options = ['rkey' => $rkey, 'typ'  => $typ];
+        $options = ['rkey' => $rkey, 'typ' => $typ];
 
         $this->rateit->f_link = $this->createUrl(['act' => 'view', 'rkey' => $rkey, 'typ' => $typ]);
 
         if (isset($GLOBALS['TL_CONFIG']['rating_listsize'])) {
-            $perpage = (int)trim((string) $GLOBALS['TL_CONFIG']['rating_listsize']);
+            $perpage = (int) trim((string) $GLOBALS['TL_CONFIG']['rating_listsize']);
         }
+
         if (! isset($perpage) || $perpage < 0) {
             $perpage = 10;
         }
@@ -319,10 +347,11 @@ final class RateItBackendModule extends BackendModule
         if (count($rateit->ratingitems) < 1) {
             $this->redirect($rateit->homeLink);
         }
+
         $ext = $rateit->ratingitems[0];
 
         $ext->ratings = $this->getRatings($ext, $options);
-        if ($rateit->f_page >= 0 && $perpage > 0 && count($ext->ratings) == 0) {
+        if ($rateit->f_page >= 0 && $perpage > 0 && count($ext->ratings) === 0) {
             $rateit->f_page   = 0;
             $options['first'] = 0;
             $rateit->ratings  = $this->getRatings($ext, $options);
@@ -341,14 +370,16 @@ final class RateItBackendModule extends BackendModule
             while ($totrecs > 0) {
                 $cnt             = $totrecs > $perpage ? $perpage : $totrecs;
                 $rateit->pages[] = $first . ' - ' . ($first + $cnt - 1);
-                $first           += $cnt;
-                $totrecs         -= $cnt;
+                $first          += $cnt;
+                $totrecs        -= $cnt;
             }
         }
 
-        $ext->statistics       = $this->getRatingStatistics((int) $ext->item_id);
+        $ext->statistics = $this->getRatingStatistics((int) $ext->item_id);
+        /** @psalm-suppress ArgumentTypeCoercion */
         $ext->ratingsChartData = $this->getRatingsChartData($ext->statistics);
-        $ext->monthsChartData  = $this->getMonthsChartData($ext->item_id);
+        /** @psalm-suppress ArgumentTypeCoercion */
+        $ext->monthsChartData = $this->getMonthsChartData($ext->item_id);
     }
 
     protected function resetRatings(): void
@@ -369,7 +400,7 @@ final class RateItBackendModule extends BackendModule
             return;
         }
 
-        $removeParent = Input::post('rateit_action') == 'removeratings';
+        $removeParent = Input::post('rateit_action') === 'removeratings';
 
         foreach ($ids0 as $id) {
             [$rkey, $typ] = explode('__', (string) $id);
@@ -408,6 +439,7 @@ final class RateItBackendModule extends BackendModule
         $ids0 = Input::post('selectedids');
         if (! is_array($ids0)) {
             self::redirect($rateit->homeLink);
+
             return;
         }
 
@@ -440,7 +472,7 @@ final class RateItBackendModule extends BackendModule
     /**
      * Create url for hyperlink to the current page.
      *
-     * @param array $params Associative array with key/value pairs as parameters.
+     * @param array<string, mixed> $params Associative array with key/value pairs as parameters.
      *
      * @return string The create link.
      */
@@ -453,8 +485,8 @@ final class RateItBackendModule extends BackendModule
     /**
      * Create url for hyperlink to an arbitrary page.
      *
-     * @param string $module The backend module ID.
-     * @param array  $params Associative array with key/value pairs as parameters.
+     * @param string               $module The backend module ID.
+     * @param array<string, mixed> $params Associative array with key/value pairs as parameters.
      *
      * @return string The create link.
      */
@@ -468,11 +500,11 @@ final class RateItBackendModule extends BackendModule
     /**
      * Get the post-parameter and filter the value.
      *
-     * @param string $aKey    The post-key. When filtering html, remove all attribs and
-     *                        keep the plain tags.
-     * @param string $aMode   '': no filtering
-     *                        'nohtml': strip all html
-     *                        'text': Keep tags p br ul li em
+     * @param string $aKey  The post-key. When filtering html, remove all attribs and
+     *                      keep the plain tags.
+     * @param string $aMode '': no filtering
+     *                      'nohtml': strip all html
+     *                      'text': Keep tags p br ul li em
      *
      * @return mixed The filtered input.
      */
@@ -480,7 +512,7 @@ final class RateItBackendModule extends BackendModule
     {
         /** @psalm-suppress PossiblyInvalidCast $value */
         $value = trim((string) Input::postRaw($aKey));
-        if ($value == '' || $aMode == '') {
+        if ($value === '' || $aMode === '') {
             return $value;
         }
 
@@ -494,9 +526,14 @@ final class RateItBackendModule extends BackendModule
         return (string) preg_replace('/<(\w+) .*>/U', '<$1>', $value);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return list<object>
+     */
     protected function getRatingItems(array $options, bool $noLimit = false): array
     {
-        $sql = "SELECT i.id as item_id,
+        $sql = 'SELECT i.id as item_id,
 				i.rkey AS rkey,
 				i.title as title,
 				i.typ as typ,
@@ -511,47 +548,52 @@ final class RateItBackendModule extends BackendModule
 				%w
 				GROUP BY rkey, title, item_id, typ, createdat, active, parentstatus
 				%o
-				%l";
+				%l';
 
-        $cntSql = "SELECT COUNT(*) FROM tl_rateit_items i %s";
+        $cntSql = 'SELECT COUNT(*) FROM tl_rateit_items i %s';
 
         $where      = '';
         $firstWhere = true;
         $limit      = '';
         $order      = '';
+        $params     = [];
 
         foreach ($options as $k => $v) {
-            if ($k == 'find') {
+            if ($k === 'find') {
                 if (! $firstWhere) {
-                    $where .= " AND";
+                    $where .= ' AND';
                 }
-                $where      .= " title like '%$v%'";
+
+                $where     .= ' title like ?';
+                $params[]   = '%' . $v . '%s';
                 $firstWhere = false;
-            } elseif ($k != 'order' && $k != 'limit' && $k != 'first') {
+            } elseif ($k !== 'order' && $k !== 'limit' && $k !== 'first') {
                 if (! $firstWhere) {
-                    $where .= " AND";
+                    $where .= ' AND';
                 }
-                $where      .= " $k='$v'";
+
+                $where     .= sprintf(' %s=?', $k);
+                $params[]   = $v;
                 $firstWhere = false;
             } else {
-                if ($k == 'limit' && ! $noLimit) {
+                if ($k === 'limit' && ! $noLimit) {
                     $cntRows = $v;
-                } elseif ($k == 'first' && ! $noLimit) {
+                } elseif ($k === 'first' && ! $noLimit) {
                     $first = $v;
                 }
             }
         }
 
         if (isset($cntRows) && isset($first)) {
-            $limit = "LIMIT $first, $cntRows";
+            $limit = sprintf('LIMIT %s, %s', $first, $cntRows);
         }
 
         if (strlen($where) > 0) {
-            $where = "WHERE " . $where;
+            $where = 'WHERE ' . $where;
         }
 
         if (isset($options['order']) && ! empty($options['order'])) {
-            $order = "ORDER BY " . $options['order'];
+            $order = 'ORDER BY ' . $options['order'];
         }
 
         $sql = str_replace('%o', $order, $sql);
@@ -559,12 +601,14 @@ final class RateItBackendModule extends BackendModule
         $sql = str_replace('%l', $limit, $sql);
 
         $cntSql = str_replace('%s', $where, $cntSql);
-        $count  = (int) $this->Database->query($cntSql)->fetchField();
+        /** @psalm-suppress TooManyArguments */
+        $count = (int) $this->Database->prepare($cntSql)->execute($params)->fetchField();
 
-        $arrRatingItems = $this->Database->query($sql)->fetchAllAssoc();
+        /** @psalm-suppress TooManyArguments */
+        $arrRatingItems = $this->Database->prepare($sql)->execute($params)->fetchAllAssoc();
         $arrReturn      = [];
         foreach ($arrRatingItems as $rating) {
-            if ($rating['active'] != '1') {
+            if ($rating['active'] !== '1') {
                 $rating['active'] = '0';
             }
 
@@ -572,39 +616,46 @@ final class RateItBackendModule extends BackendModule
             $rating['rating']   = $this->percentToStars((float) $rating['percent']);
             $rating['stars']    = $this->intStars;
             $rating['totcount'] = $count;
-            $arrReturn[]        = (object)$rating;
+            $arrReturn[]        = (object) $rating;
         }
 
         return $arrReturn;
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return list<object>
+     */
     protected function getRatings(stdClass $ext, array $options = []): array
     {
         // Gesamtanzahl (für Paging wichtig) ermitteln
-        $cntSql = "SELECT COUNT(*) FROM tl_rateit_ratings r WHERE r.pid=$ext->item_id";
-        $count  = (int) $this->Database->prepare($cntSql)
-            ->execute()
+        $cntSql = 'SELECT COUNT(*) FROM tl_rateit_ratings r WHERE r.pid=?';
+        /** @psalm-suppress TooManyArguments */
+        $count = (int) $this->Database->prepare($cntSql)
+            ->execute($ext->item_id)
             ->fetchField();
 
         foreach ($options as $k => $v) {
-            if ($k == 'limit') {
+            if ($k === 'limit') {
                 $cntRows = $v;
-            } elseif ($k == 'first') {
+            } elseif ($k === 'first') {
                 $first = $v;
             }
         }
 
-        $sql = "SELECT id AS rating_id, session_id, memberid, rating, createdat
-		FROM tl_rateit_ratings r
-		WHERE r.pid=$ext->item_id
-		ORDER BY createdat DESC";
+        $sql = 'SELECT id AS rating_id, session_id, memberid, rating, createdat
+            FROM tl_rateit_ratings r
+            WHERE r.pid=?
+            ORDER BY createdat DESC';
 
         if (isset($cntRows) && isset($first)) {
-            $sql .= "\n LIMIT $first, $cntRows";
+            $sql .= sprintf("\n LIMIT %s, %s", $first, $cntRows);
         }
 
+        /** @psalm-suppress TooManyArguments */
         $arrRatings = $this->Database->prepare($sql)
-            ->execute()
+            ->execute($ext->item_id)
             ->fetchAllAssoc();
         $arrReturn  = [];
         foreach ($arrRatings as $rating) {
@@ -612,28 +663,31 @@ final class RateItBackendModule extends BackendModule
             $rating['rating']   = $this->percentToStars((float) $rating['percent']);
             $rating['stars']    = $this->intStars;
             $rating['totcount'] = $count;
-            if ($rating['memberid'] != null) {
+            if ($rating['memberid'] !== null) {
                 /** @psalm-suppress TooManyArguments */
-                $member = $this->Database->prepare('SELECT firstname, lastname FROM tl_member WHERE id=?')
+                $member           = $this->Database->prepare('SELECT firstname, lastname FROM tl_member WHERE id=?')
                     ->limit(1)
                     ->execute($rating['memberid'])
                     ->fetchAssoc();
                 $rating['member'] = $member
-                    ? ($member['firstname'] . " " . $member['lastname'])
+                    ? ($member['firstname'] . ' ' . $member['lastname'])
                     : 'ID ' . $rating['memberid'];
             }
-            $arrReturn[] = (object)$rating;
+
+            $arrReturn[] = (object) $rating;
         }
+
         return $arrReturn;
     }
 
+    /** @return array<array-key, object> */
     protected function getRatingStatistics(int $itemId): array
     {
-        $sql = "SELECT rating, count(*) as count
+        $sql = 'SELECT rating, count(*) as count
 		FROM tl_rateit_ratings r
 		WHERE r.pid=?
 		GROUP BY rating
-		ORDER BY rating";
+		ORDER BY rating';
 
         /** @psalm-suppress TooManyArguments */
         $arrRatingStatistics = $this->Database->prepare($sql)
@@ -643,11 +697,13 @@ final class RateItBackendModule extends BackendModule
         foreach ($arrRatingStatistics as $rating) {
             $rating['percent']             = $rating['rating'];
             $rating['rating']              = $this->percentToStars((float) $rating['percent']);
-            $arrReturn[$rating['percent']] = (object)$rating;
+            $arrReturn[$rating['percent']] = (object) $rating;
         }
+
         return $arrReturn;
     }
 
+    /** @param list<object> $statistics */
     protected function getRatingsChartData(array $statistics): string
     {
         $arr         = [];
@@ -658,24 +714,24 @@ final class RateItBackendModule extends BackendModule
         $arr['cols'][] = [
             'id' => 'rating',
             'label' => $GLOBALS['TL_LANG']['tl_rateit']['rating_chart_legend'][2],
-            'type' => 'string'
+            'type' => 'string',
         ];
         $arr['cols'][] = [
             'id' => 'count',
             'label' => $GLOBALS['TL_LANG']['tl_rateit']['rating_chart_legend'][3],
-            'type' => 'number'
+            'type' => 'number',
         ];
 
         // Zeilen anlegen
         foreach ($statistics as $obj) {
             $arr['rows'][] = [
                 'c' => [
-                    ['v' => $obj->rating . ' ' . ($obj->rating == 1 ? $this->label : $this->labels)],
+                    ['v' => $obj->rating . ' ' . ($obj->rating === 1 ? $this->label : $this->labels)],
                     [
-                        'v' => (int)$obj->count,
-                        'f' => $obj->count . ' ' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][$obj->count == 1 ? 0 : 1]
-                    ]
-                ]
+                        'v' => (int) $obj->count,
+                        'f' => $obj->count . ' ' . $GLOBALS['TL_LANG']['tl_rateit']['vote'][$obj->count === 1 ? 0 : 1],
+                    ],
+                ],
             ];
         }
 
@@ -684,20 +740,20 @@ final class RateItBackendModule extends BackendModule
 
     protected function getMonthsChartData(int $itemId): string
     {
-
-        $sql = "SELECT 
+        $sql = 'SELECT 
             count(*) AS anzahl, 
             avg(rating) AS bewertung, 
             month(date(FROM_UNIXTIME(createdat))) AS monat, 
             year(date(FROM_UNIXTIME(createdat))) AS jahr
-		FROM tl_rateit_ratings r
-		WHERE r.pid=$itemId
-		GROUP BY monat, jahr
-		ORDER BY jahr DESC , monat DESC
-		LIMIT 0 , 12";
+            FROM tl_rateit_ratings r
+            WHERE r.pid=?
+            GROUP BY monat, jahr
+            ORDER BY jahr DESC , monat DESC
+            LIMIT 0 , 12';
 
+        /** @psalm-suppress TooManyArguments */
         $arrResult = $this->Database->prepare($sql)
-            ->execute()
+            ->execute($itemId)
             ->fetchAllAssoc();
 
         $arrResult = array_reverse($arrResult);
@@ -712,34 +768,42 @@ final class RateItBackendModule extends BackendModule
         $arr['cols'][] = [
             'id' => 'month',
             'label' => $GLOBALS['TL_LANG']['tl_rateit']['month_chart_legend'][3],
-            'type' => 'string'
+            'type' => 'string',
         ];
         $arr['cols'][] = [
             'id' => 'count',
             'label' => $GLOBALS['TL_LANG']['tl_rateit']['month_chart_legend'][4],
-            'type' => 'number'
+            'type' => 'number',
         ];
         $arr['cols'][] = [
             'id' => 'avg',
             'label' => $GLOBALS['TL_LANG']['tl_rateit']['month_chart_legend'][2],
-            'type' => 'number'
+            'type' => 'number',
         ];
 
         // Zeilen anlegen
         foreach ($arrResult as $result) {
             $month         = $GLOBALS['TL_LANG']['MONTHS'][$result['monat'] - 1] . ' ' . $result['jahr'];
-            $avgValue      = round((float)(($result['bewertung'] * $this->intStars) / 100), 1);
-            $arr['rows'][] = ['c' => [['v' => $month], ['v' => (int)$result['anzahl']], ['v' => $avgValue]]];
+            $avgValue      = round((float) ($result['bewertung'] * $this->intStars / 100), 1);
+            $arr['rows'][] = ['c' => [['v' => $month], ['v' => (int) $result['anzahl']], ['v' => $avgValue]]];
         }
+
         return json_encode($arr, JSON_THROW_ON_ERROR);
     }
 
     protected function percentToStars(float $percent): float
     {
         $modifier = (float) (100 / $this->intStars);
+
         return round($percent / $modifier, 1);
     }
 
+    /**
+     * @return list<string>
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     */
     private function getUsedTypes(): array
     {
         return $this->Database

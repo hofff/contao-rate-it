@@ -20,47 +20,51 @@ use Contao\CommentsModel;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
+use Override;
 
 final class CommentsRatingType extends BaseRatingType
 {
     public function __construct(
         Connection $connection,
         private readonly CommentsConfigurationLoader $configurationLoader,
-        private readonly CommentsTitleGenerator $titleGenerator
+        private readonly CommentsTitleGenerator $titleGenerator,
     ) {
         parent::__construct($connection);
     }
 
-    #[\Override]
+    #[Override]
     public function name(): string
     {
         return 'comments';
     }
 
-    #[\Override]
+    /** {@inheritDoc} */
+    #[Override]
     public function determineActiveState(array $record): bool
     {
         $configuration = $this->configurationLoader->load($record['source'], $record['parent']);
-        if (!$configuration) {
+        if (! $configuration) {
             return false;
         }
 
         return (bool) $configuration->addCommentsRating;
     }
 
-    #[\Override]
+    /** {@inheritDoc} */
+    #[Override]
     public function generateTitle(array $record): string
     {
         return $this->titleGenerator->generate($record['name'], $record['source'], (int) $record['parent']);
     }
 
-    #[\Override]
+    #[Override]
     protected function tableName(): string
     {
         return CommentsModel::getTable();
     }
 
-    #[\Override]
+    /** {@inheritDoc} */
+    #[Override]
     protected function determineParentPublishedState(array $record): bool
     {
         return (bool) $record['published'];

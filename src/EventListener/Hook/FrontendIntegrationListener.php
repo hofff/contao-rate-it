@@ -21,6 +21,8 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Hofff\Contao\RateIt\Frontend\RateItCE;
 use Hofff\Contao\RateIt\Frontend\RateItModule;
 
+use function in_array;
+
 #[AsHook('initializeSystem')]
 final readonly class FrontendIntegrationListener
 {
@@ -35,8 +37,10 @@ final readonly class FrontendIntegrationListener
             $GLOBALS['TL_CTE']['includes']['rateit'] = RateItCE::class;
         }
 
-        if (in_array('module', $this->activeItems, true)) {
-            $GLOBALS['FE_MOD']['application']['rateit'] = RateItModule::class;
+        if (! in_array('module', $this->activeItems, true)) {
+            return;
         }
+
+        $GLOBALS['FE_MOD']['application']['rateit'] = RateItModule::class;
     }
 }

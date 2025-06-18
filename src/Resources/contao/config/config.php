@@ -34,7 +34,7 @@ ArrayUtil::arrayInsert(
             'stylesheet' => RateItBackend::css('backend'),
             'javascript' => RateItBackend::javascript('RateItBackend'),
         ],
-    ]
+    ],
 );
 
 /*

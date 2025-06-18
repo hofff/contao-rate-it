@@ -27,6 +27,11 @@ use Contao\NewsModel;
 use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
+use Override;
+use stdClass;
+
+use function implode;
+use function intval;
 
 /**
  * @property string|int $rateit_count
@@ -37,17 +42,18 @@ use Contao\System;
  */
 final class RateItTopRatingsModule extends RateItFrontend
 {
+    /** @var list<string> $types */
     private array $types = [];
 
     public function __construct(Model|Collection|null $objElement = null)
     {
         parent::__construct($objElement);
 
-        $this->strKey = "rateit_top_ratings";
+        $this->strKey = 'rateit_top_ratings';
     }
 
     /** Display a wildcard in the back end */
-    #[\Override]
+    #[Override]
     public function generate(): string
     {
         if (self::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest()) {
@@ -64,6 +70,7 @@ final class RateItTopRatingsModule extends RateItFrontend
 
         $this->strTemplate = $this->rateit_template;
 
+        /** @psalm-suppress PropertyTypeCoercion */
         $this->types = (array) StringUtil::deserialize($this->rateit_types, true);
 
         return parent::generate();
@@ -72,14 +79,14 @@ final class RateItTopRatingsModule extends RateItFrontend
     /**
      * Generate the module/content element
      */
-    #[\Override]
+    #[Override]
     protected function compile(): void
     {
         $this->Template = new FrontendTemplate($this->strTemplate);
 
         $this->Template->setData($this->arrData);
 
-        $this->import("\\Database", "Database");
+        $this->import('\\Database', 'Database');
         $arrResult = $this->Database->prepare("SELECT i.id AS item_id,
 				i.rkey AS rkey,
 				i.title AS title,
@@ -94,14 +101,14 @@ final class RateItTopRatingsModule extends RateItFrontend
 			WHERE
 				typ IN ('" . implode("', '", $this->types) . "')
 			GROUP BY rkey, title, item_id, typ, createdat, active
-			ORDER BY " . $this->rateit_toptype . " DESC")
+			ORDER BY " . $this->rateit_toptype . ' DESC')
             ->limit((int) $this->rateit_count)
             ->execute()
             ->fetchAllAssoc();
 
         $objReturn = [];
         foreach ($arrResult as $result) {
-            $return        = new \stdClass();
+            $return        = new stdClass();
             $return->title = $result['title'];
             $return->typ   = $result['typ'];
 
@@ -130,6 +137,7 @@ final class RateItTopRatingsModule extends RateItFrontend
         $this->Template->arrRatings = $objReturn;
     }
 
+    /** @param array<string, mixed> $rating */
     private function getUrl(array $rating): string|null
     {
         $model = match ($rating['typ']) {

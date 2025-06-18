@@ -30,7 +30,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use function explode;
 use function in_array;
+use function is_numeric;
+use function str_contains;
+use function time;
 
 final class AjaxRateItController
 {
@@ -42,7 +46,7 @@ final class AjaxRateItController
         private readonly ContaoFramework $framework,
         private readonly RatingService $ratingService,
         private readonly IsUserAllowedToRate $isUserAllowedToRate,
-        private readonly array $ratingTypes
+        private readonly array $ratingTypes,
     ) {
     }
 
@@ -54,24 +58,15 @@ final class AjaxRateItController
     }
 
     /**
-     * doVote
-     *
      * This is the function in charge of handling a vote and saving it to the
      * database.
-     *
-     * NOTE: This method is meant to be called as part of an AJAX request.  As
-     * such, it unitlizes the die() function to display its errors.  THIS
-     * WOULD BE A VERY BAD FUNCTION TO CALL FROM WITHIN ANOTHER PAGE.
-     *
-     * @param integer id      - The id of key to register a rating for.
-     * @param integer percent - The rating in percentages.
      */
     public function doVote(Request $request): Response
     {
-        $rkey     = (string) $request->request->get('id');
-        $percent  = $request->request->get('vote');
-        $type     = $request->request->get('type');
-        $itemId   = null;
+        $rkey    = (string) $request->request->get('id');
+        $percent = $request->request->get('vote');
+        $type    = $request->request->get('type');
+        $itemId  = null;
 
         //Make sure that the ratable ID is a number and not something crazy.
         if (str_contains($rkey, '|')) {
@@ -80,46 +75,47 @@ final class AjaxRateItController
                 if (! is_numeric($key)) {
                     return new Response(
                         $this->translator->trans('rateit.error.invalid_rating', [], 'contao_default'),
-                        400
+                        400,
                     );
                 }
+
                 $itemId = $rkey;
             }
         } else {
-            if (is_numeric($rkey)) {
-                $itemId = $rkey;
-            } else {
+            if (! is_numeric($rkey)) {
                 return new JsonResponse(
                     [
                         'title' => $this->translator->trans('rateit.error.invalid_rating', [], 'contao_default'),
-                        'status' => 400
+                        'status' => 400,
                     ],
-                    400
+                    400,
                 );
             }
+
+            $itemId = $rkey;
         }
 
         //Make sure the percent is a number and under 100.
-        if (is_numeric($percent) && $percent < 101) {
-            $rating = $percent;
-        } else {
+        if (! is_numeric($percent) || $percent >= 101) {
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.invalid_rating', [], 'contao_default'),
-                    'status' => 400
+                    'status' => 400,
                 ],
-                400
+                400,
             );
         }
+
+        $rating = $percent;
 
         //Make sure that the ratable type is supported
         if (! in_array($type, $this->ratingTypes, true)) {
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.invalid_type', [], 'contao_default'),
-                    'status' => 400
+                    'status' => 400,
                 ],
-                400
+                400,
             );
         }
 
@@ -131,32 +127,33 @@ final class AjaxRateItController
             return new JsonResponse(
                 [
                     'title' => $this->translator->trans('rateit.error.duplicate_vote', [], 'contao_default'),
-                    'status' => 400
+                    'status' => 400,
                 ],
-                400
+                400,
             );
         }
 
         $this->connection->insert(
             'tl_rateit_ratings',
-            ['pid'        => $ratableKeyId,
-             'tstamp'     => time(),
-             'session_id' => (string) $sessionId,
-             'memberid'   => $userId,
-             'rating'     => $rating,
-             'createdat'  => time(),
-            ]
+            [
+                'pid'        => $ratableKeyId,
+                'tstamp'     => time(),
+                'session_id' => (string) $sessionId,
+                'memberid'   => $userId,
+                'rating'     => $rating,
+                'createdat'  => time(),
+            ],
         );
 
         return new JsonResponse(
             [
                 'status' => 200,
                 'data'   => $this->ratingService->getRatingWithSuccessMessage($type, (int) $itemId, $userId),
-            ]
+            ],
         );
     }
 
-    private function determineUserId(): ?int
+    private function determineUserId(): int|null
     {
         $token = $this->tokenStorage->getToken();
         if (! $token) {

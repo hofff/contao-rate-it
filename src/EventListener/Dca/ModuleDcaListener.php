@@ -42,11 +42,13 @@ final class ModuleDcaListener extends BaseDcaListener
             ->applyToPalette('default', 'tl_module');
     }
 
+    /** @return array<array-key, string> */
     public function getRateItTopModuleTemplates(): array
     {
         return Backend::getTemplateGroup('mod_rateit_top');
     }
 
+    /** @return list<string> */
     public function typeOptions(): array
     {
         return $this->ratingTypes->activeTypeNames();

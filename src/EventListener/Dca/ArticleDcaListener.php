@@ -19,7 +19,6 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\DataContainer;
 
 final class ArticleDcaListener extends BaseDcaListener
 {
