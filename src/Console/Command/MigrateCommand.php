@@ -32,7 +32,9 @@ use function time;
 
 final class MigrateCommand extends Command
 {
-    protected static string $defaultName = 'hofff-rate-it:migrate';
+    /** @var string */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+    protected static $defaultName = 'hofff-rate-it:migrate';
 
     public function __construct(private readonly Connection $connection, private readonly RatingTypes $ratingTypes)
     {
