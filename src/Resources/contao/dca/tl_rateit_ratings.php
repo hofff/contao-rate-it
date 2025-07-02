@@ -16,12 +16,11 @@
 
 declare(strict_types=1);
 
-/**
- * Table tl_rateit_items
- */
+use Contao\DC_Table;
+
 $GLOBALS['TL_DCA']['tl_rateit_ratings'] = [
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'ptable'        => 'tl_rateit_items',
         'switchToEdit'  => false,
         'sql'           => [
