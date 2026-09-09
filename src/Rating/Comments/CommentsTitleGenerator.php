@@ -62,10 +62,11 @@ final readonly class CommentsTitleGenerator
                     return $title;
                 }
 
-                $statement = $this->connection
-                    ->prepare('SELECT * FROM tl_comments WHERE source=? AND parent=? LIMIT  0,1');
+                $result = $this->connection->executeQuery(
+                    'SELECT * FROM tl_comments WHERE source=? AND parent=? LIMIT  0,1',
+                    [$source, $sourceId],
+                );
 
-                $result = $statement->executeQuery([$source, $sourceId]);
                 if ($result->rowCount() === 0) {
                     return $title;
                 }
@@ -85,7 +86,8 @@ final readonly class CommentsTitleGenerator
                 return $title;
         }
 
-        $result = $statement->executeQuery([$sourceId]);
+        $statement->bindValue(1, $sourceId);
+        $result = $statement->executeQuery();
         if ($result->rowCount() === 1) {
             $title .= ' - ' . $result->fetchOne();
         }
@@ -117,8 +119,10 @@ final readonly class CommentsTitleGenerator
             return;
         }
 
-        $statement = $this->connection->prepare('SELECT ptable,pid FROM tl_content WHERE id=:id LIMIT 0,1');
-        $result    = $statement->executeQuery(['id' => $sourceId]);
+        $result = $this->connection->executeQuery(
+            'SELECT ptable,pid FROM tl_content WHERE id=:id LIMIT 0,1',
+            ['id' => $sourceId],
+        );
 
         if ($result->rowCount() === 0) {
             return;

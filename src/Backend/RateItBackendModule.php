@@ -120,8 +120,7 @@ final class RateItBackendModule extends BackendModule
 
         foreach ($this->actions as $action) {
             if ($act === $action[0]) {
-                /** @psalm-suppress PossiblyInvalidCast */
-                $this->parameter   = (string) $act;
+                $this->parameter   = $act;
                 $this->action      = $action[0];
                 $this->strTemplate = $action[1];
                 $this->compiler    = $action[2];

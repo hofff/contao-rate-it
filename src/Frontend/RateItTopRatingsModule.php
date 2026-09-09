@@ -71,7 +71,7 @@ final class RateItTopRatingsModule extends RateItFrontend
         $this->strTemplate = $this->rateit_template;
 
         /** @psalm-suppress PropertyTypeCoercion */
-        $this->types = (array) StringUtil::deserialize($this->rateit_types, true);
+        $this->types = StringUtil::deserialize($this->rateit_types, true);
 
         return parent::generate();
     }
