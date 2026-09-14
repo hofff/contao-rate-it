@@ -42,6 +42,10 @@ services:
         arguments:
             - '@security.token_storage'
 
+    Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName:
+        arguments:
+            - '@contao.framework'
+
     # Comments related services
     Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader:
         arguments:
