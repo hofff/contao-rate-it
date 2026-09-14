@@ -1,7 +1,7 @@
 <!-- indexer::stop -->
 {% set ratingSchema = {
-    '@context': 'https://schema.org',
     '@type': 'CreativeWork',
+    'identifier': id|default(''),
     'name': itemreviewed|default(''),
     'aggregateRating': {
         '@type': 'AggregateRating',
@@ -14,7 +14,7 @@
 {% if url|default %}
     {% set ratingSchema = ratingSchema|merge({ 'url': url }) %}
 {% endif %}
-<script type="application/ld+json">{{ ratingSchema|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT'))|raw }}</script>
+{% do add_schema_org(ratingSchema) %}
 <div id="{{ id|default('') }}" class="hofff-rate-it {{ (class ~ ' ' ~ rateit_class|default(''))|trim }} block"{{ cssID|default|raw }}>
     {% if showBefore|default(false) %}
         <div class="hofff-rate-it-message">{{ description|default('')|raw }}</div>

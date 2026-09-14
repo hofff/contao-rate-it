@@ -8,7 +8,7 @@
 - Port the `rateit_default` and `mod_rateit_top_ratings` templates from legacy PHP templates to Twig
 - Replace `Contao\Database` usage in the top-ratings module query with `Doctrine\DBAL\Connection`
 - Extract `DetermineCurrentUserId` and `DetermineRatingTemplateName` shared services, used by both the new Fragment controllers and the existing `RatingListener`-based hooks
-- Replace the `rateit_default` template's schema.org microdata (`itemprop`/`itemscope`/`itemtype` attributes) with an equivalent JSON-LD `<script type="application/ld+json">` block (`CreativeWork` with a nested `AggregateRating`)
+- Replace the `rateit_default` template's schema.org microdata (`itemprop`/`itemscope`/`itemtype` attributes) with JSON-LD, registered via Contao's own `add_schema_org()` Twig function (`CreativeWork` with a nested `AggregateRating`, keyed by a per-widget `identifier` so multiple ratings on one page don't collide) instead of a hand-rolled inline `<script>` tag
 
 ### Upgrade notes
 
