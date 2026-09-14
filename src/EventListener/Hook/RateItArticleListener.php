@@ -20,8 +20,10 @@ namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\ArticleModel;
 use Contao\Config;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Template;
 
+#[AsHook('parseTemplate')]
 final class RateItArticleListener extends RatingListener
 {
     public function onParseTemplate(Template $template): void

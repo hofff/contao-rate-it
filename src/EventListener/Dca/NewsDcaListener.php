@@ -19,22 +19,22 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 
+#[AsCallback(table: 'tl_news', target: 'config.onsubmit', method: 'onSubmit')]
+#[AsCallback(table: 'tl_news', target: 'config.ondelete', method: 'onDelete')]
+#[AsCallback(table: 'tl_news', target: 'config.onrestore_version', method: 'onRestore')]
+#[AsCallback(table: 'tl_news', target: 'config.onundo', method: 'onUndo')]
 final class NewsDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'news';
 
+    #[AsCallback(table: 'tl_news', target: 'config.onload')]
     public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
         }
-
-        $dca = &$GLOBALS['TL_DCA']['tl_news'];
-
-        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
-        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
-        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
 
         PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)

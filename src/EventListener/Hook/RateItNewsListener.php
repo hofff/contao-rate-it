@@ -18,9 +18,11 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\ModuleNews;
 use Contao\Template;
 
+#[AsHook('parseArticles')]
 final class RateItNewsListener extends RatingListener
 {
     /** @param array<string, mixed> $newsArticle */

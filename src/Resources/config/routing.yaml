@@ -1,0 +1,7 @@
+hofff.contao_rate_it_ajax:
+    path: /rateit
+    methods: [POST]
+    controller: Hofff\Contao\RateIt\Controller\AjaxRateItController
+    defaults:
+        _scope: frontend
+        _token_check: false

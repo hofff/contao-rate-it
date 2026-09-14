@@ -16,8 +16,6 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\SettingsDcaListener;
-
 /**
  * palettes
  */
@@ -76,7 +74,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_template'] = [
     'default'          => 'rateit_default',
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => [SettingsDcaListener::class, 'getRateItTemplates'],
     'eval'             => ['mandatory' => true, 'tl_class' => 'w50'],
 ];
 

@@ -48,11 +48,11 @@ final class Plugin implements BundlePluginInterface, RoutingPluginInterface
     #[Override]
     public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): RouteCollection|null
     {
-        $loader = $resolver->resolve(__DIR__ . '/../Resources/config/routing.xml');
+        $loader = $resolver->resolve(__DIR__ . '/../Resources/config/routing.yaml');
         if ($loader === false) {
             return null;
         }
 
-        return $loader->load(__DIR__ . '/../Resources/config/routing.xml');
+        return $loader->load(__DIR__ . '/../Resources/config/routing.yaml');
     }
 }

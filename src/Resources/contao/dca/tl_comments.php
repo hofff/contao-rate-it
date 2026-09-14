@@ -13,8 +13,3 @@
  */
 
 declare(strict_types=1);
-
-use Hofff\Contao\RateIt\EventListener\Dca\CommentsDcaListener;
-
-$GLOBALS['TL_DCA']['tl_comments']['config']['onload_callback'][] = [CommentsDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_comments']['config']['onundo_callback'][] = [CommentsDcaListener::class, 'onUndo'];

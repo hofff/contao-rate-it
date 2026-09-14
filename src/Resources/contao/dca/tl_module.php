@@ -16,11 +16,6 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener;
-
-$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [ModuleDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_module']['config']['onundo_callback'][] = [ModuleDcaListener::class, 'onRestore'];
-
 /**
  * palettes
  */
@@ -58,7 +53,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_types'] = [
     'label'            => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'exclude'          => true,
     'inputType'        => 'checkboxWizard',
-    'options_callback' => [ModuleDcaListener::class, 'typeOptions'],
     'eval'             => ['multiple' => true, 'mandatory' => true],
     'reference'        => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'sql'              => "varchar(255) NOT NULL default ''",
@@ -89,7 +83,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_template'] = [
     'default'          => 'mod_rateit_top_ratings',
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => [ModuleDcaListener::class, 'getRateItTopModuleTemplates'],
     'eval'             => ['mandatory' => true, 'tl_class' => 'w50'],
     'sql'              => "varchar(255) NOT NULL default ''",
 ];

@@ -53,6 +53,10 @@ abstract class BaseDcaListener
 
     public function onDelete(DataContainer $dataContainer): void
     {
+        if (! $this->isActive()) {
+            return;
+        }
+
         $this->markRatingItemAsDeleted((int) $dataContainer->id);
     }
 

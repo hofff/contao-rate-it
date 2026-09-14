@@ -14,13 +14,9 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\NewsArchiveDcaListener;
-
 /**
  * Extend tl_article
  */
-
-$GLOBALS['TL_DCA']['tl_news_archive']['config']['onload_callback'][] = [NewsArchiveDcaListener::class, 'onLoad'];
 
 /**
  * Palettes

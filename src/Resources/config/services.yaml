@@ -1,0 +1,95 @@
+services:
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: false
+
+    # Controllers
+    Hofff\Contao\RateIt\Controller\AjaxRateItController:
+        public: true
+        arguments:
+            - '@database_connection'
+            - '@security.token_storage'
+            - '@translator'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
+            - '%hofff.contao_rate_it.types%'
+
+    # Commands
+    Hofff\Contao\RateIt\Console\Command\MigrateCommand:
+        arguments:
+            - '@database_connection'
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+        tags:
+            - console.command
+
+    # RatingService
+    Hofff\Contao\RateIt\Rating\RatingService:
+        public: true
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
+
+    # Queries
+    Hofff\Contao\RateIt\Rating\IsUserAllowedToRate:
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+
+    # Comments related services
+    Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader:
+        arguments:
+            - '@contao.framework'
+            - '%hofff.contao_rate_it.comment_sources%'
+
+    Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator:
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+
+    # Rating types
+    Hofff\Contao\RateIt\Rating\RatingTypes:
+        public: true
+        arguments:
+            - '%hofff.contao_rate_it.types%'
+            - !tagged_iterator hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\ArticleRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\CeRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\CommentsRatingType:
+        arguments:
+            - '@database_connection'
+            - '@Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader'
+            - '@Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\ModuleRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\NewsRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\PageRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type

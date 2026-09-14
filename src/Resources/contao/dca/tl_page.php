@@ -16,14 +16,9 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
-
 /**
  * Extend tl_page
  */
-
-$GLOBALS['TL_DCA']['tl_page']['config']['onload_callback'][] = [PageDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_page']['config']['onundo_callback'][] = [PageDcaListener::class, 'onUndo'];
 
 /**
  * Palettes

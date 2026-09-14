@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Template;
 use Doctrine\DBAL\Connection;
@@ -28,6 +29,7 @@ use function str_starts_with;
 use function substr;
 use function time;
 
+#[AsHook('parseTemplate')]
 final class RateItCommentsListener extends RatingListener
 {
     public function __construct(

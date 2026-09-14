@@ -17,11 +17,13 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 
 final class NewsArchiveDcaListener extends BaseDcaListener
 {
     protected static string $typeName = 'comments';
 
+    #[AsCallback(table: 'tl_news_archive', target: 'config.onload')]
     public function onLoad(): void
     {
         if (! $this->isActive()) {

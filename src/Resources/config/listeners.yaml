@@ -1,0 +1,74 @@
+services:
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: false
+
+    # Hook listeners
+    Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener:
+        arguments:
+            - '%hofff.contao_rate_it.types%'
+
+    Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@security.token_storage'
+            - '@contao.framework'
+
+    Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@security.token_storage'
+            - '@contao.framework'
+
+    Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@security.token_storage'
+            - '@contao.framework'
+
+    Hofff\Contao\RateIt\EventListener\Hook\RateItCommentsListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@security.token_storage'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader'
+            - '@Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator'
+            - '@database_connection'
+
+    Hofff\Contao\RateIt\EventListener\Hook\PageRatingInsertTagListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@security.token_storage'
+            - '@contao.framework'
+
+    # Dca listeners
+    Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\Dca\ArticleDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\Dca\ContentDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\Dca\NewsArchiveDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\Dca\SettingsDcaListener: ~
+
+    Hofff\Contao\RateIt\EventListener\Dca\CommentsDcaListener:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'

@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 
 final class SettingsDcaListener
 {
@@ -27,6 +28,7 @@ final class SettingsDcaListener
      *
      * @return array<array-key, string>
      */
+    #[AsCallback(table: 'tl_settings', target: 'fields.rating_template.options')]
     public function getRateItTemplates(): array
     {
         return Backend::getTemplateGroup('rateit_');

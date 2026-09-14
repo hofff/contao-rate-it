@@ -18,11 +18,13 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\FrontendTemplate;
 use Contao\LayoutModel;
 use Contao\PageModel;
 use Contao\PageRegular;
 
+#[AsHook('generatePage')]
 final class RateItPageListener extends RatingListener
 {
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */

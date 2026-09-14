@@ -16,10 +16,6 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\ArticleDcaListener;
-
-$GLOBALS['TL_DCA']['tl_article']['config']['onload_callback'][] = [ArticleDcaListener::class, 'onLoad'];
-
 /**
  * Palettes
  */
