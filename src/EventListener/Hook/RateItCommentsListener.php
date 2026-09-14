@@ -17,13 +17,13 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Template;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
+use Hofff\Contao\RateIt\Rating\DetermineCurrentUserId;
+use Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName;
 use Hofff\Contao\RateIt\Rating\RatingService;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use function str_starts_with;
 use function substr;
@@ -34,13 +34,13 @@ final class RateItCommentsListener extends RatingListener
 {
     public function __construct(
         RatingService $ratingService,
-        TokenStorageInterface $tokenStorage,
-        ContaoFramework $framework,
+        DetermineCurrentUserId $determineCurrentUserId,
+        DetermineRatingTemplateName $determineRatingTemplateName,
         private readonly CommentsConfigurationLoader $configurationLoader,
         private readonly CommentsTitleGenerator $titleGenerator,
         private readonly Connection $connection,
     ) {
-        parent::__construct($ratingService, $tokenStorage, $framework);
+        parent::__construct($ratingService, $determineCurrentUserId, $determineRatingTemplateName);
     }
 
     public function onParseTemplate(Template $template): void

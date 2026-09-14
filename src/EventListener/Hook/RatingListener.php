@@ -16,30 +16,28 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\FrontendTemplate;
-use Contao\FrontendUser;
+use Hofff\Contao\RateIt\Rating\DetermineCurrentUserId;
+use Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName;
 use Hofff\Contao\RateIt\Rating\RatingService;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 abstract class RatingListener
 {
     public function __construct(
         protected readonly RatingService $ratingService,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly ContaoFramework $framework,
+        private readonly DetermineCurrentUserId $determineCurrentUserId,
+        private readonly DetermineRatingTemplateName $determineRatingTemplateName,
     ) {
     }
 
     protected function getRating(string $type, int $ratingTypeId): array|null
     {
-        return $this->ratingService->getRating($type, $ratingTypeId, $this->getUserId());
+        return $this->ratingService->getRating($type, $ratingTypeId, ($this->determineCurrentUserId)());
     }
 
     protected function getRatingTemplate(): string
     {
-        return $this->framework->getAdapter(Config::class)->get('rating_template') ?: 'ratit_default';
+        return ($this->determineRatingTemplateName)();
     }
 
     /** @param array<string, mixed> $data */
@@ -49,20 +47,5 @@ abstract class RatingListener
         $template->setData($data);
 
         return $template->parse();
-    }
-
-    private function getUserId(): int|null
-    {
-        $token = $this->tokenStorage->getToken();
-        if (! $token) {
-            return null;
-        }
-
-        $user = $token->getUser();
-        if ($user instanceof FrontendUser && $user->id) {
-            return $user->id;
-        }
-
-        return null;
     }
 }
