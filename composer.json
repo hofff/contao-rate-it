@@ -49,7 +49,8 @@
     "contao/comments-bundle": "^5.3",
     "contao/manager-plugin": "^2.1",
     "contao/news-bundle": "^5.3",
-    "phpcq/runner-bootstrap": "@dev"
+    "phpcq/runner-bootstrap": "@dev",
+    "phpunit/phpunit": "^11.0"
   },
   "conflict": {
     "cgo-it/contao-rate-it": "*",
@@ -60,6 +61,11 @@
   "autoload": {
     "psr-4": {
       "Hofff\\Contao\\RateIt\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Hofff\\Contao\\RateIt\\Test\\": "tests/"
     }
   },
   "config": {
@@ -82,5 +88,8 @@
       ]
     },
     "contao-manager-plugin": "Hofff\\Contao\\RateIt\\ContaoManager\\Plugin"
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }
