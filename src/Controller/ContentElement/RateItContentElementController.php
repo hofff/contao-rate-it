@@ -32,6 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[AsContentElement('rateit', category: 'includes')]
 final class RateItContentElementController extends AbstractContentElementController
 {
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     public function __construct(
         private readonly RatingService $ratingService,
         private readonly DetermineCurrentUserId $determineCurrentUserId,
@@ -40,8 +41,12 @@ final class RateItContentElementController extends AbstractContentElementControl
     }
 
     #[Override]
-    public function __invoke(Request $request, ContentModel $model, string $section, array|null $classes = null): Response
-    {
+    public function __invoke(
+        Request $request,
+        ContentModel $model,
+        string $section,
+        array|null $classes = null,
+    ): Response {
         if ($this->isBackendScope($request)) {
             return $this->render('@Contao/be_wildcard.html.twig', ['wildcard' => '### Rate IT ###']);
         }
@@ -63,12 +68,15 @@ final class RateItContentElementController extends AbstractContentElementControl
         return $this->getResponse($template, $model, $request);
     }
 
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     #[Override]
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
         $rating = $this->ratingService->getRating('ce', (int) $model->id, ($this->determineCurrentUserId)());
 
         if ($rating !== null) {
+            $rating['rateit_class'] = $rating['class'];
+            unset($rating['class']);
             $template->setData([...$template->getData(), ...$rating]);
         }
 

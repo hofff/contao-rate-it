@@ -45,6 +45,7 @@ final class RateItModuleControllerTest extends TestCase
         $method = new ReflectionMethod($controller, 'getResponse');
         $response = $method->invoke($controller, $template, $model, new Request());
 
-        self::assertSame('class', $response->getContent());
+        self::assertSame('class,rateit_class', $response->getContent());
+        self::assertSame('rateItRating', $template->getData()['rateit_class']);
     }
 }

@@ -9,6 +9,12 @@
 - Replace `Contao\Database` usage in the top-ratings module query with `Doctrine\DBAL\Connection`
 - Extract `DetermineCurrentUserId` and `DetermineRatingTemplateName` shared services, used by both the new Fragment controllers and the existing `RatingListener`-based hooks
 
+### Upgrade notes
+
+- The `mod_rateit_top_ratings` template's loop variable was renamed from `arrRatings` to `ratings`. If your project has a copy of this template selected via the `tl_module.rateit_template` picker, update it to match.
+- The `rateit_top_ratings` module moved from a `$GLOBALS['FE_MOD']` registration to a Symfony DI-tagged Fragment controller. Clear the container cache after upgrading.
+- Content-element/module type gating (`hofff_contao_rate_it.types.ce`/`.module`) now happens at container-compile time instead of via a runtime hook. Toggling it requires a container rebuild, not just a page reload.
+
 ### Fixed
 
 - The backend wildcard for the `rateit` content element no longer points its edit link at `tl_module` (a pre-existing bug; the link is dropped rather than replaced with another potentially-wrong link, since a content element's edit link depends on its dynamic parent module)

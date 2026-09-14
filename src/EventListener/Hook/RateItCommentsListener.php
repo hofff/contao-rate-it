@@ -32,6 +32,7 @@ use function time;
 #[AsHook('parseTemplate')]
 final class RateItCommentsListener extends RatingListener
 {
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     public function __construct(
         RatingService $ratingService,
         DetermineCurrentUserId $determineCurrentUserId,

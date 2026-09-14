@@ -39,6 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
 use function array_fill;
 use function count;
 use function implode;
+use function max;
 use function sprintf;
 
 #[AsFrontendModule('rateit_top_ratings', category: 'application')]
@@ -53,8 +54,12 @@ final class RateItTopRatingsModuleController extends AbstractFrontendModuleContr
     }
 
     #[Override]
-    public function __invoke(Request $request, ModuleModel $model, string $section, array|null $classes = null): Response
-    {
+    public function __invoke(
+        Request $request,
+        ModuleModel $model,
+        string $section,
+        array|null $classes = null,
+    ): Response {
         if ($this->isBackendScope($request)) {
             return $this->getBackendWildcard($model);
         }
@@ -74,13 +79,14 @@ final class RateItTopRatingsModuleController extends AbstractFrontendModuleContr
         return $this->getResponse($template, $model, $request);
     }
 
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     #[Override]
     protected function getResponse(FragmentTemplate $template, ModuleModel $model, Request $request): Response
     {
         $types       = StringUtil::deserialize($model->rateit_types, true);
         $orderColumn = $model->rateit_toptype === 'most' ? 'most' : 'best';
 
-        $template->set('ratings', $this->fetchRatings($types, $orderColumn, (int) $model->rateit_count));
+        $template->set('ratings', $this->fetchRatings($types, $orderColumn, max(1, (int) $model->rateit_count)));
 
         return $template->getResponse();
     }

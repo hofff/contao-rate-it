@@ -37,7 +37,11 @@ use function time;
 
 final class AjaxRateItController
 {
-    /** @param string[] $ratingTypes */
+    /**
+     * @param string[] $ratingTypes
+     *
+     * @SuppressWarnings(PHPMD.LongVariable)
+     */
     public function __construct(
         private readonly Connection $connection,
         private readonly TranslatorInterface $translator,

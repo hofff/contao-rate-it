@@ -23,6 +23,7 @@ use Hofff\Contao\RateIt\Rating\RatingService;
 
 abstract class RatingListener
 {
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     public function __construct(
         protected readonly RatingService $ratingService,
         private readonly DetermineCurrentUserId $determineCurrentUserId,

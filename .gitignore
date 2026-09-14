@@ -9,3 +9,7 @@
 /.phpcq
 /.phpcq.yaml
 /.phpcs-cache
+
+# PHPUnit
+/.phpunit.cache
+/phpunit.xml

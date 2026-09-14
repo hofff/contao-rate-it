@@ -1,31 +1,31 @@
 <!-- indexer::stop -->
-<div id="{{ id }}" class="hofff-rate-it {{ (class ~ ' ' ~ rateit_class|default(''))|trim }} block" itemtype="http://schema.org/CreativeWork" itemscope{{ cssID|default|raw }}>
-    <meta itemprop="name" content="{{ itemreviewed|raw }}">
-    {% if showBefore %}
-        <div class="hofff-rate-it-message">{{ description|raw }}</div>
+<div id="{{ id|default('') }}" class="hofff-rate-it {{ (class ~ ' ' ~ rateit_class|default(''))|trim }} block" itemtype="http://schema.org/CreativeWork" itemscope{{ cssID|default|raw }}>
+    <meta itemprop="name" content="{{ itemreviewed|default('')|raw }}">
+    {% if showBefore|default(false) %}
+        <div class="hofff-rate-it-message">{{ description|default('')|raw }}</div>
     {% endif %}
-    <div class="hofff-rate-it-widget hofff-rate-it-disabled{% if votes == 0 %} hofff-rate-it-unrated{% endif %}"
-         data-rating="{{ actRating }}"
-         data-max="{{ maxRating }}"
-         data-enabled="{{ enabled ? 'true' : 'false' }}"
-         data-id="{{ ratingId }}"
-         data-type="{{ ratingType }}"
+    <div class="hofff-rate-it-widget hofff-rate-it-disabled{% if votes|default(0) == 0 %} hofff-rate-it-unrated{% endif %}"
+         data-rating="{{ actRating|default(0) }}"
+         data-max="{{ maxRating|default(0) }}"
+         data-enabled="{{ enabled|default(false) ? 'true' : 'false' }}"
+         data-id="{{ ratingId|default(0) }}"
+         data-type="{{ ratingType|default('') }}"
     >
         <i class="hofff-rate-it-icon-rated fas fa-star"></i>
         <i class="hofff-rate-it-icon-unrated far fa-star"></i>
         <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
     </div>
-    {% if showAfter %}
-        <div class="hofff-rate-it-message">{{ description|raw }}</div>
+    {% if showAfter|default(false) %}
+        <div class="hofff-rate-it-message">{{ description|default('')|raw }}</div>
     {% endif %}
     <span class="rating-microdata" itemtype="http://schema.org/AggregateRating" itemscope itemprop="aggregateRating">
-        <meta itemprop="ratingValue" content="{{ actRating }}">
+        <meta itemprop="ratingValue" content="{{ actRating|default(0) }}">
         <meta itemprop="worstRating" content="0">
-        <meta itemprop="bestRating" content="{{ maxRating }}">
-        <meta itemprop="ratingCount" content="{{ votes }}">
+        <meta itemprop="bestRating" content="{{ maxRating|default(0) }}">
+        <meta itemprop="ratingCount" content="{{ votes|default(0) }}">
         {% if url|default %}
         <span itemprop="itemReviewed" itemtype="https://schema.org/CreativeWork" itemscope>
-            <meta itemprop="name" content="{{ itemreviewed|raw }}"/>
+            <meta itemprop="name" content="{{ itemreviewed|default('')|raw }}"/>
         </span>
         {% endif %}
     </span>

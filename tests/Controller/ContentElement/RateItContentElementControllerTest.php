@@ -45,7 +45,8 @@ final class RateItContentElementControllerTest extends TestCase
         $method = new ReflectionMethod($controller, 'getResponse');
         $response = $method->invoke($controller, $template, $model, new Request());
 
-        self::assertSame('class,cssID,actRating', $response->getContent());
+        self::assertSame('class,cssID,actRating,rateit_class', $response->getContent());
+        self::assertSame('rateItRating', $template->getData()['rateit_class']);
     }
 
     public function testDoesNotTouchTemplateDataWhenNoRatingExists(): void
