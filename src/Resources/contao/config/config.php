@@ -19,7 +19,6 @@ declare(strict_types=1);
 use Contao\ArrayUtil;
 use Hofff\Contao\RateIt\Backend\RateItBackend;
 use Hofff\Contao\RateIt\Backend\RateItBackendModule;
-use Hofff\Contao\RateIt\Frontend\RateItTopRatingsModule;
 
 /*
  * Back end modules
@@ -36,11 +35,6 @@ ArrayUtil::arrayInsert(
         ],
     ],
 );
-
-/*
- * frontend moduls
- */
-$GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = RateItTopRatingsModule::class;
 
 /*
  * Default configuration

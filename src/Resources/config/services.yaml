@@ -46,6 +46,13 @@ services:
             - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
             - '@Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName'
 
+    Hofff\Contao\RateIt\Controller\FrontendModule\RateItTopRatingsModuleController:
+        arguments:
+            - '@database_connection'
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@contao.framework'
+            - '@contao.routing.content_url_generator'
+
     # Queries
     Hofff\Contao\RateIt\Rating\IsUserAllowedToRate:
         arguments:
