@@ -49,6 +49,7 @@
     "contao/comments-bundle": "^5.3",
     "contao/manager-plugin": "^2.1",
     "contao/news-bundle": "^5.3",
+    "dg/bypass-finals": "^1.11",
     "phpcq/runner-bootstrap": "@dev",
     "phpunit/phpunit": "^11.0"
   },

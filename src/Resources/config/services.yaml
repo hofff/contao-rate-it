@@ -32,6 +32,20 @@ services:
             - '@contao.framework'
             - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
 
+    # Content elements
+    Hofff\Contao\RateIt\Controller\ContentElement\RateItContentElementController:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
+            - '@Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName'
+
+    # Frontend modules
+    Hofff\Contao\RateIt\Controller\FrontendModule\RateItModuleController:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
+            - '@Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName'
+
     # Queries
     Hofff\Contao\RateIt\Rating\IsUserAllowedToRate:
         arguments:

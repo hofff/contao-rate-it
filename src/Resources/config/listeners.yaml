@@ -5,10 +5,6 @@ services:
         autowire: false
 
     # Hook listeners
-    Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener:
-        arguments:
-            - '%hofff.contao_rate_it.types%'
-
     Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener:
         arguments:
             - '@Hofff\Contao\RateIt\Rating\RatingService'

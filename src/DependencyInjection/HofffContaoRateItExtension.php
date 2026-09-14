@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\DependencyInjection;
 
+use Hofff\Contao\RateIt\Controller\ContentElement\RateItContentElementController;
+use Hofff\Contao\RateIt\Controller\FrontendModule\RateItModuleController;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItCommentsListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
@@ -57,6 +59,14 @@ final class HofffContaoRateItExtension extends Extension
 
         if (! in_array('article', $types, true)) {
             $container->removeDefinition(RateItArticleListener::class);
+        }
+
+        if (! in_array('ce', $types, true)) {
+            $container->removeDefinition(RateItContentElementController::class);
+        }
+
+        if (! in_array('module', $types, true)) {
+            $container->removeDefinition(RateItModuleController::class);
         }
 
         if (! isset($bundles['ContaoNewsBundle']) || ! in_array('news', $types, true)) {
