@@ -82,7 +82,6 @@ tasks:
     config:
       exclude:
         - src/Rating/RatingService.php
-        - src/Frontend/RateItFrontend.php
   phpcs:
     config:
       standard: ~

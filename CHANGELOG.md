@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Changed
+
+- Replace the legacy `Contao\Module`/`Contao\Hybrid`-based `RateItModule`, `RateItCE` and `RateItTopRatingsModule` with Contao 5 Fragment controllers (`#[AsContentElement]`/`#[AsFrontendModule]`)
+- Port the `rateit_default` and `mod_rateit_top_ratings` templates from legacy PHP templates to Twig
+- Replace `Contao\Database` usage in the top-ratings module query with `Doctrine\DBAL\Connection`
+- Extract `DetermineCurrentUserId` and `DetermineRatingTemplateName` shared services, used by both the new Fragment controllers and the existing `RatingListener`-based hooks
+
+### Fixed
+
+- The backend wildcard for the `rateit` content element no longer points its edit link at `tl_module` (a pre-existing bug; the link is dropped rather than replaced with another potentially-wrong link, since a content element's edit link depends on its dynamic parent module)
+- `RatingListener`'s rating-template fallback no longer resolves to the non-existent `ratit_default` (typo); it now consistently falls back to `rateit_default`
+
 ## [0.4.2] (2022-12-21)
 
 ### Fixed

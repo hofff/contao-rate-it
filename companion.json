@@ -31,7 +31,7 @@
           "tasks": {
             "phpcpd": {
               "config": {
-                "exclude": ["src/Rating/RatingService.php", "src/Frontend/RateItFrontend.php"]
+                "exclude": ["src/Rating/RatingService.php"]
               }
             }
           }
