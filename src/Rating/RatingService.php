@@ -89,6 +89,8 @@ SQL;
             return null;
         }
 
+        $GLOBALS['TL_JAVASCRIPT']['rateit'] = 'bundles/hofffcontaorateit/js/script.js|static';
+
         $stars     = $this->percentToStars((float) $rating['rating']);
         $maxStars  = $this->maxStars();
         $sessionId = new CurrentUserId();
@@ -182,7 +184,7 @@ SQL;
         return (string) preg_replace('/^(.*)(\[.*\])(.*)$/i', sprintf('\1%s\3', $label), $description);
     }
 
-    private function percentToStars(float $rating): float
+    public function percentToStars(float $rating): float
     {
         $modifier = (float) (100 / $this->maxStars());
 
