@@ -19,15 +19,14 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Controller;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\FrontendUser;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\CurrentUserId;
+use Hofff\Contao\RateIt\Rating\DetermineCurrentUserId;
 use Hofff\Contao\RateIt\Rating\IsUserAllowedToRate;
 use Hofff\Contao\RateIt\Rating\RatingService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function explode;
@@ -41,11 +40,11 @@ final class AjaxRateItController
     /** @param string[] $ratingTypes */
     public function __construct(
         private readonly Connection $connection,
-        private readonly TokenStorageInterface $tokenStorage,
         private readonly TranslatorInterface $translator,
         private readonly ContaoFramework $framework,
         private readonly RatingService $ratingService,
         private readonly IsUserAllowedToRate $isUserAllowedToRate,
+        private readonly DetermineCurrentUserId $determineCurrentUserId,
         private readonly array $ratingTypes,
     ) {
     }
@@ -119,7 +118,7 @@ final class AjaxRateItController
             );
         }
 
-        $userId       = $this->determineUserId();
+        $userId       = ($this->determineCurrentUserId)();
         $ratableKeyId = $this->getRateableKeyId((int) $itemId, $type);
         $sessionId    = new CurrentUserId();
 
@@ -151,21 +150,6 @@ final class AjaxRateItController
                 'data'   => $this->ratingService->getRatingWithSuccessMessage($type, (int) $itemId, $userId),
             ],
         );
-    }
-
-    private function determineUserId(): int|null
-    {
-        $token = $this->tokenStorage->getToken();
-        if (! $token) {
-            return null;
-        }
-
-        $user = $token->getUser();
-        if ($user instanceof FrontendUser) {
-            return $user->id;
-        }
-
-        return null;
     }
 
     protected function getRateableKeyId(int $itemId, string $type): int

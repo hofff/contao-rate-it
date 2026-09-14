@@ -9,11 +9,11 @@ services:
         public: true
         arguments:
             - '@database_connection'
-            - '@security.token_storage'
             - '@translator'
             - '@contao.framework'
             - '@Hofff\Contao\RateIt\Rating\RatingService'
             - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
+            - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
             - '%hofff.contao_rate_it.types%'
 
     # Commands
@@ -37,6 +37,10 @@ services:
         arguments:
             - '@database_connection'
             - '@contao.framework'
+
+    Hofff\Contao\RateIt\Rating\DetermineCurrentUserId:
+        arguments:
+            - '@security.token_storage'
 
     # Comments related services
     Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader:
