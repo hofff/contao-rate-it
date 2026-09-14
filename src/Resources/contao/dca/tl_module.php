@@ -33,7 +33,6 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['rateit_top_ratings'] = '{title_lege
  * fields
  */
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_title'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_title'],
     'default'   => '',
     'exclude'   => true,
     'inputType' => 'text',
@@ -42,7 +41,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_title'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_active'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_active'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
@@ -50,7 +48,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_active'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_types'] = [
-    'label'            => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'exclude'          => true,
     'inputType'        => 'checkboxWizard',
     'eval'             => ['multiple' => true, 'mandatory' => true],
@@ -59,7 +56,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_types'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_toptype'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_toptype'],
     'exclude'   => true,
     'default'   => 'best',
     'inputType' => 'select',
@@ -70,7 +66,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_toptype'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_count'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_count'],
     'default'   => '10',
     'exclude'   => true,
     'inputType' => 'text',
@@ -79,7 +74,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_count'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_template'] = [
-    'label'            => &$GLOBALS['TL_LANG']['tl_module']['rateit_template'],
     'default'          => 'mod_rateit_top_ratings',
     'exclude'          => true,
     'inputType'        => 'select',

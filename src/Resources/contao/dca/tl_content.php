@@ -28,7 +28,6 @@ $GLOBALS['TL_DCA']['tl_content']['palettes']['rateit'] = '{type_legend},type,rat
  * fields
  */
 $GLOBALS['TL_DCA']['tl_content']['fields']['rateit_title'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['rateit_title'],
     'default'   => '',
     'exclude'   => true,
     'inputType' => 'text',
@@ -37,7 +36,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['rateit_title'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['rateit_active'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['rateit_active'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",

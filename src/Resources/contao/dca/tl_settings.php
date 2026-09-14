@@ -28,7 +28,6 @@ $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{rateit_legend:hid
  */
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_count'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_count'],
     'default'   => '5',
     'exclude'   => true,
     'inputType' => 'select',
@@ -38,7 +37,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_count'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_textposition'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_textposition'],
     'default'   => 'after',
     'exclude'   => true,
     'inputType' => 'select',
@@ -48,7 +46,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_textposition'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_listsize'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_listsize'],
     'exclude'   => true,
     'default'   => 10,
     'inputType' => 'text',
@@ -70,7 +67,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_allow_duplicate_ratings_for_
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_template'] = [
-    'label'            => &$GLOBALS['TL_LANG']['tl_settings']['rating_template'],
     'default'          => 'rateit_default',
     'exclude'          => true,
     'inputType'        => 'select',
@@ -78,7 +74,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_template'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_description'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_description'],
     'exclude'   => true,
     'default'   => '%current%/%max% %type% (%count% [Stimme|Stimmen])',
     'inputType' => 'text',
@@ -86,7 +81,6 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_description'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['rating_success'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_settings']['rating_success'],
     'exclude'   => true,
     'default'   => '%current%/%max% %type% (%count% [Stimme|Stimmen])',
     'inputType' => 'text',
