@@ -77,7 +77,7 @@ final class RateItTopRatingsModuleController extends AbstractFrontendModuleContr
     #[Override]
     protected function getResponse(FragmentTemplate $template, ModuleModel $model, Request $request): Response
     {
-        $types = StringUtil::deserialize($model->rateit_types, true);
+        $types       = StringUtil::deserialize($model->rateit_types, true);
         $orderColumn = $model->rateit_toptype === 'most' ? 'most' : 'best';
 
         $template->set('ratings', $this->fetchRatings($types, $orderColumn, (int) $model->rateit_count));
@@ -110,7 +110,7 @@ final class RateItTopRatingsModuleController extends AbstractFrontendModuleContr
                 FROM tl_rateit_items i
                 LEFT OUTER JOIN tl_rateit_ratings r ON i.id = r.pid
                 WHERE i.typ IN ($placeholders)
-                GROUP BY i.rkey, i.title, i.item_id, i.typ, i.createdat, i.active
+                GROUP BY i.rkey, i.title, i.id, i.typ, i.createdat, i.active
                 ORDER BY $orderColumn DESC
                 LIMIT $limit
                 SQL,
