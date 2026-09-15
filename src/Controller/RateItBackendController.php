@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Controller;
 
 use Contao\Config;
-use Contao\CoreBundle\Controller\Backend\AbstractBackendController;
+use Contao\CoreBundle\Controller\AbstractBackendController;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Security\ContaoCorePermissions;

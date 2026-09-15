@@ -15,6 +15,10 @@
         <DeprecatedClass>
             <errorLevel type="suppress">
                 <referencedClass name="Contao\Template"/>
+                <!-- Deprecated since Contao 5.7 in favor of Contao\CoreBundle\Controller\Backend\AbstractBackendController;
+                     still required here for Contao ^5.3 compatibility, where the "Backend\" namespace does not exist yet.
+                     Remove this suppression (and switch the import) once support for Contao <5.7 is dropped. -->
+                <referencedClass name="Contao\CoreBundle\Controller\AbstractBackendController"/>
             </errorLevel>
         </DeprecatedClass>
         <DeprecatedInterface>
