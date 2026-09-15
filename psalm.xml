@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config" errorLevel="8" findUnusedCode="false" findUnusedBaselineEntry="false" hideExternalErrors="true">
+<psalm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://getpsalm.org/schema/config" xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config" errorLevel="8" findUnusedCode="false" findUnusedBaselineEntry="false" hideExternalErrors="true" findUnusedIssueHandlerSuppression="false">
     <projectFiles>
         <directory name="src"/>
         <ignoreFiles>
@@ -21,11 +21,7 @@
                 <referencedClass name="Contao\CoreBundle\Controller\AbstractBackendController"/>
             </errorLevel>
         </DeprecatedClass>
-        <DeprecatedInterface>
-            <errorLevel type="suppress">
-                <referencedClass name="Symfony\Component\HttpKernel\Bundle\BundleInterface"/>
-            </errorLevel>
-        </DeprecatedInterface>
+
     </issueHandlers>
     <universalObjectCrates>
         <class name="Contao\BackendTemplate"/>
