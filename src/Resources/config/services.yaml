@@ -13,6 +13,8 @@ services:
             - '@contao.framework'
             - '@translator'
             - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+        calls:
+            - [setContainer, ['@service_container']]
 
     Hofff\Contao\RateIt\EventListener\RateItBackendMenuListener:
         arguments:
