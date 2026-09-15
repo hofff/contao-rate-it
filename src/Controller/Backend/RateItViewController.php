@@ -186,10 +186,10 @@ final class RateItViewController extends AbstractRateItBackendController
         return json_encode($arr, JSON_THROW_ON_ERROR);
     }
 
-    /**  */
     private function trans(string $key, string $domain = 'contao_tl_rateit'): string
     {
         $parameters = [];
+
         return $this->translator->trans($key, $parameters, $domain);
     }
 }

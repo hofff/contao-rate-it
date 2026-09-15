@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 /** @psalm-suppress PropertyNotSetInConstructor */
 abstract class AbstractRateItBackendController extends AbstractBackendController
 {
-    private const MODULE_NAME = 'rateit';
+    private const string MODULE_NAME = 'rateit';
 
     protected function denyAccessUnlessGrantedForModule(): void
     {

@@ -144,6 +144,7 @@ final class RateItListController extends AbstractRateItBackendController
     private function trans(string $key): string
     {
         $parameters = [];
+
         return $this->translator->trans($key, $parameters, 'contao_tl_rateit');
     }
 }
