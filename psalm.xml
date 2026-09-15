@@ -17,6 +17,11 @@
                 <referencedClass name="Contao\Template"/>
             </errorLevel>
         </DeprecatedClass>
+        <DeprecatedInterface>
+            <errorLevel type="suppress">
+                <referencedClass name="Symfony\Component\HttpKernel\Bundle\BundleInterface"/>
+            </errorLevel>
+        </DeprecatedInterface>
     </issueHandlers>
     <universalObjectCrates>
         <class name="Contao\BackendTemplate"/>
