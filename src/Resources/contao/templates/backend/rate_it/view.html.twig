@@ -56,41 +56,11 @@
   }
 </script>
 
-<form action="{{ action }}" id="rateit_editform" method="post">
-<div class="tl_formbody">
-<input type="hidden" name="rateit_action" value="{{ rateit.f_action }}">
-<input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
-
-<div class="tl_panel">
-
-<div class="tl_panel" style="border-bottom: none !important;">
-
-<div class="tl_submit_panel tl_subpanel">
-<button type="submit" name="filter" id="filter" class="tl_img_submit" title="{{ 'MSC.apply'|trans({}, 'contao_default') }}">{{ 'MSC.apply'|trans({}, 'contao_default') }}</button>
+<div id="tl_buttons">
+    <a href="{{ backUrl }}" class="header_back" title="" accesskey="b" onclick="Backend.getScrollOffset()">{{ 'MSC.backBT'|trans({}, 'contao_default') }}</a>
 </div>
 
-<div class="tl_limit tl_subpanel">
-<strong>{{ 'MSC.showOnly'|trans({}, 'contao_default') }}:</strong>
-<select name="rateit_details_page" id="rateit_details_page" class="tl_select{{ rateit.f_page != -1 ? ' active' }}" onchange="this.form.submit()">
-  <option value="0">{{ 'MSC.filterRecords'|trans({}, 'contao_default') }}</option>
-{% for page, label in pages %}
-  <option value="{{ page }}"{{ rateit.f_page == page ? ' selected="selected"' }}>{{ label }}</option>
-{% endfor %}
-  <option value="-1"{{ rateit.f_page < 0 ? ' selected="selected"' }}>{{ 'MSC.filterAll'|trans({}, 'contao_default') }}</option>
-</select>
-</div>
-
-</div>
-
-<div class="clear"></div>
-
-</div>
-
-<div id="tl_buttons"></div>
-</div>
-</form>
-
-<div class="rating_container">
+<div class="rating_container tl_listing_container">
 
 <table class="rating">
 <tr class="title">

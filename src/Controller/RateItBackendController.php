@@ -243,6 +243,7 @@ final class RateItBackendController extends AbstractBackendController
             'headline'    => $this->trans('tl_rateit.ratings.0'),
             'title'       => $this->trans('tl_rateit.ratings.0'),
             'action'      => $this->generateUrl('hofff_contao_rate_it.backend.view', ['rkey' => $rkey, 'typ' => $typ]),
+            'backUrl'     => $this->generateUrl('hofff_contao_rate_it.backend.list'),
             'rateit'      => $rateit,
             'rating'      => $ext,
             'pages'       => $this->buildPagesList($totrecs, $perpage),
