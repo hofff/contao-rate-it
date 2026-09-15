@@ -1,0 +1,162 @@
+{% extends "@Contao/be_main.html.twig" %}
+{% use '@Contao/component/_stylesheet.html.twig' %}
+{% trans_default_domain 'contao_tl_rateit' %}
+
+{% block head %}
+    {{ parent() }}
+    {% with {file: asset('css/backend.css', 'hofff_contao_rate_it')} %}{{ block('stylesheet_component') }}{% endwith %}
+{% endblock %}
+
+{% block main_content %}
+<div class="mod_rateit">
+
+<form action="{{ action }}" id="rateit_editform" method="post">
+<div class="tl_formbody">
+<input type="hidden" name="rateit_action" value="{{ rateit.f_action }}">
+<input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
+
+<div class="tl_panel">
+
+<div class="tl_filter tl_subpanel">
+<strong>{{ 'MSC.filter'|trans({}, 'contao_default') }}:</strong>
+<select name="rateit_typ" id="rateit_typ" class="tl_select{{ rateit.f_typ != '' ? ' active' }}">
+  <option value="">{{ 'tl_rateit.seltyp.0'|trans }}</option>
+  <option value="">---</option>
+{% for k in types %}
+  <option value="{{ k }}"{{ rateit.f_typ == k ? ' selected="selected"' }}>{{ ('tl_rateit_type_options.' ~ k)|trans|default(k) }}</option>
+{% endfor %}
+</select>
+<select name="rateit_active" id="rateit_active" class="tl_select{{ rateit.f_active != '' ? ' active' }}">
+  <option value="">{{ 'tl_rateit.selactive.0'|trans }}</option>
+  <option value="">---</option>
+{% for k in [0, 1] %}
+  <option value="{{ k }}"{{ rateit.f_active == k ? ' selected="selected"' }}>{{ ('tl_rateit_active_options.' ~ k)|trans }}</option>
+{% endfor %}
+</select>
+<select name="rateit_parentstatus" id="rateit_parentstatus" class="tl_select{{ rateit.f_parentstatus != '' ? ' active' }}">
+  <option value="">{{ 'tl_rateit.selparentstatus.0'|trans }}</option>
+  <option value="">---</option>
+{% for k in ['a', 'i', 'r'] %}
+  <option value="{{ k }}"{{ rateit.f_parentstatus == k ? ' selected="selected"' }}>{{ ('tl_rateit_parentstatus_options.' ~ k)|trans }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="clear"></div>
+
+</div>
+<div class="tl_panel">
+
+<div class="tl_submit_panel tl_subpanel">
+<button type="submit" name="filter" id="filter" class="tl_img_submit" title="{{ 'MSC.apply'|trans({}, 'contao_default') }}">{{ 'MSC.apply'|trans({}, 'contao_default') }}</button>
+</div>
+
+<div class="tl_limit tl_subpanel">
+<strong>{{ 'MSC.showOnly'|trans({}, 'contao_default') }}:</strong>
+<select name="rateit_page" id="rateit_page" class="tl_select{{ rateit.f_page != -1 ? ' active' }}" onchange="this.form.submit()">
+  <option value="0">{{ 'MSC.filterRecords'|trans({}, 'contao_default') }}</option>
+{% for page, label in pages %}
+  <option value="{{ page }}"{{ rateit.f_page == page ? ' selected="selected"' }}>{{ label }}</option>
+{% endfor %}
+  <option value="-1"{{ rateit.f_page < 0 ? ' selected="selected"' }}>{{ 'MSC.filterAll'|trans({}, 'contao_default') }}</option>
+</select>
+</div>
+
+<div class="tl_search tl_subpanel">
+<strong>{{ 'MSC.search'|trans({}, 'contao_default') }}:</strong>
+<input type="text" name="rateit_find" id="rateit_find" value="{{ rateit.f_find }}" class="tl_text fulltextsearch{{ rateit.f_find != '' ? ' active' }}">
+</div>
+
+<div class="tl_sorting tl_subpanel">
+<strong>{{ 'MSC.sortBy'|trans({}, 'contao_default') }}:</strong>
+<select name="rateit_order" id="rateit_order" class="tl_select">
+{% for oby in ['rating desc', 'title', 'typ', 'createdat'] %}
+  <option value="{{ oby }}"{{ rateit.f_order == oby ? ' selected="selected"' }}>{{ 'tl_rateit.byorder'|trans([('tl_rateit_order_options.' ~ oby)|trans]) }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="clear"></div>
+
+</div>
+
+<div id="tl_buttons"></div>
+
+</div>
+</form>
+
+<div class="rating_container">
+<form action="{{ resetAction }}" id="rateit_clearform" method="post">
+    <input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
+{% if ratingItems|length < 1 %}
+
+<p>{{ 'tl_rateit.noratingsfound'|trans }}</p>
+{% else %}
+<div>
+<table class="rating-selectall">
+<th class="selectall"><input type="checkbox" id="selectall" onclick="selectUnselectAll()">
+</table>
+</div>
+{% for rating in ratingItems %}
+
+<table class="rating">
+<tr class="title">
+  <th colspan="4"><span class="leftblock"><input type="checkbox" name="selectedids[]" value="{{ rating.rkey }}__{{ rating.typ }}" onclick="enableSelectFunctions()">&nbsp;<a href="{{ rating.viewLink }}" title="{{ 'tl_rateit.showdetails'|trans }}">{{ rating.title }}</a></span> <span class="rightblock"><a href="{{ rating.viewLink }}" title="{{ 'tl_rateit.showdetails'|trans }}">{{ 'tl_rateit.showdetails'|trans }}</a></span></th>
+</tr>
+<tr class="info">
+  <th class="listcol1">{{ 'tl_rateit.title.0'|trans }}</th>
+  <td class="listcol2">{{ rating.title }}</td>
+  <th class="listcol3">{{ 'tl_rateit.typ.0'|trans }}</th>
+  <td class="type-{{ rating.typ }}">{{ ('tl_rateit_type_options.' ~ rating.typ)|trans|default(rating.typ) }}</td>
+</tr>
+<tr class="info">
+  <th>{{ 'tl_rateit.createdat.0'|trans }}</th>
+  <td>{{ rating.createdatFormatted }}</td>
+  <th>{{ 'tl_rateit.status.0'|trans }}</th>
+  <td class="active-{{ rating.active }}">{{ ('tl_rateit_active_options.' ~ rating.active)|trans }}</td>
+</tr>
+<tr class="info">
+  <th>{{ 'tl_rateit.rating.0'|trans }}</th>
+  <td class="nowrap"><div class="ratebarframe"><div class="ratebar" style="width:{{ rating.percent }}%"></div></div> <div class="ratebartext">{{ 'tl_rateit.ratingfmt'|trans([rating.rating|replace({'.': ','}), rating.stars, rating.totalRatings]) }}</div></td>
+  <th>{{ 'tl_rateit.parentstatus.0'|trans }}</th>
+  <td>{{ ('tl_rateit_parentstatus_options.' ~ rating.parentstatus)|trans }}</td>
+</tr>
+</table>
+{% endfor %}
+<div class="tl_formbody_submit">
+  <div class="tl_submit_container">
+    <button type="submit" name="rateit_action" id="rateit_clearbutton" class="tl_submit" value="clearratings">{{ 'tl_rateit.clearratings'|trans }}</button>
+    <button type="submit" name="rateit_action" id="rateit_removebutton" class="tl_submit" value="removeratings">{{ 'tl_rateit.removeratings'|trans }}</button>
+    <button type="submit" name="rateit_action" id="rateit_updateinformation" class="tl_submit" value="updateinformation">{{ 'tl_rateit.updateinformation'|trans }}</button>
+  </div>
+</div>
+{% endif %}
+
+</div>
+</form>
+</div>
+
+<script>
+  function enableSelectFunctions() {
+    var sel = false;
+    var cbs = document.getElementsByName('selectedids[]');
+    for (var i = 0; i < cbs.length; ++i) {
+      if (cbs[i].checked) {
+        sel = true;
+        break;
+      }
+    }
+    document.getElementById('rateit_clearbutton').disabled = !sel;
+    document.getElementById('rateit_removebutton').disabled = !sel;
+    document.getElementById('rateit_updateinformation').disabled = !sel;
+  }
+  function selectUnselectAll() {
+    var chk = document.getElementById('selectall').checked;
+    var cbs = document.getElementsByName('selectedids[]');
+    for (var i = 0; i < cbs.length; ++i) cbs[i].checked = chk;
+    enableSelectFunctions();
+  }
+  enableSelectFunctions();
+</script>
+</div>
+{% endblock %}

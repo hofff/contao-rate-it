@@ -17,23 +17,21 @@
 declare(strict_types=1);
 
 use Contao\ArrayUtil;
-use Hofff\Contao\RateIt\Backend\RateItBackend;
-use Hofff\Contao\RateIt\Backend\RateItBackendModule;
 
 /*
  * Back end modules
+ *
+ * The module is rendered via the "hofff_contao_rate_it.backend.list" route
+ * (see RateItBackendController/RateItBackendMenuListener), not via the
+ * legacy "do=rateit" module runner. The entry below only keeps "rateit"
+ * selectable in the "Allowed back end modules" permission tree of existing
+ * user groups; hideInNavigation suppresses the (non-functional) "do=rateit"
+ * menu link that Contao would otherwise generate for it.
  */
 ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     -1,
-    [
-        'rateit' => [
-            'callback'   => RateItBackendModule::class,
-            'icon'       => RateItBackend::image('icon'),
-            'stylesheet' => RateItBackend::css('backend'),
-            'javascript' => RateItBackend::javascript('RateItBackend'),
-        ],
-    ],
+    ['rateit' => ['hideInNavigation' => true]],
 );
 
 /*

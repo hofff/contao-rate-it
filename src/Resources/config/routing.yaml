@@ -5,3 +5,7 @@ hofff.contao_rate_it_ajax:
     defaults:
         _scope: frontend
         _token_check: false
+
+hofff_contao_rate_it_backend:
+    resource: '@HofffContaoRateItBundle/src/Controller/RateItBackendController.php'
+    type: attribute

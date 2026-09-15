@@ -4,22 +4,26 @@
 
 ### Changed
 
-- Replace the legacy `Contao\Module`/`Contao\Hybrid`-based `RateItModule`, `RateItCE` and `RateItTopRatingsModule` with Contao 5 Fragment controllers (`#[AsContentElement]`/`#[AsFrontendModule]`)
-- Port the `rateit_default` and `mod_rateit_top_ratings` templates from legacy PHP templates to Twig
-- Replace `Contao\Database` usage in the top-ratings module query with `Doctrine\DBAL\Connection`
-- Extract `DetermineCurrentUserId` and `DetermineRatingTemplateName` shared services, used by both the new Fragment controllers and the existing `RatingListener`-based hooks
-- Replace the `rateit_default` template's schema.org microdata (`itemprop`/`itemscope`/`itemtype` attributes) with JSON-LD, registered via Contao's own `add_schema_org()` Twig function (`CreativeWork` with a nested `AggregateRating`, keyed by a per-widget `identifier` so multiple ratings on one page don't collide) instead of a hand-rolled inline `<script>` tag
+- Replace the legacy `Contao\Module`/`Contao\Hybrid`-based `RateItModule`, `RateItCE` and `RateItTopRatingsModule` with Contao 5 Fragment controllers (`#[AsContentElement]`/`#[AsFrontendModule]`) and port their templates to Twig
+- Replace the schema.org microdata in `rateit_default` with JSON-LD via Contao's `add_schema_org()` Twig function
+- Replace the legacy `Contao\BackendModule`-based `rateit` back end module with `RateItBackendController`, a set of dedicated back end routes, and port its templates to Twig
+- Use `Doctrine\DBAL\Connection` instead of `Contao\Database` throughout
+- Move the back end module's session state to the dedicated `contao_backend` session bag and its language strings to the Symfony translator (`tl_rateit.xlf`, domain `contao_tl_rateit`)
+- Remove the now-unused `RateItBackend` helper class
 
 ### Upgrade notes
 
 - The `mod_rateit_top_ratings` template's loop variable was renamed from `arrRatings` to `ratings`. If your project has a copy of this template selected via the `tl_module.rateit_template` picker, update it to match.
 - The `rateit_top_ratings` module moved from a `$GLOBALS['FE_MOD']` registration to a Symfony DI-tagged Fragment controller. Clear the container cache after upgrading.
 - Content-element/module type gating (`hofff_contao_rate_it.types.ce`/`.module`) now happens at container-compile time instead of via a runtime hook. Toggling it requires a container rebuild, not just a page reload.
+- The `rateit` back end module no longer responds to `contao/?do=rateit`; it now lives at `contao/rate-it`. The "Allowed back end modules" permission of existing user groups is preserved unchanged, but any bookmarked `do=rateit` links need updating.
 
 ### Fixed
 
-- The backend wildcard for the `rateit` content element no longer points its edit link at `tl_module` (a pre-existing bug; the link is dropped rather than replaced with another potentially-wrong link, since a content element's edit link depends on its dynamic parent module)
-- `RatingListener`'s rating-template fallback no longer resolves to the non-existent `ratit_default` (typo); it now consistently falls back to `rateit_default`
+- The backend wildcard for the `rateit` content element no longer points its edit link at `tl_module` (the link is now dropped instead of pointing somewhere wrong)
+- `RatingListener`'s rating-template fallback no longer resolves to the non-existent `ratit_default` (typo); it now falls back to `rateit_default`
+- The back end module's rating list search filter no longer appends a stray `%s` to the `LIKE` pattern, which previously broke the search
+- Two non-existent `tl_rateit.*` labels in the back end module (rating list column header, "Apply" button) now resolve correctly
 
 ## [0.4.2] (2022-12-21)
 

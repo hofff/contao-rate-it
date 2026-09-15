@@ -6,6 +6,21 @@ services:
         autowire: false
 
     # Controllers
+    Hofff\Contao\RateIt\Controller\RateItBackendController:
+        public: true
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+            - '@translator'
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    Hofff\Contao\RateIt\EventListener\RateItBackendMenuListener:
+        arguments:
+            - '@security.helper'
+            - '@router'
+            - '@request_stack'
+            - '@translator'
+
     Hofff\Contao\RateIt\Controller\AjaxRateItController:
         public: true
         arguments:
