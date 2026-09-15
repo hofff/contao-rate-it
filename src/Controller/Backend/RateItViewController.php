@@ -103,7 +103,7 @@ final class RateItViewController extends AbstractRateItBackendController
         $ext->ratingsChartData = $this->getRatingsChartData($ext->statistics);
         $ext->monthsChartData  = $this->getMonthsChartData((int) $ext->item_id);
 
-        return $this->render('@Contao/backend/rate_it/view.html.twig', [
+        return $this->render('@Contao/rate_it/view.html.twig', [
             'headline'  => $this->trans('tl_rateit.ratings.0'),
             'title'     => $this->trans('tl_rateit.ratings.0'),
             'action'    => $this->generateUrl('hofff_contao_rate_it.backend.view', ['rkey' => $rkey, 'typ' => $typ]),

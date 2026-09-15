@@ -1,0 +1,13 @@
+{% extends '@Contao/mod_article.html.twig' %}
+
+{% block content %}
+    {% if rating and rateit_position == 'before' %}
+        {{ include('@Contao/' ~ rateit_template ~ '.html.twig', rating, false) }}
+    {% endif %}
+
+    {{ parent() }}
+
+    {% if rating and rateit_position == 'after' %}
+        {{ include('@Contao/' ~ rateit_template ~ '.html.twig', rating, false) }}
+    {% endif %}
+{% endblock %}

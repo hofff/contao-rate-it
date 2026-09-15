@@ -1,9 +1,0 @@
-<?php if ($this->rating && $this->rateit_position === 'before'): ?>
-    <?php $this->insert($this->ratit_template, $this->rating) ?>
-<?php endif; ?>
-
-<?php $this->insert('news_simple', $this->arrData); ?>
-
-<?php if ($this->rating && $this->rateit_position === 'after'): ?>
-    <?php $this->insert($this->ratit_template, $this->rating) ?>
-<?php endif; ?>
