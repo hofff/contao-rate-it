@@ -14,7 +14,7 @@
     },
     "phpcq": {
       "plugins": {
-        "phpunit": false,
+        "phpunit": true,
         "rector": false
       },
       "presets": {
@@ -23,15 +23,6 @@
             "composer-require-checker": {
               "config": {
                 "config_file": ".composer-require-checker.json"
-              }
-            }
-          }
-        },
-        "phpcpd": {
-          "tasks": {
-            "phpcpd": {
-              "config": {
-                "exclude": ["src/Rating/RatingService.php"]
               }
             }
           }

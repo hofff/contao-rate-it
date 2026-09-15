@@ -23,6 +23,7 @@
         <class name="Contao\Database\Result"/>
         <class name="Contao\FrontendTemplate"/>
         <class name="Contao\Model"/>
+        <class name="Contao\ModuleModel"/>
         <class name="Contao\PageModel"/>
         <class name="Contao\Template"/>
     </universalObjectCrates>

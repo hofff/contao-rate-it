@@ -1,19 +1,5 @@
 <?php
 
-/**
- * This file is part of hofff/contao-rate-it.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author     David Molineus <david@hofff.com>
- * @author     Carsten Götzinger <info@cgo-it.de>
- * @copyright  2019 hofff.com.
- * @copyright  2013-2018 cgo IT.
- * @license    https://github.com/hofff/contao-rate-it/blob/master/LICENSE LGPL-3.0-or-later
- * @filesource
- */
-
 declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Controller\FrontendModule;
@@ -37,11 +23,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use function array_fill;
+use function array_map;
+use function array_values;
 use function count;
 use function implode;
 use function max;
 use function sprintf;
 
+/** @psalm-suppress PropertyNotSetInConstructor */
 #[AsFrontendModule('rateit_top_ratings', category: 'application')]
 final class RateItTopRatingsModuleController extends AbstractFrontendModuleController
 {
@@ -83,7 +72,12 @@ final class RateItTopRatingsModuleController extends AbstractFrontendModuleContr
     #[Override]
     protected function getResponse(FragmentTemplate $template, ModuleModel $model, Request $request): Response
     {
-        $types       = StringUtil::deserialize($model->rateit_types, true);
+        $types       = array_values(
+            array_map(
+                'strval',
+                StringUtil::deserialize($model->rateit_types, true),
+            ),
+        );
         $orderColumn = $model->rateit_toptype === 'most' ? 'most' : 'best';
 
         $template->set('ratings', $this->fetchRatings($types, $orderColumn, max(1, (int) $model->rateit_count)));

@@ -26,6 +26,9 @@ phpcq:
     phpmd:
       version: ^1.0
       signed: false
+    phpunit:
+      version: ^1.0
+      signed: false
     psalm:
       version: ^1.0
       signed: false
@@ -58,6 +61,7 @@ tasks:
     - phpcpd
     - phploc
     - phpmd
+    - phpunit
     - psalm
     - phpcs
   default:
@@ -78,10 +82,6 @@ tasks:
   composer-require-checker:
     config:
       config_file: .composer-require-checker.json
-  phpcpd:
-    config:
-      exclude:
-        - src/Rating/RatingService.php
   phpcs:
     config:
       standard: ~

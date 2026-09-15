@@ -36,6 +36,7 @@ final class DetermineCurrentUserId
 
         $user = $token->getUser();
         if ($user instanceof FrontendUser && $user->id) {
+            /** @psalm-suppress RedundantCastGivenDocblockType */
             return (int) $user->id;
         }
 
