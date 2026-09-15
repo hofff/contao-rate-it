@@ -16,6 +16,7 @@ use stdClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -70,7 +71,7 @@ final class RateItBackendController extends AbstractBackendController
         $rateit->f_action = 'list';
         $rateit->f_page   = 0;
 
-        $sessionBag = $this->getBackendSessionBag();
+        $sessionBag = $this->sessionBag($request);
 
         if ($request->isMethod('POST') && $request->request->get('rateit_action') === $rateit->f_action) {
             $rateit->f_typ          = trim((string) $request->request->get('rateit_typ', ''));
@@ -193,7 +194,7 @@ final class RateItBackendController extends AbstractBackendController
         $rateit->f_action = 'view';
         $rateit->f_page   = 0;
 
-        $sessionBag = $this->getBackendSessionBag();
+        $sessionBag = $this->sessionBag($request);
 
         if ($request->isMethod('POST') && $request->request->get('rateit_action') === $rateit->f_action) {
             $rateit->f_page = trim((string) $request->request->get('rateit_details_page', ''));
@@ -653,5 +654,16 @@ final class RateItBackendController extends AbstractBackendController
     private function date(): Adapter
     {
         return $this->framework->getAdapter(Date::class);
+    }
+
+    /**
+     * Reimplements AbstractBackendController::getBackendSessionBag(), which only exists
+     * since Contao 5.5 (contao/contao#7683); this package still supports Contao ^5.3.
+     */
+    private function sessionBag(Request $request): AttributeBagInterface|null
+    {
+        $sessionBag = $request->getSession()->getBag('contao_backend');
+
+        return $sessionBag instanceof AttributeBagInterface ? $sessionBag : null;
     }
 }
