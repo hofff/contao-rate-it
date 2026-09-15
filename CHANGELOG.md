@@ -6,7 +6,7 @@
 
 - Replace the legacy `Contao\Module`/`Contao\Hybrid`-based `RateItModule`, `RateItCE` and `RateItTopRatingsModule` with Contao 5 Fragment controllers (`#[AsContentElement]`/`#[AsFrontendModule]`) and port their templates to Twig
 - Replace the schema.org microdata in `rateit_default` with JSON-LD via Contao's `add_schema_org()` Twig function
-- Replace the legacy `Contao\BackendModule`-based `rateit` back end module with `RateItBackendController`, a set of dedicated back end routes, and port its templates to Twig
+- Replace the legacy `Contao\BackendModule`-based `rateit` back end module with `RateItListController`/`RateItViewController`, a set of dedicated back end routes, and port its templates to Twig
 - Use `Doctrine\DBAL\Connection` instead of `Contao\Database` throughout
 - Move the back end module's session state to the dedicated `contao_backend` session bag and its language strings to the Symfony translator (`tl_rateit.xlf`, domain `contao_tl_rateit`)
 - Remove the now-unused `RateItBackend` helper class

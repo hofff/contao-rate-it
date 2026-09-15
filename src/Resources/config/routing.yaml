@@ -7,5 +7,5 @@ hofff.contao_rate_it_ajax:
         _token_check: false
 
 hofff_contao_rate_it_backend:
-    resource: '@HofffContaoRateItBundle/Controller/RateItBackendController.php'
+    resource: '@HofffContaoRateItBundle/Controller/Backend'
     type: attribute

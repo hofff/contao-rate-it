@@ -6,13 +6,26 @@ services:
         autowire: false
 
     # Controllers
-    Hofff\Contao\RateIt\Controller\RateItBackendController:
+    Hofff\Contao\RateIt\Controller\Backend\RateItListController:
         public: true
         arguments:
-            - '@database_connection'
-            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\RatingItemRepository'
             - '@translator'
-            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    Hofff\Contao\RateIt\Controller\Backend\RateItViewController:
+        public: true
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingItemRepository'
+            - '@translator'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    Hofff\Contao\RateIt\Controller\Backend\RateItResetController:
+        public: true
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingItemRepository'
         calls:
             - [setContainer, ['@service_container']]
 
@@ -49,6 +62,12 @@ services:
             - '@database_connection'
             - '@contao.framework'
             - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
+
+    Hofff\Contao\RateIt\Rating\RatingItemRepository:
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
 
     # Content elements
     Hofff\Contao\RateIt\Controller\ContentElement\RateItContentElementController:

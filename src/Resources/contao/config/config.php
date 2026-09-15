@@ -22,7 +22,7 @@ use Contao\ArrayUtil;
  * Back end modules
  *
  * The module is rendered via the "hofff_contao_rate_it.backend.list" route
- * (see RateItBackendController/RateItBackendMenuListener), not via the
+ * (see RateItListController/RateItBackendMenuListener), not via the
  * legacy "do=rateit" module runner. The entry below only keeps "rateit"
  * selectable in the "Allowed back end modules" permission tree of existing
  * user groups; hideInNavigation suppresses the (non-functional) "do=rateit"
