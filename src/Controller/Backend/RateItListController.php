@@ -130,14 +130,15 @@ final class RateItListController extends AbstractRateItBackendController
         }
 
         return $this->render('@Contao/rate_it/list.html.twig', [
-            'headline'    => $this->trans('tl_rateit.ratings.0'),
-            'title'       => $this->trans('tl_rateit.ratings.0'),
-            'action'      => $this->generateUrl('hofff_contao_rate_it.backend.list'),
-            'resetAction' => $this->generateUrl('hofff_contao_rate_it.backend.reset'),
-            'rateit'      => $rateit,
-            'ratingItems' => $ratingItems,
-            'pages'       => $this->ratingItems->buildPagesList($totrecs, $perpage),
-            'types'       => $this->ratingItems->getUsedTypes(),
+            'headline'        => $this->trans('tl_rateit.ratings.0'),
+            'title'           => $this->trans('tl_rateit.ratings.0'),
+            'action'          => $this->generateUrl('hofff_contao_rate_it.backend.list'),
+            'resetAction'     => $this->generateUrl('hofff_contao_rate_it.backend.reset'),
+            'rateit'          => $rateit,
+            'ratingItems'     => $ratingItems,
+            'pages'           => $this->ratingItems->buildPagesList($totrecs, $perpage),
+            'types'           => $this->ratingItems->getUsedTypes(),
+            'newFilterLayout' => $this->usesNewFilterLayout(),
         ]);
     }
 
