@@ -14,14 +14,19 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\ArticleModel;
 use Contao\Config;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Template;
 
-class RateItArticleListener extends RatingListener
+#[AsHook('parseTemplate')]
+final class RateItArticleListener extends RatingListener
 {
-    public function onParseTemplate(Template $template) : void
+    public function onParseTemplate(Template $template): void
     {
         // TODO: Check if other template names are required, maybe
 //        if (strpos($objTemplate->getName(), 'mod_article') !== 0) {
@@ -30,12 +35,12 @@ class RateItArticleListener extends RatingListener
 
         if ($template->type === 'article') {
             $this->doArticle($template);
-        } else if ($template->type === 'articleList') {
+        } elseif ($template->type === 'articleList') {
             $this->doArticleList($template);
         }
     }
 
-    private function doArticle(Template $template) : void
+    private function doArticle(Template $template): void
     {
         if (! $template->addRating) {
             return;
@@ -45,19 +50,19 @@ class RateItArticleListener extends RatingListener
         $template->rating          = $this->getRating('article', (int) $template->id);
     }
 
-    private function doArticleList($objTemplate) : void
+    private function doArticleList(Template $template): void
     {
-        if (!$objTemplate->rateit_active) {
+        if (! $template->rateit_active) {
             return;
         }
 
-        $objTemplate->rateit_template = $this->getRatingTemplate();
+        $template->rateit_template = $this->getRatingTemplate();
 
         $bolTemplateFixed = false;
-        $arrArticles      = array();
+        $arrArticles      = [];
 
-        foreach ($objTemplate->articles as $article) {
-            $articleModel = \Contao\ArticleModel::findByPk($article['articleId']);
+        foreach ($template->articles as $article) {
+            $articleModel = ArticleModel::findByPk($article['articleId']);
             if (! $articleModel) {
                 continue;
             }
@@ -65,7 +70,7 @@ class RateItArticleListener extends RatingListener
             $articleModel = $articleModel->row();
             if ($articleModel['addRating']) {
                 if (! $bolTemplateFixed) {
-                    $objTemplate->setName($objTemplate->getName() . '_rateit');
+                    $template->setName($template->getName() . '_rateit');
                     $bolTemplateFixed = true;
                 }
 
@@ -76,6 +81,6 @@ class RateItArticleListener extends RatingListener
             $arrArticles[] = $article;
         }
 
-        $objTemplate->articles = $arrArticles;
+        $template->articles = $arrArticles;
     }
 }

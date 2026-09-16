@@ -9,11 +9,9 @@
     "Contao\\ManagerPlugin\\Routing\\RoutingPluginInterface",
     "Contao\\CommentsModel",
     "Contao\\CommentsBundle\\ContaoCommentsBundle",
+    "Contao\\News",
     "Contao\\NewsModel",
     "Contao\\ModuleNews",
-    "Contao\\NewsBundle\\ContaoNewsBundle",
-    "VERSION",
-    "ampersand",
-    "array_insert"
+    "Contao\\NewsBundle\\ContaoNewsBundle"
   ]
 }

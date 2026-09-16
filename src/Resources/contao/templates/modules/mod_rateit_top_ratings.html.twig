@@ -1,0 +1,32 @@
+<div class="{{ class }} block"{{ cssID|default|raw }}{% if style|default %} style="{{ style|raw }}"{% endif %}>
+
+    {% if headline|default %}
+        <{{ hl }}>{{ headline|raw }}</{{ hl }}>
+    {% endif %}
+
+    <ul>
+        {% for rating in ratings %}
+            <li>
+                <!-- indexer::stop -->
+                <div class="rateItContainer">
+                    <div class="rateItTitle">
+                        {% if rating.url %}
+                            <a href="{{ rating.url|raw }}">{{ rating.title|raw }}</a>
+                        {% else %}
+                            {{ rating.title|raw }}
+                        {% endif %}
+                    </div>
+                    <div id="{{ rating.rateItID }}" class="{{ rating.rateit_class }}" rel="{{ rating.rel }}">
+                        <div class="wrapper">
+                            <div class="rateItRating-selected" style="display: block;"></div>
+                            <div class="rateItRating-hover"></div>
+                        </div>
+                        <div id="{{ rating.descriptionId }}" class="ratingText">{{ rating.description|raw }}</div>
+                    </div>
+                </div>
+                <!-- indexer::continue -->
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>

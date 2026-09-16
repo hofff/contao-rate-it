@@ -18,14 +18,17 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\ModuleNews;
 use Contao\Template;
 
+#[AsHook('parseArticles')]
 final class RateItNewsListener extends RatingListener
 {
-    public function onParseArticles(Template $template, array $newsArticle, $caller) : void
+    /** @param array<string, mixed> $newsArticle */
+    public function onParseArticles(Template $template, array $newsArticle, object $caller): void
     {
-        if (!$caller instanceof ModuleNews || !$newsArticle['addRating']) {
+        if (! $caller instanceof ModuleNews || ! $newsArticle['addRating']) {
             return;
         }
 

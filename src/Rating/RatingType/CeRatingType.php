@@ -17,35 +17,45 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\ContentModel;
+use Override;
 
 final class CeRatingType extends BaseParentSourceRatingType
 {
-    public function name() : string
+    #[Override]
+    public function name(): string
     {
         return 'ce';
     }
 
-    protected function determineParentPublishedState(array $record) : bool
+    /** {@inheritDoc} */
+    #[Override]
+    protected function determineParentPublishedState(array $record): bool
     {
-        return !parent::determineParentPublishedState($record);
+        $published = parent::determineParentPublishedState($record);
+
+        return ! $published;
     }
 
-    protected function tableName() : string
+    #[Override]
+    protected function tableName(): string
     {
         return ContentModel::getTable();
     }
 
-    protected function publishedKey() : string
+    #[Override]
+    protected function publishedKey(): string
     {
         return 'invisible';
     }
 
-    protected function activeKey() : string
+    #[Override]
+    protected function activeKey(): string
     {
         return 'rateit_active';
     }
 
-    protected function labelKey() : string
+    #[Override]
+    protected function labelKey(): string
     {
         return 'rateit_title';
     }

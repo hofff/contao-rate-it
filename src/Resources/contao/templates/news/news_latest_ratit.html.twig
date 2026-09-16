@@ -1,0 +1,9 @@
+{% if rating and rateit_position == 'before' %}
+    {{ include('@Contao/' ~ ratit_template ~ '.html.twig', rating, false) }}
+{% endif %}
+
+{{ include('@Contao/news_latest.html.twig') }}
+
+{% if rating and rateit_position == 'after' %}
+    {{ include('@Contao/' ~ ratit_template ~ '.html.twig', rating, false) }}
+{% endif %}

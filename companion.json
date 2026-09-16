@@ -1,0 +1,33 @@
+{
+  "receipts": ["projects/contao-bundle/5.3-6.0"],
+  "config": {
+    "phpConstraint": "^8.3"
+  },
+  "tools": {
+    "composer": {
+      "namespace": "Hofff\\Contao\\RateIt"
+    },
+    "psalm": {
+      "configuration": {
+        "errorLevel": "8"
+      }
+    },
+    "phpcq": {
+      "plugins": {
+        "phpunit": true,
+        "rector": false
+      },
+      "presets": {
+        "composer-require-checker": {
+          "tasks": {
+            "composer-require-checker": {
+              "config": {
+                "config_file": ".composer-require-checker.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

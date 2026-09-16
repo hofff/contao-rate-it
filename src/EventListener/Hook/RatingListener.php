@@ -16,64 +16,37 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\FrontendTemplate;
-use Contao\FrontendUser;
+use Hofff\Contao\RateIt\Rating\DetermineCurrentUserId;
+use Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName;
 use Hofff\Contao\RateIt\Rating\RatingService;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 abstract class RatingListener
 {
-    /** @var RatingService */
-    protected $ratingService;
-
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
-
-    /** @var ContaoFrameworkInterface */
-    private $framework;
-
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     public function __construct(
-        RatingService $ratingService,
-        TokenStorageInterface $tokenStorage,
-        ContaoFrameworkInterface $framework
+        protected readonly RatingService $ratingService,
+        private readonly DetermineCurrentUserId $determineCurrentUserId,
+        private readonly DetermineRatingTemplateName $determineRatingTemplateName,
     ) {
-        $this->ratingService = $ratingService;
-        $this->tokenStorage  = $tokenStorage;
-        $this->framework     = $framework;
     }
 
-    protected function getRating(string $type, int $ratingTypeId) : ?array
+    protected function getRating(string $type, int $ratingTypeId): array|null
     {
-        return $this->ratingService->getRating($type, $ratingTypeId, $this->getUserId());
+        return $this->ratingService->getRating($type, $ratingTypeId, ($this->determineCurrentUserId)());
     }
 
-    protected function getRatingTemplate() : string
+    protected function getRatingTemplate(): string
     {
-        return $this->framework->getAdapter(Config::class)->get('rating_template') ?: 'ratit_default';
+        return ($this->determineRatingTemplateName)();
     }
 
-    protected function render(array $data) : string
+    /** @param array<string, mixed> $data */
+    protected function render(array $data): string
     {
         $template = new FrontendTemplate($this->getRatingTemplate());
         $template->setData($data);
 
         return $template->parse();
-    }
-
-    private function getUserId() : ?int
-    {
-        $token = $this->tokenStorage->getToken();
-        if (!$token) {
-            return null;
-        }
-
-        $user = $token->getUser();
-        if ($user instanceof FrontendUser && $user->id) {
-            return (int) $user->id;
-        }
-
-        return null;
     }
 }

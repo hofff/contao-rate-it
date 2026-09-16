@@ -17,15 +17,18 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\ArticleModel;
+use Override;
 
 final class ArticleRatingType extends BaseParentSourceRatingType
 {
-    public function name() : string
+    #[Override]
+    public function name(): string
     {
         return 'article';
     }
 
-    protected function tableName() : string
+    #[Override]
+    protected function tableName(): string
     {
         return ArticleModel::getTable();
     }

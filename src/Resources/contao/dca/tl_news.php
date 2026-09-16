@@ -16,14 +16,9 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\NewsDcaListener;
-
 /**
  * Extend tl_article
  */
-
-$GLOBALS['TL_DCA']['tl_news']['config']['onload_callback'][] = [NewsDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_news']['config']['onundo_callback'][] = [NewsDcaListener::class, 'onUndo'];
 
 /**
  * Palettes
@@ -37,7 +32,6 @@ $GLOBALS['TL_DCA']['tl_news']['subpalettes']['addRating'] = 'rateit_position';
 
 // Fields
 $GLOBALS['TL_DCA']['tl_news']['fields']['addRating'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_news']['addRating'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
@@ -45,7 +39,6 @@ $GLOBALS['TL_DCA']['tl_news']['fields']['addRating'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_news']['fields']['rateit_position'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_news']['rateit_position'],
     'default'   => 'before',
     'exclude'   => true,
     'inputType' => 'select',

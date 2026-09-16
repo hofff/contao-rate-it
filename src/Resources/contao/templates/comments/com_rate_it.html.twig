@@ -1,0 +1,24 @@
+{% if rating and rateit_position == 'before' %}
+    {{ include('@Contao/' ~ ratit_template ~ '.html.twig', rating, false) }}
+{% endif %}
+
+<div class="comment_rate_it{{ class }}" id="{{ id }}">
+    <p class="info">{{ by }} {% if website %}<a href="{{ website }}" target="_blank" rel="nofollow noreferrer noopener">{{ name }}</a>{% else %}{{ name }}{% endif %} | <time datetime="{{ datetime }}" class="date">{{ date }}</time></p>
+
+    <div class="comment">
+        {{ comment|autolink_url|nl2br }}
+    </div>
+
+    {% if addReply %}
+        <div class="reply">
+            <p class="info">{{ rby }} {{ author.name }}</p>
+            <div class="comment">
+                {{ reply|sanitize_html('contao')|csp_inline_styles|insert_tag_html }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% if rating and rateit_position == 'after' %}
+    {{ include('@Contao/' ~ ratit_template ~ '.html.twig', rating, false) }}
+{% endif %}

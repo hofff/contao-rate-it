@@ -14,56 +14,64 @@
  * @filesource
  */
 
+declare(strict_types=1);
+
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Database;
 use Contao\DataContainer;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
+use RuntimeException;
 
-/**
- * Class DcaHelper
- */
+use function is_array;
+use function time;
+
 abstract class BaseDcaListener
 {
-    /** @var RatingTypes */
-    protected $ratingTypes;
-
-    /** @var string */
-    protected static $typeName;
+    protected static string $typeName;
 
     /**
      * Constructor
      */
-    public function __construct(RatingTypes $ratingTypes)
+    public function __construct(protected RatingTypes $ratingTypes)
     {
-        $this->ratingTypes = $ratingTypes;
-
-        if (!isset(static::$typeName)) {
-            throw new \RuntimeException('Type name has to be defined');
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (! isset(static::$typeName)) {
+            throw new RuntimeException('Type name has to be defined');
         }
     }
 
-    protected function isActive() : bool
+    protected function isActive(): bool
     {
         return $this->ratingTypes->has(static::$typeName);
     }
 
-    public function onSubmit(DataContainer $dc) : void
+    public function onSubmit(DataContainer $dataContainer): void
     {
-        $this->insertOrUpdateRatingKey((int) $dc->id);
+        $this->insertOrUpdateRatingKey((int) $dataContainer->id);
     }
 
-    public function onDelete(DataContainer $dc) : void
+    public function onDelete(DataContainer $dataContainer): void
     {
-        $this->markRatingItemAsDeleted((int) $dc->id);
+        if (! $this->isActive()) {
+            return;
+        }
+
+        $this->markRatingItemAsDeleted((int) $dataContainer->id);
     }
 
-    public function onRestore(string $table, $insertId) : void
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    public function onRestore(string $table, mixed $insertId): void
     {
         $this->restore((int) $insertId);
     }
 
-    public function onUndo(string $table, array $row) : void
+    /**
+     * @param array<array-key, mixed> $row
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function onUndo(string $table, array $row): void
     {
         if (! $this->isActive()) {
             return;
@@ -77,14 +85,15 @@ abstract class BaseDcaListener
      */
     public function insertOrUpdateRatingKey(int $sourceId): void
     {
-        $database     = Database::getInstance();
-        $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
+        $database    = Database::getInstance();
+        $information = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
 
-        if (!$information) {
+        if (! $information) {
             return;
         }
 
         if ($information->active()) {
+            /** @psalm-suppress TooManyArguments */
             $actRecord = $database
                 ->prepare('SELECT * FROM tl_rateit_items WHERE rkey=? and typ=? LIMIT 0,1')
                 ->execute($sourceId, static::$typeName)
@@ -106,24 +115,32 @@ abstract class BaseDcaListener
                     ->set($arrSet)
                     ->execute();
             } else {
+                /** @psalm-suppress TooManyArguments */
                 $database
                     ->prepare("UPDATE tl_rateit_items SET active='1', title=?, parentstatus=? WHERE rkey=? and typ=?")
-                    ->execute($information->title(), $information->parentStatus(), (string) $sourceId, static::$typeName);
+                    ->execute(
+                        $information->title(),
+                        $information->parentStatus(),
+                        (string) $sourceId,
+                        static::$typeName,
+                    );
             }
         } else {
+            /** @psalm-suppress TooManyArguments */
             $database
                 ->prepare("UPDATE tl_rateit_items SET active='', parentstatus=? WHERE rkey=? and typ=?")
                 ->execute($information->parentStatus(), (string) $sourceId, static::$typeName);
         }
     }
 
-    public function updateRatingKey(int $sourceId) : void
+    public function updateRatingKey(int $sourceId): void
     {
-        $information  = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
-        if (!$information) {
+        $information = $this->ratingTypes->sourceInformation(static::$typeName, $sourceId);
+        if (! $information) {
             return;
         }
 
+        /** @psalm-suppress TooManyArguments */
         Database::getInstance()
             ->prepare('UPDATE tl_rateit_items SET title=?, parentstatus=? WHERE rkey=? and typ=?')
             ->execute($information->title(), $information->parentStatus(), (string) $sourceId, static::$typeName);
@@ -134,18 +151,20 @@ abstract class BaseDcaListener
      */
     public function markRatingItemAsDeleted(int $sourceId): void
     {
+        /** @psalm-suppress TooManyArguments */
         Database::getInstance()
             ->prepare("UPDATE tl_rateit_items SET parentstatus = 'r' WHERE rkey=? and typ=?")
             ->execute((string) $sourceId, static::$typeName);
     }
 
-    public function restore(int $statusId)
+    public function restore(int $statusId): void
     {
         $information = $this->ratingTypes->sourceInformation(static::$typeName, $statusId);
-        if (!$information) {
+        if (! $information) {
             return;
         }
 
+        /** @psalm-suppress TooManyArguments */
         Database::getInstance()
             ->prepare('UPDATE tl_rateit_items %s WHERE rkey=? and typ=?')
             ->set(['parentstatus' => $information->parentStatus()])

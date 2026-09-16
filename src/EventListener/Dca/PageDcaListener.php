@@ -19,12 +19,23 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 
+use function array_keys;
+use function assert;
+use function in_array;
+use function is_string;
+
+#[AsCallback(table: 'tl_page', target: 'config.onsubmit', method: 'onSubmit')]
+#[AsCallback(table: 'tl_page', target: 'config.ondelete', method: 'onDelete')]
+#[AsCallback(table: 'tl_page', target: 'config.onrestore_version', method: 'onRestore')]
+#[AsCallback(table: 'tl_page', target: 'config.onundo', method: 'onUndo')]
 final class PageDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'page';
+    protected static string $typeName = 'page';
 
-    public function onLoad() : void
+    #[AsCallback(table: 'tl_page', target: 'config.onload')]
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
@@ -32,20 +43,20 @@ final class PageDcaListener extends BaseDcaListener
 
         $dca = &$GLOBALS['TL_DCA']['tl_page'];
 
-        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
-        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
-        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
-
         $manipulator = PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
             ->addField('addRating', 'rateit_legend', PaletteManipulator::POSITION_APPEND);
 
         foreach (array_keys($dca['palettes']) as $keyPalette) {
-            // Skip if we have a array or the palettes for subselections
+            /** @psalm-suppress TypeDoesNotContainType */
+            assert(is_string($keyPalette));
+
+            // Skip if we have an array or the palettes for subselections
             if (in_array($keyPalette, ['__selector__', 'root', 'rootfallback', 'forward', 'redirect'], true)) {
                 continue;
             }
 
+            /** @psalm-suppress NoValue */
             $manipulator->applyToPalette($keyPalette, 'tl_page');
         }
     }

@@ -16,33 +16,39 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\DependencyInjection;
 
+use Hofff\Contao\RateIt\Controller\ContentElement\RateItContentElementController;
+use Hofff\Contao\RateIt\Controller\FrontendModule\RateItModuleController;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItArticleListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItCommentsListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItNewsListener;
 use Hofff\Contao\RateIt\EventListener\Hook\RateItPageListener;
+use Override;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
+use function array_filter;
+use function array_keys;
 use function in_array;
-use function var_dump;
 
 final class HofffContaoRateItExtension extends Extension
 {
     /** @param mixed[][] $configs */
-    public function load(array $configs, ContainerBuilder $container) : void
+    #[Override]
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader(
+        $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
+            new FileLocator(__DIR__ . '/../Resources/config'),
         );
 
-        $loader->load('services.xml');
-        $loader->load('listeners.xml');
+        $loader->load('services.yaml');
+        $loader->load('listeners.yaml');
 
         $config  = $this->processConfiguration(new Configuration(), $configs);
         $types   = array_keys(array_filter($config['types']));
-        $bundles = $container->getParameter('kernel.bundles');
+        $bundles = (array) $container->getParameter('kernel.bundles');
 
         $container->setParameter('hofff.contao_rate_it.types', $types);
         $container->setParameter('hofff.contao_rate_it.comment_sources', $config['comment_sources']);
@@ -55,12 +61,22 @@ final class HofffContaoRateItExtension extends Extension
             $container->removeDefinition(RateItArticleListener::class);
         }
 
+        if (! in_array('ce', $types, true)) {
+            $container->removeDefinition(RateItContentElementController::class);
+        }
+
+        if (! in_array('module', $types, true)) {
+            $container->removeDefinition(RateItModuleController::class);
+        }
+
         if (! isset($bundles['ContaoNewsBundle']) || ! in_array('news', $types, true)) {
             $container->removeDefinition(RateItNewsListener::class);
         }
 
-        if (! isset($bundles['ContaoCommentsBundle']) || ! in_array('comments', $types, true)) {
-            $container->removeDefinition(RateItCommentsListener::class);
+        if (isset($bundles['ContaoCommentsBundle']) && in_array('comments', $types, true)) {
+            return;
         }
+
+        $container->removeDefinition(RateItCommentsListener::class);
     }
 }

@@ -14,36 +14,25 @@
  * @filesource
  */
 
-use Hofff\Contao\RateIt\Backend\RateItBackend;
-use Hofff\Contao\RateIt\Backend\RateItBackendModule;
-use Hofff\Contao\RateIt\EventListener\Hook\FrontendIntegrationListener;
-use Hofff\Contao\RateIt\Frontend\RateItTopRatingsModule;
+declare(strict_types=1);
+
+use Contao\ArrayUtil;
 
 /*
  * Back end modules
+ *
+ * The module is rendered via the "hofff_contao_rate_it.backend.list" route
+ * (see RateItListController/RateItBackendMenuListener), not via the
+ * legacy "do=rateit" module runner. The entry below only keeps "rateit"
+ * selectable in the "Allowed back end modules" permission tree of existing
+ * user groups; hideInNavigation suppresses the (non-functional) "do=rateit"
+ * menu link that Contao would otherwise generate for it.
  */
-array_insert(
+ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
     -1,
-    [
-        'rateit' => [
-            'callback'   => RateItBackendModule::class,
-            'icon'       => RateItBackend::image('icon'),
-            'stylesheet' => RateItBackend::css('backend'),
-            'javascript' => RateItBackend::js('RateItBackend'),
-        ],
-    ]
+    ['rateit' => ['hideInNavigation' => true]],
 );
-
-/*
- * frontend moduls
- */
-$GLOBALS['FE_MOD']['application']['rateit_top_ratings'] = RateItTopRatingsModule::class;
-
-/*
- * Hooks
- */
-$GLOBALS['TL_HOOK']['initializeSystem'][] = [FrontendIntegrationListener::class, 'onInitialize'];
 
 /*
  * Default configuration

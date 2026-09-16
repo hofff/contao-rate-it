@@ -1,0 +1,37 @@
+<!-- indexer::stop -->
+{% set ratingSchema = {
+    '@type': 'CreativeWork',
+    'identifier': id|default(''),
+    'name': itemreviewed|default(''),
+    'aggregateRating': {
+        '@type': 'AggregateRating',
+        'ratingValue': actRating|default(0),
+        'bestRating': maxRating|default(0),
+        'worstRating': 0,
+        'ratingCount': votes|default(0),
+    },
+} %}
+{% if url|default %}
+    {% set ratingSchema = ratingSchema|merge({ 'url': url }) %}
+{% endif %}
+{% do add_schema_org(ratingSchema) %}
+<div id="{{ id|default('') }}" class="hofff-rate-it {{ (class ~ ' ' ~ rateit_class|default(''))|trim }} block"{{ cssID|default|raw }}>
+    {% if showBefore|default(false) %}
+        <div class="hofff-rate-it-message">{{ description|default('')|raw }}</div>
+    {% endif %}
+    <div class="hofff-rate-it-widget hofff-rate-it-disabled{% if votes|default(0) == 0 %} hofff-rate-it-unrated{% endif %}"
+         data-rating="{{ actRating|default(0) }}"
+         data-max="{{ maxRating|default(0) }}"
+         data-enabled="{{ enabled|default(false) ? 'true' : 'false' }}"
+         data-id="{{ ratingId|default(0) }}"
+         data-type="{{ ratingType|default('') }}"
+    >
+        <i class="hofff-rate-it-icon-rated fas fa-star"></i>
+        <i class="hofff-rate-it-icon-unrated far fa-star"></i>
+        <i class="hofff-rate-it-icon-half fas fa-star-half-alt"></i>
+    </div>
+    {% if showAfter|default(false) %}
+        <div class="hofff-rate-it-message">{{ description|default('')|raw }}</div>
+    {% endif %}
+</div>
+<!-- indexer::continue -->

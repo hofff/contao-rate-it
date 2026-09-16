@@ -16,51 +16,37 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Hook;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Template;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
-use Hofff\Contao\RateIt\Rating\RatingService;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use function strncmp;
+use Hofff\Contao\RateIt\Rating\DetermineCurrentUserId;
+use Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName;
+use Hofff\Contao\RateIt\Rating\RatingService;
+
+use function str_starts_with;
 use function substr;
 use function time;
 
+#[AsHook('parseTemplate')]
 final class RateItCommentsListener extends RatingListener
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var CommentsTitleGenerator */
-    private $titleGenerator;
-
-    /** @var CommentsConfigurationLoader */
-    private $configurationLoader;
-
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     public function __construct(
         RatingService $ratingService,
-        TokenStorageInterface $tokenStorage,
-        ContaoFrameworkInterface $framework,
-        CommentsConfigurationLoader $configurationLoader,
-        CommentsTitleGenerator $titleGenerator,
-        Connection $connection
-    )
-    {
-        parent::__construct($ratingService, $tokenStorage, $framework);
-
-        $this->connection          = $connection;
-        $this->titleGenerator      = $titleGenerator;
-        $this->configurationLoader = $configurationLoader;
+        DetermineCurrentUserId $determineCurrentUserId,
+        DetermineRatingTemplateName $determineRatingTemplateName,
+        private readonly CommentsConfigurationLoader $configurationLoader,
+        private readonly CommentsTitleGenerator $titleGenerator,
+        private readonly Connection $connection,
+    ) {
+        parent::__construct($ratingService, $determineCurrentUserId, $determineRatingTemplateName);
     }
 
-    private $supportedSources = [
-        'tl_news' => 'tl_news_archive',
-    ];
-
-    public function onParseTemplate(Template $template) : void
+    public function onParseTemplate(Template $template): void
     {
-        if (strncmp($template->getName(), 'com_', 4) !== 0) {
+        if (! str_starts_with($template->getName(), 'com_')) {
             return;
         }
 
@@ -74,9 +60,9 @@ final class RateItCommentsListener extends RatingListener
         $template->rating          = $this->getCommentRating($template);
     }
 
-    private function getCommentRating(Template $template) : ?array
+    private function getCommentRating(Template $template): array|null
     {
-        $commentId = (int)substr($template->id, 1);
+        $commentId = (int) substr($template->id, 1);
         $rating    = $this->getRating('comments', $commentId);
         if ($rating !== null) {
             return $rating;
@@ -92,11 +78,11 @@ final class RateItCommentsListener extends RatingListener
                 'title'        => $this->titleGenerator->generate(
                     $template->name,
                     $template->source,
-                    $template->parent
+                    (int) $template->parent,
                 ),
                 'active'       => '1',
                 'parentstatus' => 'a',
-            ]
+            ],
         );
 
         return $this->getRating('comments', $commentId);

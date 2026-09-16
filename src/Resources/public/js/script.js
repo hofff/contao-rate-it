@@ -132,15 +132,17 @@ HofffRateIt.widget.prototype.handleClick = function (event) {
     this.rate(parseInt(event.target.getAttribute('data-value')));
 }
 
-HofffRateIt.onReady = function ready(fn) {
+HofffRateIt.onReady = function ready(fn)
+{
     if (document.readyState != 'loading') {
         fn();
     } else if (document.addEventListener) {
         document.addEventListener('DOMContentLoaded', fn);
     } else {
         document.attachEvent('onreadystatechange', function () {
-            if (document.readyState != 'loading')
+            if (document.readyState != 'loading') {
                 fn();
+            }
         });
     }
 };

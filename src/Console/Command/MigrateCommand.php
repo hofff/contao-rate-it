@@ -17,44 +17,36 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Console\Command;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
-use Doctrine\DBAL\ForwardCompatibility\Result as ForwardCompatibilityResult;
 use Doctrine\DBAL\Result;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
-use PDO;
+use InvalidArgumentException;
+use Override;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use function sprintf;
 use function time;
 
+#[AsCommand('hofff-rate-it-migrate')]
 final class MigrateCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'hofff-rate-it:migrate';
-
-    /** @var Connection */
-    private $connection;
-
-    /** @var RatingTypes */
-    private $ratingTypes;
-
-    public function __construct(Connection $connection, RatingTypes $ratingTypes)
+    public function __construct(private readonly Connection $connection, private readonly RatingTypes $ratingTypes)
     {
         parent::__construct();
-
-        $this->connection  = $connection;
-        $this->ratingTypes = $ratingTypes;
     }
 
-    protected function configure() : void
+    #[Override]
+    protected function configure(): void
     {
         $this->addArgument(
             'task',
             InputArgument::OPTIONAL,
             'Decide which migration task should be run',
-            'article-to-page'
+            'article-to-page',
         );
 
         $this->addOption(
@@ -62,31 +54,29 @@ final class MigrateCommand extends Command
             'p',
             InputOption::VALUE_REQUIRED,
             'Position of the rating being added to a page',
-            'before'
+            'before',
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
+    #[Override]
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $task = $input->getArgument('task');
 
-        switch ($task) {
-            case 'article-to-page':
-                return $this->migrateArticlesToPages($input);
-                break;
-
-            default:
-                throw new \InvalidArgumentException(sprintf('Task "%s" is not supported.', $task));
-        }
+        return match ($task) {
+            'article-to-page' => $this->migrateArticlesToPages($input),
+            default => throw new InvalidArgumentException(sprintf('Task "%s" is not supported.', $task)),
+        };
     }
 
-    private function migrateArticlesToPages(InputInterface $input) : int
+    /** @SuppressWarnings(PHPMD.LongVariable) */
+    private function migrateArticlesToPages(InputInterface $input): int
     {
         $unratedPagesWithArticleRatings = $this->getUnratedPagesWithArticleRatings();
-        $createdRatings = [];
 
         while ($row = $unratedPagesWithArticleRatings->fetchAssociative()) {
-            $this->createRateItItem($row['pageId'], $input->getOption('position'));
+            $this->createRateItItem((int) $row['pageId'], $input->getOption('position'));
         }
 
         $this->migrateArticleRatings();
@@ -94,8 +84,7 @@ final class MigrateCommand extends Command
         return 0;
     }
 
-    /** @return Result|ForwardCompatibilityResult */
-    private function getUnratedPagesWithArticleRatings()
+    private function getUnratedPagesWithArticleRatings(): Result
     {
         $sql = <<<'SQL'
 SELECT 
@@ -113,10 +102,10 @@ SQL;
         return $this->connection->executeQuery($sql);
     }
 
-    private function createRateItItem($pageId, string $position) : void
+    private function createRateItItem(int $pageId, string $position): void
     {
-        $sourceInformation = $this->ratingTypes->sourceInformation('page', (int) $pageId);
-        if (!$sourceInformation) {
+        $sourceInformation = $this->ratingTypes->sourceInformation('page', $pageId);
+        if (! $sourceInformation) {
             return;
         }
 
@@ -134,7 +123,7 @@ SQL;
         $this->connection->update('tl_page', ['addRating' => '1', 'rateit_position' => $position], ['id' => $pageId]);
     }
 
-    private function migrateArticleRatings() : void
+    private function migrateArticleRatings(): void
     {
         $sql = <<<'SQL'
 

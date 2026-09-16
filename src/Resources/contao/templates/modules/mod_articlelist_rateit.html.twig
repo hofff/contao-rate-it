@@ -1,0 +1,19 @@
+{% extends '@Contao/block_unsearchable.html.twig' %}
+
+{% block content %}
+
+    <ul>
+        {% for article in articles %}
+            {% if article.rating and rateit_position == 'before' %}
+                {{ include('@Contao/' ~ rateit_template ~ '.html.twig', article.rating, false) }}
+            {% endif %}
+
+            {{ parent() }}
+
+            {% if article.rating and rateit_position == 'after' %}
+                {{ include('@Contao/' ~ rateit_template ~ '.html.twig', article.rating, false) }}
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+{% endblock %}

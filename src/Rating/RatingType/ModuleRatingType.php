@@ -17,30 +17,37 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\ModuleModel;
+use Override;
 
 final class ModuleRatingType extends BaseParentSourceRatingType
 {
-    public function name() : string
+    #[Override]
+    public function name(): string
     {
         return 'module';
     }
 
-    protected function determineParentPublishedState(array $record) : bool
+    /** {@inheritDoc} */
+    #[Override]
+    protected function determineParentPublishedState(array $record): bool
     {
         return true;
     }
 
-    protected function tableName() : string
+    #[Override]
+    protected function tableName(): string
     {
         return ModuleModel::getTable();
     }
 
-    protected function labelKey() : string
+    #[Override]
+    protected function labelKey(): string
     {
         return 'name';
     }
 
-    protected function activeKey() : string
+    #[Override]
+    protected function activeKey(): string
     {
         return 'rateit_active';
     }

@@ -20,52 +20,52 @@ use Contao\CommentsModel;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader;
 use Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator;
+use Override;
 
 final class CommentsRatingType extends BaseRatingType
 {
-    /** @var CommentsConfigurationLoader */
-    private $configurationLoader;
-
-    /** @var CommentsTitleGenerator */
-    private $titleGenerator;
-
     public function __construct(
         Connection $connection,
-        CommentsConfigurationLoader $configurationLoader,
-        CommentsTitleGenerator $titleGenerator
+        private readonly CommentsConfigurationLoader $configurationLoader,
+        private readonly CommentsTitleGenerator $titleGenerator,
     ) {
         parent::__construct($connection);
-
-        $this->configurationLoader = $configurationLoader;
-        $this->titleGenerator      = $titleGenerator;
     }
 
-    public function name() : string
+    #[Override]
+    public function name(): string
     {
         return 'comments';
     }
 
-    public function determineActiveState(array $record) : bool
+    /** {@inheritDoc} */
+    #[Override]
+    public function determineActiveState(array $record): bool
     {
         $configuration = $this->configurationLoader->load($record['source'], $record['parent']);
-        if (!$configuration) {
+        if (! $configuration) {
             return false;
         }
 
         return (bool) $configuration->addCommentsRating;
     }
 
-    public function generateTitle(array $record) : string
+    /** {@inheritDoc} */
+    #[Override]
+    public function generateTitle(array $record): string
     {
-        return $this->titleGenerator->generate($record['name'], $record['source'], $record['parent']);
+        return $this->titleGenerator->generate($record['name'], $record['source'], (int) $record['parent']);
     }
 
-    protected function tableName() : string
+    #[Override]
+    protected function tableName(): string
     {
         return CommentsModel::getTable();
     }
 
-    protected function determineParentPublishedState(array $record) : bool
+    /** {@inheritDoc} */
+    #[Override]
+    protected function determineParentPublishedState(array $record): bool
     {
         return (bool) $record['published'];
     }

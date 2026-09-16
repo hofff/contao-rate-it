@@ -16,27 +16,27 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\EventListener\Dca;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\DataContainer;
 
+#[AsCallback(table: 'tl_comments', target: 'config.onsubmit', method: 'onSubmit')]
+#[AsCallback(table: 'tl_comments', target: 'config.ondelete', method: 'onDelete')]
+#[AsCallback(table: 'tl_comments', target: 'config.onrestore_version', method: 'onRestore')]
+#[AsCallback(table: 'tl_comments', target: 'config.onundo', method: 'onUndo')]
 final class CommentsDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'comments';
+    protected static string $typeName = 'comments';
 
-    public function onLoad() : void
+    #[AsCallback(table: 'tl_comments', target: 'config.onload')]
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
         }
-
-        $dca = &$GLOBALS['TL_DCA']['tl_comments'];
-
-        $dca['config']['onsubmit_callback'][]          = [self::class, 'onSubmit'];
-        $dca['config']['ondelete_callback'][]          = [self::class, 'onDelete'];
-        $dca['config']['onrestore_version_callback'][] = [self::class, 'onRestore'];
     }
 
-    public function insert(DataContainer $dc) : void
+    public function insert(DataContainer $dataContainer): void
     {
-        $this->updateRatingKey((int) $dc->id);
+        $this->updateRatingKey((int) $dataContainer->id);
     }
 }

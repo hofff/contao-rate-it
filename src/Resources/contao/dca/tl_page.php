@@ -14,14 +14,11 @@
  * @filesource
  */
 
-use Hofff\Contao\RateIt\EventListener\Dca\PageDcaListener;
+declare(strict_types=1);
 
 /**
  * Extend tl_page
  */
-
-$GLOBALS['TL_DCA']['tl_page']['config']['onload_callback'][] = [PageDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_page']['config']['onundo_callback'][] = [PageDcaListener::class, 'onUndo'];
 
 /**
  * Palettes
@@ -34,23 +31,19 @@ $GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'addRating';
 $GLOBALS['TL_DCA']['tl_page']['subpalettes']['addRating'] = 'rateit_position';
 
 // Fields
-$GLOBALS['TL_DCA']['tl_page']['fields']['addRating'] = array
-(
-    'label'     => &$GLOBALS['TL_LANG']['tl_page']['addRating'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['addRating'] = [
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
-    'eval'      => array('tl_class' => 'w50 m12', 'submitOnChange' => true),
-);
+    'eval'      => ['tl_class' => 'w50 m12', 'submitOnChange' => true],
+];
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['rateit_position'] = array
-(
-    'label'     => &$GLOBALS['TL_LANG']['tl_page']['rateit_position'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['rateit_position'] = [
     'default'   => 'before',
     'exclude'   => true,
     'inputType' => 'select',
-    'options'   => array('after', 'before', 'custom'),
+    'options'   => ['after', 'before', 'custom'],
     'reference' => &$GLOBALS['TL_LANG']['tl_page'],
     'sql'       => "varchar(6) NOT NULL default ''",
-    'eval'      => array('mandatory' => true, 'tl_class' => 'w50'),
-);
+    'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
+];

@@ -19,19 +19,18 @@ namespace Hofff\Contao\RateIt\Rating\RatingType;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RateIt\Rating\RatingType;
 use Hofff\Contao\RateIt\Rating\SourceInformation;
-use PDO;
+use Override;
+
+use function sprintf;
 
 abstract class BaseRatingType implements RatingType
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
-    public function sourceInformation(int $sourceId) : ?SourceInformation
+    #[Override]
+    public function sourceInformation(int $sourceId): SourceInformation|null
     {
         $record = $this->loadRecord($sourceId);
         if ($record === null) {
@@ -41,44 +40,38 @@ abstract class BaseRatingType implements RatingType
         return new SourceInformation(
             $this->generateTitle($record),
             $this->determineActiveState($record),
-            $this->determineParentStatus($record)
+            $this->determineParentStatus($record),
         );
     }
 
-    protected function determineParentStatus(array  $record) : string
+    /** @param array<string, mixed> $record */
+    protected function determineParentStatus(array $record): string
     {
-        $published = $this->determineParentPublishedState($record);
-
-        switch ($published) {
-            case true:
-                return 'a';
-
-            case false:
-                return 'i';
-
-            case null:
-            default:
-                return 'r';
-        }
+        return $this->determineParentPublishedState($record) ? 'a' : 'i';
     }
 
-    protected function loadRecord(int $sourceId): ?array
+    protected function loadRecord(int $sourceId): array|null
     {
-        $statement = $this->connection->prepare(sprintf('SELECT * FROM %s WHERE id=? LIMIT 0,1', $this->tableName()));
-        $result    = $statement->executeQuery([$sourceId]);
+        $result = $this->connection->executeQuery(
+            sprintf('SELECT * FROM %s WHERE id=? LIMIT 0,1', $this->tableName()),
+            [$sourceId],
+        );
 
         if ($result->rowCount() === 0) {
             return null;
         }
 
-        return $result->fetchAssociative();
+        return (array) $result->fetchAssociative();
     }
 
-    abstract protected function tableName() : string;
+    abstract protected function tableName(): string;
 
-    abstract protected function generateTitle(array $record) : string;
+    /** @param array<string, mixed> $record */
+    abstract protected function generateTitle(array $record): string;
 
-    abstract protected function determineActiveState(array $record) : bool;
+    /** @param array<string, mixed> $record */
+    abstract protected function determineActiveState(array $record): bool;
 
-    abstract protected function determineParentPublishedState(array $record) : bool;
+    /** @param array<string, mixed> $record */
+    abstract protected function determineParentPublishedState(array $record): bool;
 }

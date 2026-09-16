@@ -16,45 +16,44 @@
 
 declare(strict_types=1);
 
-/**
- * Table tl_rateit_items
- */
-$GLOBALS['TL_DCA']['tl_rateit_items'] = array(
-    'config' => array(
-        'dataContainer' => 'Table',
-        'ctable'        => array('tl_rateit_ratings'),
-        'switchToEdit'  => false,
-        'sql'           => array(
-            'keys' => array(
-                'id' => 'primary',
-            ),
-        ),
-    ),
+use Contao\DC_Table;
 
-    'fields' => array(
-        'id'        => array(
-            'sql' => "int(10) unsigned NOT NULL auto_increment",
-        ),
-        'tstamp'    => array(
+$GLOBALS['TL_DCA']['tl_rateit_items'] = [
+    'config' => [
+        'dataContainer' => DC_Table::class,
+        'ctable'        => ['tl_rateit_ratings'],
+        'switchToEdit'  => false,
+        'sql'           => [
+            'keys' => [
+                'id' => 'primary',
+            ],
+        ],
+    ],
+
+    'fields' => [
+        'id'        => [
+            'sql' => 'int(10) unsigned NOT NULL auto_increment',
+        ],
+        'tstamp'    => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'title'     => array(
+        ],
+        'title'     => [
             'sql' => "varchar(513) NOT NULL default ''",
-        ),
-        'rkey'      => array(
+        ],
+        'rkey'      => [
             'sql' => "varchar(32) NOT NULL default ''",
-        ),
-        'typ'       => array(
+        ],
+        'typ'       => [
             'sql' => "varchar(32) NOT NULL default ''",
-        ),
-        'createdat' => array(
+        ],
+        'createdat' => [
             'sql' => "int(10) NOT NULL default '0'",
-        ),
-        'active'    => array(
+        ],
+        'active'    => [
             'sql' => "char(1) NOT NULL default ''",
-        ),
-        'parentstatus'    => array(
+        ],
+        'parentstatus'    => [
             'sql' => "char(1) NOT NULL default ''",
-        ),
-    ),
-);
+        ],
+    ],
+];

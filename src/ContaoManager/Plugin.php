@@ -20,27 +20,22 @@ namespace Hofff\Contao\RateIt\ContaoManager;
 
 use Contao\CommentsBundle\ContaoCommentsBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
-use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
+use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Contao\NewsBundle\ContaoNewsBundle;
 use Hofff\Contao\RateIt\HofffContaoRateItBundle;
+use Override;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
-/**
- * Plugin for the Contao Manager.
- *
- * @author Carsten Götzinger
- */
 final class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getBundles(ParserInterface $parser) : array
+    /** {@inheritDoc} */
+    #[Override]
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(HofffContaoRateItBundle::class)
@@ -49,13 +44,15 @@ final class Plugin implements BundlePluginInterface, RoutingPluginInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
+    /** {@inheritDoc} */
+    #[Override]
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): RouteCollection|null
     {
-        return $resolver
-            ->resolve(__DIR__ . '/../Resources/config/routing.xml')
-            ->load(__DIR__ . '/../Resources/config/routing.xml');
+        $loader = $resolver->resolve(__DIR__ . '/../Resources/config/routing.yaml');
+        if ($loader === false) {
+            return null;
+        }
+
+        return $loader->load(__DIR__ . '/../Resources/config/routing.yaml');
     }
 }

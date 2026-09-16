@@ -16,56 +16,52 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating\Comments;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model;
+
 use function class_exists;
+use function is_subclass_of;
 
-final class CommentsConfigurationLoader
+final readonly class CommentsConfigurationLoader
 {
-    /** @var ContaoFrameworkInterface */
-    private $framework;
-
-    /** @var array */
-    private $supportedSources;
-
-    public function __construct(ContaoFrameworkInterface $framework, array $supportedSources)
+    /** @param array<string, string> $supportedSources */
+    public function __construct(private ContaoFramework $framework, private array $supportedSources)
     {
-        $this->framework        = $framework;
-        $this->supportedSources = $supportedSources;
     }
 
-    public function load(string $source, $parent, bool $checkSupportedSources = true) : ?Model
+    public function load(string $source, int $parent, bool $checkSupported = true): Model|null
     {
-        if ($checkSupportedSources && ! isset($this->supportedSources[$source])) {
+        if ($checkSupported && ! isset($this->supportedSources[$source])) {
             return null;
         }
 
         $this->framework->initialize();
 
         $modelClass = Model::getClassFromTable($source);
-        if (! class_exists($modelClass)) {
+        if (! class_exists($modelClass) || ! is_subclass_of($modelClass, Model::class)) {
             return null;
         }
 
-        /** @var Model $modelClass */
         $parentRecord = $modelClass::findByPk($parent);
         if (! $parentRecord) {
             return null;
         }
 
-        if (! $checkSupportedSources || $source === $this->supportedSources[$source]) {
+        if (! $checkSupported || $source === $this->supportedSources[$source]) {
             return $parentRecord;
         }
 
-        if (! isset($GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'])
-            || $GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'] === $source) {
+        if (
+            ! isset($GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'])
+            || $GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'] === $source
+        ) {
             return null;
         }
 
         return $this->load(
             $GLOBALS['TL_DCA'][$parentRecord::getTable()]['config']['ptable'],
-            $parentRecord->pid,
-            false
+            (int) $parentRecord->pid,
+            false,
         );
     }
 }

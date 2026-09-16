@@ -16,22 +16,23 @@
 
 declare(strict_types=1);
 
-use Hofff\Contao\RateIt\EventListener\Dca\ModuleDcaListener;
-
-$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [ModuleDcaListener::class, 'onLoad'];
-$GLOBALS['TL_DCA']['tl_module']['config']['onundo_callback'][] = [ModuleDcaListener::class, 'onRestore'];
-
 /**
  * palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit']             = '{title_legend},name,rateit_title,type;{rateit_legend},rateit_active;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit_top_ratings'] = '{title_legend},name,headline,type;{rateit_legend},rateit_types,rateit_toptype,rateit_count,rateit_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit'] = '{title_legend},name,rateit_title,type'
+    . ';{rateit_legend},rateit_active'
+    . ';{protected_legend:hide},protected'
+    . ';{expert_legend:hide},guests,cssID,space';
+
+$GLOBALS['TL_DCA']['tl_module']['palettes']['rateit_top_ratings'] = '{title_legend},name,headline,type'
+    . ';{rateit_legend},rateit_types,rateit_toptype,rateit_count,rateit_template'
+    . ';{protected_legend:hide},protected'
+    . ';{expert_legend:hide},guests,cssID,space';
 
 /**
  * fields
  */
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_title'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_title'],
     'default'   => '',
     'exclude'   => true,
     'inputType' => 'text',
@@ -40,7 +41,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_title'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_active'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_active'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'sql'       => "char(1) NOT NULL default ''",
@@ -48,17 +48,14 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_active'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_types'] = [
-    'label'            => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'exclude'          => true,
     'inputType'        => 'checkboxWizard',
-    'options_callback' => [ModuleDcaListener::class, 'typeOptions'],
     'eval'             => ['multiple' => true, 'mandatory' => true],
     'reference'        => &$GLOBALS['TL_LANG']['tl_module']['rateit_types'],
     'sql'              => "varchar(255) NOT NULL default ''",
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_toptype'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_toptype'],
     'exclude'   => true,
     'default'   => 'best',
     'inputType' => 'select',
@@ -69,7 +66,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_toptype'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_count'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['rateit_count'],
     'default'   => '10',
     'exclude'   => true,
     'inputType' => 'text',
@@ -78,12 +74,9 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_count'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rateit_template'] = [
-    'label'            => &$GLOBALS['TL_LANG']['tl_module']['rateit_template'],
     'default'          => 'mod_rateit_top_ratings',
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => [ModuleDcaListener::class, 'getRateItTopModuleTemplates'],
     'eval'             => ['mandatory' => true, 'tl_class' => 'w50'],
     'sql'              => "varchar(255) NOT NULL default ''",
 ];
-

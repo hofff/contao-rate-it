@@ -17,20 +17,24 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\RatingType;
 
 use Contao\NewsModel;
+use Override;
 
 final class NewsRatingType extends BaseParentSourceRatingType
 {
-    public function name() : string
+    #[Override]
+    public function name(): string
     {
         return 'news';
     }
 
-    protected function tableName() : string
+    #[Override]
+    protected function tableName(): string
     {
         return NewsModel::getTable();
     }
 
-    protected function labelKey() : string
+    #[Override]
+    protected function labelKey(): string
     {
         return 'headline';
     }

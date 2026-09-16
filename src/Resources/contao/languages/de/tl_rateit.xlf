@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_rateit" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_rateit.goback">
+        <source>Back</source>
+        <target>Zurück</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.noratingsfound">
+        <source>No matching ratings found.</source>
+        <target>Keine entsprechenden Bewertungen gefunden.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.showdetails">
+        <source>Detailview</source>
+        <target>Detailanzeige</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.byorder">
+        <source>By %s</source>
+        <target>Nach %s</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.seltyp.0">
+        <source>Type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.seltyp.1">
+        <source>Please choose the rating type.</source>
+        <target>Bitte wählen Sie den Bewertungs-Typ.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selactive.0">
+        <source>Active/Inactive</source>
+        <target>Aktiv/Inaktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selactive.1">
+        <source>Please choose whether you want to display only active or inactive ratings.</source>
+        <target>Bitte wählen Sie, ob Sie nur aktive bzw. inaktive Bewertungen anzeigen wollen.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.0">
+        <source>Active/Invisible/Removed</source>
+        <target>Aktiv/Unsichtbar/Gelöscht</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.1">
+        <source>Please choose whether you want to display only ratings where the linked element has a specific status.</source>
+        <target>Bitte wählen Sie, ob Sie nur Bewertungen anzeigen wollen, wo das verknüpfte Element einen bestimmten Status hat.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.typ.0">
+        <source>Type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.typ.1">
+        <source>Rating type (rating for an "article", a "page" or a "news")</source>
+        <target>Typ des Ratings (Rating für eine "Seite" oder einen "Artikel")</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.title.0">
+        <source>Title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.title.1">
+        <source>Title of the article, page or news, on which the rating is included.</source>
+        <target>Titel der Seite oder des Artikels, auf der/dem das Rating eingebunden ist.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.createdat.0">
+        <source>activated since</source>
+        <target>aktiviert seit</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.createdat.1">
+        <source>Day from which this rating has been enabled in the format "%s"</source>
+        <target>Tag ab dem dieses Bewertung aktiviert gewesen ist im Format %s</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.status.0">
+        <source>Status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.status.1">
+        <source>Indicates whether this rating is currently enabled or not.</source>
+        <target>Gibt an, ob diese Bewertung derzeit aktiviert ist oder nicht.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.0">
+        <source>Related element</source>
+        <target>Dazugehöriges Element</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.1">
+        <source>Indicates the state of the related element.</source>
+        <target>Gibt den Status des dazugehörigen Elements dieser Bewertung an.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating.0">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating.1">
+        <source>actual rating</source>
+        <target>aktueller Bewertungsstand</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.overall_rating.0">
+        <source>Overall rating</source>
+        <target>Gesamtbewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.overall_rating.1">
+        <source>actual overall rating</source>
+        <target>aktueller Gesamt-Bewertungsstand</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.totalratings.0">
+        <source>Total votes</source>
+        <target>Anzahl Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.totalratings.1">
+        <source>Number of votes for this rating</source>
+        <target>Anzahl der abgegebenen Stimmen für diese Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratingfmt">
+        <source>%s/%d (%d Votes)</source>
+        <target>%s/%d (%d Stimmen)</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratingviewfmt">
+        <source>%s/%d</source>
+        <target>%s/%d</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratingstatisticsfmt">
+        <source>Rating %s: %d of %d votes (corresponds %s%%)</source>
+        <target>Bewertung %s: %d von %d abgegebenen Bewertungen (entspricht %s%%)</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.statistics.0">
+        <source>Statistics</source>
+        <target>Statistik</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.statistics.1">
+        <source>Statistics</source>
+        <target>Statistik</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.0">
+        <source>Distribution of ratings</source>
+        <target>Verteilung der Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.1">
+        <source>Count of ratings</source>
+        <target>Anzahl Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.2">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.3">
+        <source>Count</source>
+        <target>Anzahl</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.0">
+        <source>Ratings per month</source>
+        <target>abgegebene Bewertungen pro Monat</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.1">
+        <source>Ratings per month</source>
+        <target>abgegebene Bewertungen pro Monat</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.2">
+        <source>Average rating</source>
+        <target>durchschn. Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.3">
+        <source>Month</source>
+        <target>Monat</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.4">
+        <source>Count</source>
+        <target>Anzahl</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratings.0">
+        <source>Ratings</source>
+        <target>Abgegebene Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratings.1">
+        <source>List of all ratings</source>
+        <target>Liste aller abgegebenen Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.member.0">
+        <source>Frontend member</source>
+        <target>Frontend Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.createdatdetail.0">
+        <source>Valuation Point</source>
+        <target>Bewertungszeitpunkt</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.vote.0">
+        <source>vote</source>
+        <target>Stimme</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.vote.1">
+        <source>votes</source>
+        <target>Stimmen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.clearratings">
+        <source>Reset selected ratings</source>
+        <target>Markierte Bewertungen zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.removeratings">
+        <source>Completely remove selected ratings</source>
+        <target>Bewertungen vollständig löschen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.updateinformation">
+        <source>Sync parent information</source>
+        <target>Element-Informationen aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.page">
+        <source>Page</source>
+        <target>Seite</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.article">
+        <source>Article</source>
+        <target>Artikel</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.news">
+        <source>News</source>
+        <target>Nachricht</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.ce">
+        <source>Content element</source>
+        <target>Inhaltselement</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.module">
+        <source>Module</source>
+        <target>Modul</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.comments">
+        <source>Comments</source>
+        <target>Kommentare</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.rating desc">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.title">
+        <source>Title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.typ">
+        <source>Type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.createdat">
+        <source>Activation date</source>
+        <target>Aktivierungsdatum</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_active_options.0">
+        <source>inactive</source>
+        <target>inaktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_active_options.1">
+        <source>active</source>
+        <target>aktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.a">
+        <source>active</source>
+        <target>aktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.i">
+        <source>invisible</source>
+        <target>unsichtbar</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.r">
+        <source>removed</source>
+        <target>gelöscht</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_sheetname_ratings">
+        <source>Ratings</source>
+        <target>Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_sheetname_rating">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.rkey">
+        <source>Rating-Key</source>
+        <target>Rating-Key</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.typ">
+        <source>Type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.title">
+        <source>Title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.createdat">
+        <source>Activation date</source>
+        <target>Aktivierungszeitpunkt</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.active">
+        <source>Active</source>
+        <target>Aktiv</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.rating">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.stars">
+        <source>Max. Rating</source>
+        <target>Max. Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.percent">
+        <source>Rating in percent</source>
+        <target>Bewertung in Prozent</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.totalRatings">
+        <source>Total votes</source>
+        <target>Anzahl Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.member">
+        <source>Frontend member</source>
+        <target>Frontend Benutzer</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.rating">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.percent">
+        <source>Rating in percent</source>
+        <target>Bewertung in Prozent</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.createdat">
+        <source>Valuation Point</source>
+        <target>Bewertungszeitpunkt</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

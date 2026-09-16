@@ -19,25 +19,16 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating;
 
 use Contao\Config;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Doctrine\DBAL\Connection;
-use PDO;
 
 final class IsUserAllowedToRate
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var ContaoFrameworkInterface */
-    private $framework;
-
-    public function __construct(Connection $connection, ContaoFrameworkInterface $framework)
+    public function __construct(private readonly Connection $connection, private ContaoFramework $framework)
     {
-        $this->connection = $connection;
-        $this->framework  = $framework;
     }
 
-    public function __invoke(int $ratingId, ?string $sessionId, ?int $userId) : bool
+    public function __invoke(int $ratingId, string|null $sessionId, int|null $userId): bool
     {
         $this->framework->initialize();
 
@@ -49,7 +40,7 @@ final class IsUserAllowedToRate
             return ! $this->hasLoggedInUserAlreadyRated($ratingId, $userId);
         }
 
-        if (!$sessionId) {
+        if (! $sessionId) {
             return true;
         }
 
@@ -60,10 +51,10 @@ final class IsUserAllowedToRate
         return ! $this->hasAnonymousUserAlreadyRated($ratingId, $sessionId);
     }
 
-    private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId) : bool
+    private function hasLoggedInUserAlreadyRated(int $ratingId, int $userId): bool
     {
         $statement = $this->connection->prepare(
-            'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:pid and memberid=:memberid'
+            'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:pid and memberid=:memberid',
         );
 
         $statement->bindValue('pid', $ratingId);
@@ -73,7 +64,7 @@ final class IsUserAllowedToRate
         return $result->fetchOne() > 0;
     }
 
-    private function hasAnonymousUserAlreadyRated(int $ratingId, string $sessionId) : bool
+    private function hasAnonymousUserAlreadyRated(int $ratingId, string $sessionId): bool
     {
         $query     = 'SELECT count(*) FROM tl_rateit_ratings WHERE pid=:ratingId and session_id=:sessionId';
         $statement = $this->connection->prepare($query);
@@ -84,12 +75,12 @@ final class IsUserAllowedToRate
         return $result->fetchOne() > 0;
     }
 
-    private function areDuplicatesAllowed() : bool
+    private function areDuplicatesAllowed(): bool
     {
         return (bool) $this->framework->getAdapter(Config::class)->get('rating_allow_duplicate_ratings');
     }
 
-    private function areDuplicatesAllowedForMembers() : bool
+    private function areDuplicatesAllowedForMembers(): bool
     {
         return (bool) $this->framework->getAdapter(Config::class)->get('rating_allow_duplicate_ratings_for_members');
     }

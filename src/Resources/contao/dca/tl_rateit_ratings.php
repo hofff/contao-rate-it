@@ -16,45 +16,44 @@
 
 declare(strict_types=1);
 
-/**
- * Table tl_rateit_items
- */
-$GLOBALS['TL_DCA']['tl_rateit_ratings'] = array(
-    'config' => array(
-        'dataContainer' => 'Table',
+use Contao\DC_Table;
+
+$GLOBALS['TL_DCA']['tl_rateit_ratings'] = [
+    'config' => [
+        'dataContainer' => DC_Table::class,
         'ptable'        => 'tl_rateit_items',
         'switchToEdit'  => false,
-        'sql'           => array(
-            'keys' => array(
+        'sql'           => [
+            'keys' => [
                 'id'  => 'primary',
                 'pid' => 'index',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
 
-    'fields' => array(
-        'id'         => array(
-            'sql' => "int(10) unsigned NOT NULL auto_increment",
-        ),
-        'tstamp'     => array(
+    'fields' => [
+        'id'         => [
+            'sql' => 'int(10) unsigned NOT NULL auto_increment',
+        ],
+        'tstamp'     => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'pid'        => array(
+        ],
+        'pid'        => [
             'foreignKey' => 'tl_rateit_items.id',
             'sql'        => "int(10) unsigned NOT NULL default '0'",
-            'relation'   => array('type' => 'belongsTo', 'load' => 'lazy'),
-        ),
-        'session_id' => array(
-            'sql' => "varchar(255) NULL",
-        ),
-        'memberid'   => array(
-            'sql' => "int(10) unsigned NULL",
-        ),
-        'rating'     => array(
+            'relation'   => ['type' => 'belongsTo', 'load' => 'lazy'],
+        ],
+        'session_id' => [
+            'sql' => 'varchar(255) NULL',
+        ],
+        'memberid'   => [
+            'sql' => 'int(10) unsigned NULL',
+        ],
+        'rating'     => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'createdat'  => array(
+        ],
+        'createdat'  => [
             'sql' => "int(10) NOT NULL default '0'",
-        ),
-    ),
-);
+        ],
+    ],
+];

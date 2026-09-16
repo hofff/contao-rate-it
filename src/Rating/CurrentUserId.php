@@ -18,12 +18,16 @@ declare(strict_types=1);
 
 namespace Hofff\Contao\RateIt\Rating;
 
+use Override;
+use Stringable;
+
+use function setcookie;
+use function time;
 use function uniqid;
 
-final class CurrentUserId
+final class CurrentUserId implements Stringable
 {
-    /** @var string */
-    private $value;
+    private string $value;
 
     public function __construct()
     {
@@ -34,12 +38,12 @@ final class CurrentUserId
         }
 
         $this->value = uniqid('', true);
-        setcookie('hofff_rate_it', $this->value, time() + 31536000);
+        setcookie('hofff_rate_it', $this->value, ['expires' => time() + 31536000]);
     }
 
-    public function __toString() : string
+    #[Override]
+    public function __toString(): string
     {
         return $this->value;
     }
-
 }

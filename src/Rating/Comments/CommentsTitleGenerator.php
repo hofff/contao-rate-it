@@ -17,28 +17,19 @@ declare(strict_types=1);
 namespace Hofff\Contao\RateIt\Rating\Comments;
 
 use Contao\Controller;
-use Contao\CoreBundle\Framework\Adapter;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\System;
 use Doctrine\DBAL\Connection;
-use PDO;
+
 use function is_array;
 
-final class CommentsTitleGenerator
+final readonly class CommentsTitleGenerator
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var ContaoFrameworkInterface */
-    private $framework;
-
-    public function __construct(Connection $connection, ContaoFrameworkInterface $framework)
+    public function __construct(private Connection $connection, private ContaoFramework $framework)
     {
-        $this->connection = $connection;
-        $this->framework  = $framework;
     }
 
-    public function generate(string $author, string $source, $sourceId) : string
+    public function generate(string $author, string $source, int $sourceId): string
     {
         $this->initialize();
         $title = $this->generateDefaultTitle($author, $source, $sourceId);
@@ -71,10 +62,11 @@ final class CommentsTitleGenerator
                     return $title;
                 }
 
-                $statement = $this->connection
-                    ->prepare('SELECT * FROM tl_comments WHERE source=? AND parent=? LIMIT  0,1');
+                $result = $this->connection->executeQuery(
+                    'SELECT * FROM tl_comments WHERE source=? AND parent=? LIMIT  0,1',
+                    [$source, $sourceId],
+                );
 
-                $result = $statement->executeQuery([$source, $sourceId]);
                 if ($result->rowCount() === 0) {
                     return $title;
                 }
@@ -82,9 +74,11 @@ final class CommentsTitleGenerator
                 $row = $result->fetchAssociative();
                 foreach ($GLOBALS['TL_HOOKS']['listComments'] as $callback) {
                     $callback[0] = System::importStatic($callback[0]);
+                    $tmp         = $callback[0]->{$callback[1]}($row);
 
-                    if ($tmp = $callback[0]->{$callback[1]}($row)) {
+                    if ($tmp) {
                         $title .= $tmp;
+
                         break;
                     }
                 }
@@ -92,7 +86,8 @@ final class CommentsTitleGenerator
                 return $title;
         }
 
-        $result = $statement->executeQuery([$sourceId]);
+        $statement->bindValue(1, $sourceId);
+        $result = $statement->executeQuery();
         if ($result->rowCount() === 1) {
             $title .= ' - ' . $result->fetchOne();
         }
@@ -100,39 +95,41 @@ final class CommentsTitleGenerator
         return $title;
     }
 
-    private function initialize() : void
+    private function initialize(): void
     {
         $this->framework->initialize();
 
-        /** @var Adapter|Controller $adapter */
         $adapter = $this->framework->getAdapter(Controller::class);
         $adapter->loadLanguageFile('tl_comments');
         $adapter->loadLanguageFile('default');
     }
 
-    private function generateDefaultTitle(string $author, string $source, $sourceId) : string
+    private function generateDefaultTitle(string $author, string $source, int $sourceId): string
     {
-        $title = $GLOBALS['TL_LANG']['MSC']['com_by'] . ' ' . $author . ' - ';
+        $title  = $GLOBALS['TL_LANG']['MSC']['com_by'] . ' ' . $author . ' - ';
         $title .= $GLOBALS['TL_LANG']['tl_comments'][$source] ?? $source;
-        $title .= ' ' . $sourceId;
+        $title .= ' ' . ((string) $sourceId);
+
         return $title;
     }
 
-    private function determineSource(string &$source, &$sourceId) : void
+    private function determineSource(string &$source, int &$sourceId): void
     {
         if ($source !== 'tl_content') {
             return;
         }
 
-        $statement = $this->connection->prepare('SELECT ptable,pid FROM tl_content WHERE id=:id LIMIT 0,1');
-        $result    = $statement->executeQuery(['id' => $sourceId]);
+        $result = $this->connection->executeQuery(
+            'SELECT ptable,pid FROM tl_content WHERE id=:id LIMIT 0,1',
+            ['id' => $sourceId],
+        );
 
         if ($result->rowCount() === 0) {
             return;
         }
 
-        $row      = $result->fetchAssociative();
+        $row      = (array) $result->fetchAssociative();
         $source   = $row['ptable'] ?: 'tl_article';
-        $sourceId = $row['pid'];
+        $sourceId = (int) $row['pid'];
     }
 }

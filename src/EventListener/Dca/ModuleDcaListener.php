@@ -20,21 +20,21 @@ namespace Hofff\Contao\RateIt\EventListener\Dca;
 
 use Contao\Backend;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 
+#[AsCallback(table: 'tl_module', target: 'config.onsubmit', method: 'onSubmit')]
+#[AsCallback(table: 'tl_module', target: 'config.ondelete', method: 'onDelete')]
+#[AsCallback(table: 'tl_module', target: 'config.onundo', method: 'onRestore')]
 final class ModuleDcaListener extends BaseDcaListener
 {
-    protected static $typeName = 'module';
+    protected static string $typeName = 'module';
 
-    public function onLoad() : void
+    #[AsCallback(table: 'tl_module', target: 'config.onload')]
+    public function onLoad(): void
     {
         if (! $this->isActive()) {
             return;
         }
-
-        $dca = &$GLOBALS['TL_DCA']['tl_module'];
-
-        $dca['config']['onsubmit_callback'][] = [self::class, 'onSubmit'];
-        $dca['config']['ondelete_callback'][] = [self::class, 'onDelete'];
 
         PaletteManipulator::create()
             ->addLegend('rateit_legend', '', PaletteManipulator::POSITION_APPEND, true)
@@ -42,11 +42,15 @@ final class ModuleDcaListener extends BaseDcaListener
             ->applyToPalette('default', 'tl_module');
     }
 
-    public function getRateItTopModuleTemplates() : array
+    /** @return array<array-key, string> */
+    #[AsCallback(table: 'tl_module', target: 'fields.rateit_template.options')]
+    public function getRateItTopModuleTemplates(): array
     {
         return Backend::getTemplateGroup('mod_rateit_top');
     }
 
+    /** @return list<string> */
+    #[AsCallback(table: 'tl_module', target: 'fields.rateit_types.options')]
     public function typeOptions(): array
     {
         return $this->ratingTypes->activeTypeNames();

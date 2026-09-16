@@ -1,0 +1,159 @@
+# yaml-language-server: $schema=../../../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+services:
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: false
+
+    # Controllers
+    Hofff\Contao\RateIt\Controller\Backend\RateItListController:
+        public: true
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingItemRepository'
+            - '@translator'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    Hofff\Contao\RateIt\Controller\Backend\RateItViewController:
+        public: true
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingItemRepository'
+            - '@translator'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    Hofff\Contao\RateIt\Controller\Backend\RateItResetController:
+        public: true
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingItemRepository'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    Hofff\Contao\RateIt\EventListener\RateItBackendMenuListener:
+        arguments:
+            - '@security.helper'
+            - '@router'
+            - '@request_stack'
+            - '@translator'
+
+    Hofff\Contao\RateIt\Controller\AjaxRateItController:
+        public: true
+        arguments:
+            - '@database_connection'
+            - '@translator'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
+            - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
+            - '%hofff.contao_rate_it.types%'
+
+    # Commands
+    Hofff\Contao\RateIt\Console\Command\MigrateCommand:
+        arguments:
+            - '@database_connection'
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    # RatingService
+    Hofff\Contao\RateIt\Rating\RatingService:
+        public: true
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\IsUserAllowedToRate'
+
+    Hofff\Contao\RateIt\Rating\RatingItemRepository:
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+            - '@Hofff\Contao\RateIt\Rating\RatingTypes'
+
+    # Content elements
+    Hofff\Contao\RateIt\Controller\ContentElement\RateItContentElementController:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
+            - '@Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName'
+
+    # Frontend modules
+    Hofff\Contao\RateIt\Controller\FrontendModule\RateItModuleController:
+        arguments:
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@Hofff\Contao\RateIt\Rating\DetermineCurrentUserId'
+            - '@Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName'
+
+    Hofff\Contao\RateIt\Controller\FrontendModule\RateItTopRatingsModuleController:
+        arguments:
+            - '@database_connection'
+            - '@Hofff\Contao\RateIt\Rating\RatingService'
+            - '@contao.framework'
+            - '@contao.routing.content_url_generator'
+
+    # Queries
+    Hofff\Contao\RateIt\Rating\IsUserAllowedToRate:
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+
+    Hofff\Contao\RateIt\Rating\DetermineCurrentUserId:
+        arguments:
+            - '@security.token_storage'
+
+    Hofff\Contao\RateIt\Rating\DetermineRatingTemplateName:
+        arguments:
+            - '@contao.framework'
+
+    # Comments related services
+    Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader:
+        arguments:
+            - '@contao.framework'
+            - '%hofff.contao_rate_it.comment_sources%'
+
+    Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator:
+        arguments:
+            - '@database_connection'
+            - '@contao.framework'
+
+    # Rating types
+    Hofff\Contao\RateIt\Rating\RatingTypes:
+        public: true
+        arguments:
+            - '%hofff.contao_rate_it.types%'
+            - !tagged_iterator hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\ArticleRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\CeRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\CommentsRatingType:
+        arguments:
+            - '@database_connection'
+            - '@Hofff\Contao\RateIt\Rating\Comments\CommentsConfigurationLoader'
+            - '@Hofff\Contao\RateIt\Rating\Comments\CommentsTitleGenerator'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\ModuleRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\NewsRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
+
+    Hofff\Contao\RateIt\Rating\RatingType\PageRatingType:
+        arguments:
+            - '@database_connection'
+        tags:
+            - hoff_contao_rate_it.rating_type
