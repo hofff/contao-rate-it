@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 
+use function version_compare;
+
 /** @psalm-suppress PropertyNotSetInConstructor */
 abstract class AbstractRateItBackendController extends AbstractBackendController
 {

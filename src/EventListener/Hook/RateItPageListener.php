@@ -34,10 +34,6 @@ final class RateItPageListener extends RatingListener
             return;
         }
 
-        if (! isset($pageHandler->Template)) {
-            return;
-        }
-
         $template = new FrontendTemplate($this->getRatingTemplate());
         $template->setData((array) $this->getRating('page', $pageModel->id));
         $rating = $template->parse();
