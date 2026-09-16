@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.5.0] (2026-09-16)
 
 ### Changed
 
@@ -107,6 +107,7 @@
 - Deleting an elements sets the field `parentstatus` of the corresponding rating item to 'r' (removed).
 
 
+[0.5.0]: https://github.com/hofff/contao-rate-it/compare/0.4.4...0.5.0
 [0.4.0]: https://github.com/hofff/contao-rate-it/compare/0.3.5...0.4.0
 [0.3.5]: https://github.com/hofff/contao-rate-it/compare/0.3.4...0.3.5
 [0.3.4]: https://github.com/hofff/contao-rate-it/compare/0.3.3...0.3.4
