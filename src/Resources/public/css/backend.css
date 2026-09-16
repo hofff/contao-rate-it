@@ -124,3 +124,15 @@
 .mod_rateit .h100 {
     height: 100%;
 }
+
+/* Filter toggle: only needed below the breakpoint where Contao switches the
+   content-filter sidebar to an off-canvas panel (matches core's own 1279.98px). */
+.mod_rateit .header_filter_toggle {
+    display: none;
+}
+
+@media (max-width: 1279.98px) {
+    .mod_rateit .header_filter_toggle {
+        display: inline-block;
+    }
+}
