@@ -21,6 +21,7 @@ use Doctrine\DBAL\Result;
 use Hofff\Contao\RateIt\Rating\RatingTypes;
 use InvalidArgumentException;
 use Override;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,12 +31,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function sprintf;
 use function time;
 
+#[AsCommand('hofff-rate-it-migrate')]
 final class MigrateCommand extends Command
 {
-    /** @var string */
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
-    protected static $defaultName = 'hofff-rate-it:migrate';
-
     public function __construct(private readonly Connection $connection, private readonly RatingTypes $ratingTypes)
     {
         parent::__construct();

@@ -52,8 +52,6 @@ services:
         arguments:
             - '@database_connection'
             - '@Hofff\Contao\RateIt\Rating\RatingTypes'
-        tags:
-            - console.command
 
     # RatingService
     Hofff\Contao\RateIt\Rating\RatingService:
