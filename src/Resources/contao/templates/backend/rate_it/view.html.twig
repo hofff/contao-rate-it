@@ -3,131 +3,155 @@
 {% trans_default_domain 'contao_tl_rateit' %}
 
 {% block head %}
-    {{ parent() }}
-    {% with {file: asset('css/backend.css', 'hofff_contao_rate_it')} %}{{ block('stylesheet_component') }}{% endwith %}
+  {{ parent() }}
+  {% with {file: asset('css/backend.css', 'hofff_contao_rate_it')} %}{{ block('stylesheet_component') }}{% endwith %}
 {% endblock %}
 
 {% block main_content %}
-<div class="mod_rateit mod_rateit_view">
+  <div class="mod_rateit mod_rateit_view">
 
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(drawRatingsChart);
-  google.setOnLoadCallback(drawMonthsChart);
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages: ["corechart"]});
+      google.setOnLoadCallback(drawRatingsChart);
+      google.setOnLoadCallback(drawMonthsChart);
 
-  function drawRatingsChart() {
-    var data = new google.visualization.DataTable({{ rating.ratingsChartData|raw }});
+      function drawRatingsChart() {
+        var data = new google.visualization.DataTable({{ rating.ratingsChartData|raw }});
 
-    var options = {
-      title: '{{ 'tl_rateit.rating_chart_legend.0'|trans }}',
-      is3D: true,
-      height: 350,
-      legend: {position: 'bottom'}
-    };
+        var options = {
+          title: '{{ 'tl_rateit.rating_chart_legend.0'|trans }}',
+          is3D: true,
+          height: 350,
+          legend: {position: 'bottom'}
+        };
 
-    var chart = new google.visualization.PieChart(document.getElementById('chart_ratings'));
-    chart.draw(data, options);
-  }
-
-  function drawMonthsChart() {
-    var data = new google.visualization.DataTable({{ rating.monthsChartData|raw }});
-
-    var options = {
-      title: '{{ 'tl_rateit.month_chart_legend.0'|trans }}',
-      height: 350,
-      legend: {position: 'bottom'},
-      animation: {
-          duration: 1000
-      },
-      vAxes: [
-          {title: '{{ 'tl_rateit.month_chart_legend.1'|trans }}', minValue: 0},
-          {title: '{{ 'tl_rateit.month_chart_legend.2'|trans }}', minValue: 0, maxValue: {{ maxRating }}}
-      ],
-      hAxis: {title: '{{ 'tl_rateit.month_chart_legend.3'|trans }}'},
-      series: {
-          0: {type: "bars", targetAxisIndex: 0},
-          1: {type: "line", targetAxisIndex: 1}
+        var chart = new google.visualization.PieChart(document.getElementById('chart_ratings'));
+        chart.draw(data, options);
       }
-    };
 
-    var chart = new google.visualization.ComboChart(document.getElementById('chart_months'));
-    chart.draw(data, options);
-  }
-</script>
+      function drawMonthsChart() {
+        var data = new google.visualization.DataTable({{ rating.monthsChartData|raw }});
 
-<div id="tl_buttons">
-    <a href="{{ backUrl }}" class="header_back" title="" accesskey="b" onclick="Backend.getScrollOffset()">{{ 'MSC.backBT'|trans({}, 'contao_default') }}</a>
-</div>
+        var options = {
+          title: '{{ 'tl_rateit.month_chart_legend.0'|trans }}',
+          height: 350,
+          legend: {position: 'bottom'},
+          animation: {
+            duration: 1000
+          },
+          vAxes: [
+            {title: '{{ 'tl_rateit.month_chart_legend.1'|trans }}', minValue: 0},
+            {title: '{{ 'tl_rateit.month_chart_legend.2'|trans }}', minValue: 0, maxValue: {{ maxRating }}}
+          ],
+          hAxis: {title: '{{ 'tl_rateit.month_chart_legend.3'|trans }}'},
+          series: {
+            0: {type: "bars", targetAxisIndex: 0},
+            1: {type: "line", targetAxisIndex: 1}
+          }
+        };
 
-<div class="rating_container tl_listing_container">
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_months'));
+        chart.draw(data, options);
+      }
+    </script>
 
-<table class="rating">
-<tr class="title">
-  <th colspan="4"><span class="title">{{ rating.title }}</span></th>
-</tr>
-<tr class="spacer"><td colspan="4" class="spacer">&nbsp;</td></tr>
-<tr>
-  <th class="viewcol1">{{ 'tl_rateit.title.0'|trans }}</th>
-  <td class="viewcol2">{{ rating.title }}</td>
-  <th class="viewcol3">{{ 'tl_rateit.typ.0'|trans }}</th>
-  <td class="type-{{ rating.typ }}">{{ ('tl_rateit_type_options.' ~ rating.typ)|trans|default(rating.typ) }}</td>
-</tr>
-<tr>
-  <th>{{ 'tl_rateit.createdat.0'|trans }}</th>
-  <td>{{ rating.createdatFormatted }}</td>
-  <th>{{ 'tl_rateit.status.0'|trans }}</th>
-  <td class="active-{{ rating.active }}">{{ ('tl_rateit_active_options.' ~ rating.active)|trans }}</td>
-</tr>
-<tr>
-  <th>{{ 'tl_rateit.overall_rating.0'|trans }}</th>
-  <td class="nowrap"><div class="ratebarframe"><div class="ratebar" style="width:{{ rating.percent }}%"></div></div> <div class="ratebartext">{{ 'tl_rateit.ratingfmt'|trans([rating.rating|replace({'.': ','}), rating.stars, rating.totalRatings]) }}</div></td>
-  <th>&nbsp;</th>
-  <td>&nbsp;</td>
-</tr>
-<tr class="spacer"><td colspan="4" class="spacer">&nbsp;</td></tr>
-<tr>
-  <th colspan="4">{{ 'tl_rateit.statistics.0'|trans }}</th>
-</tr>
-<tr>
-  <td colspan="4">
-    <table class="rating">
-        <tr>
-            <td class="w50 h100"><div id="chart_ratings" class="chart"></div></td>
-            <td class="w50 h100"><div id="chart_months" class="chart"></div></td>
+    <div id="tl_buttons">
+      <a href="{{ backUrl }}" class="header_back" title="" accesskey="b"
+         onclick="Backend.getScrollOffset()">{{ 'MSC.backBT'|trans({}, 'contao_default') }}</a>
+    </div>
+
+    <div class="rating_container tl_listing_container">
+
+      <table class="rating">
+        <tr class="title">
+          <th colspan="4"><span class="title">{{ rating.title }}</span></th>
         </tr>
-    </table>
-  </td>
-</tr>
-<tr class="spacer"><td colspan="4" class="spacer">&nbsp;</td></tr>
-<tr>
-  <th colspan="4">{{ 'tl_rateit.ratings.0'|trans }}</th>
-</tr>
-<tr>
-  <td colspan="4">
-{% if rating.ratings|length < 1 %}
-<p>{{ 'tl_rateit.noratingsfound'|trans }}</p>
-{% else %}
-    <table class="rating">
-        <tr>
-            <th>{{ 'tl_rateit.rating.0'|trans }}</th>
-            <th>{{ 'tl_rateit.createdatdetail.0'|trans }}</th>
-            <th>{{ 'tl_rateit.member.0'|trans }}</th>
+        <tr class="spacer">
+          <td colspan="4" class="spacer">&nbsp;</td>
         </tr>
-        {% for r in rating.ratings %}
-            <tr>
-                <td><div class="ratebarframe"><div class="ratebar" style="width:{{ r.percent }}%"></div></div> <div class="ratebartext">{{ 'tl_rateit.ratingviewfmt'|trans([r.rating|replace({'.': ','}), rating.stars]) }} {{ 'rateit.stars'|trans({}, 'contao_default') }}</div></td>
-                <td>{{ r.createdatFormatted }}</td>
-                <td>{{ r.member|default('') }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-{% endif %}
-  </td>
-</tr>
+        <tr>
+          <th class="viewcol1">{{ 'tl_rateit.title.0'|trans }}</th>
+          <td class="viewcol2">{{ rating.title }}</td>
+          <th class="viewcol3">{{ 'tl_rateit.typ.0'|trans }}</th>
+          <td
+            class="type-{{ rating.typ }}">{{ ('tl_rateit_type_options.' ~ rating.typ)|trans|default(rating.typ) }}</td>
+        </tr>
+        <tr>
+          <th>{{ 'tl_rateit.createdat.0'|trans }}</th>
+          <td>{{ rating.createdatFormatted }}</td>
+          <th>{{ 'tl_rateit.status.0'|trans }}</th>
+          <td class="active-{{ rating.active }}">{{ ('tl_rateit_active_options.' ~ rating.active)|trans }}</td>
+        </tr>
+        <tr>
+          <th>{{ 'tl_rateit.overall_rating.0'|trans }}</th>
+          <td class="nowrap">
+            <div class="ratebarframe">
+              <div class="ratebar" style="width:{{ rating.percent }}%"></div>
+            </div>
+            <div
+              class="ratebartext">{{ 'tl_rateit.ratingfmt'|trans([rating.rating|replace({'.': ','}), rating.stars, rating.totalRatings]) }}</div>
+          </td>
+          <th>&nbsp;</th>
+          <td>&nbsp;</td>
+        </tr>
+        <tr class="spacer">
+          <td colspan="4" class="spacer">&nbsp;</td>
+        </tr>
+        <tr>
+          <th colspan="4">{{ 'tl_rateit.statistics.0'|trans }}</th>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table class="rating">
+              <tr>
+                <td class="w50 h100">
+                  <div id="chart_ratings" class="chart"></div>
+                </td>
+                <td class="w50 h100">
+                  <div id="chart_months" class="chart"></div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr class="spacer">
+          <td colspan="4" class="spacer">&nbsp;</td>
+        </tr>
+        <tr>
+          <th colspan="4">{{ 'tl_rateit.ratings.0'|trans }}</th>
+        </tr>
+        <tr>
+          <td colspan="4">
+            {% if rating.ratings|length < 1 %}
+              <p>{{ 'tl_rateit.noratingsfound'|trans }}</p>
+            {% else %}
+              <table class="rating">
+                <tr>
+                  <th>{{ 'tl_rateit.rating.0'|trans }}</th>
+                  <th>{{ 'tl_rateit.createdatdetail.0'|trans }}</th>
+                  <th>{{ 'tl_rateit.member.0'|trans }}</th>
+                </tr>
+                {% for r in rating.ratings %}
+                  <tr>
+                    <td>
+                      <div class="ratebarframe">
+                        <div class="ratebar" style="width:{{ r.percent }}%"></div>
+                      </div>
+                      <div
+                        class="ratebartext">{{ 'tl_rateit.ratingviewfmt'|trans([r.rating|replace({'.': ','}), rating.stars]) }} {{ 'rateit.stars'|trans({}, 'contao_default') }}</div>
+                    </td>
+                    <td>{{ r.createdatFormatted }}</td>
+                    <td>{{ r.member|default('') }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            {% endif %}
+          </td>
+        </tr>
 
-</table>
-</div>
+      </table>
+    </div>
 
-</div>
+  </div>
 {% endblock %}
