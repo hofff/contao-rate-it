@@ -34,7 +34,7 @@ final class RateItPageListener extends RatingListener
             return;
         }
 
-        if (! isset($pageModel->Template)) {
+        if (! isset($pageHandler->Template)) {
             return;
         }
 
@@ -43,9 +43,9 @@ final class RateItPageListener extends RatingListener
         $rating = $template->parse();
 
         if ($pageModel->rateit_position === 'after') {
-            $pageModel->Template->main .= $rating;
+            $pageHandler->Template->main .= $rating;
         } else {
-            $pageModel->Template->main = $rating . $pageModel->Template->main;
+            $pageHandler->Template->main = $rating . $pageHandler->Template->main;
         }
     }
 }
