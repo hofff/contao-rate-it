@@ -126,13 +126,16 @@
 }
 
 /* Filter toggle: only needed below the breakpoint where Contao switches the
-   content-filter sidebar to an off-canvas panel (matches core's own 1279.98px). */
+   content-filter sidebar to an off-canvas panel (matches core's own 1279.98px).
+   !important guards against core's unconditional .header_filter_toggle{display:
+   inline-block} base rule, which our button isn't scoped out of like core's own
+   (core only overrides it via a li:has() selector our plain button never matches). */
 .mod_rateit .header_filter_toggle {
-    display: none;
+    display: none !important;
 }
 
 @media (max-width: 1279.98px) {
     .mod_rateit .header_filter_toggle {
-        display: inline-block;
+        display: inline-block !important;
     }
 }
