@@ -10,7 +10,10 @@
 {% block main_content %}
 <div class="mod_rateit">
 
-<form action="{{ action }}" id="rateit_editform" method="post">
+<div class="tl_show_all">
+
+<form action="{{ action }}" id="rateit_editform" method="post" class="tl_form content-filter" aria-label="{{ 'MSC.searchAndFilter'|trans({}, 'contao_default') }}" tabindex="-1" data-controller="contao--toggle-receiver" data-contao--toggle-receiver-active-class="active" data-contao--toggle-receiver-contao--toggle-sender-outlet=".header_filter_toggle" data-action="click@document->contao--toggle-receiver#documentClick keydown.esc@document->contao--toggle-receiver#close">
+<button type="button" class="close" title="{{ 'DCA.toggleFilter.2'|trans({}, 'contao_default') }}" aria-controls="rateit_editform" data-contao--tooltips-target="tooltip" data-action="contao--toggle-receiver#close">×</button>
 <div class="tl_formbody">
 <input type="hidden" name="rateit_action" value="{{ rateit.f_action }}">
 <input type="hidden" name="REQUEST_TOKEN" value="{{ contao.request_token }}">
@@ -47,11 +50,6 @@
 </div>
 <div class="tl_panel">
 
-<div class="tl_submit_panel tl_subpanel">
-<button type="submit" name="filter" id="filter" class="tl_img_submit filter_apply" title="{{ 'MSC.apply'|trans({}, 'contao_default') }}">{{ 'MSC.apply'|trans({}, 'contao_default') }}</button>
-<button name="filter_reset" id="filter_reset" class="tl_img_submit filter_reset" title="{{ 'MSC.reset'|trans({}, 'contao_default') }}">{{ 'MSC.reset'|trans({}, 'contao_default') }}</button>
-</div>
-
 <div class="tl_limit tl_subpanel">
 <strong>{{ 'MSC.showOnly'|trans({}, 'contao_default') }}:</strong>
 <select name="rateit_page" id="rateit_page" class="tl_select{{ rateit.f_page != -1 ? ' active' }}" onchange="this.form.submit()">
@@ -81,10 +79,18 @@
 
 </div>
 
-<div id="tl_buttons"></div>
-
+</div>
+<div class="tl_submit_panel tl_subpanel" data-controller="contao--sticky-observer">
+<button type="submit" name="filter" id="filter" class="tl_submit filter_apply" title="{{ 'MSC.apply'|trans({}, 'contao_default') }}">{{ 'MSC.apply'|trans({}, 'contao_default') }}</button>
+<button name="filter_reset" id="filter_reset" class="tl_submit filter_reset" title="{{ 'MSC.reset'|trans({}, 'contao_default') }}">{{ 'MSC.reset'|trans({}, 'contao_default') }}</button>
 </div>
 </form>
+
+<div class="content-inner">
+
+<div id="tl_buttons">
+<button type="button" class="header_filter_toggle" title="{{ 'DCA.toggleFilter.1'|trans({}, 'contao_default') }}" data-controller="contao--toggle-sender" data-contao--toggle-sender-contao--toggle-receiver-outlet="#rateit_editform" data-contao--toggle-sender-active-title-value="{{ 'DCA.toggleFilter.2'|trans({}, 'contao_default') }}" data-contao--toggle-sender-inactive-title-value="{{ 'DCA.toggleFilter.1'|trans({}, 'contao_default') }}" data-action="contao--toggle-sender#toggle:prevent">{{ 'DCA.toggleFilter.0'|trans({}, 'contao_default') }}</button>
+</div>
 
 <div class="rating_container tl_listing_container">
 <form action="{{ resetAction }}" id="rateit_clearform" method="post">
@@ -124,16 +130,23 @@
 </tr>
 </table>
 {% endfor %}
-<div class="tl_formbody_submit">
-  <div class="tl_submit_container">
-    <button type="submit" name="rateit_action" id="rateit_clearbutton" class="tl_submit" value="clearratings">{{ 'tl_rateit.clearratings'|trans }}</button>
-    <button type="submit" name="rateit_action" id="rateit_removebutton" class="tl_submit" value="removeratings">{{ 'tl_rateit.removeratings'|trans }}</button>
-    <button type="submit" name="rateit_action" id="rateit_updateinformation" class="tl_submit" value="updateinformation">{{ 'tl_rateit.updateinformation'|trans }}</button>
-  </div>
-</div>
 {% endif %}
 </form>
 </div>
+
+</div>
+
+</div>
+
+{% if ratingItems|length >= 1 %}
+<div class="tl_formbody_submit" data-controller="contao--sticky-observer">
+  <div class="tl_submit_container">
+    <button type="submit" name="rateit_action" form="rateit_clearform" id="rateit_clearbutton" class="tl_submit" value="clearratings">{{ 'tl_rateit.clearratings'|trans }}</button>
+    <button type="submit" name="rateit_action" form="rateit_clearform" id="rateit_removebutton" class="tl_submit" value="removeratings">{{ 'tl_rateit.removeratings'|trans }}</button>
+    <button type="submit" name="rateit_action" form="rateit_clearform" id="rateit_updateinformation" class="tl_submit" value="updateinformation">{{ 'tl_rateit.updateinformation'|trans }}</button>
+  </div>
+</div>
+{% endif %}
 
 <script>
   function enableSelectFunctions() {
