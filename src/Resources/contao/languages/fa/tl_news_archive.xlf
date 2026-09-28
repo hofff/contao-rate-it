@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_news_archive.php" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_news_archive.addCommentsRating.0">
+        <source>Activate rating for comments</source>
+        <target>فعال‌سازی امتیازدهی برای نظرات</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.addCommentsRating.1">
+        <source>Enables the rating for comments in this news archive</source>
+        <target>امتیازدهی را برای نظرات این بایگانی خبری فعال می‌کند</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_position_comments.0">
+        <source>Rating position</source>
+        <target>موقعیت امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_position_comments.1">
+        <source>Position of the rating (before or above) the comments</source>
+        <target>موقعیت امتیاز نسبت به نظرات (قبل یا بالای آن‌ها)</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.before.0">
+        <source>above</source>
+        <target>بالا</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.before.1">
+        <source>Display the text above the news entry</source>
+        <target>نمایش متن بالای مطلب خبری</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.after.0">
+        <source>below</source>
+        <target>پایین</target>
+      </trans-unit>
+      <trans-unit id="tl_news_archive.rateit_positions.after.1">
+        <source>Display the text below the news entry</source>
+        <target>نمایش متن پایین مطلب خبری</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

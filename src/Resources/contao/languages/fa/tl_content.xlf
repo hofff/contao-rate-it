@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_content" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_content.rateit_legend">
+        <source>Rate It-Settings</source>
+        <target>تنظیمات امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rateit_title.0">
+        <source>Rating title</source>
+        <target>عنوان امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rateit_title.1">
+        <source>Rating title (shown in backend).</source>
+        <target>عنوان امتیاز (نمایش داده شده در پنل مدیریت).</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rateit_active.0">
+        <source>Active</source>
+        <target>فعال</target>
+      </trans-unit>
+      <trans-unit id="tl_content.rateit_active.1">
+        <source>Active means that the review is visible to the front-end users.</source>
+        <target>فعال به این معنی است که امتیاز برای کاربران سایت قابل مشاهده است.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

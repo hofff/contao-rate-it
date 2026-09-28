@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_settings" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_settings.rateit">
+        <source>Rate It</source>
+        <target>امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rateit_legend">
+        <source>Rate It-Settings</source>
+        <target>تنظیمات امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_count.0">
+        <source>Number of stars</source>
+        <target>تعداد ستاره‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_count.1">
+        <source>Number of stars which are shown.</source>
+        <target>تعداد ستاره‌هایی که نمایش داده می‌شوند.</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_textposition.0">
+        <source>Text position</source>
+        <target>موقعیت متن</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_textposition.1">
+        <source>Specifies whether the text should appear above or below the stars.</source>
+        <target>مشخص می‌کند که آیا متن باید بالای یا پایین ستاره‌ها ظاهر شود.</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_listsize.0">
+        <source>number of entries</source>
+        <target>تعداد ورودی‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_listsize.1">
+        <source>Number of entries displayed per page in the representation of ratings in the backend.</source>
+        <target>تعداد ورودی‌هایی که در هر صفحه در نمایش امتیازها در پنل مدیریت نشان داده می‌شوند.</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.allow_duplicate_ratings.0">
+        <source>Allow Duplicate votes</source>
+        <target>اجازه رأی تکراری</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.allow_duplicate_ratings.1">
+        <source>The same user session may vote for more than once for the same rating?</source>
+        <target>آیا همان نشست کاربر می‌تواند بیش از یک بار برای همان امتیاز رأی دهد؟</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.allow_duplicate_ratings_for_members.0">
+        <source>Allow Duplicate votes for members</source>
+        <target>اجازه رأی تکراری برای کاربران</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.allow_duplicate_ratings_for_members.1">
+        <source>A logged in frontend user may vote more than once for the same rating?</source>
+        <target>آیا کاربر واردشده در بخش کاربری می‌تواند بیش از یک بار برای همان امتیاز رأی دهد؟</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_template.0">
+        <source>Template</source>
+        <target>قالب</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_template.1">
+        <source>Here you can select the template for the rating.</source>
+        <target>در اینجا می‌توانید قالب امتیاز را انتخاب کنید.</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_description.0">
+        <source>Label</source>
+        <target>برچسب</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_description.1">
+        <source>Label for ratings. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
+        <target>برچسب امتیازها. متغیرها به‌صورت خودکار جایگزین می‌شوند&lt;br&gt;متغیرهای موجود:&lt;br&gt;%current% - امتیاز فعلی&lt;br&gt;%max% - حداکثر امتیاز ممکن&lt;br&gt;%type% - نوع امتیاز (ستاره)&lt;br&gt;%count% - تعداد رأی‌ها&lt;br&gt;[singular|plural] - متن برای تعداد رأی‌ها&lt;br&gt;&lt;br&gt;نمونه‌ها:&lt;br&gt;&lt;br&gt;%current%/%max% (%count% [رأی|رأی]) نتیجه می‌دهد: 3,7/5 ستاره (7 رأی)&lt;br&gt;%count% [پسند|پسند] نتیجه می‌دهد: 1 پسند یا 4 پسند</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.stars.0">
+        <source>stars</source>
+        <target>ستاره</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_success.0">
+        <source>Success message</source>
+        <target>پیام موفقیت</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.rating_success.1">
+        <source>Label for success message. Variables are replaced&lt;br&gt;available variables: &lt;br&gt;%current% - current rating&lt;br&gt;%max% - max. possible rating&lt;br&gt;%type% - type of rating (stars)&lt;br&gt;%count% - number of votes&lt;br&gt;[singular|plural] - Text for votes&lt;br&gt;&lt;br&gt;examples:&lt;br &gt;%current%/%max% (%count% [vote|votes]) returns 3.7/5 stars (7 votes)&lt;br&gt;%count% [Like|Likes] returns 1 Like or 4 Likes</source>
+        <target>برچسب پیام موفقیت. متغیرها به‌صورت خودکار جایگزین می‌شوند&lt;br&gt;متغیرهای موجود:&lt;br&gt;%current% - امتیاز فعلی&lt;br&gt;%max% - حداکثر امتیاز ممکن&lt;br&gt;%type% - نوع امتیاز (ستاره)&lt;br&gt;%count% - تعداد رأی‌ها&lt;br&gt;[singular|plural] - متن برای تعداد رأی‌ها&lt;br&gt;&lt;br&gt;نمونه‌ها:&lt;br&gt;&lt;br&gt;%current%/%max% (%count% [رأی|رأی]) نتیجه می‌دهد: 3,7/5 ستاره (7 رأی)&lt;br&gt;%count% [پسند|پسند] نتیجه می‌دهد: 1 پسند یا 4 پسند</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.stars.1">
+        <source>Illustration with stars</source>
+        <target>نمایش با ستاره‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.1.0">
+        <source>1</source>
+        <target>۱</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.1.1">
+        <source>1</source>
+        <target>۱</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.5.0">
+        <source>5</source>
+        <target>۵</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.5.1">
+        <source>5</source>
+        <target>۵</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.10.0">
+        <source>10</source>
+        <target>۱۰</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.10.1">
+        <source>10</source>
+        <target>۱۰</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.before.0">
+        <source>above</source>
+        <target>بالا</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.before.1">
+        <source>Display the text above the stars</source>
+        <target>نمایش متن بالای ستاره‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.after.0">
+        <source>below</source>
+        <target>پایین</target>
+      </trans-unit>
+      <trans-unit id="tl_settings.after.1">
+        <source>Display the text below the star</source>
+        <target>نمایش متن پایین ستاره</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

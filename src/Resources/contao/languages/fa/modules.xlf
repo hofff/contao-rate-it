@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="modules" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="MOD.rateit.0">
+        <source>Rate It</source>
+        <target>امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="MOD.rateit.1">
+        <source>View ratings for articles, pages and news</source>
+        <target>مشاهده امتیازهای مقالات، صفحات و اخبار</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

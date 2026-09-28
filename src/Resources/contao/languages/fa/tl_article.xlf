@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_article" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_article.rateit_legend">
+        <source>Rate It-Settings</source>
+        <target>تنظیمات امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_article.addRating.0">
+        <source>activate rating</source>
+        <target>فعال‌سازی امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_article.addRating.1">
+        <source>Enables the rating for this article</source>
+        <target>امتیازدهی را برای این مقاله فعال می‌کند</target>
+      </trans-unit>
+      <trans-unit id="tl_article.rateit_position.0">
+        <source>position</source>
+        <target>موقعیت</target>
+      </trans-unit>
+      <trans-unit id="tl_article.rateit_position.1">
+        <source>position of the rating (before or above) the article.</source>
+        <target>موقعیت امتیاز نسبت به مقاله (قبل یا بالای آن).</target>
+      </trans-unit>
+      <trans-unit id="tl_article.rateit_template.0">
+        <source>Template</source>
+        <target>قالب</target>
+      </trans-unit>
+      <trans-unit id="tl_article.rateit_template.1">
+        <source>Here you can select the template for the article's rating.</source>
+        <target>در اینجا می‌توانید قالب امتیاز مقاله را انتخاب کنید.</target>
+      </trans-unit>
+      <trans-unit id="tl_article.before.0">
+        <source>above</source>
+        <target>بالا</target>
+      </trans-unit>
+      <trans-unit id="tl_article.before.1">
+        <source>Display the text above the article</source>
+        <target>نمایش متن بالای مقاله</target>
+      </trans-unit>
+      <trans-unit id="tl_article.after.0">
+        <source>below</source>
+        <target>پایین</target>
+      </trans-unit>
+      <trans-unit id="tl_article.after.1">
+        <source>Display the text below the article</source>
+        <target>نمایش متن پایین مقاله</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

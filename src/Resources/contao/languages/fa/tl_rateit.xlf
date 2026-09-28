@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_rateit" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_rateit.goback">
+        <source>Back</source>
+        <target>بازگشت</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.noratingsfound">
+        <source>No matching ratings found.</source>
+        <target>هیچ امتیاز منطبقی یافت نشد.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.showdetails">
+        <target>مشاهده جزئیات</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.byorder">
+        <source>By %s</source>
+        <target>بر اساس %s</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.seltyp.0">
+        <source>Type</source>
+        <target>نوع</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.seltyp.1">
+        <source>Please choose the rating type.</source>
+        <target>لطفاً نوع امتیاز را انتخاب کنید.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selactive.0">
+        <source>Active/Inactive</source>
+        <target>فعال/غیرفعال</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selactive.1">
+        <source>Please choose whether you want to display only active or inactive ratings.</source>
+        <target>لطفاً انتخاب کنید که فقط امتیازهای فعال نمایش داده شوند یا غیرفعال.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.0">
+        <source>Active/Invisible/Removed</source>
+        <target>فعال/نامرئی/حذف‌شده</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.selparentstatus.1">
+        <source>Please choose whether you want to display only ratings where the linked element has a specific status.</source>
+        <target>لطفاً انتخاب کنید که فقط امتیازهایی نمایش داده شوند که عنصر مرتبط آن‌ها وضعیت خاصی دارد.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.typ.0">
+        <source>Type</source>
+        <target>نوع</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.typ.1">
+        <source>Rating type (rating for an "article", a "page" or a "news")</source>
+        <target>نوع امتیاز (امتیاز برای یک «مقاله»، یک «صفحه» یا یک «خبر»)</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.title.0">
+        <source>Title</source>
+        <target>عنوان</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.title.1">
+        <source>Title of the article, page or news, on which the rating is included.</source>
+        <target>عنوان مقاله، صفحه یا خبری که امتیاز روی آن اعمال شده است.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.createdat.0">
+        <source>activated since</source>
+        <target>فعال‌سازی از</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.createdat.1">
+        <source>Day from which this rating has been enabled in the format "%s"</source>
+        <target>تاریخی که این امتیاز از آن فعال شده است (قالب: «%s»)</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.status.0">
+        <source>Status</source>
+        <target>وضعیت</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.status.1">
+        <source>Indicates whether this rating is currently enabled or not.</source>
+        <target>نشان می‌دهد که آیا این امتیاز در حال حاضر فعال است یا خیر.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.0">
+        <source>Related element</source>
+        <target>عنصر مرتبط</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.parentstatus.1">
+        <source>Indicates the state of the related element.</source>
+        <target>وضعیت عنصر مرتبط را نشان می‌دهد.</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating.0">
+        <source>Rating</source>
+        <target>امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating.1">
+        <source>actual rating</source>
+        <target>امتیاز فعلی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.overall_rating.0">
+        <source>Overall rating</source>
+        <target>امتیاز کلی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.overall_rating.1">
+        <source>actual overall rating</source>
+        <target>امتیاز کلی فعلی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.totalratings.0">
+        <source>Total votes</source>
+        <target>تعداد کل رأی‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.totalratings.1">
+        <source>Number of votes for this rating</source>
+        <target>تعداد رأی‌ها برای این امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratingfmt">
+        <source>%s/%d (%d Votes)</source>
+        <target>%s/%d (%d رأی)</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratingviewfmt">
+        <source>%s/%d</source>
+        <target>%s/%d</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratingstatisticsfmt">
+        <source>Rating %s: %d of %d votes (corresponds %s%%)</source>
+        <target>امتیاز %s: %d از %d رأی (معادل %s٪)</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.statistics.0">
+        <source>Statistics</source>
+        <target>آمار</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.statistics.1">
+        <source>Statistics</source>
+        <target>آمار</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.0">
+        <source>Distribution of ratings</source>
+        <target>توزیع امتیازها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.1">
+        <source>Count of ratings</source>
+        <target>تعداد امتیازها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.2">
+        <source>Rating</source>
+        <target>امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.rating_chart_legend.3">
+        <source>Count</source>
+        <target>تعداد</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.0">
+        <source>Ratings per month</source>
+        <target>امتیازها در هر ماه</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.1">
+        <source>Ratings per month</source>
+        <target>امتیازها در هر ماه</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.2">
+        <source>Average rating</source>
+        <target>میانگین امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.3">
+        <source>Month</source>
+        <target>ماه</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.month_chart_legend.4">
+        <source>Count</source>
+        <target>تعداد</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratings.0">
+        <source>Ratings</source>
+        <target>امتیازها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.ratings.1">
+        <source>List of all ratings</source>
+        <target>فهرست همه امتیازها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.member.0">
+        <source>Frontend member</source>
+        <target>کاربر سایت</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.createdatdetail.0">
+        <source>Valuation Point</source>
+        <target>زمان ثبت رأی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.vote.0">
+        <source>vote</source>
+        <target>رأی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.vote.1">
+        <source>votes</source>
+        <target>رأی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.clearratings">
+        <source>Reset selected ratings</source>
+        <target>بازنشانی امتیازهای انتخاب‌شده</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.removeratings">
+        <source>Completely remove selected ratings</source>
+        <target>حذف کامل امتیازهای انتخاب‌شده</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.updateinformation">
+        <source>Sync parent information</source>
+        <target>همگام‌سازی اطلاعات عنصر مرتبط</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.page">
+        <source>Page</source>
+        <target>صفحه</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.article">
+        <source>Article</source>
+        <target>مقاله</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.news">
+        <source>News</source>
+        <target>خبر</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.ce">
+        <source>Content element</source>
+        <target>عنصر محتوا</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.module">
+        <source>Module</source>
+        <target>ماژول</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_type_options.comments">
+        <source>Comments</source>
+        <target>نظرات</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.rating desc">
+        <source>Rating</source>
+        <target>امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.title">
+        <source>Title</source>
+        <target>عنوان</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.typ">
+        <source>Type</source>
+        <target>نوع</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_order_options.createdat">
+        <source>Activation date</source>
+        <target>تاریخ فعال‌سازی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_active_options.0">
+        <source>inactive</source>
+        <target>غیرفعال</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_active_options.1">
+        <source>active</source>
+        <target>فعال</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.a">
+        <source>active</source>
+        <target>فعال</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.i">
+        <source>invisible</source>
+        <target>نامرئی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit_parentstatus_options.r">
+        <source>removed</source>
+        <target>حذف‌شده</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_sheetname_ratings">
+        <source>Ratings</source>
+        <target>امتیازها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_sheetname_rating">
+        <source>Rating</source>
+        <target>امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.rkey">
+        <source>Rating-Key</source>
+        <target>کلید امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.typ">
+        <source>Type</source>
+        <target>نوع</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.title">
+        <source>Title</source>
+        <target>عنوان</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.createdat">
+        <source>Activation date</source>
+        <target>تاریخ فعال‌سازی</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.active">
+        <source>Active</source>
+        <target>فعال</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.rating">
+        <source>Rating</source>
+        <target>امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.stars">
+        <source>Max. Rating</source>
+        <target>حداکثر امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.percent">
+        <source>Rating in percent</source>
+        <target>امتیاز به درصد</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers.totalRatings">
+        <source>Total votes</source>
+        <target>تعداد کل رأی‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.member">
+        <source>Frontend member</source>
+        <target>کاربر سایت</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.rating">
+        <source>Rating</source>
+        <target>امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.percent">
+        <source>Rating in percent</source>
+        <target>امتیاز به درصد</target>
+      </trans-unit>
+      <trans-unit id="tl_rateit.xls_headers_detail.createdat">
+        <source>Valuation Point</source>
+        <target>زمان ثبت رأی</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

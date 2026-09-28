@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="default" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="FMD.rateit.0">
+        <source>Rate It</source>
+        <target>امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="FMD.rateit.1">
+        <source>Enables users to leave ratings for articles, pages and news.</source>
+        <target>به کاربران امکان می‌دهد برای مقالات، صفحات و اخبار امتیاز بگذارند.</target>
+      </trans-unit>
+      <trans-unit id="FMD.rateit_top_ratings.0">
+        <source>Rate It - Best/Most ratings</source>
+        <target>امتیازدهی - بهترین/بیشترین امتیازها</target>
+      </trans-unit>
+      <trans-unit id="FMD.rateit_top_ratings.1">
+        <source>List of the x best ratings.</source>
+        <target>فهرست x امتیاز برتر.</target>
+      </trans-unit>
+      <trans-unit id="CTE.rateit.0">
+        <source>Rate It</source>
+        <target>امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="CTE.rateit.1">
+        <source>Enables users to leave ratings for articles, pages and news.</source>
+        <target>به کاربران امکان می‌دهد برای مقالات، صفحات و اخبار امتیاز بگذارند.</target>
+      </trans-unit>
+      <trans-unit id="rateit.rating_label.0">
+        <source>vote</source>
+        <target>رأی</target>
+      </trans-unit>
+      <trans-unit id="rateit.rating_label.1">
+        <source>votes</source>
+        <target>رأی</target>
+      </trans-unit>
+      <trans-unit id="rateit.star">
+        <source>star</source>
+        <target>ستاره</target>
+      </trans-unit>
+      <trans-unit id="rateit.stars">
+        <source>stars</source>
+        <target>ستاره</target>
+      </trans-unit>
+      <trans-unit id="rateit.error.invalid_id">
+        <source>ERROR: Invalid ID for rating given.</source>
+        <target>خطا: شناسه نامعتبر برای امتیازدهی داده شده است.</target>
+      </trans-unit>
+      <trans-unit id="rateit.error.invalid_rating">
+        <source>ERROR: Invalid rating given.</source>
+        <target>خطا: امتیاز نامعتبر داده شده است.</target>
+      </trans-unit>
+      <trans-unit id="rateit.error.invalid_type">
+        <source>ERROR: Invalid type for rating given.</source>
+        <target>خطا: نوع نامعتبر برای امتیازدهی داده شده است.</target>
+      </trans-unit>
+      <trans-unit id="rateit.error.duplicate_vote">
+        <source>ERROR: You may not vote more than once.</source>
+        <target>خطا: شما نمی‌توانید بیش از یک بار رأی دهید.</target>
+      </trans-unit>
+      <trans-unit id="rateit.error.duplicate_rkey">
+        <source>The unique identifier "% s" already exists for a rating. Please choose a different identifier.</source>
+        <target>شناسه یکتا «% s» برای یک امتیاز از قبل وجود دارد. لطفاً شناسه دیگری را انتخاب کنید.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

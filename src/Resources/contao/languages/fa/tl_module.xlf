@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_module" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_module.rateit_legend">
+        <source>Rate It-Settings</source>
+        <target>تنظیمات امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_title.0">
+        <source>Rating title</source>
+        <target>عنوان امتیاز</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_title.1">
+        <source>Rating title (shown in backend).</source>
+        <target>عنوان امتیاز (نمایش داده شده در پنل مدیریت).</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_active.0">
+        <source>Active</source>
+        <target>فعال</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_active.1">
+        <source>Active means that the review is visible to the front-end users.</source>
+        <target>فعال به این معنی است که امتیاز برای کاربران سایت قابل مشاهده است.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.0">
+        <source>Types</source>
+        <target>انواع</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.1">
+        <source>Select the types for which you would like the best ratings to be displayed.</source>
+        <target>انواعی را انتخاب کنید که می‌خواهید بهترین امتیازها برای آن‌ها نمایش داده شوند.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_count.0">
+        <source>Max. count</source>
+        <target>حداکثر تعداد</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_count.1">
+        <source>Max. count of displayed values.</source>
+        <target>حداکثر تعداد مقادیر نمایش داده شده.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_toptype.0">
+        <source>List type</source>
+        <target>نوع فهرست</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_toptype.1">
+        <source>The x best voted entries oder the x most voted entries.</source>
+        <target>x ورودی با بهترین رأی یا x ورودی با بیشترین رأی.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_template.0">
+        <source>Template</source>
+        <target>قالب</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_template.1">
+        <source>Here you can select the template for the article's rating.</source>
+        <target>در اینجا می‌توانید قالب امتیاز مقاله را انتخاب کنید.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.page">
+        <source>Page</source>
+        <target>صفحه</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.article">
+        <source>Article</source>
+        <target>مقاله</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.ce">
+        <source>Content Element</source>
+        <target>عنصر محتوا</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.module">
+        <source>Module</source>
+        <target>ماژول</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_types.news">
+        <source>News</source>
+        <target>خبر</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_toptype.best">
+        <source>Best votes</source>
+        <target>بهترین رأی‌ها</target>
+      </trans-unit>
+      <trans-unit id="tl_module.rateit_toptype.most">
+        <source>Most votes</source>
+        <target>بیشترین رأی‌ها</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

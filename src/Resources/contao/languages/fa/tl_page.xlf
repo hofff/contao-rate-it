@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file datatype="php" date="2015-06-18T07:01:15+02:00" original="tl_page" source-language="en" target-language="fa">
+    <body>
+      <trans-unit id="tl_page.rateit_legend">
+        <source>Rate It-Settings</source>
+        <target>تنظیمات امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_page.addRating.0">
+        <source>activate rating</source>
+        <target>فعال‌سازی امتیازدهی</target>
+      </trans-unit>
+      <trans-unit id="tl_page.addRating.1">
+        <source>Enables the rating for this page</source>
+        <target>امتیازدهی را برای این صفحه فعال می‌کند</target>
+      </trans-unit>
+      <trans-unit id="tl_page.rateit_position.0">
+        <source>position</source>
+        <target>موقعیت</target>
+      </trans-unit>
+      <trans-unit id="tl_page.rateit_position.1">
+        <source>position of the rating (before or above) the page.</source>
+        <target>موقعیت امتیاز نسبت به صفحه (قبل یا بالای آن).</target>
+      </trans-unit>
+      <trans-unit id="tl_page.before.0">
+        <source>above</source>
+        <target>بالا</target>
+      </trans-unit>
+      <trans-unit id="tl_page.before.1">
+        <source>Display the text above the page</source>
+        <target>نمایش متن بالای صفحه</target>
+      </trans-unit>
+      <trans-unit id="tl_page.after.0">
+        <source>below</source>
+        <target>پایین</target>
+      </trans-unit>
+      <trans-unit id="tl_page.after.1">
+        <source>Display the text below the page</source>
+        <target>نمایش متن پایین صفحه</target>
+      </trans-unit>
+      <trans-unit id="tl_page.custom.0">
+        <source>custom</source>
+        <target>سفارشی</target>
+      </trans-unit>
+      <trans-unit id="tl_page.custom.1">
+        <source><![CDATA[Use a custom position by the <em>rateit_page_rating</em> Insert tag.]]></source>
+        <target><![CDATA[با استفاده از تگ جایگذاری <em>rateit_page_rating</em> یک موقعیت سفارشی تعیین کنید.]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
